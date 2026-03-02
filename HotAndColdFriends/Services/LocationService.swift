@@ -82,14 +82,46 @@ class LocationService: NSObject {
 
 extension LocationService: MKLocalSearchCompleterDelegate {
     nonisolated func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        let filtered = completer.results.filter { result in
-            // Inkludera resultat som är städer/orter:
-            // subtitle innehåller komma (t.ex. "Sverige") eller är tom (enbart ort)
-            result.subtitle.contains(",") || result.subtitle.isEmpty
+        let results = completer.results
+
+        // Prioritera: exakt titel-match och resultat med landsnamn i subtitle (= stad/kommun)
+        // framför småorter med kommun/län i subtitle
+        let sorted = results.sorted { a, b in
+            let aScore = Self.locationScore(a, query: completer.queryFragment)
+            let bScore = Self.locationScore(b, query: completer.queryFragment)
+            return aScore > bScore
         }
+
         Task { @MainActor in
-            self.suggestions = filtered
+            self.suggestions = sorted
         }
+    }
+
+    /// Ger högre poäng till städer/kommuner framför stadsdelar och småorter
+    private nonisolated static func locationScore(_ result: MKLocalSearchCompletion, query: String) -> Int {
+        var score = 0
+        let title = result.title.lowercased()
+        let subtitle = result.subtitle.lowercased()
+        let q = query.lowercased().trimmingCharacters(in: .whitespaces)
+
+        // Exakt match på titel → högst prioritet
+        if title == q { score += 100 }
+        // Titel börjar med sökfrågan
+        else if title.hasPrefix(q) { score += 50 }
+
+        // Subtitle är ett land (kort, utan komma) → troligen en stad
+        if !subtitle.isEmpty && !subtitle.contains(",") {
+            score += 30
+        }
+
+        // Subtitle är tom → toplevel plats
+        if subtitle.isEmpty { score += 20 }
+
+        // Straffa resultat där titeln har samma namn men subtitle tyder på en stadsdel
+        // (subtitle innehåller komma = "Nynäshamn, Sweden" = stad i kommun)
+        if subtitle.contains(",") { score += 10 }
+
+        return score
     }
 
     nonisolated func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {

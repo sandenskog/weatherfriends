@@ -8,7 +8,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        FirebaseApp.configure()
+        // Firebase konfigureras i HotAndColdFriendsApp.init() för korrekt ordning
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+        }
 
         // Facebook SDK setup
         ApplicationDelegate.shared.application(
