@@ -46,35 +46,46 @@ class FriendListViewModel {
     // MARK: - Toggle Favorite
 
     func toggleFavorite(uid: String, friend: Friend, friendService: FriendService) async {
+        if friend.isDemo {
+            // Demo-vänner saknar Firestore-ID — hantera lokalt
+            toggleFavoriteLocally(friend: friend)
+            return
+        }
+
         do {
             try await friendService.toggleFavorite(uid: uid, friend: friend)
-
-            // Uppdatera lokalt
-            if friend.isFavorite {
-                // Ta bort från favoriter, flytta till others
-                if let idx = favorites.firstIndex(where: { $0.friend.id == friend.id }) {
-                    var item = favorites.remove(at: idx)
-                    var updatedFriend = item.friend
-                    updatedFriend.isFavorite = false
-                    item = FriendWeather(friend: updatedFriend, weather: item.weather)
-                    others.append(item)
-                    others.sort { ($0.temperatureCelsius ?? -999) > ($1.temperatureCelsius ?? -999) }
-                }
-            } else {
-                // Flytta från others till favoriter
-                if let idx = others.firstIndex(where: { $0.friend.id == friend.id }) {
-                    var item = others.remove(at: idx)
-                    var updatedFriend = item.friend
-                    updatedFriend.isFavorite = true
-                    item = FriendWeather(friend: updatedFriend, weather: item.weather)
-                    favorites.append(item)
-                    favorites.sort { ($0.temperatureCelsius ?? -999) > ($1.temperatureCelsius ?? -999) }
-                }
-            }
+            toggleFavoriteLocally(friend: friend)
         } catch FriendServiceError.maxFavoritesReached {
             errorMessage = "Du har redan 6 favoriter. Ta bort en för att lägga till en ny."
         } catch {
             errorMessage = "Kunde inte uppdatera favorit: \(error.localizedDescription)"
+        }
+    }
+
+    private func toggleFavoriteLocally(friend: Friend) {
+        if friend.isFavorite {
+            if let idx = favorites.firstIndex(where: { $0.friend.id == friend.id && $0.friend.displayName == friend.displayName }) {
+                var item = favorites.remove(at: idx)
+                var updatedFriend = item.friend
+                updatedFriend.isFavorite = false
+                item = FriendWeather(friend: updatedFriend, weather: item.weather)
+                others.append(item)
+                others.sort { ($0.temperatureCelsius ?? -999) > ($1.temperatureCelsius ?? -999) }
+            }
+        } else {
+            // Kontrollera max 6 favoriter lokalt
+            if favorites.count >= 6 {
+                errorMessage = "Du har redan 6 favoriter. Ta bort en för att lägga till en ny."
+                return
+            }
+            if let idx = others.firstIndex(where: { $0.friend.id == friend.id && $0.friend.displayName == friend.displayName }) {
+                var item = others.remove(at: idx)
+                var updatedFriend = item.friend
+                updatedFriend.isFavorite = true
+                item = FriendWeather(friend: updatedFriend, weather: item.weather)
+                favorites.append(item)
+                favorites.sort { ($0.temperatureCelsius ?? -999) > ($1.temperatureCelsius ?? -999) }
+            }
         }
     }
 

@@ -8,6 +8,7 @@ struct FriendListView: View {
     @State private var viewModel = FriendListViewModel()
     @State private var selectedFriendWeather: FriendWeather?
     @State private var showProfile = false
+    @State private var showAddFriend = false
     @State private var attribution: WeatherAttribution?
 
     var body: some View {
@@ -24,11 +25,19 @@ struct FriendListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showProfile = true
-                    } label: {
-                        Image(systemName: "person.circle")
-                            .font(.title3)
+                    HStack(spacing: 12) {
+                        Button {
+                            showAddFriend = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.body.weight(.medium))
+                        }
+                        Button {
+                            showProfile = true
+                        } label: {
+                            Image(systemName: "person.circle")
+                                .font(.title3)
+                        }
                     }
                 }
                 ToolbarItem(placement: .topBarLeading) {
@@ -45,6 +54,15 @@ struct FriendListView: View {
         .sheet(item: $selectedFriendWeather) { fw in
             WeatherDetailSheet(friendWeather: fw)
                 .environment(weatherService)
+        }
+        .sheet(isPresented: $showAddFriend) {
+            if let uid = authManager.currentUser?.id {
+                AddFriendSheet(uid: uid, friendService: friendService) {
+                    Task {
+                        await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
+                    }
+                }
+            }
         }
         .sheet(isPresented: $showProfile) {
             if let uid = authManager.currentUser?.id {
