@@ -32,16 +32,26 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<!-- Facebook SDK-konfiguration — fylls i av användaren i Task 3 -->
-	<!-- Lägg till:
-		FacebookAppID: din-app-id
-		FacebookClientToken: din-client-token
-		FacebookDisplayName: Hot and Cold Friends
-		CFBundleURLTypes med fbYOUR_APP_ID
-	-->
-	<!-- Google Sign-In URL scheme — REVERSED_CLIENT_ID från GoogleService-Info.plist -->
-	<!-- Lägg till i CFBundleURLTypes:
-		CFBundleURLSchemes: [din-reversed-client-id]
-	-->
+	<key>FacebookAppID</key>
+	<string>2098653484363170</string>
+	<key>FacebookClientToken</key>
+	<string>4494be913f05563d83981fead5a87eac</string>
+	<key>FacebookDisplayName</key>
+	<string>Hot and Cold Friends</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb2098653484363170</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.508810025023-blhjc4rivf7qitnalcvdka8u8t48rqpq</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
