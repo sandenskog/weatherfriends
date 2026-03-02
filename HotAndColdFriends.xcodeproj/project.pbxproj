@@ -8,19 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		015C89977A31E07AF102B3CF /* OnboardingFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D7A85A327C5BADD0FE4B2 /* OnboardingFavoritesView.swift */; };
-		06A7CAEBD5D6F9D29B012C89 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3560593D7328AF527A711AB5 /* GoogleSignInSwift */; };
+		06A7CAEBD5D6F9D29B012C89 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F8B44FFE32EBF050A94BE8AA /* GoogleSignIn */; };
 		0923FF83596356705AEEA84C /* AppWeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */; };
 		0E0A0EB16E769C9682197E5A /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114DFB02FD57BACC061D3CB /* FriendService.swift */; };
 		0E9ADED7867FE59512BC818D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6DA19899947ADBAE62FB81C /* Assets.xcassets */; };
-		10484AEF454F2341CDCCB81C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F8B44FFE32EBF050A94BE8AA /* GoogleSignIn */; };
+		10484AEF454F2341CDCCB81C /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = A3174E5AD01F2CA839F31AF3 /* FirebaseFunctions */; };
 		206CA7F5CD9F5B7F6DEEC65D /* FriendWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBA5CD41802CFE062FE5EAB /* FriendWeather.swift */; };
 		20C40295A428CE765A09C78A /* FriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C17A00CA20FF485FF6DE6A /* FriendListView.swift */; };
 		20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */; };
 		226BC0E6E4484946DFF8AAD3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1DF6AB643D3A1D887131F2BA /* FirebaseStorage */; };
-		2C734351BA0E285634373291 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 0E207B2F3C8877482BDA8A6D /* FacebookLogin */; };
+		2C734351BA0E285634373291 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 47014F2EAB98CBF799D97551 /* FacebookCore */; };
 		3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318457A3208319B531E0026 /* AuthState.swift */; };
 		34B88F423944EF00A8B58B62 /* FriendRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */; };
-		3BDD9AFB21EC96E8A7EE92FF /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 47014F2EAB98CBF799D97551 /* FacebookCore */; };
+		3BDD9AFB21EC96E8A7EE92FF /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3560593D7328AF527A711AB5 /* GoogleSignInSwift */; };
 		41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */; };
 		561765040B94E999926C86D9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B8C3C60DADFC174ABB094F /* ProfileView.swift */; };
 		57E58C63B0AA9B1E741E0635 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B0EE016563BF8F8478701 /* ProfileViewModel.swift */; };
@@ -41,7 +41,9 @@
 		B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC38AB7BDC03D9814B36926 /* AuthManager.swift */; };
 		C3D69DA3003679DFAB00C76E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */; };
 		D2ECEFED9515A6FF40E8788C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CD4E76478D6F38D4786EA39A /* FirebaseFirestore */; };
+		D3F12FC7FC22B4A683338628 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 0E207B2F3C8877482BDA8A6D /* FacebookLogin */; };
 		E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AADA557D58C83067C0A07B /* AppDelegate.swift */; };
+		E821AE5D2E43037E4998C7C8 /* ContactImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */; };
 		EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */; };
 		F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639990872A0AD5664410044 /* LoginView.swift */; };
 		FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */; };
@@ -70,6 +72,7 @@
 		7CC38AB7BDC03D9814B36926 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNameView.swift; sourceTree = "<group>"; };
 		83B8C3C60DADFC174ABB094F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportService.swift; sourceTree = "<group>"; };
 		9D198A6FFAF3C36481DF57EC /* AddFriendSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendSheet.swift; sourceTree = "<group>"; };
 		A0595D92E8471402A2465017 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AAEDC4DFF905CA78F3B8EA6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -92,10 +95,11 @@
 				8EE4E92657DA0078618AFFE9 /* FirebaseAuth in Frameworks */,
 				D2ECEFED9515A6FF40E8788C /* FirebaseFirestore in Frameworks */,
 				226BC0E6E4484946DFF8AAD3 /* FirebaseStorage in Frameworks */,
-				10484AEF454F2341CDCCB81C /* GoogleSignIn in Frameworks */,
-				06A7CAEBD5D6F9D29B012C89 /* GoogleSignInSwift in Frameworks */,
-				3BDD9AFB21EC96E8A7EE92FF /* FacebookCore in Frameworks */,
-				2C734351BA0E285634373291 /* FacebookLogin in Frameworks */,
+				10484AEF454F2341CDCCB81C /* FirebaseFunctions in Frameworks */,
+				06A7CAEBD5D6F9D29B012C89 /* GoogleSignIn in Frameworks */,
+				3BDD9AFB21EC96E8A7EE92FF /* GoogleSignInSwift in Frameworks */,
+				2C734351BA0E285634373291 /* FacebookCore in Frameworks */,
+				D3F12FC7FC22B4A683338628 /* FacebookLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +144,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3EAD0A4D63AC08A5F894BD8B /* ContactImport */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ContactImport;
+			sourceTree = "<group>";
+		};
 		5DC6D1A3C6973725E6C43387 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */,
+				94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */,
 				4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */,
 				F114DFB02FD57BACC061D3CB /* FriendService.swift */,
 				26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */,
@@ -246,6 +258,7 @@
 		FBDC65FEBF23573D92FF1194 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				3EAD0A4D63AC08A5F894BD8B /* ContactImport */,
 				2084E22EF3A69E14272FD731 /* FriendList */,
 				252155F44BE65BC89B423DE6 /* Login */,
 				A04772A4227A1B1808693CCA /* Onboarding */,
@@ -274,6 +287,7 @@
 				BCF5F5391A781D6D3DDD6B4B /* FirebaseAuth */,
 				CD4E76478D6F38D4786EA39A /* FirebaseFirestore */,
 				1DF6AB643D3A1D887131F2BA /* FirebaseStorage */,
+				A3174E5AD01F2CA839F31AF3 /* FirebaseFunctions */,
 				F8B44FFE32EBF050A94BE8AA /* GoogleSignIn */,
 				3560593D7328AF527A711AB5 /* GoogleSignInSwift */,
 				47014F2EAB98CBF799D97551 /* FacebookCore */,
@@ -345,6 +359,7 @@
 				0923FF83596356705AEEA84C /* AppWeatherService.swift in Sources */,
 				B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */,
 				3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */,
+				E821AE5D2E43037E4998C7C8 /* ContactImportService.swift in Sources */,
 				20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */,
 				5A2E4F25DBE3DA8AA52245A2 /* EditProfileView.swift in Sources */,
 				5C4A18FD9AB1FBDCC3D7523A /* Friend.swift in Sources */,
@@ -606,6 +621,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0678339346409B825A43B8DF /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookCore;
+		};
+		A3174E5AD01F2CA839F31AF3 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5CFEE0E9C3F8074D4EC54A6A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
 		};
 		BCF5F5391A781D6D3DDD6B4B /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

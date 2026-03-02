@@ -38,6 +38,8 @@
 	<string>4494be913f05563d83981fead5a87eac</string>
 	<key>FacebookDisplayName</key>
 	<string>Hot and Cold Friends</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Hot &amp; Cold Friends vill komma åt dina kontakter för att importera vänner och visa deras väder.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
