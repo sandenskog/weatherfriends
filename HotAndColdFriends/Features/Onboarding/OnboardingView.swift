@@ -4,16 +4,17 @@ import FirebaseAuth
 struct OnboardingView: View {
     @Environment(AuthManager.self) private var authManager
     @Environment(UserService.self) private var userService
+    @Environment(FriendService.self) private var friendService
     @State private var viewModel = OnboardingViewModel()
 
-    private let stepTitles = ["Ditt namn", "Profilbild", "Din stad"]
+    private let stepTitles = ["Ditt namn", "Profilbild", "Din stad", "Dina vänner"]
 
     var body: some View {
         VStack(spacing: 0) {
             // Progress-indikator
             VStack(spacing: 12) {
                 HStack(spacing: 8) {
-                    ForEach(0..<3) { index in
+                    ForEach(0..<stepTitles.count, id: \.self) { index in
                         Capsule()
                             .fill(index <= viewModel.currentStep ? Color.black : Color(.systemGray4))
                             .frame(height: 4)
@@ -22,7 +23,7 @@ struct OnboardingView: View {
                 }
                 .padding(.horizontal)
 
-                Text("Steg \(viewModel.currentStep + 1) av 3")
+                Text("Steg \(viewModel.currentStep + 1) av \(stepTitles.count)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -47,6 +48,9 @@ struct OnboardingView: View {
                     selectedCityLongitude: $viewModel.selectedCityLongitude
                 )
                 .tag(2)
+
+                OnboardingFavoritesView(pendingFriends: $viewModel.pendingFriends)
+                    .tag(3)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .animation(.easeInOut(duration: 0.3), value: viewModel.currentStep)
@@ -61,27 +65,57 @@ struct OnboardingView: View {
                         .padding(.horizontal)
                 }
 
-                if viewModel.currentStep == 2 {
-                    // Sista steget: Slutför
-                    Button {
-                        Task { await completeOnboarding() }
-                    } label: {
-                        if viewModel.isLoading {
-                            ProgressView()
-                                .tint(.white)
+                if viewModel.currentStep == 3 {
+                    // Vänner-steget: Hoppa över + Slutför
+                    HStack(spacing: 12) {
+                        Button {
+                            viewModel.pendingFriends = []
+                            Task { await completeOnboarding() }
+                        } label: {
+                            Text("Hoppa över")
+                                .font(.body)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                        } else {
-                            Text("Slutför")
-                                .font(.body.weight(.semibold))
-                                .frame(maxWidth: .infinity)
-                                .padding()
+                                .background(Color(.systemGray6))
+                                .foregroundStyle(.primary)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
+
+                        Button {
+                            Task { await completeOnboarding() }
+                        } label: {
+                            if viewModel.isLoading {
+                                ProgressView()
+                                    .tint(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                            } else {
+                                Text("Slutför")
+                                    .font(.body.weight(.semibold))
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                            }
+                        }
+                        .background(Color.black)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .disabled(viewModel.isLoading)
+                    }
+                    .padding(.horizontal)
+                } else if viewModel.currentStep == 2 {
+                    // Stad-steget: Fortsätt (navigerar till steg 4)
+                    Button {
+                        withAnimation { viewModel.currentStep += 1 }
+                    } label: {
+                        Text("Fortsätt")
+                            .font(.body.weight(.semibold))
+                            .frame(maxWidth: .infinity)
+                            .padding()
                     }
                     .background(viewModel.canProceedFromLocation ? Color.black : Color(.systemGray4))
                     .foregroundStyle(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .disabled(!viewModel.canProceedFromLocation || viewModel.isLoading)
+                    .disabled(!viewModel.canProceedFromLocation)
                     .padding(.horizontal)
                 } else if viewModel.currentStep == 1 {
                     // Foto-steget: Hoppa över + Fortsätt
@@ -141,7 +175,7 @@ struct OnboardingView: View {
             return
         }
         do {
-            try await viewModel.completeOnboarding(uid: uid, authManager: authManager, userService: userService)
+            try await viewModel.completeOnboarding(uid: uid, authManager: authManager, userService: userService, friendService: friendService)
         } catch {
             viewModel.errorMessage = "Kunde inte spara profilen: \(error.localizedDescription)"
         }
@@ -152,4 +186,5 @@ struct OnboardingView: View {
     OnboardingView()
         .environment(AuthManager())
         .environment(UserService())
+        .environment(FriendService())
 }

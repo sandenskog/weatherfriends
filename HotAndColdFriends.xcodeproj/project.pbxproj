@@ -14,6 +14,7 @@
 		0E9ADED7867FE59512BC818D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6DA19899947ADBAE62FB81C /* Assets.xcassets */; };
 		10484AEF454F2341CDCCB81C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F8B44FFE32EBF050A94BE8AA /* GoogleSignIn */; };
 		206CA7F5CD9F5B7F6DEEC65D /* FriendWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBA5CD41802CFE062FE5EAB /* FriendWeather.swift */; };
+		20C40295A428CE765A09C78A /* FriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C17A00CA20FF485FF6DE6A /* FriendListView.swift */; };
 		20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */; };
 		226BC0E6E4484946DFF8AAD3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1DF6AB643D3A1D887131F2BA /* FirebaseStorage */; };
 		2C734351BA0E285634373291 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 0E207B2F3C8877482BDA8A6D /* FacebookLogin */; };
@@ -61,6 +62,7 @@
 		4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoFriendService.swift; sourceTree = "<group>"; };
 		49AEC5B49CAD762F884C75ED /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRowView.swift; sourceTree = "<group>"; };
+		50C17A00CA20FF485FF6DE6A /* FriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListView.swift; sourceTree = "<group>"; };
 		59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailSheet.swift; sourceTree = "<group>"; };
 		680DE0113F1304C8D2F93C0D /* OnboardingLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLocationView.swift; sourceTree = "<group>"; };
 		6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 		2084E22EF3A69E14272FD731 /* FriendList */ = {
 			isa = PBXGroup;
 			children = (
+				50C17A00CA20FF485FF6DE6A /* FriendListView.swift */,
 				21C773FC6DD78C9854596E5D /* FriendListViewModel.swift */,
 				4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */,
 				59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */,
@@ -341,6 +344,7 @@
 				20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */,
 				5A2E4F25DBE3DA8AA52245A2 /* EditProfileView.swift in Sources */,
 				5C4A18FD9AB1FBDCC3D7523A /* Friend.swift in Sources */,
+				20C40295A428CE765A09C78A /* FriendListView.swift in Sources */,
 				7CCBF541B71A56D605D16032 /* FriendListViewModel.swift in Sources */,
 				34B88F423944EF00A8B58B62 /* FriendRowView.swift in Sources */,
 				0E0A0EB16E769C9682197E5A /* FriendService.swift in Sources */,

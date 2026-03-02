@@ -21,6 +21,7 @@ class OnboardingViewModel {
     var selectedCityLatitude: Double?
     var selectedCityLongitude: Double?
     var currentStep: Int = 0
+    var pendingFriends: [PendingFriend] = []
     var isLoading: Bool = false
     var errorMessage: String?
 
@@ -53,7 +54,7 @@ class OnboardingViewModel {
 
     // MARK: - Complete Onboarding
 
-    func completeOnboarding(uid: String, authManager: AuthManager, userService: UserService) async throws {
+    func completeOnboarding(uid: String, authManager: AuthManager, userService: UserService, friendService: FriendService) async throws {
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
@@ -117,5 +118,18 @@ class OnboardingViewModel {
         // 5. Uppdatera AuthManager
         authManager.currentUser = savedUser
         authManager.authState = .authenticated
+
+        // 6. Spara favorit-vänner till Firestore
+        for (index, pending) in pendingFriends.enumerated() {
+            let friend = Friend(
+                displayName: pending.displayName,
+                city: pending.city,
+                cityLatitude: pending.cityLatitude,
+                cityLongitude: pending.cityLongitude,
+                isFavorite: index < 6,
+                isDemo: false
+            )
+            try await friendService.addFriend(uid: uid, friend: friend)
+        }
     }
 }
