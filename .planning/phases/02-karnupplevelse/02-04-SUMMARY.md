@@ -99,6 +99,16 @@ Inga — enbart dokumentation och UI-strängsrättningar. Inga externa tjänster
 - FriendListView.swift visar korrekt svenska text för användaren
 - Redo att gå vidare till fas 3 (Kontakter & Vänimport) eller verifiera fas 2 på device
 
+## Self-Check: PASSED
+
+- FOUND: .planning/phases/02-karnupplevelse/02-04-SUMMARY.md
+- FOUND: .planning/phases/02-karnupplevelse/02-01-PLAN.md (WTHR-02 borttagen)
+- FOUND: .planning/REQUIREMENTS.md (WTHR-02 unchecked, Traceability Pending)
+- FOUND: HotAndColdFriends/Features/FriendList/FriendListView.swift (svenska tecken fixade)
+- FOUND: commit 75ea035 (Task 1)
+- FOUND: commit 58b8575 (Task 2)
+- FOUND: commit bcfa4a1 (Plan metadata)
+
 ---
 *Phase: 02-karnupplevelse*
 *Completed: 2026-03-02*
