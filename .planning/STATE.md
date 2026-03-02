@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T15:43:24Z"
+last_updated: "2026-03-02T15:53:40Z"
 progress:
   total_phases: 6
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 5
+  completed_plans: 5
 ---
 
 # Project State
@@ -23,33 +23,35 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 2 of 6 (Kärnupplevelse)
-Plan: 1 of 3 in current phase
+Plan: 3 of 3 in current phase
 Status: In progress
-Last activity: 2026-03-02 — Plan 02-01 komplett. WeatherKit + Firestore data-lager byggt. Friend-modell, FriendWeather, AppWeatherService (30-min TTL-cache), FriendService (max 6 fav), DemoFriendService (8 vänner). WeatherKit kräver aktivering i Apple Developer Portal.
+Last activity: 2026-03-02 — Plan 02-03 komplett. Onboarding-wizard utökad till 4 steg. OnboardingFavoritesView skapad med namn + stad-autocomplete. Vänner sparas till Firestore via FriendService. De 6 första markeras automatiskt som favoriter.
 
-Progress: [███░░░░░░░] 33%
+Progress: [████░░░░░░] 55%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 7 min
-- Total execution time: 7 min
+- Total plans completed: 2
+- Average duration: 6 min
+- Total execution time: 12 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation | 1 | 7 min | 7 min |
+| 2. Kärnupplevelse | 2 | 9 min | 4.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 7 min
+- Last 5 plans: 6 min
 - Trend: n/a (för lite data)
 
 *Updated after each plan completion*
 | Phase 01-foundation P02 | 16 | 2 tasks | 4 files |
 | Phase 01-foundation P03 | 10 | 2 tasks | 12 files |
 | Phase 02-karnupplevelse P01 | 4 | 2 tasks | 8 files |
+| Phase 02-karnupplevelse P03 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -77,6 +79,9 @@ Recent decisions affecting current work:
 - [Phase 02-01]: WeatherKit-metoderna heter .hourly/.daily (inte .hourlyForecast/.dailyForecast) i WeatherKit SDK
 - [Phase 02-01]: Firestore count-aggregation snapshot.count är NSNumber — använd .intValue istället för Int(truncatingIfNeeded:)
 - [Phase 02-01]: AppWeatherService döps (ej WeatherService) för att undvika namnkollision med WeatherKit.WeatherService
+- [Phase 02-03]: PendingFriend-struct definieras inuti OnboardingFavoritesView.swift — ingen separat fil behövs för lokalt scoped struct
+- [Phase 02-03]: completeOnboarding() tar FriendService som parameter för att hålla konsekvent injektionsmönster
+- [Phase 02-03]: Forecast<DayWeather>? konverteras till [DayWeather] via .map { Array($0) } ?? [] (WeatherKit-typfix)
 
 ### Pending Todos
 
@@ -93,5 +98,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Plan 02-01 komplett. Nästa: 02-02 (Friendlist-vy).
+Stopped at: Plan 02-03 komplett. Fas 2 alla 3 planer klara. Nästa: Fas 3 eller bekräfta om 02-02 (Friendlist-vy) körs.
 Resume file: None

@@ -13,7 +13,7 @@ Sex faser levererar en komplett iOS-app: autentisering och profil skapar grunden
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Auth, profil och datamodell — allt annat beror på detta (completed 2026-03-02)
-- [ ] **Phase 2: Kärnupplevelse** - Vädervy, favoriter, onboarding med live exempeldata
+- [x] **Phase 2: Kärnupplevelse** - Vädervy, favoriter, onboarding med live exempeldata (completed 2026-03-02)
 - [ ] **Phase 3: Kontaktimport** - iOS Contacts-import med AI-driven platsgissning
 - [ ] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering
 - [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
@@ -47,7 +47,7 @@ Plans:
   3. Väderdata uppdateras automatiskt och cachas i 30 minuter utan att användaren behöver göra något
   4. Användare kan välja 6 favoriter som alltid visas överst i listan
   5. Användare uppmanas under onboarding att ange stad/land för sina favoriter
-**Plans:** 1/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md — Friend/FriendWeather-modeller, AppWeatherService (WeatherKit + 30-min TTL-cache), FriendService (Firestore CRUD), DemoFriendService (8 demo-vänner) och WeatherKit-entitlements
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
-| 2. Kärnupplevelse | 1/3 | In Progress|  |
+| 2. Kärnupplevelse | 3/3 | Complete   | 2026-03-02 |
 | 3. Kontaktimport | 0/2 | Not started | - |
 | 4. Chatt och Push | 0/3 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |
