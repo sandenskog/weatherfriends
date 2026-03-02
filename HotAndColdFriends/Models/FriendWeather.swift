@@ -13,11 +13,11 @@ struct FriendWeather: Identifiable {
 
     var temperatureFormatted: String {
         guard let weather else { return "—" }
-        return weather.temperature.converted(to: .celsius)
-            .formatted(.measurement(width: .narrow))
+        let celsius = weather.temperature.converted(to: .celsius).value
+        return String(format: "%.0f°", celsius)
     }
 
-    var symbolName: String { weather?.symbolName ?? "cloud.slash" }
+    var symbolName: String { weather?.symbolName ?? "questionmark.circle" }
     var conditionDescription: String { weather?.condition.description ?? "Väder ej tillgängligt" }
     var humidity: Double? { weather.map { $0.humidity * 100 } }
     var windSpeed: Double? { weather.map { $0.wind.speed.converted(to: .metersPerSecond).value } }

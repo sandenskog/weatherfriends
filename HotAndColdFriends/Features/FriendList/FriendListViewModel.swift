@@ -22,13 +22,15 @@ class FriendListViewModel {
             let fetchedFriends = try await friendService.fetchFriends(uid: uid)
 
             let friends: [Friend]
-            if fetchedFriends.isEmpty && !UserDefaults.standard.bool(forKey: "hideDemoData") {
+            if fetchedFriends.isEmpty {
+                // Visa alltid demo-data om inga riktiga vänner finns
                 friends = DemoFriendService.demoFriends
                 showDemoBanner = true
             } else {
                 friends = fetchedFriends
                 showDemoBanner = friends.contains { $0.isDemo }
             }
+            print("📋 Laddar \(friends.count) vänner (demo: \(showDemoBanner))")
 
             let weatherItems = await fetchWeatherParallel(for: friends, weatherService: weatherService)
             let sorted = weatherItems.sorted {
@@ -81,7 +83,6 @@ class FriendListViewModel {
     func removeDemoData(uid: String, friendService: FriendService) async {
         do {
             try await friendService.removeDemoFriends(uid: uid)
-            UserDefaults.standard.set(true, forKey: "hideDemoData")
             showDemoBanner = false
             favorites = favorites.filter { !$0.friend.isDemo }
             others = others.filter { !$0.friend.isDemo }
@@ -106,8 +107,13 @@ class FriendListViewModel {
                     guard let lat = friend.cityLatitude, let lon = friend.cityLongitude else {
                         return FriendWeather(friend: friend, weather: nil)
                     }
-                    let weather = try? await weatherService.currentWeather(latitude: lat, longitude: lon)
-                    return FriendWeather(friend: friend, weather: weather)
+                    do {
+                        let weather = try await weatherService.currentWeather(latitude: lat, longitude: lon)
+                        return FriendWeather(friend: friend, weather: weather)
+                    } catch {
+                        print("⚠️ WeatherKit fel för \(friend.displayName) (\(lat), \(lon)): \(error)")
+                        return FriendWeather(friend: friend, weather: nil)
+                    }
                 }
             }
 
