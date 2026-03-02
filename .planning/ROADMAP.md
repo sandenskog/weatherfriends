@@ -47,12 +47,12 @@ Plans:
   3. Väderdata uppdateras automatiskt och cachas i 30 minuter utan att användaren behöver göra något
   4. Användare kan välja 6 favoriter som alltid visas överst i listan
   5. Användare uppmanas under onboarding att ange stad/land för sina favoriter
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 02-01: WeatherService med Apple WeatherKit, 30-min TTL-cache och DemoWeatherService
-- [ ] 02-02: Vädersorterad listvy (FriendListView) med MVVM och @Observable
-- [ ] 02-03: Onboarding-flöde, DemoFriendService, favoriter (6 vänner) och stad/land-prompt
+- [ ] 02-01-PLAN.md — Friend/FriendWeather-modeller, AppWeatherService (WeatherKit + 30-min TTL-cache), FriendService (Firestore CRUD), DemoFriendService (8 demo-vänner) och WeatherKit-entitlements
+- [ ] 02-02-PLAN.md — Vädersorterad listvy (FriendListView) med sektioner, FriendRowView, WeatherDetailSheet, swipe-favoriter, demo-banner, temperaturfärgkodning och Apple Weather-attribution
+- [ ] 02-03-PLAN.md — Utökat onboarding-flöde (steg 4: lägg till vänner med stad-autocomplete), automatiska favoriter (de 6 första)
 
 ### Phase 3: Kontaktimport
 **Goal**: Användare kan snabbt fylla appen med vänner via iOS-kontakter där AI gissar plats — och alltid ha manuellt tillägg som fallback
