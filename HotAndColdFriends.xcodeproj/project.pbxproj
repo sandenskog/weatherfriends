@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06A7CAEBD5D6F9D29B012C89 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3560593D7328AF527A711AB5 /* GoogleSignInSwift */; };
+		0923FF83596356705AEEA84C /* AppWeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */; };
 		0E0A0EB16E769C9682197E5A /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114DFB02FD57BACC061D3CB /* FriendService.swift */; };
 		0E9ADED7867FE59512BC818D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6DA19899947ADBAE62FB81C /* Assets.xcassets */; };
 		10484AEF454F2341CDCCB81C /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F8B44FFE32EBF050A94BE8AA /* GoogleSignIn */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotAndColdFriends.entitlements; sourceTree = "<group>"; };
 		08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		1F1E46F80EE4810096655142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F40D14036FC668699DE4464 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		B639990872A0AD5664410044 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotAndColdFriendsApp.swift; sourceTree = "<group>"; };
 		C665750FE31C993FBAB8CFD6 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWeatherService.swift; sourceTree = "<group>"; };
 		D318457A3208319B531E0026 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		F114DFB02FD57BACC061D3CB /* FriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendService.swift; sourceTree = "<group>"; };
 		F5AADA557D58C83067C0A07B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -133,6 +136,7 @@
 		6E72D79B1EC5FFA8005F6D39 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */,
 				4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */,
 				F114DFB02FD57BACC061D3CB /* FriendService.swift */,
 				26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */,
@@ -156,6 +160,7 @@
 			children = (
 				F6DA19899947ADBAE62FB81C /* Assets.xcassets */,
 				1F1E46F80EE4810096655142 /* GoogleService-Info.plist */,
+				00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */,
 				AAEDC4DFF905CA78F3B8EA6E /* Info.plist */,
 			);
 			path = Resources;
@@ -310,6 +315,7 @@
 				E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */,
 				A5A6F2FC3544EC1A7BFBFE7D /* AppRouter.swift in Sources */,
 				5F64AB1D959D25FB3C756F0C /* AppUser.swift in Sources */,
+				0923FF83596356705AEEA84C /* AppWeatherService.swift in Sources */,
 				B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */,
 				3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */,
 				20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */,
@@ -339,6 +345,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HotAndColdFriends/Resources/HotAndColdFriends.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HotAndColdFriends/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -423,6 +430,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HotAndColdFriends/Resources/HotAndColdFriends.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HotAndColdFriends/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

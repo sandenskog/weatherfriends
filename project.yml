@@ -52,6 +52,10 @@ targets:
         product: FacebookCore
       - package: FacebookSDK
         product: FacebookLogin
+    entitlements:
+      path: HotAndColdFriends/Resources/HotAndColdFriends.entitlements
+      properties:
+        com.apple.developer.weatherkit: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: se.sandenskog.hotandcoldfriends
