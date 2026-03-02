@@ -172,6 +172,21 @@ Se Task 3 checkpoint för exakta steg:
 - AppUser-modell redo med koordinatfält för WeatherKit i fas 2
 - Kvarvarande: Firebase-projekt och Facebook-app måste skapas av användaren (Task 3 checkpoint)
 
+## Self-Check: PASSED
+
+- FOUND: HotAndColdFriendsApp.swift
+- FOUND: AppDelegate.swift
+- FOUND: AuthManager.swift
+- FOUND: AuthState.swift
+- FOUND: AppRouter.swift
+- FOUND: AppUser.swift
+- FOUND: UserService.swift
+- FOUND: firestore.rules
+- FOUND: SUMMARY.md
+- FOUND: a97f432 (Task 1 commit)
+- FOUND: 03b8416 (Task 2 commit)
+- FOUND: 8efb1de (final metadata commit)
+
 ---
 *Phase: 01-foundation*
 *Completed: 2026-03-02*

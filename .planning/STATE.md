@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 
 Phase: 1 of 6 (Foundation)
 Plan: 3 of 3 in current phase
-Status: Awaiting checkpoint verification
-Last activity: 2026-03-02 — Plan 01-03 Tasks 1+2 klara (onboarding wizard, profil-CRUD). Checkpoint:human-verify Task 3 inväntar manuell verifiering i simulator.
+Status: Phase complete
+Last activity: 2026-03-02 — Plan 01-03 komplett. Checkpoint:human-verify GODKÄND. Buggar fixade: Firebase init-ordning (SIGABRT) + geo-sökprioritering. Fas 1 (Foundation) klar — alla 7 krav uppfyllda (AUTH-01–04, PROF-01–03).
 
-Progress: [██░░░░░░░░] 17%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
@@ -71,6 +71,8 @@ Recent decisions affecting current work:
 - [Phase 01-03]: OnboardingViewModel skriver direkt till Firestore via .document(uid).setData() — UserService.createUserProfile kräver @DocumentID som inte kan sättas vid skapande
 - [Phase 01-03]: CLLocationUpdate.liveUpdates() (iOS 17+) används för GPS — async-stream-baserad API, ingen delegate
 - [Phase 01-03]: UserService injiceras som @Environment i appens rot (HotAndColdFriendsApp) för enkel tillgång i hela hierarkin
+- [Phase 01-03]: FirebaseApp.configure() måste anropas i App.init() — inte i body — för att undvika SIGABRT-krasch vid cold start
+- [Phase 01-03]: LocationService sorterar geo-sökresultat efter location score för att prioritera städer framför gator och adresser
 
 ### Pending Todos
 
@@ -87,5 +89,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Plan 01-03 Tasks 1+2 exekverade. Checkpoint:human-verify pausad — verifiera komplett onboarding- och profilflöde i simulator. Se Task 3 i 01-03-PLAN.md.
+Stopped at: Fas 1 (Foundation) komplett. Alla tre planer (01-01, 01-02, 01-03) exekverade. Nästa: Fas 2 (Weather).
 Resume file: None

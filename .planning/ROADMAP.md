@@ -35,7 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01-PLAN.md — Xcode-projekt, Firebase/SPM-setup, AuthManager, AppUser-modell och UserService
 - [x] 01-02-PLAN.md — Social login (Sign in with Apple + Google + Facebook) och LoginView
-- [ ] 01-03-PLAN.md — Onboarding-wizard, stad-autocomplete, profilvisning och profilredigering
+- [x] 01-03-PLAN.md — Onboarding-wizard, stad-autocomplete, profilvisning och profilredigering
 
 ### Phase 2: Kärnupplevelse
 **Goal**: Appen visar vädret hos vänner, sorterat och levande, med live exempeldata redan vid first run — kärnvärdet demonstrerat utan att behöva importera kontakter
