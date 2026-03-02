@@ -4,6 +4,47 @@ import FirebaseFunctions
 import Foundation
 import Observation
 
+// MARK: - Cloud Function Request/Response
+
+struct ContactLocationRequest: Encodable {
+    let contacts: [ContactPayload]
+}
+
+struct ContactPayload: Encodable {
+    let identifier: String
+    let givenName: String
+    let familyName: String
+    let phoneNumbers: [String]
+    let emailAddresses: [String]
+    let postalCity: String
+    let postalCountry: String
+}
+
+struct LocationGuessResponse: Decodable {
+    let results: [LocationGuess]
+}
+
+struct LocationGuess: Decodable, Identifiable {
+    let identifier: String
+    let city: String
+    let country: String
+    let confidence: String  // "high", "medium", "low", "unknown"
+    let reason: String
+
+    var id: String { identifier }
+}
+
+// MARK: - ReviewedContact
+
+struct ReviewedContact {
+    let contact: ImportableContact
+    let city: String
+    let country: String
+    let latitude: Double?
+    let longitude: Double?
+    let confidence: String
+}
+
 // MARK: - Fel
 
 enum ContactImportError: LocalizedError {
@@ -135,7 +176,7 @@ struct ImportableContact: Identifiable {
         return url.absoluteString
     }
 
-    // MARK: - saveImportedContacts
+    // MARK: - saveImportedContacts (legacy — ersatt av saveReviewedContacts i plan 03-02)
 
     func saveImportedContacts(uid: String, contacts: [ImportableContact], friendService: FriendService) async throws -> [Friend] {
         var savedFriends: [Friend] = []
@@ -148,20 +189,91 @@ struct ImportableContact: Identifiable {
                 city: contact.hasAddress && !contact.postalCity.isEmpty
                     ? "\(contact.postalCity), \(contact.postalCountry)"
                     : "Okänd plats",
-                cityLatitude: nil,  // Koordinater sätts av AI-gissning i plan 03-02
+                cityLatitude: nil,
                 cityLongitude: nil,
                 isFavorite: false,
                 isDemo: false
             )
 
             try await friendService.addFriend(uid: uid, friend: friend)
-
-            // Profilbilden uppdateras i plan 03-02 där import-reviewflödet hanteras.
-            // I denna plan sparas vännen utan bild — bilden kan läggas till senare.
-
             savedFriends.append(friend)
         }
 
         return savedFriends
+    }
+
+    // MARK: - AI Location Guessing
+
+    func guessLocations(for contacts: [ImportableContact]) async throws -> [LocationGuess] {
+        let functions = Functions.functions(region: "europe-west1")
+        let callable = functions.httpsCallable("guessContactLocations")
+
+        let payload: [String: Any] = [
+            "contacts": contacts.map { contact in
+                [
+                    "identifier": contact.id,
+                    "givenName": contact.givenName,
+                    "familyName": contact.familyName,
+                    "phoneNumbers": contact.phoneNumbers,
+                    "emailAddresses": contact.emailAddresses,
+                    "postalCity": contact.postalCity,
+                    "postalCountry": contact.postalCountry
+                ] as [String: Any]
+            }
+        ]
+
+        let result = try await callable.call(payload)
+
+        // Parsa svaret
+        guard let data = result.data as? [String: Any],
+              let resultsArray = data["results"] as? [[String: Any]] else {
+            return []
+        }
+
+        return resultsArray.compactMap { dict in
+            guard let identifier = dict["identifier"] as? String,
+                  let city = dict["city"] as? String,
+                  let country = dict["country"] as? String,
+                  let confidence = dict["confidence"] as? String,
+                  let reason = dict["reason"] as? String else {
+                return nil
+            }
+            return LocationGuess(
+                identifier: identifier,
+                city: city,
+                country: country,
+                confidence: confidence,
+                reason: reason
+            )
+        }
+    }
+
+    // MARK: - saveReviewedContacts
+
+    func saveReviewedContacts(uid: String, reviewedContacts: [ReviewedContact], friendService: FriendService) async throws {
+        // Rensa demo-vänner vid första riktiga import
+        let existingFriends = try await friendService.fetchFriends(uid: uid)
+        let hasOnlyDemoFriends = existingFriends.allSatisfy { $0.isDemo }
+        if hasOnlyDemoFriends && !existingFriends.isEmpty {
+            try await friendService.removeDemoFriends(uid: uid)
+        }
+
+        for reviewed in reviewedContacts {
+            let cityDisplay = reviewed.city.isEmpty
+                ? "Okänd plats"
+                : (reviewed.country.isEmpty ? reviewed.city : "\(reviewed.city), \(reviewed.country)")
+
+            let friend = Friend(
+                displayName: reviewed.contact.fullName,
+                photoURL: nil,
+                city: cityDisplay,
+                cityLatitude: reviewed.latitude,
+                cityLongitude: reviewed.longitude,
+                isFavorite: false,
+                isDemo: false
+            )
+
+            try await friendService.addFriend(uid: uid, friend: friend)
+        }
     }
 }
