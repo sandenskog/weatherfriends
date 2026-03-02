@@ -104,7 +104,7 @@ struct FriendListView: View {
                     Text("Exempeldata")
                         .font(.subheadline.weight(.semibold))
                 }
-                Text("Lagg till dina egna vanner for att se deras vader")
+                Text("Lägg till dina egna vänner för att se deras väder")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Button {
@@ -151,7 +151,7 @@ struct FriendListView: View {
     // MARK: - Others Section
 
     private var othersSection: some View {
-        Section(viewModel.favorites.isEmpty ? "Vanner" : "Ovriga") {
+        Section(viewModel.favorites.isEmpty ? "Vänner" : "Övriga") {
             ForEach(viewModel.others) { fw in
                 FriendRowView(friendWeather: fw)
                     .contentShape(Rectangle())
@@ -186,7 +186,7 @@ struct FriendListView: View {
                             .frame(height: 20)
                     }
                 }
-                Link("Vaderdata fran Apple", destination: attribution.legalPageURL)
+                Link("Väderdata från Apple", destination: attribution.legalPageURL)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
