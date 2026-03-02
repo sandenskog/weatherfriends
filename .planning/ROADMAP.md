@@ -47,7 +47,7 @@ Plans:
   3. Väderdata uppdateras automatiskt och cachas i 30 minuter utan att användaren behöver göra något
   4. Användare kan välja 6 favoriter som alltid visas överst i listan
   5. Användare uppmanas under onboarding att ange stad/land för sina favoriter
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 - [ ] 02-01-PLAN.md — Friend/FriendWeather-modeller, AppWeatherService (WeatherKit + 30-min TTL-cache), FriendService (Firestore CRUD), DemoFriendService (8 demo-vänner) och WeatherKit-entitlements
@@ -123,7 +123,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
-| 2. Kärnupplevelse | 0/3 | Not started | - |
+| 2. Kärnupplevelse | 1/3 | In Progress|  |
 | 3. Kontaktimport | 0/2 | Not started | - |
 | 4. Chatt och Push | 0/3 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |

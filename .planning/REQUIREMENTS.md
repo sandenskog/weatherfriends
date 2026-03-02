@@ -31,16 +31,16 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Väder
 
-- [ ] **WTHR-01**: Realtidsväder visas per vän (temperatur, ikon, vind, fuktighet, prognos)
-- [ ] **WTHR-02**: Animerade väderillustrationer bakom vännens profilbild
-- [ ] **WTHR-03**: Väderdata uppdateras automatiskt med caching
+- [x] **WTHR-01**: Realtidsväder visas per vän (temperatur, ikon, vind, fuktighet, prognos)
+- [x] **WTHR-02**: Animerade väderillustrationer bakom vännens profilbild
+- [x] **WTHR-03**: Väderdata uppdateras automatiskt med caching
 
 ### Vyer
 
 - [ ] **VIEW-01**: Vädersorterad listvy (varmast/kallast)
 - [ ] **VIEW-02**: Grupperade väderkort (Hot/Warm/Cool/Cold-kategorier)
 - [ ] **VIEW-03**: Kartvy med vänners platser och väderinfo (MapKit)
-- [ ] **VIEW-04**: Live exempeldata vid first run innan användaren konfigurerat
+- [x] **VIEW-04**: Live exempeldata vid first run innan användaren konfigurerat
 
 ### Chatt
 
@@ -107,13 +107,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FRND-03 | Phase 3 | Pending |
 | FRND-04 | Phase 2 | Pending |
 | FRND-05 | Phase 2 | Pending |
-| WTHR-01 | Phase 2 | Pending |
-| WTHR-02 | Phase 6 | Pending |
-| WTHR-03 | Phase 2 | Pending |
+| WTHR-01 | Phase 2 | Complete |
+| WTHR-02 | Phase 6 | Complete |
+| WTHR-03 | Phase 2 | Complete |
 | VIEW-01 | Phase 2 | Pending |
 | VIEW-02 | Phase 5 | Pending |
 | VIEW-03 | Phase 5 | Pending |
-| VIEW-04 | Phase 2 | Pending |
+| VIEW-04 | Phase 2 | Complete |
 | CHAT-01 | Phase 4 | Pending |
 | CHAT-02 | Phase 4 | Pending |
 | CHAT-03 | Phase 4 | Pending |

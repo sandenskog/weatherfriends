@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T14:42:00.979Z"
+last_updated: "2026-03-02T15:43:24Z"
 progress:
-  total_phases: 1
+  total_phases: 6
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  total_plans: 4
+  completed_plans: 4
 ---
 
 # Project State
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 1: Foundation
+**Current focus:** Phase 2: Kärnupplevelse
 
 ## Current Position
 
-Phase: 1 of 6 (Foundation)
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-03-02 — Plan 01-03 komplett. Checkpoint:human-verify GODKÄND. Buggar fixade: Firebase init-ordning (SIGABRT) + geo-sökprioritering. Fas 1 (Foundation) klar — alla 7 krav uppfyllda (AUTH-01–04, PROF-01–03).
+Phase: 2 of 6 (Kärnupplevelse)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-03-02 — Plan 02-01 komplett. WeatherKit + Firestore data-lager byggt. Friend-modell, FriendWeather, AppWeatherService (30-min TTL-cache), FriendService (max 6 fav), DemoFriendService (8 vänner). WeatherKit kräver aktivering i Apple Developer Portal.
 
 Progress: [███░░░░░░░] 33%
 
@@ -49,6 +49,7 @@ Progress: [███░░░░░░░] 33%
 *Updated after each plan completion*
 | Phase 01-foundation P02 | 16 | 2 tasks | 4 files |
 | Phase 01-foundation P03 | 10 | 2 tasks | 12 files |
+| Phase 02-karnupplevelse P01 | 4 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,9 @@ Recent decisions affecting current work:
 - [Phase 01-03]: UserService injiceras som @Environment i appens rot (HotAndColdFriendsApp) för enkel tillgång i hela hierarkin
 - [Phase 01-03]: FirebaseApp.configure() måste anropas i App.init() — inte i body — för att undvika SIGABRT-krasch vid cold start
 - [Phase 01-03]: LocationService sorterar geo-sökresultat efter location score för att prioritera städer framför gator och adresser
+- [Phase 02-01]: WeatherKit-metoderna heter .hourly/.daily (inte .hourlyForecast/.dailyForecast) i WeatherKit SDK
+- [Phase 02-01]: Firestore count-aggregation snapshot.count är NSNumber — använd .intValue istället för Int(truncatingIfNeeded:)
+- [Phase 02-01]: AppWeatherService döps (ej WeatherService) för att undvika namnkollision med WeatherKit.WeatherService
 
 ### Pending Todos
 
@@ -89,5 +93,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Fas 1 (Foundation) komplett. Alla tre planer (01-01, 01-02, 01-03) exekverade. Nästa: Fas 2 (Weather).
+Stopped at: Plan 02-01 komplett. Nästa: 02-02 (Friendlist-vy).
 Resume file: None
