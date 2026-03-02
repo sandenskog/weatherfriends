@@ -30,12 +30,14 @@ class FriendListViewModel {
                 showDemoBanner = friends.contains { $0.isDemo }
             }
 
-            let weatherItems = try await fetchWeatherParallel(for: friends, weatherService: weatherService)
-            let sorted = weatherItems.sorted { $0.temperatureCelsius > $1.temperatureCelsius }
+            let weatherItems = await fetchWeatherParallel(for: friends, weatherService: weatherService)
+            let sorted = weatherItems.sorted {
+                ($0.temperatureCelsius ?? -999) > ($1.temperatureCelsius ?? -999)
+            }
             favorites = sorted.filter { $0.friend.isFavorite }
             others = sorted.filter { !$0.friend.isFavorite }
         } catch {
-            errorMessage = "Kunde inte hämta väderdata: \(error.localizedDescription)"
+            errorMessage = "Kunde inte hämta vänner: \(error.localizedDescription)"
         }
     }
 
@@ -54,7 +56,7 @@ class FriendListViewModel {
                     updatedFriend.isFavorite = false
                     item = FriendWeather(friend: updatedFriend, weather: item.weather)
                     others.append(item)
-                    others.sort { $0.temperatureCelsius > $1.temperatureCelsius }
+                    others.sort { ($0.temperatureCelsius ?? -999) > ($1.temperatureCelsius ?? -999) }
                 }
             } else {
                 // Flytta från others till favoriter
@@ -64,7 +66,7 @@ class FriendListViewModel {
                     updatedFriend.isFavorite = true
                     item = FriendWeather(friend: updatedFriend, weather: item.weather)
                     favorites.append(item)
-                    favorites.sort { $0.temperatureCelsius > $1.temperatureCelsius }
+                    favorites.sort { ($0.temperatureCelsius ?? -999) > ($1.temperatureCelsius ?? -999) }
                 }
             }
         } catch FriendServiceError.maxFavoritesReached {
@@ -97,23 +99,21 @@ class FriendListViewModel {
 
     // MARK: - Private helpers
 
-    private func fetchWeatherParallel(for friends: [Friend], weatherService: AppWeatherService) async throws -> [FriendWeather] {
-        try await withThrowingTaskGroup(of: FriendWeather?.self) { group in
+    private func fetchWeatherParallel(for friends: [Friend], weatherService: AppWeatherService) async -> [FriendWeather] {
+        await withTaskGroup(of: FriendWeather.self) { group in
             for friend in friends {
-                guard let lat = friend.cityLatitude, let lon = friend.cityLongitude else {
-                    continue
-                }
                 group.addTask {
-                    let weather = try await weatherService.currentWeather(latitude: lat, longitude: lon)
+                    guard let lat = friend.cityLatitude, let lon = friend.cityLongitude else {
+                        return FriendWeather(friend: friend, weather: nil)
+                    }
+                    let weather = try? await weatherService.currentWeather(latitude: lat, longitude: lon)
                     return FriendWeather(friend: friend, weather: weather)
                 }
             }
 
             var results: [FriendWeather] = []
-            for try await item in group {
-                if let item {
-                    results.append(item)
-                }
+            for await item in group {
+                results.append(item)
             }
             return results
         }

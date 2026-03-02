@@ -13,7 +13,7 @@ settings:
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     MARKETING_VERSION: "1.0.0"
     CURRENT_PROJECT_VERSION: "1"
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: "A473BQKT8M"
 
 packages:
   Firebase:
@@ -56,6 +56,8 @@ targets:
       path: HotAndColdFriends/Resources/HotAndColdFriends.entitlements
       properties:
         com.apple.developer.weatherkit: true
+        com.apple.developer.applesignin:
+          - Default
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: se.sandenskog.hotandcoldfriends

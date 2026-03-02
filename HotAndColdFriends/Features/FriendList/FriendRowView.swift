@@ -45,11 +45,15 @@ struct FriendRowView: View {
             VStack(alignment: .trailing, spacing: 2) {
                 Text(friendWeather.temperatureFormatted)
                     .font(.title3.weight(.semibold))
-                    .foregroundStyle(Color.temperatureColor(celsius: friendWeather.temperatureCelsius))
+                    .foregroundStyle(
+                        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+                    )
 
                 Image(systemName: friendWeather.symbolName)
                     .font(.body)
-                    .foregroundStyle(Color.temperatureColor(celsius: friendWeather.temperatureCelsius))
+                    .foregroundStyle(
+                        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+                    )
             }
         }
         .padding(.vertical, 4)

@@ -28,7 +28,12 @@ struct WeatherDetailSheet: View {
             VStack(spacing: 24) {
                 headerSection
 
-                if isLoading {
+                if friendWeather.weather == nil {
+                    Text("Väderdata kunde inte hämtas just nu.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 20)
+                } else if isLoading {
                     ProgressView("Hämtar väderdata...")
                         .padding(.top, 20)
                 } else if let error = errorMessage {
@@ -73,11 +78,15 @@ struct WeatherDetailSheet: View {
             HStack(alignment: .center, spacing: 12) {
                 Text(friendWeather.temperatureFormatted)
                     .font(.system(size: 52, weight: .thin))
-                    .foregroundStyle(Color.temperatureColor(celsius: friendWeather.temperatureCelsius))
+                    .foregroundStyle(
+                        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+                    )
 
                 Image(systemName: friendWeather.symbolName)
                     .font(.system(size: 48))
-                    .foregroundStyle(Color.temperatureColor(celsius: friendWeather.temperatureCelsius))
+                    .foregroundStyle(
+                        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+                    )
             }
 
             Text(friendWeather.conditionDescription)
@@ -105,7 +114,7 @@ struct WeatherDetailSheet: View {
             detailRow(
                 icon: "humidity",
                 label: "Luftfuktighet",
-                value: String(format: "%.0f%%", friendWeather.humidity)
+                value: friendWeather.humidity.map { String(format: "%.0f%%", $0) } ?? "—"
             )
             Divider()
             detailRow(
@@ -259,18 +268,21 @@ struct WeatherDetailSheet: View {
     // MARK: - Computed values from current weather
 
     private var feelsLikeFormatted: String {
-        let celsius = friendWeather.weather.apparentTemperature.converted(to: .celsius)
+        guard let weather = friendWeather.weather else { return "—" }
+        let celsius = weather.apparentTemperature.converted(to: .celsius)
         return celsius.formatted(.measurement(width: .narrow))
     }
 
     private var windFormatted: String {
-        let speed = friendWeather.windSpeed
-        let direction = friendWeather.weather.wind.compassDirection.abbreviation
+        guard let weather = friendWeather.weather,
+              let speed = friendWeather.windSpeed else { return "—" }
+        let direction = weather.wind.compassDirection.abbreviation
         return String(format: "%.1f m/s %@", speed, direction)
     }
 
     private var uvIndexValue: String {
-        let uv = friendWeather.weather.uvIndex
+        guard let weather = friendWeather.weather else { return "—" }
+        let uv = weather.uvIndex
         return "\(uv.value) \(uv.category.description)"
     }
 }
