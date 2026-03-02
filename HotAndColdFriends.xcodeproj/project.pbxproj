@@ -17,22 +17,34 @@
 		41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */; };
 		5F64AB1D959D25FB3C756F0C /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */; };
 		6F93C5D433398194F1718108 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0595D92E8471402A2465017 /* UserService.swift */; };
+		728B80C4300E19BC3170558F /* OnboardingNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */; };
 		89FD7BADF5356C400F79236E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C665750FE31C993FBAB8CFD6 /* LoginViewModel.swift */; };
+		8A1F4FC9052B1E1BDFE9BF2F /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */; };
+		8AEC6AF2E3C3D1310CF1629C /* OnboardingLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680DE0113F1304C8D2F93C0D /* OnboardingLocationView.swift */; };
 		8BCC1D7419C1C8BF9ACF0500 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F1E46F80EE4810096655142 /* GoogleService-Info.plist */; };
 		8EE4E92657DA0078618AFFE9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BCF5F5391A781D6D3DDD6B4B /* FirebaseAuth */; };
+		94179C511E6289B2EB6E01AB /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20F948D1A9868EE70A5272 /* OnboardingView.swift */; };
 		A5A6F2FC3544EC1A7BFBFE7D /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AEC5B49CAD762F884C75ED /* AppRouter.swift */; };
 		B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC38AB7BDC03D9814B36926 /* AuthManager.swift */; };
+		C3D69DA3003679DFAB00C76E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */; };
 		D2ECEFED9515A6FF40E8788C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CD4E76478D6F38D4786EA39A /* FirebaseFirestore */; };
 		E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AADA557D58C83067C0A07B /* AppDelegate.swift */; };
 		F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639990872A0AD5664410044 /* LoginView.swift */; };
+		FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		1F1E46F80EE4810096655142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		2A67B39B28528E02AB997109 /* HotAndColdFriends.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HotAndColdFriends.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPhotoView.swift; sourceTree = "<group>"; };
+		3B20F948D1A9868EE70A5272 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		49AEC5B49CAD762F884C75ED /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		680DE0113F1304C8D2F93C0D /* OnboardingLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLocationView.swift; sourceTree = "<group>"; };
 		6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		7CC38AB7BDC03D9814B36926 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNameView.swift; sourceTree = "<group>"; };
 		A0595D92E8471402A2465017 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AAEDC4DFF905CA78F3B8EA6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B639990872A0AD5664410044 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -107,6 +119,7 @@
 		6E72D79B1EC5FFA8005F6D39 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */,
 				A0595D92E8471402A2465017 /* UserService.swift */,
 			);
 			path = Services;
@@ -150,6 +163,11 @@
 		A04772A4227A1B1808693CCA /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				680DE0113F1304C8D2F93C0D /* OnboardingLocationView.swift */,
+				81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */,
+				340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */,
+				3B20F948D1A9868EE70A5272 /* OnboardingView.swift */,
+				08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -274,8 +292,14 @@
 				B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */,
 				3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */,
 				41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */,
+				C3D69DA3003679DFAB00C76E /* LocationService.swift in Sources */,
 				F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */,
 				89FD7BADF5356C400F79236E /* LoginViewModel.swift in Sources */,
+				8AEC6AF2E3C3D1310CF1629C /* OnboardingLocationView.swift in Sources */,
+				728B80C4300E19BC3170558F /* OnboardingNameView.swift in Sources */,
+				FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */,
+				94179C511E6289B2EB6E01AB /* OnboardingView.swift in Sources */,
+				8A1F4FC9052B1E1BDFE9BF2F /* OnboardingViewModel.swift in Sources */,
 				6F93C5D433398194F1718108 /* UserService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
