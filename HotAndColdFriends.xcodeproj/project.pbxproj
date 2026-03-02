@@ -15,6 +15,9 @@
 		3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318457A3208319B531E0026 /* AuthState.swift */; };
 		3BDD9AFB21EC96E8A7EE92FF /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 47014F2EAB98CBF799D97551 /* FacebookCore */; };
 		41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */; };
+		561765040B94E999926C86D9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B8C3C60DADFC174ABB094F /* ProfileView.swift */; };
+		57E58C63B0AA9B1E741E0635 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B0EE016563BF8F8478701 /* ProfileViewModel.swift */; };
+		5A2E4F25DBE3DA8AA52245A2 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F40D14036FC668699DE4464 /* EditProfileView.swift */; };
 		5F64AB1D959D25FB3C756F0C /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */; };
 		6F93C5D433398194F1718108 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0595D92E8471402A2465017 /* UserService.swift */; };
 		728B80C4300E19BC3170558F /* OnboardingNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */; };
@@ -36,8 +39,10 @@
 /* Begin PBXFileReference section */
 		08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		1F1E46F80EE4810096655142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1F40D14036FC668699DE4464 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		2A67B39B28528E02AB997109 /* HotAndColdFriends.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HotAndColdFriends.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D1B0EE016563BF8F8478701 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPhotoView.swift; sourceTree = "<group>"; };
 		3B20F948D1A9868EE70A5272 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		49AEC5B49CAD762F884C75ED /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
@@ -45,6 +50,7 @@
 		6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		7CC38AB7BDC03D9814B36926 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNameView.swift; sourceTree = "<group>"; };
+		83B8C3C60DADFC174ABB094F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A0595D92E8471402A2465017 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AAEDC4DFF905CA78F3B8EA6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B639990872A0AD5664410044 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -188,6 +194,9 @@
 		E901A952B0803E6034180815 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				1F40D14036FC668699DE4464 /* EditProfileView.swift */,
+				83B8C3C60DADFC174ABB094F /* ProfileView.swift */,
+				2D1B0EE016563BF8F8478701 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -291,6 +300,7 @@
 				5F64AB1D959D25FB3C756F0C /* AppUser.swift in Sources */,
 				B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */,
 				3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */,
+				5A2E4F25DBE3DA8AA52245A2 /* EditProfileView.swift in Sources */,
 				41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */,
 				C3D69DA3003679DFAB00C76E /* LocationService.swift in Sources */,
 				F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */,
@@ -300,6 +310,8 @@
 				FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */,
 				94179C511E6289B2EB6E01AB /* OnboardingView.swift in Sources */,
 				8A1F4FC9052B1E1BDFE9BF2F /* OnboardingViewModel.swift in Sources */,
+				561765040B94E999926C86D9 /* ProfileView.swift in Sources */,
+				57E58C63B0AA9B1E741E0635 /* ProfileViewModel.swift in Sources */,
 				6F93C5D433398194F1718108 /* UserService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
