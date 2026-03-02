@@ -47,12 +47,13 @@ Plans:
   3. Väderdata uppdateras automatiskt och cachas i 30 minuter utan att användaren behöver göra något
   4. Användare kan välja 6 favoriter som alltid visas överst i listan
   5. Användare uppmanas under onboarding att ange stad/land för sina favoriter
-**Plans:** 3/3 plans complete
+**Plans:** 4/4 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md — Friend/FriendWeather-modeller, AppWeatherService (WeatherKit + 30-min TTL-cache), FriendService (Firestore CRUD), DemoFriendService (8 demo-vänner) och WeatherKit-entitlements
 - [ ] 02-02-PLAN.md — Vädersorterad listvy (FriendListView) med sektioner, FriendRowView, WeatherDetailSheet, swipe-favoriter, demo-banner, temperaturfärgkodning och Apple Weather-attribution
 - [ ] 02-03-PLAN.md — Utökat onboarding-flöde (steg 4: lägg till vänner med stad-autocomplete), automatiska favoriter (de 6 första)
+- [ ] 02-04-PLAN.md — Gap closure: korrigera WTHR-02 dokumentation och fixa svenska tecken i FriendListView
 
 ### Phase 3: Kontaktimport
 **Goal**: Användare kan snabbt fylla appen med vänner via iOS-kontakter där AI gissar plats — och alltid ha manuellt tillägg som fallback
@@ -123,7 +124,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
-| 2. Kärnupplevelse | 3/3 | Complete   | 2026-03-02 |
+| 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
 | 3. Kontaktimport | 0/2 | Not started | - |
 | 4. Chatt och Push | 0/3 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |

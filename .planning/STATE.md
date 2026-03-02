@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 2 of 6 (Kärnupplevelse)
-Plan: 3 of 3 in current phase
-Status: In progress
-Last activity: 2026-03-02 — Plan 02-03 komplett. Onboarding-wizard utökad till 4 steg. OnboardingFavoritesView skapad med namn + stad-autocomplete. Vänner sparas till Firestore via FriendService. De 6 första markeras automatiskt som favoriter.
+Plan: 4 of 4 in current phase
+Status: Complete
+Last activity: 2026-03-02 — Plan 02-04 komplett. Gap-closure: WTHR-02 avmarkerad (Phase 6/Pending), tre svenska UI-strängar fixade i FriendListView.swift.
 
 Progress: [████░░░░░░] 55%
 
@@ -53,6 +53,7 @@ Progress: [████░░░░░░] 55%
 | Phase 02-karnupplevelse P01 | 4 | 2 tasks | 8 files |
 | Phase 02-karnupplevelse P02 | 5 | 2 tasks | 5 files |
 | Phase 02-karnupplevelse P03 | 5 | 2 tasks | 4 files |
+| Phase 02-karnupplevelse P04 | 3 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,7 @@ Recent decisions affecting current work:
 - [Phase 02-03]: PendingFriend-struct definieras inuti OnboardingFavoritesView.swift — ingen separat fil behövs för lokalt scoped struct
 - [Phase 02-03]: completeOnboarding() tar FriendService som parameter för att hålla konsekvent injektionsmönster
 - [Phase 02-03]: Forecast<DayWeather>? konverteras till [DayWeather] via .map { Array($0) } ?? [] (WeatherKit-typfix)
+- [Phase 02-04]: WTHR-02 (animerade väderillustrationer) tillhör Phase 6 — inte Phase 2 — och avmarkerades som completed i REQUIREMENTS.md
 
 ### Pending Todos
 
@@ -102,5 +104,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Plan 02-02 tasks klara (FriendListView + AppRouter). Awaiting checkpoint Task 3 (manuell verifiering på device).
+Stopped at: Plan 02-04 komplett. Fas 2 (Kärnupplevelse) klar — alla 4 planer exekverade.
 Resume file: None
