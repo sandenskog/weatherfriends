@@ -9,6 +9,7 @@ struct FriendListView: View {
     @State private var selectedFriendWeather: FriendWeather?
     @State private var showProfile = false
     @State private var showAddFriend = false
+    @State private var showContactImport = false
     @State private var attribution: WeatherAttribution?
 
     var body: some View {
@@ -26,8 +27,17 @@ struct FriendListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(spacing: 12) {
-                        Button {
-                            showAddFriend = true
+                        Menu {
+                            Button {
+                                showAddFriend = true
+                            } label: {
+                                Label("Lägg till manuellt", systemImage: "pencil")
+                            }
+                            Button {
+                                showContactImport = true
+                            } label: {
+                                Label("Importera kontakter", systemImage: "person.crop.circle.badge.plus")
+                            }
                         } label: {
                             Image(systemName: "plus")
                                 .font(.body.weight(.medium))
@@ -58,6 +68,15 @@ struct FriendListView: View {
         .sheet(isPresented: $showAddFriend) {
             if let uid = authManager.currentUser?.id {
                 AddFriendSheet(uid: uid, friendService: friendService) {
+                    Task {
+                        await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $showContactImport) {
+            if let uid = authManager.currentUser?.id {
+                ContactImportView(uid: uid, friendService: friendService) {
                     Task {
                         await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
                     }

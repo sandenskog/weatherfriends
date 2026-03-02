@@ -22,6 +22,7 @@ struct OnboardingFavoritesView: View {
     @State private var newFriendLon: Double? = nil
     @State private var locationService = LocationService()
     @State private var isAddingFriend = false
+    @State private var showContactImport = false
 
     var body: some View {
         ScrollView {
@@ -235,7 +236,24 @@ struct OnboardingFavoritesView: View {
                     }
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
                 } else {
-                    // MARK: - "Lägg till en vän"-knapp
+                    // MARK: - "Importera från kontakter"-knapp (primär)
+                    Button {
+                        showContactImport = true
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "person.crop.circle.badge.plus")
+                            Text("Importera från kontakter")
+                        }
+                        .font(.body.weight(.medium))
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .foregroundStyle(.primary)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .padding(.horizontal)
+
+                    // MARK: - "Lägg till en vän"-knapp (fallback)
                     Button {
                         withAnimation { isAddingFriend = true }
                     } label: {
@@ -256,6 +274,9 @@ struct OnboardingFavoritesView: View {
 
                 Spacer(minLength: 16)
             }
+        }
+        .sheet(isPresented: $showContactImport) {
+            ContactImportOnboardingWrapper(pendingFriends: $pendingFriends)
         }
     }
 
@@ -320,4 +341,128 @@ struct OnboardingFavoritesView: View {
 #Preview {
     @Previewable @State var friends: [PendingFriend] = []
     OnboardingFavoritesView(pendingFriends: $friends)
+}
+
+// MARK: - ContactImportOnboardingWrapper
+
+/// Wrapper för kontaktimport under onboarding.
+/// Eftersom uid inte finns ännu (profilen skapas vid "Slutför") importeras
+/// kontakter som PendingFriend istället för direkt till Firestore.
+private struct ContactImportOnboardingWrapper: View {
+    @Binding var pendingFriends: [PendingFriend]
+    @Environment(\.dismiss) private var dismiss
+    @State private var contactImportService = ContactImportService()
+    @State private var contacts: [ImportableContact] = []
+    @State private var selectedIds: Set<String> = []
+    @State private var searchText: String = ""
+    @State private var isLoading = true
+    @State private var errorMessage: String?
+
+    private var filteredContacts: [ImportableContact] {
+        if searchText.isEmpty { return contacts }
+        return contacts.filter { $0.fullName.localizedCaseInsensitiveContains(searchText) }
+    }
+
+    private var groupedContacts: [(String, [ImportableContact])] {
+        let grouped = Dictionary(grouping: filteredContacts) { String($0.fullName.prefix(1)).uppercased() }
+        return grouped.sorted { $0.key < $1.key }
+    }
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if isLoading {
+                    ProgressView("Hämtar kontakter...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if contacts.isEmpty {
+                    ContentUnavailableView(
+                        "Inga kontakter",
+                        systemImage: "person.crop.circle.badge.xmark",
+                        description: Text("Inga kontakter hittades i din adressbok.")
+                    )
+                } else {
+                    List {
+                        ForEach(groupedContacts, id: \.0) { letter, sectionContacts in
+                            Section(letter) {
+                                ForEach(sectionContacts) { contact in
+                                    let alreadyPending = pendingFriends.contains { $0.displayName == contact.fullName }
+                                    ContactImportRow(
+                                        contact: contact,
+                                        isSelected: selectedIds.contains(contact.id),
+                                        isAlreadyAdded: alreadyPending
+                                    )
+                                    .onTapGesture {
+                                        guard !alreadyPending else { return }
+                                        if selectedIds.contains(contact.id) {
+                                            selectedIds.remove(contact.id)
+                                        } else {
+                                            if selectedIds.count >= 50 {
+                                                errorMessage = "Du kan importera max 50 kontakter åt gången."
+                                                return
+                                            }
+                                            selectedIds.insert(contact.id)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .listStyle(.plain)
+                }
+            }
+            .navigationTitle("Importera kontakter")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Avbryt") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Lägg till (\(selectedIds.count))") {
+                        addSelectedAsPending()
+                    }
+                    .fontWeight(.semibold)
+                    .disabled(selectedIds.isEmpty)
+                }
+            }
+            .searchable(text: $searchText, prompt: "Sök kontakter...")
+            .alert("Fel", isPresented: Binding(
+                get: { errorMessage != nil },
+                set: { if !$0 { errorMessage = nil } }
+            )) {
+                Button("OK") { errorMessage = nil }
+            } message: {
+                Text(errorMessage ?? "")
+            }
+        }
+        .task {
+            await loadContacts()
+        }
+    }
+
+    private func loadContacts() async {
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            contacts = try await contactImportService.requestAccessAndFetch()
+        } catch {
+            errorMessage = "Kunde inte hämta kontakter: \(error.localizedDescription)"
+        }
+    }
+
+    private func addSelectedAsPending() {
+        let selected = contacts.filter { selectedIds.contains($0.id) }
+        for contact in selected {
+            let city = contact.hasAddress && !contact.postalCity.isEmpty
+                ? "\(contact.postalCity), \(contact.postalCountry)"
+                : "Okänd plats"
+            let pending = PendingFriend(
+                displayName: contact.fullName,
+                city: city,
+                cityLatitude: nil,
+                cityLongitude: nil
+            )
+            pendingFriends.append(pending)
+        }
+        dismiss()
+    }
 }
