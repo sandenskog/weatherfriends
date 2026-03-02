@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 1 of 6 (Foundation)
-Plan: 0 of 3 in current phase
-Status: Ready to plan
-Last activity: 2026-03-02 — Roadmap skapad, redo att planera fas 1
+Plan: 1 of 3 in current phase
+Status: In progress (checkpoint:human-verify pausad — Firebase/Facebook-konfiguration krävs)
+Last activity: 2026-03-02 — Plan 01-01 exekverad (Tasks 1+2 klara, Task 3 checkpoint)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 5%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: -
-- Total execution time: -
+- Total plans completed: 1
+- Average duration: 7 min
+- Total execution time: 7 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 1. Foundation | 1 | 7 min | 7 min |
 
 **Recent Trend:**
-- Last 5 plans: -
-- Trend: -
+- Last 5 plans: 7 min
+- Trend: n/a (för lite data)
 
 *Updated after each plan completion*
 
@@ -47,6 +47,9 @@ Recent decisions affecting current work:
 - [Research]: Apple WeatherKit väljs som väder-API (gratis 500K anrop/mån, inget nyckelhantering)
 - [Research]: iOS 17+ sätts som deployment target för att kunna använda @Observable fullt ut
 - [Research]: OpenAI-anrop MÅSTE gå via Firebase Cloud Function proxy — aldrig direkt från iOS-appen
+- [01-01]: FirebaseFirestoreSwift är integrerat i FirebaseFirestore från SDK 11.x — ej separat SPM-paket
+- [01-01]: nonisolated(unsafe) används för listenerHandle i AuthManager för deinit-kompatibilitet
+- [01-01]: xcodegen valdes för Xcode-projektgenerering via CLI (project.yml versionsstyrd)
 
 ### Pending Todos
 
@@ -63,5 +66,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Roadmap och STATE.md skapade. REQUIREMENTS.md traceability uppdaterad.
+Stopped at: Plan 01-01 exekverad. Checkpoint:human-verify pausad — användaren ska konfigurera Firebase och Facebook innan Plan 01-02 kan köras. Se Task 3 i 01-01-PLAN.md.
 Resume file: None

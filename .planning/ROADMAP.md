@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Xcode-projekt, Firebase/SPM-setup, AuthManager, AppUser-modell och UserService
+- [x] 01-01-PLAN.md — Xcode-projekt, Firebase/SPM-setup, AuthManager, AppUser-modell och UserService
 - [ ] 01-02-PLAN.md — Social login (Sign in with Apple + Google + Facebook) och LoginView
 - [ ] 01-03-PLAN.md — Onboarding-wizard, stad-autocomplete, profilvisning och profilredigering
 
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/3 | Not started | - |
+| 1. Foundation | 1/3 | In progress | - |
 | 2. Kärnupplevelse | 0/3 | Not started | - |
 | 3. Kontaktimport | 0/2 | Not started | - |
 | 4. Chatt och Push | 0/3 | Not started | - |

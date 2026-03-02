@@ -12,7 +12,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **AUTH-01**: Användare kan logga in med Sign in with Apple
 - [ ] **AUTH-02**: Användare kan logga in med Google Sign-In
 - [ ] **AUTH-03**: Användare kan logga in med Facebook Login
-- [ ] **AUTH-04**: Användarsession bevaras mellan app-starter
+- [x] **AUTH-04**: Användarsession bevaras mellan app-starter
 - [ ] **AUTH-05**: Användare kan radera sitt konto (App Store-krav)
 
 ### Profil
@@ -97,7 +97,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-01 | Phase 1 | Pending |
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Complete (01-01) |
 | AUTH-05 | Phase 6 | Pending |
 | PROF-01 | Phase 1 | Pending |
 | PROF-02 | Phase 1 | Pending |
