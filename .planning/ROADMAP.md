@@ -30,12 +30,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Inloggad session bevaras när appen stängs och öppnas igen
   3. Användare kan skapa profil med namn, profilbild och sin stad/land
   4. Användare kan se en annan användares profil
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 01-01: Firebase-projekt, Xcode-setup och SPM-beroenden
-- [ ] 01-02: Social login (Sign in with Apple + Google + Facebook) och sessionshantering
-- [ ] 01-03: Profilskapande och Firestore-datamodell (users, friends, conversations)
+- [ ] 01-01-PLAN.md — Xcode-projekt, Firebase/SPM-setup, AuthManager, AppUser-modell och UserService
+- [ ] 01-02-PLAN.md — Social login (Sign in with Apple + Google + Facebook) och LoginView
+- [ ] 01-03-PLAN.md — Onboarding-wizard, stad-autocomplete, profilvisning och profilredigering
 
 ### Phase 2: Kärnupplevelse
 **Goal**: Appen visar vädret hos vänner, sorterat och levande, med live exempeldata redan vid first run — kärnvärdet demonstrerat utan att behöva importera kontakter
