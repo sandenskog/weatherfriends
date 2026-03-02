@@ -116,6 +116,10 @@ Inga blockande problem. Bygget kompilerade rent i båda tasks.
 ## User Setup Required
 None — ingen extern konfiguration krävs för denna plan.
 
+## Self-Check: PASSED
+
+Alla filer existerar, båda commits verifierade (aa4eff9, 99ef103), SUMMARY.md skapad.
+
 ## Next Phase Readiness
 - FriendListView är redo som primär vy i appen
 - Kräver manuell verifiering på device (Task 3-checkpoint) — WeatherKit fungerar ej i simulator
