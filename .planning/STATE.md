@@ -51,6 +51,7 @@ Progress: [████░░░░░░] 55%
 | Phase 01-foundation P02 | 16 | 2 tasks | 4 files |
 | Phase 01-foundation P03 | 10 | 2 tasks | 12 files |
 | Phase 02-karnupplevelse P01 | 4 | 2 tasks | 8 files |
+| Phase 02-karnupplevelse P02 | 5 | 2 tasks | 5 files |
 | Phase 02-karnupplevelse P03 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
@@ -79,6 +80,9 @@ Recent decisions affecting current work:
 - [Phase 02-01]: WeatherKit-metoderna heter .hourly/.daily (inte .hourlyForecast/.dailyForecast) i WeatherKit SDK
 - [Phase 02-01]: Firestore count-aggregation snapshot.count är NSNumber — använd .intValue istället för Int(truncatingIfNeeded:)
 - [Phase 02-01]: AppWeatherService döps (ej WeatherService) för att undvika namnkollision med WeatherKit.WeatherService
+- [Phase 02-02]: Color.temperatureColor placerades som extension i FriendRowView.swift — ingen extra fil behövdes
+- [Phase 02-02]: Logga ut-knapp i .topBarLeading i FriendListView — mer direkt åtkomst än att gömma i profil-sheet
+- [Phase 02-02]: WeatherDetailSheet tar @Environment(AppWeatherService.self) och injiceras explicit vid sheet-presentering
 - [Phase 02-03]: PendingFriend-struct definieras inuti OnboardingFavoritesView.swift — ingen separat fil behövs för lokalt scoped struct
 - [Phase 02-03]: completeOnboarding() tar FriendService som parameter för att hålla konsekvent injektionsmönster
 - [Phase 02-03]: Forecast<DayWeather>? konverteras till [DayWeather] via .map { Array($0) } ?? [] (WeatherKit-typfix)
@@ -98,5 +102,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Plan 02-03 komplett. Fas 2 alla 3 planer klara. Nästa: Fas 3 eller bekräfta om 02-02 (Friendlist-vy) körs.
+Stopped at: Plan 02-02 tasks klara (FriendListView + AppRouter). Awaiting checkpoint Task 3 (manuell verifiering på device).
 Resume file: None

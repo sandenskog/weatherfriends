@@ -37,7 +37,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Vyer
 
-- [ ] **VIEW-01**: Vädersorterad listvy (varmast/kallast)
+- [x] **VIEW-01**: Vädersorterad listvy (varmast/kallast)
 - [ ] **VIEW-02**: Grupperade väderkort (Hot/Warm/Cool/Cold-kategorier)
 - [ ] **VIEW-03**: Kartvy med vänners platser och väderinfo (MapKit)
 - [x] **VIEW-04**: Live exempeldata vid first run innan användaren konfigurerat
@@ -110,7 +110,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WTHR-01 | Phase 2 | Complete |
 | WTHR-02 | Phase 6 | Complete |
 | WTHR-03 | Phase 2 | Complete |
-| VIEW-01 | Phase 2 | Pending |
+| VIEW-01 | Phase 2 | Complete |
 | VIEW-02 | Phase 5 | Pending |
 | VIEW-03 | Phase 5 | Pending |
 | VIEW-04 | Phase 2 | Complete |
