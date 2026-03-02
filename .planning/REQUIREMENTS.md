@@ -23,8 +23,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Vänner & Import
 
-- [ ] **FRND-01**: Användare kan manuellt lägga till vän med stad/land
-- [ ] **FRND-02**: Användare kan importera vänner från iOS-kontakter
+- [x] **FRND-01**: Användare kan manuellt lägga till vän med stad/land
+- [x] **FRND-02**: Användare kan importera vänner från iOS-kontakter
 - [ ] **FRND-03**: AI gissar stad/land vid import baserat på adress, telefonnummer, e-post
 - [x] **FRND-04**: Användare uppmanas ange stad/land för favoriter vid onboarding
 - [x] **FRND-05**: Användare kan välja 6 favoriter som visas överst
@@ -102,8 +102,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROF-01 | Phase 1 | Complete |
 | PROF-02 | Phase 1 | Complete |
 | PROF-03 | Phase 1 | Complete |
-| FRND-01 | Phase 3 | Pending |
-| FRND-02 | Phase 3 | Pending |
+| FRND-01 | Phase 3 | Complete |
+| FRND-02 | Phase 3 | Complete |
 | FRND-03 | Phase 3 | Pending |
 | FRND-04 | Phase 2 | Complete |
 | FRND-05 | Phase 2 | Complete |

@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T21:37:07.286Z"
+last_updated: "2026-03-02T22:32:00.000Z"
 progress:
-  total_phases: 2
+  total_phases: 6
   completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 9
+  completed_plans: 8
 ---
 
 # Project State
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 2: Kärnupplevelse
+**Current focus:** Phase 3: Kontaktimport
 
 ## Current Position
 
-Phase: 2 of 6 (Kärnupplevelse)
-Plan: 4 of 4 in current phase
-Status: Complete
-Last activity: 2026-03-02 — Plan 02-04 komplett. Gap-closure: WTHR-02 avmarkerad (Phase 6/Pending), tre svenska UI-strängar fixade i FriendListView.swift.
+Phase: 3 of 6 (Kontaktimport)
+Plan: 1 of 2 in current phase
+Status: In Progress
+Last activity: 2026-03-02 — Plan 03-01 komplett. CNContactStore-import, ContactImportView, ContactImportRow, FriendListView-meny och OnboardingFavoritesView-integration klara.
 
-Progress: [████░░░░░░] 55%
+Progress: [█████░░░░░] 60%
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Progress: [████░░░░░░] 55%
 | Phase 02-karnupplevelse P02 | 5 | 2 tasks | 5 files |
 | Phase 02-karnupplevelse P03 | 5 | 2 tasks | 4 files |
 | Phase 02-karnupplevelse P04 | 3 | 2 tasks | 3 files |
+| Phase 03-kontaktimport P01 | 6 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,8 @@ Recent decisions affecting current work:
 - [Phase 02-03]: completeOnboarding() tar FriendService som parameter för att hålla konsekvent injektionsmönster
 - [Phase 02-03]: Forecast<DayWeather>? konverteras till [DayWeather] via .map { Array($0) } ?? [] (WeatherKit-typfix)
 - [Phase 02-04]: WTHR-02 (animerade väderillustrationer) tillhör Phase 6 — inte Phase 2 — och avmarkerades som completed i REQUIREMENTS.md
+- [Phase 03-01]: nonisolated används på CNContactStore och static keysToFetch i ContactImportService — krävs för Swift 6-kompatibel Task.detached
+- [Phase 03-01]: ContactImportOnboardingWrapper som privat struct i OnboardingFavoritesView — onboarding har inget uid, importerar som PendingFriend istället för Firestore
 
 ### Pending Todos
 
@@ -104,5 +107,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Plan 02-04 komplett. Fas 2 (Kärnupplevelse) klar — alla 4 planer exekverade.
+Stopped at: Plan 03-01 komplett. Fas 3 (Kontaktimport) delvis klar — plan 1 av 2 exekverad.
 Resume file: None

@@ -64,11 +64,11 @@ Plans:
   2. AI ger ett platsförslag (stad/land) per importerad kontakt baserat på adress, telefonnummer och e-post
   3. Användare kan bekräfta, justera eller avvisa AI:ns platsförslag innan vännen sparas
   4. Användare kan manuellt lägga till en vän med namn och stad/land utan att importera kontakter
-**Plans**: TBD
+**Plans:** 1/2 plans complete
 
 Plans:
-- [ ] 03-01: iOS Contacts-import (CNContactStore) och import-UI
-- [ ] 03-02: AI-platsgissning via Firebase Cloud Function proxy (OpenAI) och bekräftelseflöde
+- [x] 03-01-PLAN.md — ContactImportService (CNContactStore + Firebase Storage), ContactImportView (multi-select + sökfält), meny-integration i FriendListView och OnboardingFavoritesView
+- [ ] 03-02-PLAN.md — Firebase Cloud Function (guessContactLocations + OpenAI gpt-4o-mini), ImportReviewView (konfidens-färger + stad-korrigering), uppdaterat importflöde
 
 ### Phase 4: Chatt och Push
 **Goal**: Användare kan chatta med vänner i realtid och ta emot push-notiser — med rapport och blockering inbyggt (App Store Guideline 1.2-krav)
@@ -125,7 +125,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
 | 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
-| 3. Kontaktimport | 0/2 | Not started | - |
+| 3. Kontaktimport | 1/2 | In Progress | - |
 | 4. Chatt och Push | 0/3 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |
