@@ -32,7 +32,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Väder
 
 - [x] **WTHR-01**: Realtidsväder visas per vän (temperatur, ikon, vind, fuktighet, prognos)
-- [x] **WTHR-02**: Animerade väderillustrationer bakom vännens profilbild
+- [ ] **WTHR-02**: Animerade väderillustrationer bakom vännens profilbild
 - [x] **WTHR-03**: Väderdata uppdateras automatiskt med caching
 
 ### Vyer
@@ -108,7 +108,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FRND-04 | Phase 2 | Complete |
 | FRND-05 | Phase 2 | Complete |
 | WTHR-01 | Phase 2 | Complete |
-| WTHR-02 | Phase 6 | Complete |
+| WTHR-02 | Phase 6 | Pending |
 | WTHR-03 | Phase 2 | Complete |
 | VIEW-01 | Phase 2 | Complete |
 | VIEW-02 | Phase 5 | Pending |
