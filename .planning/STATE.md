@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T13:30:35.638Z"
+last_updated: "2026-03-02T13:51:39.967Z"
 progress:
   total_phases: 1
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 1 of 6 (Foundation)
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-03-02 — Plan 01-02 exekverad (Tasks 1+2 klara, social login implementerat)
+Plan: 3 of 3 in current phase
+Status: Awaiting checkpoint verification
+Last activity: 2026-03-02 — Plan 01-03 Tasks 1+2 klara (onboarding wizard, profil-CRUD). Checkpoint:human-verify Task 3 inväntar manuell verifiering i simulator.
 
-Progress: [█░░░░░░░░░] 5%
+Progress: [██░░░░░░░░] 17%
 
 ## Performance Metrics
 
@@ -48,6 +48,7 @@ Progress: [█░░░░░░░░░] 5%
 
 *Updated after each plan completion*
 | Phase 01-foundation P02 | 16 | 2 tasks | 4 files |
+| Phase 01-foundation P03 | 10 | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,9 @@ Recent decisions affecting current work:
 - [Phase 01-02]: NSObject-arv krävs i AuthManager för ASAuthorizationControllerDelegate/PresentationContextProviding
 - [Phase 01-02]: xcodegen måste köras om när nya Swift-filer skapas — projekt plockar inte upp dem automatiskt
 - [Phase 01-02]: Facebook-cancelled hanteras tyst i LoginViewModel — inget felmeddelande till användaren
+- [Phase 01-03]: OnboardingViewModel skriver direkt till Firestore via .document(uid).setData() — UserService.createUserProfile kräver @DocumentID som inte kan sättas vid skapande
+- [Phase 01-03]: CLLocationUpdate.liveUpdates() (iOS 17+) används för GPS — async-stream-baserad API, ingen delegate
+- [Phase 01-03]: UserService injiceras som @Environment i appens rot (HotAndColdFriendsApp) för enkel tillgång i hela hierarkin
 
 ### Pending Todos
 
@@ -83,5 +87,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-02
-Stopped at: Plan 01-01 exekverad. Checkpoint:human-verify pausad — användaren ska konfigurera Firebase och Facebook innan Plan 01-02 kan köras. Se Task 3 i 01-01-PLAN.md.
+Stopped at: Plan 01-03 Tasks 1+2 exekverade. Checkpoint:human-verify pausad — verifiera komplett onboarding- och profilflöde i simulator. Se Task 3 i 01-03-PLAN.md.
 Resume file: None

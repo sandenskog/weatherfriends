@@ -12,7 +12,7 @@ Sex faser levererar en komplett iOS-app: autentisering och profil skapar grunden
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Auth, profil och datamodell — allt annat beror på detta
+- [x] **Phase 1: Foundation** - Auth, profil och datamodell — allt annat beror på detta (completed 2026-03-02)
 - [ ] **Phase 2: Kärnupplevelse** - Vädervy, favoriter, onboarding med live exempeldata
 - [ ] **Phase 3: Kontaktimport** - iOS Contacts-import med AI-driven platsgissning
 - [ ] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Inloggad session bevaras när appen stängs och öppnas igen
   3. Användare kan skapa profil med namn, profilbild och sin stad/land
   4. Användare kan se en annan användares profil
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 01-01-PLAN.md — Xcode-projekt, Firebase/SPM-setup, AuthManager, AppUser-modell och UserService
@@ -122,7 +122,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/3 | In progress | - |
+| 1. Foundation | 3/3 | Complete   | 2026-03-02 |
 | 2. Kärnupplevelse | 0/3 | Not started | - |
 | 3. Kontaktimport | 0/2 | Not started | - |
 | 4. Chatt och Push | 0/3 | Not started | - |

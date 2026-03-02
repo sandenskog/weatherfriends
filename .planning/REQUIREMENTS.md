@@ -17,9 +17,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Profil
 
-- [ ] **PROF-01**: Användare kan skapa profil med namn och profilbild
-- [ ] **PROF-02**: Användare kan ange sin stad/land
-- [ ] **PROF-03**: Användare kan visa andra användares profiler
+- [x] **PROF-01**: Användare kan skapa profil med namn och profilbild
+- [x] **PROF-02**: Användare kan ange sin stad/land
+- [x] **PROF-03**: Användare kan visa andra användares profiler
 
 ### Vänner & Import
 
@@ -99,9 +99,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete (01-01) |
 | AUTH-05 | Phase 6 | Pending |
-| PROF-01 | Phase 1 | Pending |
-| PROF-02 | Phase 1 | Pending |
-| PROF-03 | Phase 1 | Pending |
+| PROF-01 | Phase 1 | Complete |
+| PROF-02 | Phase 1 | Complete |
+| PROF-03 | Phase 1 | Complete |
 | FRND-01 | Phase 3 | Pending |
 | FRND-02 | Phase 3 | Pending |
 | FRND-03 | Phase 3 | Pending |
