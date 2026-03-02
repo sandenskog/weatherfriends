@@ -16,6 +16,12 @@ struct ContactImportView: View {
     @State private var isSaving = false
     @State private var errorMessage: String?
 
+    // Review-flöde (03-02)
+    @State private var showReview = false
+    @State private var selectedContacts: [ImportableContact] = []
+    @State private var locationGuesses: [LocationGuess] = []
+    @State private var isGuessing = false
+
     // MARK: - Computed
 
     private var filteredContacts: [ImportableContact] {
@@ -65,14 +71,20 @@ struct ContactImportView: View {
                     Button {
                         Task { await importSelected() }
                     } label: {
-                        if isSaving {
+                        if isGuessing {
+                            HStack(spacing: 4) {
+                                ProgressView()
+                                    .controlSize(.small)
+                                Text("Analyserar...")
+                            }
+                        } else if isSaving {
                             ProgressView()
                         } else {
                             Text("Importera (\(selectedCount))")
                                 .fontWeight(.semibold)
                         }
                     }
-                    .disabled(selectedCount == 0 || isSaving)
+                    .disabled(selectedCount == 0 || isSaving || isGuessing)
                 }
             }
             .searchable(text: $searchText, prompt: "Sök kontakter...")
@@ -83,6 +95,18 @@ struct ContactImportView: View {
                 Button("OK") { errorMessage = nil }
             } message: {
                 Text(errorMessage ?? "")
+            }
+            .sheet(isPresented: $showReview) {
+                ImportReviewView(
+                    uid: uid,
+                    contacts: selectedContacts,
+                    locationGuesses: locationGuesses,
+                    friendService: friendService,
+                    contactImportService: contactImportService
+                ) {
+                    onImported()
+                    dismiss()
+                }
             }
         }
         .task {
@@ -144,29 +168,19 @@ struct ContactImportView: View {
     }
 
     private func importSelected() async {
-        isSaving = true
-        defer { isSaving = false }
+        isGuessing = true
+        defer { isGuessing = false }
 
-        let selectedContacts = contacts.filter { selectedIds.contains($0.id) }
+        selectedContacts = contacts.filter { selectedIds.contains($0.id) }
 
         do {
-            // Rensa demo-vänner vid första riktiga import
-            let existingFriends = try await friendService.fetchFriends(uid: uid)
-            let hasOnlyDemoFriends = existingFriends.allSatisfy { $0.isDemo }
-            if hasOnlyDemoFriends && !existingFriends.isEmpty {
-                try await friendService.removeDemoFriends(uid: uid)
-            }
-
-            _ = try await contactImportService.saveImportedContacts(
-                uid: uid,
-                contacts: selectedContacts,
-                friendService: friendService
-            )
-
-            onImported()
-            dismiss()
+            // Kör AI-platsgissning via Cloud Function
+            locationGuesses = try await contactImportService.guessLocations(for: selectedContacts)
+            showReview = true
         } catch {
-            errorMessage = "Kunde inte importera kontakter: \(error.localizedDescription)"
+            // Vid CF-fel: visa review ändå men utan AI-gissningar
+            locationGuesses = []
+            showReview = true
         }
     }
 }

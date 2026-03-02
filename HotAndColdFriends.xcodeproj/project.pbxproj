@@ -44,6 +44,7 @@
 		C3D69DA3003679DFAB00C76E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */; };
 		D2ECEFED9515A6FF40E8788C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CD4E76478D6F38D4786EA39A /* FirebaseFirestore */; };
 		D3F12FC7FC22B4A683338628 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 0E207B2F3C8877482BDA8A6D /* FacebookLogin */; };
+		DD39A0BACDC411EC18D61E72 /* ImportReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */; };
 		E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AADA557D58C83067C0A07B /* AppDelegate.swift */; };
 		E821AE5D2E43037E4998C7C8 /* ContactImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */; };
 		EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */; };
@@ -88,6 +89,7 @@
 		F114DFB02FD57BACC061D3CB /* FriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendService.swift; sourceTree = "<group>"; };
 		F5AADA557D58C83067C0A07B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6DA19899947ADBAE62FB81C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportReviewView.swift; sourceTree = "<group>"; };
 		FD9B9FB773AAD71C1FFBC0A9 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +155,7 @@
 			children = (
 				97F7A7C3ABE2D55AC4851133 /* ContactImportRow.swift */,
 				EB81775B5DEE9ABD7A1262F0 /* ContactImportView.swift */,
+				F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */,
 			);
 			path = ContactImport;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				0E0A0EB16E769C9682197E5A /* FriendService.swift in Sources */,
 				206CA7F5CD9F5B7F6DEEC65D /* FriendWeather.swift in Sources */,
 				41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */,
+				DD39A0BACDC411EC18D61E72 /* ImportReviewView.swift in Sources */,
 				C3D69DA3003679DFAB00C76E /* LocationService.swift in Sources */,
 				F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */,
 				89FD7BADF5356C400F79236E /* LoginViewModel.swift in Sources */,
