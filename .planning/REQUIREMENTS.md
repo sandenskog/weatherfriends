@@ -101,33 +101,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-05 | Phase 6 | Pending |
 | PROF-01 | Phase 1 | Complete |
 | PROF-02 | Phase 1 | Complete |
-| PROF-03 | Phase 1 | Complete |
+| PROF-03 | Phase 4.5 | Pending (gap closure) |
 | FRND-01 | Phase 3 | Complete |
 | FRND-02 | Phase 3 | Complete |
-| FRND-03 | Phase 4.1 | Pending (gap closure) |
-| FRND-04 | Phase 4.1 | Pending (gap closure) |
+| FRND-03 | Phase 4.1 | Complete |
+| FRND-04 | Phase 4.1 | Complete |
 | FRND-05 | Phase 2 | Complete |
-| WTHR-01 | Phase 4.1 | Pending (gap closure) |
+| WTHR-01 | Phase 4.1 | Complete |
 | WTHR-02 | Phase 6 | Pending |
 | WTHR-03 | Phase 2 | Complete |
 | VIEW-01 | Phase 2 | Complete |
 | VIEW-02 | Phase 5 | Pending |
 | VIEW-03 | Phase 5 | Pending |
 | VIEW-04 | Phase 2 | Complete |
-| CHAT-01 | Phase 4.2 | Pending (gap closure) |
-| CHAT-02 | Phase 4.2 | Pending (gap closure) |
+| CHAT-01 | Phase 4.4 | Pending (gap closure) |
+| CHAT-02 | Phase 4.4 | Pending (gap closure) |
 | CHAT-03 | Phase 4 | Complete |
 | CHAT-04 | Phase 4 | Complete |
 | CHAT-05 | Phase 4 | Complete |
-| PUSH-01 | Phase 4.3 | Pending (gap closure) |
+| PUSH-01 | Phase 4.3 | Complete |
 | PUSH-02 | Phase 5 | Pending |
 | PUSH-03 | Phase 4 | Complete |
 | WDGT-01 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 29 total
-- Satisfied: 17
-- Pending (gap closure 4.1-4.3): 6
+- Satisfied: 20
+- Pending (gap closure 4.4-4.5): 3
 - Pending (Phase 5-6): 6
 - Unmapped: 0
 

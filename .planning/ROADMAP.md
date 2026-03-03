@@ -19,6 +19,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4.1: Fixa onboarding-kontaktimport** - INSERTED: Onboarding-wrapper anropar guessLocations() och sparar koordinater (Gap Closure) (completed 2026-03-03)
 - [x] **Phase 4.2: Fixa chatt-UID-mismatch** - INSERTED: Använd Auth UID istället för Friend.id vid chatt-skapande (Gap Closure) (completed 2026-03-03)
 - [x] **Phase 4.3: Fixa push deep link och tech debt** - INSERTED: Deep link-handler för weatherAlert + fcmToken i AppUser (Gap Closure) (completed 2026-03-03)
+- [ ] **Phase 4.4: Fixa authUid-population vid Friend-skapande** - INSERTED: Sätt authUid i alla Friend-skapande kodvägar (Gap Closure)
+- [ ] **Phase 4.5: Vänprofil-navigation och dokumentationsfix** - INSERTED: Tappbar profil-vy + SUMMARY/traceability-fix (Gap Closure)
 - [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
 - [ ] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering
 
@@ -132,9 +134,40 @@ Plans:
 Plans:
 - [ ] 04.3-01-PLAN.md — Deep link-handler for weatherAlert push + fcmToken i AppUser + dead code/debug-print cleanup
 
+### Phase 4.4: Fixa authUid-population vid Friend-skapande (INSERTED — Gap Closure)
+**Goal**: Alla Friend-dokument får korrekt authUid via lookup mot users-kollektionen — så att chatt fungerar för alla vänner
+**Depends on**: Phase 4.3
+**Requirements**: CHAT-01, CHAT-02 (unsatisfied → satisfied)
+**Gap Closure**: Closes gaps from audit — Friend.authUid aldrig satt av skrivvägar
+**Success Criteria** (what must be TRUE):
+  1. AddFriendSheet sätter authUid vid Friend-skapande via lookup mot users-kollektionen
+  2. ContactImportService.saveReviewedContacts() sätter authUid via lookup
+  3. OnboardingViewModel.completeOnboarding() sätter authUid via lookup
+  4. NewConversationSheet kan öppna direktchatt utan "inget konto"-felmeddelande
+  5. Gruppchattar kan skapas med vänner som har matchande Auth-konto
+**Plans**: TBD
+
+Plans:
+- [ ] 04.4-01: authUid-lookup i alla Friend-skapande kodvägar
+
+### Phase 4.5: Vänprofil-navigation och dokumentationsfix (INSERTED — Gap Closure)
+**Goal**: Användare kan navigera till en väns profil från UI + dokumentationsgap fixade
+**Depends on**: Phase 4.4
+**Requirements**: PROF-03 (partial → satisfied), AUTH-01, AUTH-02, AUTH-03 (doc fix)
+**Gap Closure**: Closes gaps from audit — ProfileView ej nåbar + SUMMARY-doc saknas
+**Success Criteria** (what must be TRUE):
+  1. Användare kan tappa på en vän i FriendListView/WeatherDetailSheet för att se vännens profil
+  2. ProfileView visar korrekt data för vännen (namn, profilbild, stad)
+  3. AUTH-01, AUTH-02, AUTH-03 finns i 01-02-SUMMARY.md frontmatter
+  4. REQUIREMENTS.md traceability-tabell visar korrekt status för alla lösta krav
+**Plans**: TBD
+
+Plans:
+- [ ] 04.5-01: Profil-navigation + dokumentationsfix
+
 ### Phase 5: Utökade Vyer
 **Goal**: Appen erbjuder tre komplementära sätt att utforska vänners väder — kartvy, grupperade kort och daglig sammanfattning — som differentierar mot konkurrenter
-**Depends on**: Phase 4.3
+**Depends on**: Phase 4.5
 **Requirements**: VIEW-02, VIEW-03, PUSH-02
 **Success Criteria** (what must be TRUE):
   1. Användare kan se vänners platser på en karta med väderinfo per nål (MapKit)
@@ -164,7 +197,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 → 5 → 6
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 → 4.4 → 4.5 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -175,5 +208,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 4.1 Fixa onboarding-kontaktimport | 1/1 | Complete   | 2026-03-03 |
 | 4.2 Fixa chatt-UID-mismatch | 1/1 | Complete   | 2026-03-03 |
 | 4.3 Fixa push deep link + tech debt | 1/1 | Complete   | 2026-03-03 |
+| 4.4 Fixa authUid-population | 0/1 | Not started | - |
+| 4.5 Vänprofil-nav + docs | 0/1 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |
