@@ -25,13 +25,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **FRND-01**: Användare kan manuellt lägga till vän med stad/land
 - [x] **FRND-02**: Användare kan importera vänner från iOS-kontakter
-- [x] **FRND-03**: AI gissar stad/land vid import baserat på adress, telefonnummer, e-post
-- [x] **FRND-04**: Användare uppmanas ange stad/land för favoriter vid onboarding
+- [ ] **FRND-03**: AI gissar stad/land vid import baserat på adress, telefonnummer, e-post
+- [ ] **FRND-04**: Användare uppmanas ange stad/land för favoriter vid onboarding
 - [x] **FRND-05**: Användare kan välja 6 favoriter som visas överst
 
 ### Väder
 
-- [x] **WTHR-01**: Realtidsväder visas per vän (temperatur, ikon, vind, fuktighet, prognos)
+- [ ] **WTHR-01**: Realtidsväder visas per vän (temperatur, ikon, vind, fuktighet, prognos)
 - [ ] **WTHR-02**: Animerade väderillustrationer bakom vännens profilbild
 - [x] **WTHR-03**: Väderdata uppdateras automatiskt med caching
 
@@ -44,15 +44,15 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Chatt
 
-- [x] **CHAT-01**: Användare kan skicka 1-till-1 meddelanden till vänner
-- [x] **CHAT-02**: Användare kan skapa och delta i gruppchattar
+- [ ] **CHAT-01**: Användare kan skicka 1-till-1 meddelanden till vänner
+- [ ] **CHAT-02**: Användare kan skapa och delta i gruppchattar
 - [x] **CHAT-03**: Användare kan skicka väderreaktioner (emoji kopplad till väder)
 - [x] **CHAT-04**: Användare kan rapportera olämpligt innehåll (App Store-krav)
 - [x] **CHAT-05**: Användare kan blockera andra användare (App Store-krav)
 
 ### Notiser
 
-- [x] **PUSH-01**: Push-notis vid extremväder hos vän
+- [ ] **PUSH-01**: Push-notis vid extremväder hos vän
 - [ ] **PUSH-02**: Daglig vädersammanfattning
 - [x] **PUSH-03**: Push-notis vid nytt chattmeddelande
 
@@ -104,31 +104,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROF-03 | Phase 1 | Complete |
 | FRND-01 | Phase 3 | Complete |
 | FRND-02 | Phase 3 | Complete |
-| FRND-03 | Phase 3 | Complete |
-| FRND-04 | Phase 2 | Complete |
+| FRND-03 | Phase 4.1 | Pending (gap closure) |
+| FRND-04 | Phase 4.1 | Pending (gap closure) |
 | FRND-05 | Phase 2 | Complete |
-| WTHR-01 | Phase 2 | Complete |
+| WTHR-01 | Phase 4.1 | Pending (gap closure) |
 | WTHR-02 | Phase 6 | Pending |
 | WTHR-03 | Phase 2 | Complete |
 | VIEW-01 | Phase 2 | Complete |
 | VIEW-02 | Phase 5 | Pending |
 | VIEW-03 | Phase 5 | Pending |
 | VIEW-04 | Phase 2 | Complete |
-| CHAT-01 | Phase 4 | Complete |
-| CHAT-02 | Phase 4 | Complete |
+| CHAT-01 | Phase 4.2 | Pending (gap closure) |
+| CHAT-02 | Phase 4.2 | Pending (gap closure) |
 | CHAT-03 | Phase 4 | Complete |
 | CHAT-04 | Phase 4 | Complete |
 | CHAT-05 | Phase 4 | Complete |
-| PUSH-01 | Phase 4 | Pending (gap closure 04-04) |
+| PUSH-01 | Phase 4.3 | Pending (gap closure) |
 | PUSH-02 | Phase 5 | Pending |
 | PUSH-03 | Phase 4 | Complete |
 | WDGT-01 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 29 total
-- Mapped to phases: 29
+- Satisfied: 17
+- Pending (gap closure 4.1-4.3): 6
+- Pending (Phase 5-6): 6
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-02*
-*Last updated: 2026-03-02 after roadmap creation*
+*Last updated: 2026-03-03 after gap closure planning*

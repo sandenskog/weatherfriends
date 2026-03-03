@@ -16,6 +16,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Kärnupplevelse** - Vädervy, favoriter, onboarding med live exempeldata (completed 2026-03-02)
 - [x] **Phase 3: Kontaktimport** - iOS Contacts-import med AI-driven platsgissning (completed 2026-03-03)
 - [x] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering (completed 2026-03-03)
+- [ ] **Phase 4.1: Fixa onboarding-kontaktimport** - INSERTED: Onboarding-wrapper anropar guessLocations() och sparar koordinater (Gap Closure)
+- [ ] **Phase 4.2: Fixa chatt-UID-mismatch** - INSERTED: Använd Auth UID istället för Friend.id vid chatt-skapande (Gap Closure)
+- [ ] **Phase 4.3: Fixa push deep link och tech debt** - INSERTED: Deep link-handler för weatherAlert + fcmToken i AppUser (Gap Closure)
 - [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
 - [ ] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering
 
@@ -88,9 +91,50 @@ Plans:
 - [x] 04-03-PLAN.md — Cloud Functions (chatPushTrigger + weatherAlertScheduler), APNs-nyckeluppladdning
 - [ ] 04-04-PLAN.md — Gap closure: WeatherAlertService (iOS WeatherKit alerts -> Firestore), weatherAlertTrigger (Cloud Function FCM push), PUSH-01 komplett
 
+### Phase 4.1: Fixa onboarding-kontaktimport (INSERTED — Gap Closure)
+**Goal**: Kontakter importerade via onboarding-flödet får AI-platsgissning och koordinater — så att WeatherKit kan visa väder för alla vänner
+**Depends on**: Phase 4
+**Requirements**: FRND-03, FRND-04, WTHR-01 (partial → satisfied)
+**Gap Closure**: Closes gaps from audit — onboarding-wrapper hoppar över guessLocations()
+**Success Criteria** (what must be TRUE):
+  1. ContactImportOnboardingWrapper anropar guessLocations() för importerade kontakter
+  2. Användare ser ImportReviewView med AI-platsförslag innan kontakter sparas via onboarding
+  3. Alla sparade vänner har cityLatitude/cityLongitude — WeatherKit returnerar data
+**Plans**: TBD
+
+Plans:
+- [ ] 04.1-01: Integrera guessLocations() och ImportReviewView i onboarding-kontaktimport
+
+### Phase 4.2: Fixa chatt-UID-mismatch (INSERTED — Gap Closure)
+**Goal**: Chattar skapas med korrekt Firebase Auth UID — så att mottagaren ser konversationen i sin lista
+**Depends on**: Phase 4.1
+**Requirements**: CHAT-01, CHAT-02 (partial → satisfied)
+**Gap Closure**: Closes gaps from audit — Friend.id (Firestore doc-ID) skickas istället för Auth UID
+**Success Criteria** (what must be TRUE):
+  1. NewConversationSheet skickar vännens Auth UID (inte Friend.id) till getOrCreateDirectConversation()
+  2. Mottagaren ser konversationen i sin konversationslista
+**Plans**: TBD
+
+Plans:
+- [ ] 04.2-01: Ersätt Friend.id med Auth UID i chatt-skapande
+
+### Phase 4.3: Fixa push deep link och tech debt (INSERTED — Gap Closure)
+**Goal**: Tap på extremväder-push navigerar till rätt vy, och latenta risker (fcmToken, dead code) åtgärdas
+**Depends on**: Phase 4.2
+**Requirements**: PUSH-01 (partial → satisfied)
+**Gap Closure**: Closes gaps from audit — deep link, fcmToken, tech debt
+**Success Criteria** (what must be TRUE):
+  1. Tap på extremväder-push navigerar till vännens väderdetalj (AppDelegate hanterar type=weatherAlert)
+  2. fcmToken finns i AppUser Codable-modell (förhindrar att token skrivs över)
+  3. Debug-print och dead code (saveImportedContacts, uploadContactPhoto) borttagna
+**Plans**: TBD
+
+Plans:
+- [ ] 04.3-01: Deep link-handler för weatherAlert i AppDelegate + fcmToken i AppUser + tech debt cleanup
+
 ### Phase 5: Utökade Vyer
 **Goal**: Appen erbjuder tre komplementära sätt att utforska vänners väder — kartvy, grupperade kort och daglig sammanfattning — som differentierar mot konkurrenter
-**Depends on**: Phase 4
+**Depends on**: Phase 4.3
 **Requirements**: VIEW-02, VIEW-03, PUSH-02
 **Success Criteria** (what must be TRUE):
   1. Användare kan se vänners platser på en karta med väderinfo per nål (MapKit)
@@ -120,7 +164,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -128,5 +172,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
 | 3. Kontaktimport | 2/2 | Complete   | 2026-03-03 |
 | 4. Chatt och Push | 4/4 | Complete   | 2026-03-03 |
+| 4.1 Fixa onboarding-kontaktimport | 0/1 | Not started | - |
+| 4.2 Fixa chatt-UID-mismatch | 0/1 | Not started | - |
+| 4.3 Fixa push deep link + tech debt | 0/1 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |
