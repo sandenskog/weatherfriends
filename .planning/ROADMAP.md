@@ -173,11 +173,11 @@ Plans:
   1. Användare kan se vänners platser på en karta med väderinfo per nål (MapKit)
   2. Användare kan bläddra vänner grupperade i väderkategorier (Tropical/Warm/Cool/Cold/Arctic)
   3. Användare får en daglig push-notis med vädersammanfattning för sina favoriter
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 05-01: Kartvy med MapKit (FriendMapView + FriendMapViewModel)
-- [ ] 05-02: Grupperade väderkort och daglig schemalagd notis
+- [ ] 05-01-PLAN.md — FriendsTabView (segmented control Lista/Karta/Kategorier), FriendMapView med MapKit-nålar, FriendMapViewModel med bildcache, FriendListView-refaktorering
+- [ ] 05-02-PLAN.md — FriendCategoryView med WeatherCategory-karuseller, DailyWeatherNotificationService med lokal notis kl 07:00
 
 ### Phase 6: Polish och App Store
 **Goal**: Appen passerar App Store-granskning och når riktiga användare via TestFlight och lansering — med widget, animationer och alla obligatoriska krav uppfyllda
