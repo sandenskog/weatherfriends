@@ -24,10 +24,10 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 
 Phase: 4 of 6 (Chatt och Push)
 Plan: 3 of 3 in current phase
-Status: In Progress
-Last activity: 2026-03-03 — Plan 04-02 komplett. Alla 8 chattgränssnittsvyer klara: ConversationListView, ChatView, ChatBubbleView, WeatherHeaderView, NewConversationSheet, WeatherStickerView + ViewModels.
+Status: Complete
+Last activity: 2026-03-03 — Plan 04-03 komplett. Cloud Functions (chatPushTrigger + weatherAlertScheduler) skapade, APNs Authentication Key uppladdad till Firebase Console. Fas 4 klar.
 
-Progress: [██████░░░░] 67%
+Progress: [███████░░░] 75%
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Progress: [██████░░░░] 67%
 | Phase 03-kontaktimport P02 | 15 | 3 tasks | 8 files |
 | Phase 04-chatt-och-push P01 | 3 | 2 tasks | 10 files |
 | Phase 04-chatt-och-push P02 | 2 | 2 tasks | 8 files |
+| Phase 04-chatt-och-push P03 | 5 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -108,6 +109,9 @@ Recent decisions affecting current work:
 - [Phase 04-02]: NavigationPath istallet for @State path: stodjer bade deeplink (openConversationId) och programmatisk navigation
 - [Phase 04-02]: @Bindable var vm = viewModel i body — kravs for @Observable binding-stod i SwiftUI
 - [Phase 04-02]: Friend.id som pseudo-uid i konversationsdeltagare — undviker uid-falt i Friend-modellen
+- [Phase 04-03]: weatherAlertScheduler implementeras som placeholder i v1 — full WeatherKit-integration kräver iOS-klienten som sätter hasActiveAlert i Firestore
+- [Phase 04-03]: Alternativ A (iOS-klient sätter hasActiveAlert) väljs över Alternativ B (Cloud Function anropar WeatherKit REST API) — undviker JWT-hantering med .p8-nyckel i Cloud Functions
+- [Phase 04-03]: APNs Authentication Key laddas upp med Production-environment — säkerställer push-leverans för alla iOS-builds
 
 ### Pending Todos
 
@@ -124,5 +128,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Completed 04-chatt-och-push-02-PLAN.md. Fas 4 (Chatt och Push) delvis klar — plan 2 av 3 exekverad.
+Stopped at: Completed 04-chatt-och-push-03-PLAN.md. Fas 4 (Chatt och Push) helt klar — alla 3 planer exekverade.
 Resume file: None

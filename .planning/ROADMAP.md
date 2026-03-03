@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Auth, profil och datamodell — allt annat beror på detta (completed 2026-03-02)
 - [x] **Phase 2: Kärnupplevelse** - Vädervy, favoriter, onboarding med live exempeldata (completed 2026-03-02)
 - [x] **Phase 3: Kontaktimport** - iOS Contacts-import med AI-driven platsgissning (completed 2026-03-03)
-- [ ] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering
+- [x] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering (completed 2026-03-03)
 - [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
 - [ ] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering
 
@@ -80,7 +80,7 @@ Plans:
   3. Användare kan skicka väderreaktioner (emoji kopplad till vänens aktuella väder)
   4. Användare kan rapportera olämpligt innehåll och blockera en annan användare
   5. Användare får push-notis vid nytt chattmeddelande och vid extremväder hos en vän
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 04-01-PLAN.md — Conversation/ChatMessage/Report-modeller, ChatService (Firestore listeners + CRUD), MainTabView, AppRouter-uppdatering, FCM-setup (AppDelegate + project.yml)
@@ -126,6 +126,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
 | 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
 | 3. Kontaktimport | 2/2 | Complete   | 2026-03-03 |
-| 4. Chatt och Push | 2/3 | In Progress|  |
+| 4. Chatt och Push | 3/3 | Complete   | 2026-03-03 |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |
