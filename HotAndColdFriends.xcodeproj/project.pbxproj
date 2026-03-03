@@ -61,6 +61,7 @@
 		D3F12FC7FC22B4A683338628 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 0E207B2F3C8877482BDA8A6D /* FacebookLogin */; };
 		DD39A0BACDC411EC18D61E72 /* ImportReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */; };
 		E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AADA557D58C83067C0A07B /* AppDelegate.swift */; };
+		E5F1888F2C07A59B2ACCFE21 /* FriendCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B84BDDA57D947D21BF33DD3 /* FriendCategoryView.swift */; };
 		E821AE5D2E43037E4998C7C8 /* ContactImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */; };
 		EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */; };
 		EE887857D9F81FF71E52BA78 /* WeatherAlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C4F7C7CE6C88821310C717 /* WeatherAlertService.swift */; };
@@ -109,6 +110,7 @@
 		94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportService.swift; sourceTree = "<group>"; };
 		97F7A7C3ABE2D55AC4851133 /* ContactImportRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportRow.swift; sourceTree = "<group>"; };
 		986FCC0691322A4C8D26A54C /* NewConversationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationSheet.swift; sourceTree = "<group>"; };
+		9B84BDDA57D947D21BF33DD3 /* FriendCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCategoryView.swift; sourceTree = "<group>"; };
 		9D198A6FFAF3C36481DF57EC /* AddFriendSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendSheet.swift; sourceTree = "<group>"; };
 		A0595D92E8471402A2465017 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AAEDC4DFF905CA78F3B8EA6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				9D198A6FFAF3C36481DF57EC /* AddFriendSheet.swift */,
+				9B84BDDA57D947D21BF33DD3 /* FriendCategoryView.swift */,
 				50C17A00CA20FF485FF6DE6A /* FriendListView.swift */,
 				21C773FC6DD78C9854596E5D /* FriendListViewModel.swift */,
 				27DD254978A557D8DFB2EA3B /* FriendMapView.swift */,
@@ -447,6 +450,7 @@
 				20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */,
 				5A2E4F25DBE3DA8AA52245A2 /* EditProfileView.swift in Sources */,
 				5C4A18FD9AB1FBDCC3D7523A /* Friend.swift in Sources */,
+				E5F1888F2C07A59B2ACCFE21 /* FriendCategoryView.swift in Sources */,
 				20C40295A428CE765A09C78A /* FriendListView.swift in Sources */,
 				7CCBF541B71A56D605D16032 /* FriendListViewModel.swift in Sources */,
 				9BB9864F2639D615362A3180 /* FriendMapView.swift in Sources */,

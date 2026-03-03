@@ -58,10 +58,10 @@ struct FriendsTabView: View {
                     case .map:
                         FriendMapView(friendWeathers: viewModel.favorites + viewModel.others)
                     case .categories:
-                        Text("Kategorier kommer snart")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        FriendCategoryView(
+                            friendWeathers: viewModel.favorites + viewModel.others,
+                            selectedFriendWeather: $selectedFriendWeather
+                        )
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
