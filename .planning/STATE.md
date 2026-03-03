@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T21:28:47.940Z"
+last_updated: "2026-03-03T22:00:18.343Z"
 progress:
   total_phases: 9
-  completed_phases: 8
-  total_plans: 17
-  completed_plans: 17
+  completed_phases: 9
+  total_plans: 18
+  completed_plans: 18
 ---
 
 # Project State
@@ -65,6 +65,7 @@ Progress: [████████░░] 80%
 | Phase 04.2-chatt-uid-mismatch P01 | 6 | 2 tasks | 2 files |
 | Phase 04.3-push-deeplink-techdebt P01 | 2 | 2 tasks | 8 files |
 | Phase 04.4-authuid-population P01 | 2 | 2 tasks | 5 files |
+| Phase 04.5-vanprofil-docs P01 | 4 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -131,6 +132,9 @@ Recent decisions affecting current work:
 - [Phase 04.3-01]: saveImportedContacts (legacy) och uploadContactPhoto borttagna helt — ersatta av saveReviewedContacts i plan 03-02
 - [Phase 04.4-authuid-population]: lookupAuthUid anvander try? (ej throws) — natverk- och timeout-fel returnerar nil utan att blockera Friend-skapande
 - [Phase 04.4-authuid-population]: ContactImportService.saveReviewedContacts utokad med userService-parameter — konsekvent med service-injection via parameter (ej @Environment)
+- [Phase 04.5-vanprofil-docs]: FriendProfileView tar Friend direkt — all data i modellen, inga nätverksanrop behövs
+- [Phase 04.5-vanprofil-docs]: .buttonStyle(.plain) krävs för tappbar profilsektion i sheet — undviker blå tint-färg på text
+- [Phase 04.5-vanprofil-docs]: Stackade sheets fungerar korrekt iOS 17+ — WeatherDetailSheet kan presentera FriendProfileView
 
 ### Pending Todos
 
