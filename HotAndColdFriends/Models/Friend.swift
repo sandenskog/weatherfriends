@@ -10,5 +10,8 @@ struct Friend: Codable, Identifiable {
     var cityLongitude: Double?
     var isFavorite: Bool
     var isDemo: Bool
+    var hasActiveAlert: Bool?
+    var alertSummary: String?
+    @ServerTimestamp var lastAlertSentAt: Timestamp?
     @ServerTimestamp var createdAt: Timestamp?
 }

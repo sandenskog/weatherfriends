@@ -9,6 +9,7 @@ struct HotAndColdFriendsApp: App {
     @State private var appWeatherService: AppWeatherService
     @State private var friendService: FriendService
     @State private var chatService: ChatService
+    @State private var weatherAlertService = WeatherAlertService()
 
     init() {
         // Firebase MÅSTE konfigureras innan AuthManager/UserService skapas,
@@ -33,6 +34,11 @@ struct HotAndColdFriendsApp: App {
                 .environment(chatService)
                 .task {
                     delegate.registerForPushNotifications()
+                    // Kontrollera extremvader for vanners platser
+                    if let uid = authManager.currentUser?.id {
+                        let friends = (try? await friendService.fetchFriends(uid: uid)) ?? []
+                        await weatherAlertService.checkAlertsForFriends(uid: uid, friends: friends)
+                    }
                 }
         }
     }

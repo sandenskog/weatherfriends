@@ -61,6 +61,7 @@
 		E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AADA557D58C83067C0A07B /* AppDelegate.swift */; };
 		E821AE5D2E43037E4998C7C8 /* ContactImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */; };
 		EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */; };
+		EE887857D9F81FF71E52BA78 /* WeatherAlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C4F7C7CE6C88821310C717 /* WeatherAlertService.swift */; };
 		F1E4163C8B26301DCBA10F41 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EF143E99F47157F84C8BC8 /* Conversation.swift */; };
 		F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639990872A0AD5664410044 /* LoginView.swift */; };
 		FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */; };
@@ -69,6 +70,7 @@
 /* Begin PBXFileReference section */
 		00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotAndColdFriends.entitlements; sourceTree = "<group>"; };
 		08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		10C4F7C7CE6C88821310C717 /* WeatherAlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAlertService.swift; sourceTree = "<group>"; };
 		16EF143E99F47157F84C8BC8 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		1A01965131E6255B5C1057AF /* ConversationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListView.swift; sourceTree = "<group>"; };
 		1F1E46F80EE4810096655142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				F114DFB02FD57BACC061D3CB /* FriendService.swift */,
 				26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */,
 				A0595D92E8471402A2465017 /* UserService.swift */,
+				10C4F7C7CE6C88821310C717 /* WeatherAlertService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				57E58C63B0AA9B1E741E0635 /* ProfileViewModel.swift in Sources */,
 				CC740470FC314853DEFD878F /* Report.swift in Sources */,
 				6F93C5D433398194F1718108 /* UserService.swift in Sources */,
+				EE887857D9F81FF71E52BA78 /* WeatherAlertService.swift in Sources */,
 				EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */,
 				8C5DDD1B3D5EF71814EA8F19 /* WeatherHeaderView.swift in Sources */,
 				104A6991155EBF8F20498249 /* WeatherStickerView.swift in Sources */,
