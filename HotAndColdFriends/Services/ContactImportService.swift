@@ -211,7 +211,7 @@ struct ImportableContact: Identifiable {
 
     // MARK: - saveReviewedContacts
 
-    func saveReviewedContacts(uid: String, reviewedContacts: [ReviewedContact], friendService: FriendService) async throws {
+    func saveReviewedContacts(uid: String, reviewedContacts: [ReviewedContact], friendService: FriendService, userService: UserService) async throws {
         // Rensa demo-vänner vid första riktiga import
         let existingFriends = try await friendService.fetchFriends(uid: uid)
         let hasOnlyDemoFriends = existingFriends.allSatisfy { $0.isDemo }
@@ -220,11 +220,16 @@ struct ImportableContact: Identifiable {
         }
 
         for reviewed in reviewedContacts {
+            let resolvedAuthUid = await userService.lookupAuthUid(
+                byDisplayName: reviewed.contact.fullName
+            )
+
             let cityDisplay = reviewed.city.isEmpty
                 ? "Okänd plats"
                 : (reviewed.country.isEmpty ? reviewed.city : "\(reviewed.city), \(reviewed.country)")
 
             let friend = Friend(
+                authUid: resolvedAuthUid,
                 displayName: reviewed.contact.fullName,
                 photoURL: nil,
                 city: cityDisplay,

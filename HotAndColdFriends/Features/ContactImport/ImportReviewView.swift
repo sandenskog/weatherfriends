@@ -33,6 +33,7 @@ struct ImportReviewView: View {
     let onCompleted: () -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(UserService.self) private var userService
     @State private var reviewItems: [ReviewItem] = []
     @State private var editingItemId: String? = nil
     @State private var locationService = LocationService()
@@ -338,7 +339,8 @@ struct ImportReviewView: View {
                 try await contactImportService.saveReviewedContacts(
                     uid: uid,
                     reviewedContacts: reviewedContacts,
-                    friendService: friendService
+                    friendService: friendService,
+                    userService: userService
                 )
                 onCompleted()
                 dismiss()

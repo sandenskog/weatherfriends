@@ -121,7 +121,12 @@ class OnboardingViewModel {
 
         // 6. Spara favorit-vänner till Firestore
         for (index, pending) in pendingFriends.enumerated() {
+            let resolvedAuthUid = await userService.lookupAuthUid(
+                byDisplayName: pending.displayName
+            )
+
             let friend = Friend(
+                authUid: resolvedAuthUid,
                 displayName: pending.displayName,
                 city: pending.city,
                 cityLatitude: pending.cityLatitude,
