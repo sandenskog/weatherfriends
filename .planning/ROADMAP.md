@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Auth, profil och datamodell — allt annat beror på detta (completed 2026-03-02)
 - [x] **Phase 2: Kärnupplevelse** - Vädervy, favoriter, onboarding med live exempeldata (completed 2026-03-02)
-- [ ] **Phase 3: Kontaktimport** - iOS Contacts-import med AI-driven platsgissning
+- [x] **Phase 3: Kontaktimport** - iOS Contacts-import med AI-driven platsgissning (completed 2026-03-03)
 - [ ] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering
 - [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
 - [ ] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering
@@ -64,7 +64,7 @@ Plans:
   2. AI ger ett platsförslag (stad/land) per importerad kontakt baserat på adress, telefonnummer och e-post
   3. Användare kan bekräfta, justera eller avvisa AI:ns platsförslag innan vännen sparas
   4. Användare kan manuellt lägga till en vän med namn och stad/land utan att importera kontakter
-**Plans:** 1/2 plans complete
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 03-01-PLAN.md — ContactImportService (CNContactStore + Firebase Storage), ContactImportView (multi-select + sökfält), meny-integration i FriendListView och OnboardingFavoritesView
@@ -125,7 +125,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
 | 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
-| 3. Kontaktimport | 1/2 | In Progress | - |
+| 3. Kontaktimport | 2/2 | Complete   | 2026-03-03 |
 | 4. Chatt och Push | 0/3 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |

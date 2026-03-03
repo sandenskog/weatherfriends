@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T22:44:53.658Z"
+last_updated: "2026-03-03T09:26:17.946Z"
 progress:
   total_phases: 3
   completed_phases: 3
@@ -56,6 +56,7 @@ Progress: [█████░░░░░] 60%
 | Phase 02-karnupplevelse P04 | 3 | 2 tasks | 3 files |
 | Phase 03-kontaktimport P01 | 6 | 2 tasks | 7 files |
 | Phase 03-kontaktimport P02 | 5 | 2 tasks | 8 files |
+| Phase 03-kontaktimport P02 | 15 | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -94,6 +95,9 @@ Recent decisions affecting current work:
 - [Phase 03-01]: ContactImportOnboardingWrapper som privat struct i OnboardingFavoritesView — onboarding har inget uid, importerar som PendingFriend istället för Firestore
 - [Phase 03-02]: Kontakter med fullständig adress returneras direkt med high confidence — sparar OpenAI-tokens
 - [Phase 03-02]: defineSecret('OPENAI_API_KEY') används istället för deprecated functions.config() — modern Firebase v2 API
+- [Phase 03-02]: saveReviewedContacts() är primärmetod för kontaktimport med stad/koordinater — saveImportedContacts() behålls som legacy
+- [Phase 03-02]: Kontakter med fullständig adress returneras direkt med high confidence — sparar OpenAI-tokens
+- [Phase 03-02]: defineSecret('OPENAI_API_KEY') används i stället för deprecated functions.config() — modern Firebase v2 API
 - [Phase 03-02]: saveReviewedContacts() är primärmetod för kontaktimport med stad/koordinater — saveImportedContacts() behålls som legacy
 
 ### Pending Todos

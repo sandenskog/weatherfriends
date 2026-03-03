@@ -55,8 +55,8 @@ patterns-established:
 requirements-completed: [FRND-01, FRND-02, FRND-03]
 
 # Metrics
-duration: 5min
-completed: 2026-03-02
+duration: 15min (inkl. deployment-checkpoint)
+completed: 2026-03-03
 ---
 
 # Phase 3 Plan 02: Kontaktimport — AI-platsgissning och Review-vy
@@ -65,10 +65,10 @@ completed: 2026-03-02
 
 ## Performance
 
-- **Duration:** 5 min
+- **Duration:** ~15 min (inkl. mänsklig deployment-checkpoint)
 - **Started:** 2026-03-02T22:38:22Z
-- **Completed:** 2026-03-02T22:43:00Z
-- **Tasks:** 2 av 3 (Task 3 avvaktar manuell deploy — se checkpoint)
+- **Completed:** 2026-03-03
+- **Tasks:** 3 av 3 (komplett — deployment bekräftad)
 - **Files modified:** 8
 
 ## Accomplishments
@@ -82,8 +82,9 @@ completed: 2026-03-02
 
 1. **Task 1: Firebase Cloud Function + Swift-side callable** - `5a5b062` (feat)
 2. **Task 2: ImportReviewView + uppdaterat importflöde** - `cc7c37d` (feat)
+3. **Task 3: Deploya Cloud Function och sätt OpenAI API-nyckel** - Mänskligt checkpoint, bekräftat av Richard (2026-03-03)
 
-Task 3 (deploy Cloud Function) avvaktar manuell åtgärd — se CHECKPOINT nedan.
+**Plan metadata:** `f3734cc` (docs: checkpoint-commit)
 
 ## Files Created/Modified
 
@@ -114,22 +115,21 @@ Inga — plan exekverades exakt som skriven.
 
 ## User Setup Required
 
-**Manuell konfiguration krävs för Cloud Function-deployment.** Task 3 är en `checkpoint:human-action`:
+Task 3 var ett mänskligt checkpoint som slutforts av Richard (2026-03-03):
 
-1. Verifiera att Firebase-projektet är på Blaze-plan (pay-as-you-go)
-2. Installera Firebase CLI: `npm install -g firebase-tools`
-3. Logga in: `firebase login`
-4. Installera beroenden: `cd functions && npm install`
-5. Sätt OpenAI API-nyckel: `firebase functions:secrets:set OPENAI_API_KEY`
-6. Deploya: `firebase deploy --only functions`
-7. Verifiera i Firebase Console att `guessContactLocations` listas i europe-west1
+1. Firebase Blaze-plan verifierades
+2. Firebase CLI installerades och inloggning gjordes
+3. npm-beroenden installerades i functions/
+4. OpenAI API-nyckel sattes som Firebase secret via `firebase functions:secrets:set OPENAI_API_KEY`
+5. Cloud Function deployades via `firebase deploy --only functions`
+6. Richard bekräftade deployment med meddelandet "deployat"
 
 ## Next Phase Readiness
 
-- Cloud Function-koden är klar och kompilerar (TypeScript build succeeded)
-- Swift-koden kompilerar och är redo att anropa Cloud Function när den är deployad
-- Fas 3 (Kontaktimport) är i princip klar — återstår bara deployment-steget (Task 3)
-- Nästa fas kan påbörjas parallellt men kontaktimport-funktionen aktiveras fullt ut efter deployment
+- Fas 3 (Kontaktimport) komplett i sin helhet — alla 3 tasks klara
+- Cloud Function guessContactLocations deployad och aktiv i Firebase (europe-west1)
+- Komplett importflöde: kontaktval -> AI-gissning -> review med korrigering -> spara
+- Redo for fas 4 (Chattfunktion) — inga blockerare
 
 ---
 *Phase: 03-kontaktimport*
