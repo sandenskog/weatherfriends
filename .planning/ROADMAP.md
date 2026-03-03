@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering (completed 2026-03-03)
 - [x] **Phase 4.1: Fixa onboarding-kontaktimport** - INSERTED: Onboarding-wrapper anropar guessLocations() och sparar koordinater (Gap Closure) (completed 2026-03-03)
 - [x] **Phase 4.2: Fixa chatt-UID-mismatch** - INSERTED: Använd Auth UID istället för Friend.id vid chatt-skapande (Gap Closure) (completed 2026-03-03)
-- [ ] **Phase 4.3: Fixa push deep link och tech debt** - INSERTED: Deep link-handler för weatherAlert + fcmToken i AppUser (Gap Closure)
+- [x] **Phase 4.3: Fixa push deep link och tech debt** - INSERTED: Deep link-handler för weatherAlert + fcmToken i AppUser (Gap Closure) (completed 2026-03-03)
 - [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
 - [ ] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering
 
@@ -127,7 +127,7 @@ Plans:
   1. Tap på extremväder-push navigerar till vännens väderdetalj (AppDelegate hanterar type=weatherAlert)
   2. fcmToken finns i AppUser Codable-modell (förhindrar att token skrivs över)
   3. Debug-print och dead code (saveImportedContacts, uploadContactPhoto) borttagna
-**Plans:** 1/1 plans
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 04.3-01-PLAN.md — Deep link-handler for weatherAlert push + fcmToken i AppUser + dead code/debug-print cleanup
@@ -174,6 +174,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 4. Chatt och Push | 4/4 | Complete   | 2026-03-03 |
 | 4.1 Fixa onboarding-kontaktimport | 1/1 | Complete   | 2026-03-03 |
 | 4.2 Fixa chatt-UID-mismatch | 1/1 | Complete   | 2026-03-03 |
-| 4.3 Fixa push deep link + tech debt | 0/1 | Not started | - |
+| 4.3 Fixa push deep link + tech debt | 1/1 | Complete   | 2026-03-03 |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |

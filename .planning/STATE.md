@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T19:59:38.069Z"
+last_updated: "2026-03-03T19:47:00Z"
 progress:
   total_phases: 7
   completed_phases: 6
-  total_plans: 15
-  completed_plans: 15
+  total_plans: 16
+  completed_plans: 16
 ---
 
 # Project State
@@ -22,10 +22,10 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 
 ## Current Position
 
-Phase: 4 of 6 (Chatt och Push)
-Plan: 4 of 4 in current phase
+Phase: 4.3 (Push Deep Link + Tech Debt)
+Plan: 1 of 1 in current phase
 Status: Complete
-Last activity: 2026-03-03 — Plan 04-04 (gap-closure) komplett. WeatherAlertService (iOS) och weatherAlertTrigger (Cloud Function) implementerade. PUSH-01 fullt levererat end-to-end.
+Last activity: 2026-03-03 — Plan 04.3-01 komplett. Deep link fran weatherAlert push till WeatherDetailSheet implementerad. fcmToken skyddad i AppUser. Dead code och debug-prints rensade.
 
 Progress: [███████░░░] 75%
 
@@ -63,6 +63,7 @@ Progress: [███████░░░] 75%
 | Phase 04-chatt-och-push P04 | 3 | 2 tasks | 6 files |
 | Phase 04.1-onboarding-kontaktimport P01 | 4 | 2 tasks | 5 files |
 | Phase 04.2-chatt-uid-mismatch P01 | 6 | 2 tasks | 2 files |
+| Phase 04.3-push-deeplink-techdebt P01 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -123,6 +124,10 @@ Recent decisions affecting current work:
 - [Phase 04.1-01]: CLGeocoder körs sekventiellt med ny instans per anrop i buildReviewItems() — API är ej thread-safe för parallella anrop
 - [Phase 04.2-chatt-uid-mismatch]: authUid är String? (optional) — befintliga dokument och demo-vänner saknar fältet och avkodas som nil utan krasch
 - [Phase 04.2-chatt-uid-mismatch]: Konversationsdeltagare identifieras alltid med Firebase Auth UID — aldrig Firestore doc-ID
+- [Phase 04.3-01]: openWeatherAlert-deep-link foljer exakt samma NotificationCenter-monster som openChat — undviker StateObject-komplikationer i AppDelegate
+- [Phase 04.3-01]: fcmToken laggs till som optional Codable-property i AppUser — Codable hoppar over nil-optionals sa befintliga dokument utan fcmToken avkodas utan krasch
+- [Phase 04.3-01]: Cold start deep link stods ej i v1 — om vanlistan inte ar laddad nar push-tap sker, ignoreras det tyst (samma beslut som chat-deep-link)
+- [Phase 04.3-01]: saveImportedContacts (legacy) och uploadContactPhoto borttagna helt — ersatta av saveReviewedContacts i plan 03-02
 
 ### Pending Todos
 
@@ -139,5 +144,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Completed 04-chatt-och-push-04-PLAN.md. Gap-closure PUSH-01 klar — WeatherAlertService + weatherAlertTrigger implementerade. Fas 4 fullt klar med alla 4 planer.
+Stopped at: Completed 04.3-push-deeplink-techdebt-01-PLAN.md. Push deep link + fcmToken + dead code cleanup komplett.
 Resume file: None
