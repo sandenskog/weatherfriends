@@ -64,6 +64,7 @@
 		EE887857D9F81FF71E52BA78 /* WeatherAlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C4F7C7CE6C88821310C717 /* WeatherAlertService.swift */; };
 		F1E4163C8B26301DCBA10F41 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EF143E99F47157F84C8BC8 /* Conversation.swift */; };
 		F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639990872A0AD5664410044 /* LoginView.swift */; };
+		FD49AECC6F0DBCCFD7332371 /* FriendProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B4A9387ECDC78DA98932C0 /* FriendProfileView.swift */; };
 		FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotAndColdFriends.entitlements; sourceTree = "<group>"; };
 		08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		10C4F7C7CE6C88821310C717 /* WeatherAlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAlertService.swift; sourceTree = "<group>"; };
+		16B4A9387ECDC78DA98932C0 /* FriendProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileView.swift; sourceTree = "<group>"; };
 		16EF143E99F47157F84C8BC8 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		1A01965131E6255B5C1057AF /* ConversationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListView.swift; sourceTree = "<group>"; };
 		1F1E46F80EE4810096655142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				1F40D14036FC668699DE4464 /* EditProfileView.swift */,
+				16B4A9387ECDC78DA98932C0 /* FriendProfileView.swift */,
 				83B8C3C60DADFC174ABB094F /* ProfileView.swift */,
 				2D1B0EE016563BF8F8478701 /* ProfileViewModel.swift */,
 			);
@@ -437,6 +440,7 @@
 				5C4A18FD9AB1FBDCC3D7523A /* Friend.swift in Sources */,
 				20C40295A428CE765A09C78A /* FriendListView.swift in Sources */,
 				7CCBF541B71A56D605D16032 /* FriendListViewModel.swift in Sources */,
+				FD49AECC6F0DBCCFD7332371 /* FriendProfileView.swift in Sources */,
 				34B88F423944EF00A8B58B62 /* FriendRowView.swift in Sources */,
 				0E0A0EB16E769C9682197E5A /* FriendService.swift in Sources */,
 				206CA7F5CD9F5B7F6DEEC65D /* FriendWeather.swift in Sources */,

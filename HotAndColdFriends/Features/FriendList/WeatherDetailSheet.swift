@@ -9,6 +9,7 @@ struct WeatherDetailSheet: View {
     @State private var dailyForecast: [DayWeather] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
+    @State private var showFriendProfile = false
 
     private static let hourFormatter: DateFormatter = {
         let f = DateFormatter()
@@ -55,6 +56,9 @@ struct WeatherDetailSheet: View {
         }
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
+        .sheet(isPresented: $showFriendProfile) {
+            FriendProfileView(friend: friendWeather.friend)
+        }
         .task {
             await loadDetailedWeather()
         }
@@ -64,17 +68,27 @@ struct WeatherDetailSheet: View {
 
     private var headerSection: some View {
         VStack(spacing: 8) {
-            profileImage
-                .frame(width: 80, height: 80)
-                .clipShape(Circle())
+            // Tappbar del — öppnar vänprofil
+            Button {
+                showFriendProfile = true
+            } label: {
+                VStack(spacing: 8) {
+                    profileImage
+                        .frame(width: 80, height: 80)
+                        .clipShape(Circle())
 
-            Text(friendWeather.friend.displayName)
-                .font(.title2.weight(.semibold))
+                    Text(friendWeather.friend.displayName)
+                        .font(.title2.weight(.semibold))
+                        .foregroundStyle(.primary)
 
-            Text(friendWeather.friend.city)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                    Text(friendWeather.friend.city)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .buttonStyle(.plain)
 
+            // Ej tappbar — väderdata
             HStack(alignment: .center, spacing: 12) {
                 Text(friendWeather.temperatureFormatted)
                     .font(.system(size: 52, weight: .thin))
