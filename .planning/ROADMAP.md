@@ -113,10 +113,10 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. NewConversationSheet skickar vännens Auth UID (inte Friend.id) till getOrCreateDirectConversation()
   2. Mottagaren ser konversationen i sin konversationslista
-**Plans**: TBD
+**Plans:** 1 plan
 
 Plans:
-- [ ] 04.2-01: Ersätt Friend.id med Auth UID i chatt-skapande
+- [ ] 04.2-01-PLAN.md — Lägg till authUid på Friend-modellen och uppdatera NewConversationSheet att använda Auth UID istället för Friend.id
 
 ### Phase 4.3: Fixa push deep link och tech debt (INSERTED — Gap Closure)
 **Goal**: Tap på extremväder-push navigerar till rätt vy, och latenta risker (fcmToken, dead code) åtgärdas
