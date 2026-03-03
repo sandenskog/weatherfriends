@@ -127,10 +127,10 @@ Plans:
   1. Tap på extremväder-push navigerar till vännens väderdetalj (AppDelegate hanterar type=weatherAlert)
   2. fcmToken finns i AppUser Codable-modell (förhindrar att token skrivs över)
   3. Debug-print och dead code (saveImportedContacts, uploadContactPhoto) borttagna
-**Plans**: TBD
+**Plans:** 1/1 plans
 
 Plans:
-- [ ] 04.3-01: Deep link-handler för weatherAlert i AppDelegate + fcmToken i AppUser + tech debt cleanup
+- [ ] 04.3-01-PLAN.md — Deep link-handler for weatherAlert push + fcmToken i AppUser + dead code/debug-print cleanup
 
 ### Phase 5: Utökade Vyer
 **Goal**: Appen erbjuder tre komplementära sätt att utforska vänners väder — kartvy, grupperade kort och daglig sammanfattning — som differentierar mot konkurrenter
