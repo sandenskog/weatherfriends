@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T16:04:42.718Z"
+last_updated: "2026-03-03T16:21:06.985Z"
 progress:
   total_phases: 7
-  completed_phases: 5
-  total_plans: 14
-  completed_plans: 14
+  completed_phases: 6
+  total_plans: 15
+  completed_plans: 15
 ---
 
 # Project State
@@ -62,6 +62,7 @@ Progress: [███████░░░] 75%
 | Phase 04-chatt-och-push P03 | 5 | 2 tasks | 3 files |
 | Phase 04-chatt-och-push P04 | 3 | 2 tasks | 6 files |
 | Phase 04.1-onboarding-kontaktimport P01 | 4 | 2 tasks | 5 files |
+| Phase 04.2-chatt-uid-mismatch P01 | 6 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -120,6 +121,8 @@ Recent decisions affecting current work:
 - [Phase 04-04]: weatherAlertScheduler rensar stale alerts (>24h) som komplement till iOS-klienten
 - [Phase 04.1-01]: ImportReviewMode enum (.standard/.onboarding) valts for en vy som hanterar bada flöden med mode-switch i saveAll() — undviker kod-duplicering
 - [Phase 04.1-01]: CLGeocoder körs sekventiellt med ny instans per anrop i buildReviewItems() — API är ej thread-safe för parallella anrop
+- [Phase 04.2-chatt-uid-mismatch]: authUid är String? (optional) — befintliga dokument och demo-vänner saknar fältet och avkodas som nil utan krasch
+- [Phase 04.2-chatt-uid-mismatch]: Konversationsdeltagare identifieras alltid med Firebase Auth UID — aldrig Firestore doc-ID
 
 ### Pending Todos
 

@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Kontaktimport** - iOS Contacts-import med AI-driven platsgissning (completed 2026-03-03)
 - [x] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering (completed 2026-03-03)
 - [x] **Phase 4.1: Fixa onboarding-kontaktimport** - INSERTED: Onboarding-wrapper anropar guessLocations() och sparar koordinater (Gap Closure) (completed 2026-03-03)
-- [ ] **Phase 4.2: Fixa chatt-UID-mismatch** - INSERTED: Använd Auth UID istället för Friend.id vid chatt-skapande (Gap Closure)
+- [x] **Phase 4.2: Fixa chatt-UID-mismatch** - INSERTED: Använd Auth UID istället för Friend.id vid chatt-skapande (Gap Closure) (completed 2026-03-03)
 - [ ] **Phase 4.3: Fixa push deep link och tech debt** - INSERTED: Deep link-handler för weatherAlert + fcmToken i AppUser (Gap Closure)
 - [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
 - [ ] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering
@@ -113,7 +113,7 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. NewConversationSheet skickar vännens Auth UID (inte Friend.id) till getOrCreateDirectConversation()
   2. Mottagaren ser konversationen i sin konversationslista
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 04.2-01-PLAN.md — Lägg till authUid på Friend-modellen och uppdatera NewConversationSheet att använda Auth UID istället för Friend.id
@@ -173,7 +173,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 3. Kontaktimport | 2/2 | Complete   | 2026-03-03 |
 | 4. Chatt och Push | 4/4 | Complete   | 2026-03-03 |
 | 4.1 Fixa onboarding-kontaktimport | 1/1 | Complete   | 2026-03-03 |
-| 4.2 Fixa chatt-UID-mismatch | 0/1 | Not started | - |
+| 4.2 Fixa chatt-UID-mismatch | 1/1 | Complete   | 2026-03-03 |
 | 4.3 Fixa push deep link + tech debt | 0/1 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |

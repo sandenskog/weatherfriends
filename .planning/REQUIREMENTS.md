@@ -44,8 +44,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Chatt
 
-- [ ] **CHAT-01**: Användare kan skicka 1-till-1 meddelanden till vänner
-- [ ] **CHAT-02**: Användare kan skapa och delta i gruppchattar
+- [x] **CHAT-01**: Användare kan skicka 1-till-1 meddelanden till vänner
+- [x] **CHAT-02**: Användare kan skapa och delta i gruppchattar
 - [x] **CHAT-03**: Användare kan skicka väderreaktioner (emoji kopplad till väder)
 - [x] **CHAT-04**: Användare kan rapportera olämpligt innehåll (App Store-krav)
 - [x] **CHAT-05**: Användare kan blockera andra användare (App Store-krav)
