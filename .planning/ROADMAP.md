@@ -80,12 +80,13 @@ Plans:
   3. Användare kan skicka väderreaktioner (emoji kopplad till vänens aktuella väder)
   4. Användare kan rapportera olämpligt innehåll och blockera en annan användare
   5. Användare får push-notis vid nytt chattmeddelande och vid extremväder hos en vän
-**Plans:** 3/3 plans complete
+**Plans:** 3/4 plans complete
 
 Plans:
-- [ ] 04-01-PLAN.md — Conversation/ChatMessage/Report-modeller, ChatService (Firestore listeners + CRUD), MainTabView, AppRouter-uppdatering, FCM-setup (AppDelegate + project.yml)
-- [ ] 04-02-PLAN.md — ConversationListView, ChatView (iMessage-stil bubblor + väder-header), NewConversationSheet (1-till-1 + grupp), WeatherStickerView, rapport/blockering-UI
-- [ ] 04-03-PLAN.md — Cloud Functions (chatPushTrigger + weatherAlertScheduler), APNs-nyckeluppladdning
+- [x] 04-01-PLAN.md — Conversation/ChatMessage/Report-modeller, ChatService (Firestore listeners + CRUD), MainTabView, AppRouter-uppdatering, FCM-setup (AppDelegate + project.yml)
+- [x] 04-02-PLAN.md — ConversationListView, ChatView (iMessage-stil bubblor + väder-header), NewConversationSheet (1-till-1 + grupp), WeatherStickerView, rapport/blockering-UI
+- [x] 04-03-PLAN.md — Cloud Functions (chatPushTrigger + weatherAlertScheduler), APNs-nyckeluppladdning
+- [ ] 04-04-PLAN.md — Gap closure: WeatherAlertService (iOS WeatherKit alerts -> Firestore), weatherAlertTrigger (Cloud Function FCM push), PUSH-01 komplett
 
 ### Phase 5: Utökade Vyer
 **Goal**: Appen erbjuder tre komplementära sätt att utforska vänners väder — kartvy, grupperade kort och daglig sammanfattning — som differentierar mot konkurrenter
@@ -126,6 +127,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
 | 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
 | 3. Kontaktimport | 2/2 | Complete   | 2026-03-03 |
-| 4. Chatt och Push | 3/3 | Complete   | 2026-03-03 |
+| 4. Chatt och Push | 3/4 | Gap closure | 2026-03-03 |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |

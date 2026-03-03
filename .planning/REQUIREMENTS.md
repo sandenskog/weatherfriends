@@ -52,7 +52,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Notiser
 
-- [x] **PUSH-01**: Push-notis vid extremväder hos vän
+- [ ] **PUSH-01**: Push-notis vid extremväder hos vän
 - [ ] **PUSH-02**: Daglig vädersammanfattning
 - [x] **PUSH-03**: Push-notis vid nytt chattmeddelande
 
@@ -119,7 +119,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CHAT-03 | Phase 4 | Complete |
 | CHAT-04 | Phase 4 | Complete |
 | CHAT-05 | Phase 4 | Complete |
-| PUSH-01 | Phase 4 | Complete |
+| PUSH-01 | Phase 4 | Pending (gap closure 04-04) |
 | PUSH-02 | Phase 5 | Pending |
 | PUSH-03 | Phase 4 | Complete |
 | WDGT-01 | Phase 6 | Pending |
