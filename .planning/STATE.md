@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T22:05:41.608Z"
+last_updated: "2026-03-03T23:07:42.619Z"
 progress:
-  total_phases: 9
+  total_phases: 10
   completed_phases: 9
-  total_plans: 18
-  completed_plans: 18
+  total_plans: 20
+  completed_plans: 19
 ---
 
 # Project State
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 4: Chatt och Push
+**Current focus:** Phase 5: Utökade Vyer
 
 ## Current Position
 
-Phase: 4.4 (authUid Population)
-Plan: 1 of 1 in current phase
-Status: Complete
-Last activity: 2026-03-03 — Plan 04.4-01 komplett. authUid-lookup via displayName implementerad i alla tre Friend-skrivvagar (AddFriendSheet, ContactImportService, OnboardingViewModel). NewConversationSheet guard passerar nu for vanner med appkonto.
+Phase: 05-utokade-vyer
+Plan: 1 of 2 in current phase
+Status: Plan 01 Complete
+Last activity: 2026-03-04 — Plan 05-01 komplett. FriendsTabView med segmented control (Lista/Karta/Kategorier) och FriendMapView med MapKit-nålar implementerade. FriendListView refaktorerad till dum vy.
 
-Progress: [████████░░] 80%
+Progress: [█████████░] 95%
 
 ## Performance Metrics
 
@@ -66,6 +66,7 @@ Progress: [████████░░] 80%
 | Phase 04.3-push-deeplink-techdebt P01 | 2 | 2 tasks | 8 files |
 | Phase 04.4-authuid-population P01 | 2 | 2 tasks | 5 files |
 | Phase 04.5-vanprofil-docs P01 | 4 | 2 tasks | 4 files |
+| Phase 05-utokade-vyer P01 | 4 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -135,6 +136,10 @@ Recent decisions affecting current work:
 - [Phase 04.5-vanprofil-docs]: FriendProfileView tar Friend direkt — all data i modellen, inga nätverksanrop behövs
 - [Phase 04.5-vanprofil-docs]: .buttonStyle(.plain) krävs för tappbar profilsektion i sheet — undviker blå tint-färg på text
 - [Phase 04.5-vanprofil-docs]: Stackade sheets fungerar korrekt iOS 17+ — WeatherDetailSheet kan presentera FriendProfileView
+- [Phase 05-01]: FriendsTabView äger FriendListViewModel — data laddas en gång och delas med karta och kategorier via parametrar
+- [Phase 05-01]: UIImage-cache i FriendMapViewModel — undviker AsyncImage-renderingsproblem i MapKit Annotation-closure
+- [Phase 05-01]: FriendListView refaktorerad till dum vy med parametrar (viewModel, uid, services) — alla toolbar/sheets lyfts till FriendsTabView
+- [Phase 05-01]: MainTabView ersätter NavigationStack-wrapping med FriendsTabView som hanterar NavigationStack internt
 
 ### Pending Todos
 
@@ -150,6 +155,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-03
-Stopped at: Completed 04.3-push-deeplink-techdebt-01-PLAN.md. Push deep link + fcmToken + dead code cleanup komplett.
+Last session: 2026-03-04
+Stopped at: Completed 05-utokade-vyer-01-PLAN.md. FriendsTabView med segmented control och FriendMapView med MapKit-nålar implementerade.
 Resume file: None
