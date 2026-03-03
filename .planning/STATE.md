@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T20:32:48.132Z"
+last_updated: "2026-03-03T21:23:32.641Z"
 progress:
-  total_phases: 7
-  completed_phases: 7
-  total_plans: 16
-  completed_plans: 16
+  total_phases: 9
+  completed_phases: 8
+  total_plans: 17
+  completed_plans: 17
 ---
 
 # Project State
@@ -22,12 +22,12 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 
 ## Current Position
 
-Phase: 4.3 (Push Deep Link + Tech Debt)
+Phase: 4.4 (authUid Population)
 Plan: 1 of 1 in current phase
 Status: Complete
-Last activity: 2026-03-03 — Plan 04.3-01 komplett. Deep link fran weatherAlert push till WeatherDetailSheet implementerad. fcmToken skyddad i AppUser. Dead code och debug-prints rensade.
+Last activity: 2026-03-03 — Plan 04.4-01 komplett. authUid-lookup via displayName implementerad i alla tre Friend-skrivvagar (AddFriendSheet, ContactImportService, OnboardingViewModel). NewConversationSheet guard passerar nu for vanner med appkonto.
 
-Progress: [███████░░░] 75%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ Progress: [███████░░░] 75%
 | Phase 04.1-onboarding-kontaktimport P01 | 4 | 2 tasks | 5 files |
 | Phase 04.2-chatt-uid-mismatch P01 | 6 | 2 tasks | 2 files |
 | Phase 04.3-push-deeplink-techdebt P01 | 2 | 2 tasks | 8 files |
+| Phase 04.4-authuid-population P01 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -128,6 +129,8 @@ Recent decisions affecting current work:
 - [Phase 04.3-01]: fcmToken laggs till som optional Codable-property i AppUser — Codable hoppar over nil-optionals sa befintliga dokument utan fcmToken avkodas utan krasch
 - [Phase 04.3-01]: Cold start deep link stods ej i v1 — om vanlistan inte ar laddad nar push-tap sker, ignoreras det tyst (samma beslut som chat-deep-link)
 - [Phase 04.3-01]: saveImportedContacts (legacy) och uploadContactPhoto borttagna helt — ersatta av saveReviewedContacts i plan 03-02
+- [Phase 04.4-authuid-population]: lookupAuthUid anvander try? (ej throws) — natverk- och timeout-fel returnerar nil utan att blockera Friend-skapande
+- [Phase 04.4-authuid-population]: ContactImportService.saveReviewedContacts utokad med userService-parameter — konsekvent med service-injection via parameter (ej @Environment)
 
 ### Pending Todos
 
