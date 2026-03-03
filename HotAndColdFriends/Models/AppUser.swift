@@ -13,6 +13,7 @@ struct AppUser: Codable, Identifiable {
     var cityLongitude: Double?
     /// Autentiseringsleverantör: "apple" | "google" | "facebook"
     var authProvider: String
+    var fcmToken: String?    // FCM push token — sparas av AppDelegate.MessagingDelegate
     @ServerTimestamp var createdAt: Timestamp?
     @ServerTimestamp var updatedAt: Timestamp?
 

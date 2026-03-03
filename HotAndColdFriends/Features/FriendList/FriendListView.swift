@@ -5,6 +5,7 @@ struct FriendListView: View {
     @Environment(AuthManager.self) private var authManager
     @Environment(AppWeatherService.self) private var weatherService
     @Environment(FriendService.self) private var friendService
+    @Binding var openWeatherAlertFriendId: String?
     @State private var viewModel = FriendListViewModel()
     @State private var selectedFriendWeather: FriendWeather?
     @State private var showProfile = false
@@ -102,6 +103,14 @@ struct FriendListView: View {
         }
         .task {
             attribution = try? await weatherService.attribution
+        }
+        .onChange(of: openWeatherAlertFriendId) { _, friendId in
+            guard let friendId else { return }
+            let all = viewModel.favorites + viewModel.others
+            if let fw = all.first(where: { $0.friend.id == friendId }) {
+                selectedFriendWeather = fw
+            }
+            openWeatherAlertFriendId = nil  // reset för att undvika onödiga re-renders
         }
     }
 

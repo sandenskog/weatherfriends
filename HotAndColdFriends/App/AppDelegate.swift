@@ -92,7 +92,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         completionHandler([.list, .banner, .sound])
     }
 
-    // Hantera tap på push-notis — öppna rätt konversation
+    // Hantera tap på push-notis — öppna rätt konversation eller väderdetaljvy
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
@@ -101,6 +101,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
         if let conversationId = userInfo["conversationId"] as? String {
             NotificationCenter.default.post(name: .openChat, object: conversationId)
+        } else if let type = userInfo["type"] as? String, type == "weatherAlert",
+                  let friendId = userInfo["friendId"] as? String {
+            NotificationCenter.default.post(name: .openWeatherAlert, object: friendId)
         }
         completionHandler()
     }
