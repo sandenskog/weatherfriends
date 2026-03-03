@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T09:26:17.946Z"
+last_updated: "2026-03-03T12:44:08.796Z"
 progress:
-  total_phases: 3
+  total_phases: 4
   completed_phases: 3
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 12
+  completed_plans: 10
 ---
 
 # Project State
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 3: Kontaktimport
+**Current focus:** Phase 4: Chatt och Push
 
 ## Current Position
 
-Phase: 3 of 6 (Kontaktimport)
-Plan: 1 of 2 in current phase
+Phase: 4 of 6 (Chatt och Push)
+Plan: 2 of 3 in current phase
 Status: In Progress
-Last activity: 2026-03-02 — Plan 03-01 komplett. CNContactStore-import, ContactImportView, ContactImportRow, FriendListView-meny och OnboardingFavoritesView-integration klara.
+Last activity: 2026-03-03 — Plan 04-01 komplett. Conversation/ChatMessage/Report-modeller, ChatService, MainTabView, FCM-tokenhantering och push deep link klara.
 
 Progress: [█████░░░░░] 60%
 
@@ -57,6 +57,7 @@ Progress: [█████░░░░░] 60%
 | Phase 03-kontaktimport P01 | 6 | 2 tasks | 7 files |
 | Phase 03-kontaktimport P02 | 5 | 2 tasks | 8 files |
 | Phase 03-kontaktimport P02 | 15 | 3 tasks | 8 files |
+| Phase 04-chatt-och-push P01 | 3 | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,10 @@ Recent decisions affecting current work:
 - [Phase 03-02]: Kontakter med fullständig adress returneras direkt med high confidence — sparar OpenAI-tokens
 - [Phase 03-02]: defineSecret('OPENAI_API_KEY') används i stället för deprecated functions.config() — modern Firebase v2 API
 - [Phase 03-02]: saveReviewedContacts() är primärmetod för kontaktimport med stad/koordinater — saveImportedContacts() behålls som legacy
+- [Phase 04-01]: ConversationListView skapas som placeholder för kompilering i Plan 04-01 — Plan 04-02 implementerar fullt
+- [Phase 04-01]: Deterministiskt konversations-ID: sorted UIDs joined med _ — idempotent getOrCreateDirectConversation
+- [Phase 04-01]: Push deep link via NotificationCenter (.openChat) — undviker StateObject-komplikationer i AppDelegate
+- [Phase 04-01]: registerForPushNotifications() anropas via .task{} i WindowGroup — säker timing efter Firebase-init
 
 ### Pending Todos
 
@@ -114,6 +119,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-02
-Stopped at: Plan 03-01 komplett. Fas 3 (Kontaktimport) delvis klar — plan 1 av 2 exekverad.
+Last session: 2026-03-03
+Stopped at: Completed 04-chatt-och-push-01-PLAN.md. Fas 4 (Chatt och Push) delvis klar — plan 1 av 3 exekverad.
 Resume file: None

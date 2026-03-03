@@ -44,11 +44,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Chatt
 
-- [ ] **CHAT-01**: Användare kan skicka 1-till-1 meddelanden till vänner
-- [ ] **CHAT-02**: Användare kan skapa och delta i gruppchattar
+- [x] **CHAT-01**: Användare kan skicka 1-till-1 meddelanden till vänner
+- [x] **CHAT-02**: Användare kan skapa och delta i gruppchattar
 - [ ] **CHAT-03**: Användare kan skicka väderreaktioner (emoji kopplad till väder)
-- [ ] **CHAT-04**: Användare kan rapportera olämpligt innehåll (App Store-krav)
-- [ ] **CHAT-05**: Användare kan blockera andra användare (App Store-krav)
+- [x] **CHAT-04**: Användare kan rapportera olämpligt innehåll (App Store-krav)
+- [x] **CHAT-05**: Användare kan blockera andra användare (App Store-krav)
 
 ### Notiser
 
@@ -114,11 +114,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VIEW-02 | Phase 5 | Pending |
 | VIEW-03 | Phase 5 | Pending |
 | VIEW-04 | Phase 2 | Complete |
-| CHAT-01 | Phase 4 | Pending |
-| CHAT-02 | Phase 4 | Pending |
+| CHAT-01 | Phase 4 | Complete |
+| CHAT-02 | Phase 4 | Complete |
 | CHAT-03 | Phase 4 | Pending |
-| CHAT-04 | Phase 4 | Pending |
-| CHAT-05 | Phase 4 | Pending |
+| CHAT-04 | Phase 4 | Complete |
+| CHAT-05 | Phase 4 | Complete |
 | PUSH-01 | Phase 4 | Pending |
 | PUSH-02 | Phase 5 | Pending |
 | PUSH-03 | Phase 4 | Pending |
