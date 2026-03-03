@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T23:07:42.619Z"
+last_updated: "2026-03-03T23:15:30.845Z"
 progress:
   total_phases: 10
-  completed_phases: 9
+  completed_phases: 10
   total_plans: 20
-  completed_plans: 19
+  completed_plans: 20
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 05-utokade-vyer
-Plan: 1 of 2 in current phase
-Status: Plan 01 Complete
-Last activity: 2026-03-04 — Plan 05-01 komplett. FriendsTabView med segmented control (Lista/Karta/Kategorier) och FriendMapView med MapKit-nålar implementerade. FriendListView refaktorerad till dum vy.
+Plan: 2 of 2 in current phase
+Status: Plan 02 Complete — Phase 05 Complete
+Last activity: 2026-03-04 — Plan 05-02 komplett. FriendCategoryView med WeatherCategory-karuseller och DailyWeatherNotificationService implementerade.
 
-Progress: [█████████░] 95%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -67,6 +67,7 @@ Progress: [█████████░] 95%
 | Phase 04.4-authuid-population P01 | 2 | 2 tasks | 5 files |
 | Phase 04.5-vanprofil-docs P01 | 4 | 2 tasks | 4 files |
 | Phase 05-utokade-vyer P01 | 4 | 2 tasks | 5 files |
+| Phase 05-utokade-vyer P02 | 3 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -140,6 +141,9 @@ Recent decisions affecting current work:
 - [Phase 05-01]: UIImage-cache i FriendMapViewModel — undviker AsyncImage-renderingsproblem i MapKit Annotation-closure
 - [Phase 05-01]: FriendListView refaktorerad till dum vy med parametrar (viewModel, uid, services) — alla toolbar/sheets lyfts till FriendsTabView
 - [Phase 05-01]: MainTabView ersätter NavigationStack-wrapping med FriendsTabView som hanterar NavigationStack internt
+- [Phase 05-02]: WeatherCategory.allCases ordning tropical first (varmast) till arctic sist (kallast) — matchar FriendListView sortering
+- [Phase 05-02]: DailyWeatherNotificationService är @MainActor men ej @Observable — bakgrundstjänst utan UI-binding (samma mönster som WeatherAlertService)
+- [Phase 05-02]: schedule() anropas i .task{} efter viewModel.load() — enklare än onChange(of: isLoading)
 
 ### Pending Todos
 
@@ -156,5 +160,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-04
-Stopped at: Completed 05-utokade-vyer-01-PLAN.md. FriendsTabView med segmented control och FriendMapView med MapKit-nålar implementerade.
+Stopped at: Completed 05-utokade-vyer-02-PLAN.md. FriendCategoryView med WeatherCategory-karuseller och DailyWeatherNotificationService implementerade. Phase 05 komplett.
 Resume file: None

@@ -38,7 +38,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Vyer
 
 - [x] **VIEW-01**: Vädersorterad listvy (varmast/kallast)
-- [ ] **VIEW-02**: Grupperade väderkort (Hot/Warm/Cool/Cold-kategorier)
+- [x] **VIEW-02**: Grupperade väderkort (Hot/Warm/Cool/Cold-kategorier)
 - [x] **VIEW-03**: Kartvy med vänners platser och väderinfo (MapKit)
 - [x] **VIEW-04**: Live exempeldata vid first run innan användaren konfigurerat
 
@@ -53,7 +53,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Notiser
 
 - [x] **PUSH-01**: Push-notis vid extremväder hos vän
-- [ ] **PUSH-02**: Daglig vädersammanfattning
+- [x] **PUSH-02**: Daglig vädersammanfattning
 - [x] **PUSH-03**: Push-notis vid nytt chattmeddelande
 
 ### Widget
@@ -111,7 +111,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | WTHR-02 | Phase 6 | Pending |
 | WTHR-03 | Phase 2 | Complete |
 | VIEW-01 | Phase 2 | Complete |
-| VIEW-02 | Phase 5 | Pending |
+| VIEW-02 | Phase 5 | Complete |
 | VIEW-03 | Phase 5 | Complete |
 | VIEW-04 | Phase 2 | Complete |
 | CHAT-01 | Phase 4.4 | Complete |
@@ -120,7 +120,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CHAT-04 | Phase 4 | Complete |
 | CHAT-05 | Phase 4 | Complete |
 | PUSH-01 | Phase 4.3 | Complete |
-| PUSH-02 | Phase 5 | Pending |
+| PUSH-02 | Phase 5 | Complete |
 | PUSH-03 | Phase 4 | Complete |
 | WDGT-01 | Phase 6 | Pending |
 
