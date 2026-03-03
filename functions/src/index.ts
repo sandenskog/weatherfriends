@@ -2,6 +2,9 @@ import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import OpenAI from "openai";
 
+export { onNewMessage } from "./chatPushTrigger";
+export { checkExtremeWeather } from "./weatherAlertScheduler";
+
 const openaiKey = defineSecret("OPENAI_API_KEY");
 
 interface ContactInput {
