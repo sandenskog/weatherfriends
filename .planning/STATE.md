@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T12:44:08.796Z"
+last_updated: "2026-03-03T12:50:16.204Z"
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 12
-  completed_plans: 10
+  completed_plans: 11
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 4 of 6 (Chatt och Push)
-Plan: 2 of 3 in current phase
+Plan: 3 of 3 in current phase
 Status: In Progress
-Last activity: 2026-03-03 — Plan 04-01 komplett. Conversation/ChatMessage/Report-modeller, ChatService, MainTabView, FCM-tokenhantering och push deep link klara.
+Last activity: 2026-03-03 — Plan 04-02 komplett. Alla 8 chattgränssnittsvyer klara: ConversationListView, ChatView, ChatBubbleView, WeatherHeaderView, NewConversationSheet, WeatherStickerView + ViewModels.
 
-Progress: [█████░░░░░] 60%
+Progress: [██████░░░░] 67%
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Progress: [█████░░░░░] 60%
 | Phase 03-kontaktimport P02 | 5 | 2 tasks | 8 files |
 | Phase 03-kontaktimport P02 | 15 | 3 tasks | 8 files |
 | Phase 04-chatt-och-push P01 | 3 | 2 tasks | 10 files |
+| Phase 04-chatt-och-push P02 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -104,6 +105,9 @@ Recent decisions affecting current work:
 - [Phase 04-01]: Deterministiskt konversations-ID: sorted UIDs joined med _ — idempotent getOrCreateDirectConversation
 - [Phase 04-01]: Push deep link via NotificationCenter (.openChat) — undviker StateObject-komplikationer i AppDelegate
 - [Phase 04-01]: registerForPushNotifications() anropas via .task{} i WindowGroup — säker timing efter Firebase-init
+- [Phase 04-02]: NavigationPath istallet for @State path: stodjer bade deeplink (openConversationId) och programmatisk navigation
+- [Phase 04-02]: @Bindable var vm = viewModel i body — kravs for @Observable binding-stod i SwiftUI
+- [Phase 04-02]: Friend.id som pseudo-uid i konversationsdeltagare — undviker uid-falt i Friend-modellen
 
 ### Pending Todos
 
@@ -120,5 +124,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Completed 04-chatt-och-push-01-PLAN.md. Fas 4 (Chatt och Push) delvis klar — plan 1 av 3 exekverad.
+Stopped at: Completed 04-chatt-och-push-02-PLAN.md. Fas 4 (Chatt och Push) delvis klar — plan 2 av 3 exekverad.
 Resume file: None
