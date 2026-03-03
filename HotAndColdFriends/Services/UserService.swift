@@ -32,6 +32,19 @@ class UserService {
         try await db.collection("users").document(uid).updateData(data)
     }
 
+    // MARK: - Auth UID Lookup
+
+    /// Slår upp Firebase Auth UID för en användare via displayName
+    /// Returnerar nil vid nätverksfel, timeout, eller ingen match
+    func lookupAuthUid(byDisplayName displayName: String) async -> String? {
+        let snapshot = try? await db
+            .collection("users")
+            .whereField("displayName", isEqualTo: displayName)
+            .limit(to: 1)
+            .getDocuments()
+        return snapshot?.documents.first?.documentID
+    }
+
     // MARK: - Firebase Storage
 
     /// Laddar upp en profilbild till Firebase Storage

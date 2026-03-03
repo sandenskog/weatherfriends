@@ -7,6 +7,7 @@ struct AddFriendSheet: View {
     let onAdded: () -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(UserService.self) private var userService
     @State private var name = ""
     @State private var city = ""
     @State private var latitude: Double?
@@ -156,7 +157,12 @@ struct AddFriendSheet: View {
         isSaving = true
         defer { isSaving = false }
 
+        let resolvedAuthUid = await userService.lookupAuthUid(
+            byDisplayName: name.trimmingCharacters(in: .whitespacesAndNewlines)
+        )
+
         let friend = Friend(
+            authUid: resolvedAuthUid,
             displayName: name.trimmingCharacters(in: .whitespacesAndNewlines),
             photoURL: nil,
             city: city,
