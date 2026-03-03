@@ -1,6 +1,6 @@
 import FirebaseFirestore
 
-struct Conversation: Codable, Identifiable {
+struct Conversation: Codable, Identifiable, Equatable {
     @DocumentID var id: String?
     var participants: [String]          // uid-array
     var isGroup: Bool

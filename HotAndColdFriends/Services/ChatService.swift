@@ -35,7 +35,7 @@ class ChatService {
         messagesListener = db.collection("conversations")
             .document(conversationId)
             .collection("messages")
-            .order(by: "sentAt", ascending: true)
+            .order(by: "sentAt", descending: false)
             .limit(toLast: 50)
             .addSnapshotListener { [weak self] snapshot, error in
                 guard let self, let snapshot else { return }

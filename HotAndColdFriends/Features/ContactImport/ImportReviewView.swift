@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import CoreLocation
 
 // MARK: - ReviewItem
 
@@ -15,13 +16,19 @@ struct ReviewItem: Identifiable {
     var isIncluded: Bool  // Användaren kan avvisa enskilda kontakter
 }
 
+// MARK: - ImportReviewMode
+
+enum ImportReviewMode {
+    case standard(uid: String, friendService: FriendService)
+    case onboarding(onPendingFriendsReady: ([PendingFriend]) -> Void)
+}
+
 // MARK: - ImportReviewView
 
 struct ImportReviewView: View {
-    let uid: String
+    let mode: ImportReviewMode
     let contacts: [ImportableContact]
     let locationGuesses: [LocationGuess]
-    let friendService: FriendService
     let contactImportService: ContactImportService
     let onCompleted: () -> Void
 
@@ -30,31 +37,41 @@ struct ImportReviewView: View {
     @State private var editingItemId: String? = nil
     @State private var locationService = LocationService()
     @State private var isSaving = false
+    @State private var isLoadingReview = true
     @State private var errorMessage: String?
 
     // MARK: - Body
 
     var body: some View {
         NavigationStack {
-            List {
-                // Sammanfattning
-                Section {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("\(reviewItems.filter { $0.isIncluded }.count) av \(reviewItems.count) kontakter valda")
-                            .font(.subheadline.weight(.medium))
-                        Text("Granska platsförslagen nedan. Grönt = säkert, gult = troligt, rött = osäkert.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+            Group {
+                if isLoadingReview {
+                    VStack(spacing: 16) {
+                        ProgressView("Löser upp platser...")
                     }
-                    .padding(.vertical, 4)
-                }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    List {
+                        // Sammanfattning
+                        Section {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("\(reviewItems.filter { $0.isIncluded }.count) av \(reviewItems.count) kontakter valda")
+                                    .font(.subheadline.weight(.medium))
+                                Text("Granska platsförslagen nedan. Grönt = säkert, gult = troligt, rött = osäkert.")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(.vertical, 4)
+                        }
 
-                // Kontaktlista
-                ForEach($reviewItems) { $item in
-                    reviewRow(item: $item)
+                        // Kontaktlista
+                        ForEach($reviewItems) { $item in
+                            reviewRow(item: $item)
+                        }
+                    }
+                    .listStyle(.insetGrouped)
                 }
             }
-            .listStyle(.insetGrouped)
             .navigationTitle("Granska import")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -72,7 +89,7 @@ struct ImportReviewView: View {
                                 .fontWeight(.semibold)
                         }
                     }
-                    .disabled(reviewItems.filter { $0.isIncluded }.isEmpty || isSaving)
+                    .disabled(reviewItems.filter { $0.isIncluded }.isEmpty || isSaving || isLoadingReview)
                 }
             }
             .alert("Fel", isPresented: Binding(
@@ -85,7 +102,7 @@ struct ImportReviewView: View {
             }
         }
         .task {
-            buildReviewItems()
+            await buildReviewItems()
         }
     }
 
@@ -248,8 +265,9 @@ struct ImportReviewView: View {
         return "?"
     }
 
-    private func buildReviewItems() {
-        reviewItems = contacts.map { contact in
+    private func buildReviewItems() async {
+        // Bygg initiala review-items från AI-gissningar
+        var items: [ReviewItem] = contacts.map { contact in
             let guess = locationGuesses.first { $0.identifier == contact.id }
             return ReviewItem(
                 id: contact.id,
@@ -263,6 +281,23 @@ struct ImportReviewView: View {
                 isIncluded: true
             )
         }
+
+        // Auto-geocoda alla items med stad men utan koordinater
+        for index in items.indices {
+            let item = items[index]
+            guard !item.city.isEmpty, item.latitude == nil else { continue }
+            let addressString = item.country.isEmpty ? item.city : "\(item.city), \(item.country)"
+            let geocoder = CLGeocoder()  // Ny instans per anrop (CLGeocoder tillåter inte parallella anrop)
+            if let placemark = try? await geocoder.geocodeAddressString(addressString).first,
+               let location = placemark.location {
+                items[index].latitude = location.coordinate.latitude
+                items[index].longitude = location.coordinate.longitude
+            }
+            // Misslyckad geocoding: koordinater förblir nil — röd prick i review-vyn, användaren kan manuellt söka
+        }
+
+        reviewItems = items
+        isLoadingReview = false
     }
 
     private func selectSuggestionForItem(_ suggestion: MKLocalSearchCompletion, item: Binding<ReviewItem>) async {
@@ -285,27 +320,47 @@ struct ImportReviewView: View {
         defer { isSaving = false }
 
         let included = reviewItems.filter { $0.isIncluded }
-        let reviewedContacts = included.map { item in
-            ReviewedContact(
-                contact: item.contact,
-                city: item.city,
-                country: item.country,
-                latitude: item.latitude,
-                longitude: item.longitude,
-                confidence: item.confidence
-            )
-        }
 
-        do {
-            try await contactImportService.saveReviewedContacts(
-                uid: uid,
-                reviewedContacts: reviewedContacts,
-                friendService: friendService
-            )
+        switch mode {
+        case .standard(let uid, let friendService):
+            // Befintligt Firestore-flöde (oförändrat)
+            let reviewedContacts = included.map { item in
+                ReviewedContact(
+                    contact: item.contact,
+                    city: item.city,
+                    country: item.country,
+                    latitude: item.latitude,
+                    longitude: item.longitude,
+                    confidence: item.confidence
+                )
+            }
+            do {
+                try await contactImportService.saveReviewedContacts(
+                    uid: uid,
+                    reviewedContacts: reviewedContacts,
+                    friendService: friendService
+                )
+                onCompleted()
+                dismiss()
+            } catch {
+                errorMessage = "Kunde inte spara kontakter: \(error.localizedDescription)"
+            }
+
+        case .onboarding(let onPendingFriendsReady):
+            let pendingFriends = included.map { item -> PendingFriend in
+                let cityDisplay = item.city.isEmpty
+                    ? "Okänd plats"
+                    : (item.country.isEmpty ? item.city : "\(item.city), \(item.country)")
+                return PendingFriend(
+                    displayName: item.contact.fullName,
+                    city: cityDisplay,
+                    cityLatitude: item.latitude,
+                    cityLongitude: item.longitude
+                )
+            }
+            onPendingFriendsReady(pendingFriends)
             onCompleted()
             dismiss()
-        } catch {
-            errorMessage = "Kunde inte spara kontakter: \(error.localizedDescription)"
         }
     }
 }

@@ -98,10 +98,9 @@ struct ContactImportView: View {
             }
             .sheet(isPresented: $showReview) {
                 ImportReviewView(
-                    uid: uid,
+                    mode: .standard(uid: uid, friendService: friendService),
                     contacts: selectedContacts,
                     locationGuesses: locationGuesses,
-                    friendService: friendService,
                     contactImportService: contactImportService
                 ) {
                     onImported()
