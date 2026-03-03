@@ -54,6 +54,8 @@ targets:
         product: FacebookCore
       - package: FacebookSDK
         product: FacebookLogin
+      - package: Firebase
+        product: FirebaseMessaging
     entitlements:
       path: HotAndColdFriends/Resources/HotAndColdFriends.entitlements
       properties:

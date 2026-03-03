@@ -8,6 +8,7 @@ struct HotAndColdFriendsApp: App {
     @State private var userService: UserService
     @State private var appWeatherService: AppWeatherService
     @State private var friendService: FriendService
+    @State private var chatService: ChatService
 
     init() {
         // Firebase MÅSTE konfigureras innan AuthManager/UserService skapas,
@@ -19,6 +20,7 @@ struct HotAndColdFriendsApp: App {
         _userService = State(initialValue: UserService())
         _appWeatherService = State(initialValue: AppWeatherService())
         _friendService = State(initialValue: FriendService())
+        _chatService = State(initialValue: ChatService())
     }
 
     var body: some Scene {
@@ -28,6 +30,10 @@ struct HotAndColdFriendsApp: App {
                 .environment(userService)
                 .environment(appWeatherService)
                 .environment(friendService)
+                .environment(chatService)
+                .task {
+                    delegate.registerForPushNotifications()
+                }
         }
     }
 }

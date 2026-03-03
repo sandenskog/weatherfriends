@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AppRouter: View {
     @Environment(AuthManager.self) private var authManager
+    @State private var openConversationId: String? = nil
 
     var body: some View {
         switch authManager.authState {
@@ -12,9 +13,18 @@ struct AppRouter: View {
         case .needsOnboarding:
             OnboardingView()
         case .authenticated:
-            FriendListView()
+            MainTabView(openConversationId: $openConversationId)
+                .onReceive(NotificationCenter.default.publisher(for: .openChat)) { notification in
+                    if let conversationId = notification.object as? String {
+                        openConversationId = conversationId
+                    }
+                }
         }
     }
+}
+
+extension Notification.Name {
+    static let openChat = Notification.Name("openChat")
 }
 
 #Preview {
