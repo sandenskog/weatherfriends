@@ -1,27 +1,18 @@
 import { onSchedule } from "firebase-functions/v2/scheduler";
+import { getFirestore } from "firebase-admin/firestore";
 import { initializeApp, getApps } from "firebase-admin/app";
 
 if (getApps().length === 0) initializeApp();
 
 /**
- * Schemalagd extremvader-kontroll — PLACEHOLDER for v1.
+ * Schemalagd extremvader-kontroll — komplement till onFriendAlertUpdated.
  *
- * Full implementation väntar på att iOS-klienten levererar alert-data till Firestore.
+ * Primart ansvar: Rensa gamla alerts som iOS-klienten inte langre uppdaterar.
+ * iOS-klienten satter hasActiveAlert vid app-start, men om anvandaren inte oppnar
+ * appen pa lange kan gamla alerts ligga kvar. Denna scheduler rensar alerts aldre
+ * an 24 timmar.
  *
- * Planerad arkitektur (Alternativ A, rekommenderas):
- * - iOS-klienten kontrollerar WeatherKit weatherAlerts vid app-start/background refresh.
- * - iOS-klienten sparar `hasActiveAlert: true/false` + `alertSummary: "Storm"` per vän
- *   i Firestore: users/{uid}/friends/{friendId}.
- * - Cloud Function triggas av Firestore onDocumentUpdated när hasActiveAlert ändras
- *   från false till true, och skickar push-notis till vänens ägare.
- *
- * Nuvarande status: Funktionen loggar att den körs men gör inga faktiska kontroller
- * tills iOS-klienten levererar alert-data.
- *
- * TODO (fas 5 eller senare):
- * - Lyssna på users/{uid}/friends/{friendId} Firestore-uppdateringar
- * - Kontrollera hasActiveAlert-fältet
- * - Skicka FCM-push med rate-limiting (max 1 notis per vän per dag via lastAlertSentAt)
+ * Push-notiser skickas av weatherAlertTrigger.ts (onDocumentUpdated), INTE har.
  */
 export const checkExtremeWeather = onSchedule(
   {
@@ -29,13 +20,35 @@ export const checkExtremeWeather = onSchedule(
     region: "europe-west1",
   },
   async (_event) => {
-    console.log(
-      "checkExtremeWeather: Weather alert check running — waiting for iOS client integration."
-    );
-    console.log(
-      "checkExtremeWeather: iOS client should set hasActiveAlert in Firestore users/{uid}/friends/{friendId} when WeatherKit reports extreme weather."
-    );
-    // Placeholder — ingen faktisk logik tills iOS-klienten levererar alert-data till Firestore.
-    return;
+    const db = getFirestore();
+    const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    // Hamta alla users
+    const usersSnap = await db.collection("users").get();
+    let cleaned = 0;
+
+    for (const userDoc of usersSnap.docs) {
+      // Hamta vanner med aktiva alerts
+      const friendsSnap = await userDoc.ref
+        .collection("friends")
+        .where("hasActiveAlert", "==", true)
+        .get();
+
+      for (const friendDoc of friendsSnap.docs) {
+        const data = friendDoc.data();
+        const lastSent = data.lastAlertSentAt?.toDate();
+
+        // Om alert ar aldre an 24h, rensa
+        if (lastSent && lastSent < cutoff) {
+          await friendDoc.ref.update({
+            hasActiveAlert: false,
+            alertSummary: null,
+          });
+          cleaned++;
+        }
+      }
+    }
+
+    console.log(`checkExtremeWeather: Cleaned ${cleaned} stale alerts`);
   }
 );

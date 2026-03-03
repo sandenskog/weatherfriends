@@ -4,6 +4,7 @@ import OpenAI from "openai";
 
 export { onNewMessage } from "./chatPushTrigger";
 export { checkExtremeWeather } from "./weatherAlertScheduler";
+export { onFriendAlertUpdated } from "./weatherAlertTrigger";
 
 const openaiKey = defineSecret("OPENAI_API_KEY");
 
