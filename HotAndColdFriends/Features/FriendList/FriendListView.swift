@@ -2,116 +2,16 @@ import SwiftUI
 import WeatherKit
 
 struct FriendListView: View {
-    @Environment(AuthManager.self) private var authManager
-    @Environment(AppWeatherService.self) private var weatherService
-    @Environment(FriendService.self) private var friendService
-    @Binding var openWeatherAlertFriendId: String?
-    @State private var viewModel = FriendListViewModel()
-    @State private var selectedFriendWeather: FriendWeather?
-    @State private var showProfile = false
-    @State private var showAddFriend = false
-    @State private var showContactImport = false
-    @State private var attribution: WeatherAttribution?
+    let viewModel: FriendListViewModel
+    @Binding var selectedFriendWeather: FriendWeather?
+    let attribution: WeatherAttribution?
+    let uid: String?
+    let friendService: FriendService
+    let weatherService: AppWeatherService
+    let authManager: AuthManager
 
     var body: some View {
-        NavigationStack {
-            Group {
-                if viewModel.isLoading && viewModel.favorites.isEmpty && viewModel.others.isEmpty {
-                    ProgressView("Hämtar väderdata...")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    mainList
-                }
-            }
-            .navigationTitle("Hot & Cold Friends")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    HStack(spacing: 12) {
-                        Menu {
-                            Button {
-                                showAddFriend = true
-                            } label: {
-                                Label("Lägg till manuellt", systemImage: "pencil")
-                            }
-                            Button {
-                                showContactImport = true
-                            } label: {
-                                Label("Importera kontakter", systemImage: "person.crop.circle.badge.plus")
-                            }
-                        } label: {
-                            Image(systemName: "plus")
-                                .font(.body.weight(.medium))
-                        }
-                        Button {
-                            showProfile = true
-                        } label: {
-                            Image(systemName: "person.circle")
-                                .font(.title3)
-                        }
-                    }
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(role: .destructive) {
-                        authManager.signOut()
-                    } label: {
-                        Image(systemName: "rectangle.portrait.and.arrow.right")
-                            .font(.body)
-                    }
-                    .tint(.secondary)
-                }
-            }
-        }
-        .sheet(item: $selectedFriendWeather) { fw in
-            WeatherDetailSheet(friendWeather: fw)
-                .environment(weatherService)
-        }
-        .sheet(isPresented: $showAddFriend) {
-            if let uid = authManager.currentUser?.id {
-                AddFriendSheet(uid: uid, friendService: friendService) {
-                    Task {
-                        await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
-                    }
-                }
-            }
-        }
-        .sheet(isPresented: $showContactImport) {
-            if let uid = authManager.currentUser?.id {
-                ContactImportView(uid: uid, friendService: friendService) {
-                    Task {
-                        await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
-                    }
-                }
-            }
-        }
-        .sheet(isPresented: $showProfile) {
-            if let uid = authManager.currentUser?.id {
-                ProfileView(uid: uid)
-            }
-        }
-        .alert("Fel", isPresented: Binding(
-            get: { viewModel.errorMessage != nil },
-            set: { if !$0 { viewModel.errorMessage = nil } }
-        )) {
-            Button("OK") { viewModel.errorMessage = nil }
-        } message: {
-            Text(viewModel.errorMessage ?? "")
-        }
-        .task {
-            guard let uid = authManager.currentUser?.id else { return }
-            await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
-        }
-        .task {
-            attribution = try? await weatherService.attribution
-        }
-        .onChange(of: openWeatherAlertFriendId) { _, friendId in
-            guard let friendId else { return }
-            let all = viewModel.favorites + viewModel.others
-            if let fw = all.first(where: { $0.friend.id == friendId }) {
-                selectedFriendWeather = fw
-            }
-            openWeatherAlertFriendId = nil  // reset för att undvika onödiga re-renders
-        }
+        mainList
     }
 
     // MARK: - Main List
@@ -134,7 +34,7 @@ struct FriendListView: View {
         }
         .listStyle(.insetGrouped)
         .refreshable {
-            guard let uid = authManager.currentUser?.id else { return }
+            guard let uid else { return }
             await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService)
         }
     }
@@ -155,7 +55,7 @@ struct FriendListView: View {
                     .foregroundStyle(.secondary)
                 Button {
                     Task {
-                        guard let uid = authManager.currentUser?.id else { return }
+                        guard let uid else { return }
                         await viewModel.removeDemoData(uid: uid, friendService: friendService)
                     }
                 } label: {
@@ -182,7 +82,7 @@ struct FriendListView: View {
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button {
                             Task {
-                                guard let uid = authManager.currentUser?.id else { return }
+                                guard let uid else { return }
                                 await viewModel.toggleFavorite(uid: uid, friend: fw.friend, friendService: friendService)
                             }
                         } label: {
@@ -207,7 +107,7 @@ struct FriendListView: View {
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button {
                             Task {
-                                guard let uid = authManager.currentUser?.id else { return }
+                                guard let uid else { return }
                                 await viewModel.toggleFavorite(uid: uid, friend: fw.friend, friendService: friendService)
                             }
                         } label: {

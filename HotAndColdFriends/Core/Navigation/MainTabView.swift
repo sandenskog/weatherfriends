@@ -7,13 +7,11 @@ struct MainTabView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            NavigationStack {
-                FriendListView(openWeatherAlertFriendId: $openWeatherAlertFriendId)
-            }
-            .tabItem {
-                Label("Vänner", systemImage: "person.2")
-            }
-            .tag(0)
+            FriendsTabView(openWeatherAlertFriendId: $openWeatherAlertFriendId)
+                .tabItem {
+                    Label("Vänner", systemImage: "person.2")
+                }
+                .tag(0)
 
             NavigationStack {
                 ConversationListView(openConversationId: $openConversationId)
