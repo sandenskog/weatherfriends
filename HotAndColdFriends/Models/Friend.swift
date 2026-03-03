@@ -3,6 +3,7 @@ import FirebaseFirestore
 
 struct Friend: Codable, Identifiable {
     @DocumentID var id: String?
+    var authUid: String?           // Firebase Auth UID — nil för vänner utan appkonto
     var displayName: String
     var photoURL: String?
     var city: String
