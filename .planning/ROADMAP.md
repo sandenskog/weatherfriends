@@ -145,10 +145,10 @@ Plans:
   3. OnboardingViewModel.completeOnboarding() sätter authUid via lookup
   4. NewConversationSheet kan öppna direktchatt utan "inget konto"-felmeddelande
   5. Gruppchattar kan skapas med vänner som har matchande Auth-konto
-**Plans**: TBD
+**Plans:** 1/1 plans
 
 Plans:
-- [ ] 04.4-01: authUid-lookup i alla Friend-skapande kodvägar
+- [ ] 04.4-01-PLAN.md — UserService.lookupAuthUid + authUid-population i AddFriendSheet, ContactImportService och OnboardingViewModel
 
 ### Phase 4.5: Vänprofil-navigation och dokumentationsfix (INSERTED — Gap Closure)
 **Goal**: Användare kan navigera till en väns profil från UI + dokumentationsgap fixade
