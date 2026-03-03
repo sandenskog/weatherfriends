@@ -25,13 +25,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **FRND-01**: Användare kan manuellt lägga till vän med stad/land
 - [x] **FRND-02**: Användare kan importera vänner från iOS-kontakter
-- [ ] **FRND-03**: AI gissar stad/land vid import baserat på adress, telefonnummer, e-post
-- [ ] **FRND-04**: Användare uppmanas ange stad/land för favoriter vid onboarding
+- [x] **FRND-03**: AI gissar stad/land vid import baserat på adress, telefonnummer, e-post
+- [x] **FRND-04**: Användare uppmanas ange stad/land för favoriter vid onboarding
 - [x] **FRND-05**: Användare kan välja 6 favoriter som visas överst
 
 ### Väder
 
-- [ ] **WTHR-01**: Realtidsväder visas per vän (temperatur, ikon, vind, fuktighet, prognos)
+- [x] **WTHR-01**: Realtidsväder visas per vän (temperatur, ikon, vind, fuktighet, prognos)
 - [ ] **WTHR-02**: Animerade väderillustrationer bakom vännens profilbild
 - [x] **WTHR-03**: Väderdata uppdateras automatiskt med caching
 

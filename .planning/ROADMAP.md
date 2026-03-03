@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Kärnupplevelse** - Vädervy, favoriter, onboarding med live exempeldata (completed 2026-03-02)
 - [x] **Phase 3: Kontaktimport** - iOS Contacts-import med AI-driven platsgissning (completed 2026-03-03)
 - [x] **Phase 4: Chatt och Push** - Realtidschatt, push-notiser och UGC-moderering (completed 2026-03-03)
-- [ ] **Phase 4.1: Fixa onboarding-kontaktimport** - INSERTED: Onboarding-wrapper anropar guessLocations() och sparar koordinater (Gap Closure)
+- [x] **Phase 4.1: Fixa onboarding-kontaktimport** - INSERTED: Onboarding-wrapper anropar guessLocations() och sparar koordinater (Gap Closure) (completed 2026-03-03)
 - [ ] **Phase 4.2: Fixa chatt-UID-mismatch** - INSERTED: Använd Auth UID istället för Friend.id vid chatt-skapande (Gap Closure)
 - [ ] **Phase 4.3: Fixa push deep link och tech debt** - INSERTED: Deep link-handler för weatherAlert + fcmToken i AppUser (Gap Closure)
 - [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
@@ -100,7 +100,7 @@ Plans:
   1. ContactImportOnboardingWrapper anropar guessLocations() för importerade kontakter
   2. Användare ser ImportReviewView med AI-platsförslag innan kontakter sparas via onboarding
   3. Alla sparade vänner har cityLatitude/cityLongitude — WeatherKit returnerar data
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 04.1-01-PLAN.md — Refaktorera ImportReviewView med mode-enum + auto-geocoding, uppdatera ContactImportView, utöka ContactImportOnboardingWrapper med guessLocations() och ImportReviewView
@@ -172,7 +172,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
 | 3. Kontaktimport | 2/2 | Complete   | 2026-03-03 |
 | 4. Chatt och Push | 4/4 | Complete   | 2026-03-03 |
-| 4.1 Fixa onboarding-kontaktimport | 0/1 | Not started | - |
+| 4.1 Fixa onboarding-kontaktimport | 1/1 | Complete   | 2026-03-03 |
 | 4.2 Fixa chatt-UID-mismatch | 0/1 | Not started | - |
 | 4.3 Fixa push deep link + tech debt | 0/1 | Not started | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |

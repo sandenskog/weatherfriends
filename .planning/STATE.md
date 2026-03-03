@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T14:53:12.768Z"
+last_updated: "2026-03-03T15:59:12.764Z"
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 13
-  completed_plans: 13
+  total_phases: 7
+  completed_phases: 5
+  total_plans: 14
+  completed_plans: 14
 ---
 
 # Project State
@@ -61,6 +61,7 @@ Progress: [███████░░░] 75%
 | Phase 04-chatt-och-push P02 | 2 | 2 tasks | 8 files |
 | Phase 04-chatt-och-push P03 | 5 | 2 tasks | 3 files |
 | Phase 04-chatt-och-push P04 | 3 | 2 tasks | 6 files |
+| Phase 04.1-onboarding-kontaktimport P01 | 4 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -117,6 +118,8 @@ Recent decisions affecting current work:
 - [Phase 04-04]: onDocumentUpdated triggas vid varje Firestore-uppdatering — false-to-true-kontroll krävs för att undvika duplicerade notiser
 - [Phase 04-04]: lastAlertSentAt sätts EFTER lyckad FCM-leverans — rate-limiting hoppar över om push misslyckats
 - [Phase 04-04]: weatherAlertScheduler rensar stale alerts (>24h) som komplement till iOS-klienten
+- [Phase 04.1-01]: ImportReviewMode enum (.standard/.onboarding) valts for en vy som hanterar bada flöden med mode-switch i saveAll() — undviker kod-duplicering
+- [Phase 04.1-01]: CLGeocoder körs sekventiellt med ny instans per anrop i buildReviewItems() — API är ej thread-safe för parallella anrop
 
 ### Pending Todos
 
