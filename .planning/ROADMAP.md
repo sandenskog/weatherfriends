@@ -160,10 +160,10 @@ Plans:
   2. ProfileView visar korrekt data för vännen (namn, profilbild, stad)
   3. AUTH-01, AUTH-02, AUTH-03 finns i 01-02-SUMMARY.md frontmatter
   4. REQUIREMENTS.md traceability-tabell visar korrekt status för alla lösta krav
-**Plans**: TBD
+**Plans:** 1 plan
 
 Plans:
-- [ ] 04.5-01: Profil-navigation + dokumentationsfix
+- [ ] 04.5-01-PLAN.md — FriendProfileView, tappbar WeatherDetailSheet-header, SUMMARY-frontmatter och REQUIREMENTS-traceability fix
 
 ### Phase 5: Utökade Vyer
 **Goal**: Appen erbjuder tre komplementära sätt att utforska vänners väder — kartvy, grupperade kort och daglig sammanfattning — som differentierar mot konkurrenter
