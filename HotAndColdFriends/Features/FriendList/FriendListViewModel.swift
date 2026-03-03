@@ -30,7 +30,6 @@ class FriendListViewModel {
                 friends = fetchedFriends
                 showDemoBanner = friends.contains { $0.isDemo }
             }
-            print("📋 Laddar \(friends.count) vänner (demo: \(showDemoBanner))")
 
             let weatherItems = await fetchWeatherParallel(for: friends, weatherService: weatherService)
             let sorted = weatherItems.sorted {
@@ -122,7 +121,6 @@ class FriendListViewModel {
                         let weather = try await weatherService.currentWeather(latitude: lat, longitude: lon)
                         return FriendWeather(friend: friend, weather: weather)
                     } catch {
-                        print("⚠️ WeatherKit fel för \(friend.displayName) (\(lat), \(lon)): \(error)")
                         return FriendWeather(friend: friend, weather: nil)
                     }
                 }

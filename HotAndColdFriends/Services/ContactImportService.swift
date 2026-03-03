@@ -1,5 +1,4 @@
 import Contacts
-import FirebaseStorage
 import FirebaseFunctions
 import Foundation
 import Observation
@@ -108,7 +107,6 @@ struct ImportableContact: Identifiable {
     // MARK: - Egenskaper
 
     nonisolated private let store = CNContactStore()
-    private let storage = Storage.storage()
 
     var authorizationStatus: CNAuthorizationStatus {
         CNContactStore.authorizationStatus(for: .contacts)
@@ -163,43 +161,6 @@ struct ImportableContact: Identifiable {
             }
             return contacts
         }.value
-    }
-
-    // MARK: - uploadContactPhoto
-
-    func uploadContactPhoto(uid: String, friendId: String, imageData: Data) async throws -> String {
-        let ref = storage.reference().child("users/\(uid)/friends/\(friendId).jpg")
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        _ = try await ref.putDataAsync(imageData, metadata: metadata)
-        let url = try await ref.downloadURL()
-        return url.absoluteString
-    }
-
-    // MARK: - saveImportedContacts (legacy — ersatt av saveReviewedContacts i plan 03-02)
-
-    func saveImportedContacts(uid: String, contacts: [ImportableContact], friendService: FriendService) async throws -> [Friend] {
-        var savedFriends: [Friend] = []
-
-        for contact in contacts {
-            // Skapa Friend utan photoURL först (för att få document ID)
-            let friend = Friend(
-                displayName: contact.fullName,
-                photoURL: nil,
-                city: contact.hasAddress && !contact.postalCity.isEmpty
-                    ? "\(contact.postalCity), \(contact.postalCountry)"
-                    : "Okänd plats",
-                cityLatitude: nil,
-                cityLongitude: nil,
-                isFavorite: false,
-                isDemo: false
-            )
-
-            try await friendService.addFriend(uid: uid, friend: friend)
-            savedFriends.append(friend)
-        }
-
-        return savedFriends
     }
 
     // MARK: - AI Location Guessing

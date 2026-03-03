@@ -56,8 +56,7 @@ class WeatherAlertService {
                     .updateData(updateData)
 
             } catch {
-                // WeatherKit-fel ska INTE krascha appen — logga och fortsatt med nasta van
-                print("WeatherAlertService: Kunde inte kontrollera alerts for \(friend.displayName): \(error.localizedDescription)")
+                // WeatherKit-fel ska INTE krascha appen — fortsatt med nasta van
                 continue
             }
         }
