@@ -80,12 +80,12 @@ Plans:
   3. Användare kan skicka väderreaktioner (emoji kopplad till vänens aktuella väder)
   4. Användare kan rapportera olämpligt innehåll och blockera en annan användare
   5. Användare får push-notis vid nytt chattmeddelande och vid extremväder hos en vän
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 04-01: Firebase Realtime DB-baserad chatt (1-till-1 och grupp) med ChatService
-- [ ] 04-02: Väderreaktioner och rapport/blockering-UI
-- [ ] 04-03: FCM push-notiser (chat + extremväder) via Cloud Function-trigger och APNs
+- [ ] 04-01-PLAN.md — Conversation/ChatMessage/Report-modeller, ChatService (Firestore listeners + CRUD), MainTabView, AppRouter-uppdatering, FCM-setup (AppDelegate + project.yml)
+- [ ] 04-02-PLAN.md — ConversationListView, ChatView (iMessage-stil bubblor + väder-header), NewConversationSheet (1-till-1 + grupp), WeatherStickerView, rapport/blockering-UI
+- [ ] 04-03-PLAN.md — Cloud Functions (chatPushTrigger + weatherAlertScheduler), APNs-nyckeluppladdning
 
 ### Phase 5: Utökade Vyer
 **Goal**: Appen erbjuder tre komplementära sätt att utforska vänners väder — kartvy, grupperade kort och daglig sammanfattning — som differentierar mot konkurrenter
@@ -126,6 +126,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
 | 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
 | 3. Kontaktimport | 2/2 | Complete   | 2026-03-03 |
-| 4. Chatt och Push | 0/3 | Not started | - |
+| 4. Chatt och Push | 0/3 | Planned | - |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |
