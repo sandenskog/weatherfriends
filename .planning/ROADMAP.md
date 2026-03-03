@@ -100,10 +100,10 @@ Plans:
   1. ContactImportOnboardingWrapper anropar guessLocations() för importerade kontakter
   2. Användare ser ImportReviewView med AI-platsförslag innan kontakter sparas via onboarding
   3. Alla sparade vänner har cityLatitude/cityLongitude — WeatherKit returnerar data
-**Plans**: TBD
+**Plans:** 1 plan
 
 Plans:
-- [ ] 04.1-01: Integrera guessLocations() och ImportReviewView i onboarding-kontaktimport
+- [ ] 04.1-01-PLAN.md — Refaktorera ImportReviewView med mode-enum + auto-geocoding, uppdatera ContactImportView, utöka ContactImportOnboardingWrapper med guessLocations() och ImportReviewView
 
 ### Phase 4.2: Fixa chatt-UID-mismatch (INSERTED — Gap Closure)
 **Goal**: Chattar skapas med korrekt Firebase Auth UID — så att mottagaren ser konversationen i sin lista
