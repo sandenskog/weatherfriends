@@ -101,7 +101,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-05 | Phase 6 | Pending |
 | PROF-01 | Phase 1 | Complete |
 | PROF-02 | Phase 1 | Complete |
-| PROF-03 | Phase 4.5 | Pending (gap closure) |
+| PROF-03 | Phase 4.5 | Complete |
 | FRND-01 | Phase 3 | Complete |
 | FRND-02 | Phase 3 | Complete |
 | FRND-03 | Phase 4.1 | Complete |
@@ -114,8 +114,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VIEW-02 | Phase 5 | Pending |
 | VIEW-03 | Phase 5 | Pending |
 | VIEW-04 | Phase 2 | Complete |
-| CHAT-01 | Phase 4.4 | Pending (gap closure) |
-| CHAT-02 | Phase 4.4 | Pending (gap closure) |
+| CHAT-01 | Phase 4.4 | Complete |
+| CHAT-02 | Phase 4.4 | Complete |
 | CHAT-03 | Phase 4 | Complete |
 | CHAT-04 | Phase 4 | Complete |
 | CHAT-05 | Phase 4 | Complete |
@@ -126,8 +126,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 **Coverage:**
 - v1 requirements: 29 total
-- Satisfied: 20
-- Pending (gap closure 4.4-4.5): 3
+- Satisfied: 23
+- Pending (gap closure 4.4-4.5): 0
 - Pending (Phase 5-6): 6
 - Unmapped: 0
 

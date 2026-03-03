@@ -48,6 +48,10 @@ key-decisions:
 # Metrics
 duration: 16min
 completed: 2026-03-02
+requirements-completed:
+  - AUTH-01
+  - AUTH-02
+  - AUTH-03
 ---
 
 # Phase 01 Plan 02: Social Login Implementation Summary
