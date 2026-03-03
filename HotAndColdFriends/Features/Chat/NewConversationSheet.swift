@@ -132,7 +132,7 @@ struct NewConversationSheet: View {
 
                     Spacer()
 
-                    if let id = friend.id, selectedFriendIds.contains(id) {
+                    if let uid = friend.authUid, selectedFriendIds.contains(uid) {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundStyle(.blue)
                     } else {
@@ -204,11 +204,11 @@ struct NewConversationSheet: View {
     // MARK: - Actions
 
     private func toggleSelection(friend: Friend) {
-        guard let id = friend.id else { return }
-        if selectedFriendIds.contains(id) {
-            selectedFriendIds.remove(id)
+        guard let authUid = friend.authUid else { return }
+        if selectedFriendIds.contains(authUid) {
+            selectedFriendIds.remove(authUid)
         } else {
-            selectedFriendIds.insert(id)
+            selectedFriendIds.insert(authUid)
         }
     }
 
@@ -218,13 +218,16 @@ struct NewConversationSheet: View {
     }
 
     private func openDirectConversation(with friend: Friend) async {
-        guard let friendId = friend.id, !currentUid.isEmpty else { return }
+        guard let friendAuthUid = friend.authUid, !currentUid.isEmpty else {
+            errorMessage = "Den här vännen har inget konto i appen än."
+            return
+        }
         isCreating = true
         defer { isCreating = false }
         do {
             let conversationId = try await chatService.getOrCreateDirectConversation(
                 currentUid: currentUid,
-                friendUid: friendId
+                friendUid: friendAuthUid
             )
             onConversationCreated(conversationId)
         } catch {
