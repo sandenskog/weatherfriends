@@ -348,6 +348,7 @@ struct OnboardingFavoritesView: View {
 /// Wrapper för kontaktimport under onboarding.
 /// Eftersom uid inte finns ännu (profilen skapas vid "Slutför") importeras
 /// kontakter som PendingFriend istället för direkt till Firestore.
+/// Kör guessLocations() via ContactImportService och visar ImportReviewView i onboarding-läge.
 private struct ContactImportOnboardingWrapper: View {
     @Binding var pendingFriends: [PendingFriend]
     @Environment(\.dismiss) private var dismiss
@@ -356,6 +357,10 @@ private struct ContactImportOnboardingWrapper: View {
     @State private var selectedIds: Set<String> = []
     @State private var searchText: String = ""
     @State private var isLoading = true
+    @State private var isGuessing = false
+    @State private var showReview = false
+    @State private var selectedContacts: [ImportableContact] = []
+    @State private var locationGuesses: [LocationGuess] = []
     @State private var errorMessage: String?
 
     private var filteredContacts: [ImportableContact] {
@@ -417,11 +422,20 @@ private struct ContactImportOnboardingWrapper: View {
                     Button("Avbryt") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Lägg till (\(selectedIds.count))") {
-                        addSelectedAsPending()
+                    Button {
+                        Task { await importSelected() }
+                    } label: {
+                        if isGuessing {
+                            HStack(spacing: 4) {
+                                ProgressView().controlSize(.small)
+                                Text("Analyserar...")
+                            }
+                        } else {
+                            Text("Importera (\(selectedIds.count))")
+                                .fontWeight(.semibold)
+                        }
                     }
-                    .fontWeight(.semibold)
-                    .disabled(selectedIds.isEmpty)
+                    .disabled(selectedIds.isEmpty || isGuessing)
                 }
             }
             .searchable(text: $searchText, prompt: "Sök kontakter...")
@@ -432,6 +446,18 @@ private struct ContactImportOnboardingWrapper: View {
                 Button("OK") { errorMessage = nil }
             } message: {
                 Text(errorMessage ?? "")
+            }
+            .sheet(isPresented: $showReview) {
+                ImportReviewView(
+                    mode: .onboarding { newPending in
+                        pendingFriends.append(contentsOf: newPending)
+                    },
+                    contacts: selectedContacts,
+                    locationGuesses: locationGuesses,
+                    contactImportService: contactImportService
+                ) {
+                    dismiss()  // Stäng ContactImportOnboardingWrapper när review är klar
+                }
             }
         }
         .task {
@@ -449,20 +475,15 @@ private struct ContactImportOnboardingWrapper: View {
         }
     }
 
-    private func addSelectedAsPending() {
-        let selected = contacts.filter { selectedIds.contains($0.id) }
-        for contact in selected {
-            let city = contact.hasAddress && !contact.postalCity.isEmpty
-                ? "\(contact.postalCity), \(contact.postalCountry)"
-                : "Okänd plats"
-            let pending = PendingFriend(
-                displayName: contact.fullName,
-                city: city,
-                cityLatitude: nil,
-                cityLongitude: nil
-            )
-            pendingFriends.append(pending)
+    private func importSelected() async {
+        isGuessing = true
+        defer { isGuessing = false }
+        selectedContacts = contacts.filter { selectedIds.contains($0.id) }
+        do {
+            locationGuesses = try await contactImportService.guessLocations(for: selectedContacts)
+        } catch {
+            locationGuesses = []  // Visa review ändå, utan gissningar
         }
-        dismiss()
+        showReview = true
     }
 }
