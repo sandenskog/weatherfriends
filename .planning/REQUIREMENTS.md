@@ -52,7 +52,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Notiser
 
-- [ ] **PUSH-01**: Push-notis vid extremväder hos vän
+- [x] **PUSH-01**: Push-notis vid extremväder hos vän
 - [ ] **PUSH-02**: Daglig vädersammanfattning
 - [x] **PUSH-03**: Push-notis vid nytt chattmeddelande
 

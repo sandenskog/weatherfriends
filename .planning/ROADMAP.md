@@ -80,7 +80,7 @@ Plans:
   3. Användare kan skicka väderreaktioner (emoji kopplad till vänens aktuella väder)
   4. Användare kan rapportera olämpligt innehåll och blockera en annan användare
   5. Användare får push-notis vid nytt chattmeddelande och vid extremväder hos en vän
-**Plans:** 3/4 plans complete
+**Plans:** 4/4 plans complete
 
 Plans:
 - [x] 04-01-PLAN.md — Conversation/ChatMessage/Report-modeller, ChatService (Firestore listeners + CRUD), MainTabView, AppRouter-uppdatering, FCM-setup (AppDelegate + project.yml)
@@ -127,6 +127,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Foundation | 3/3 | Complete    | 2026-03-02 |
 | 2. Kärnupplevelse | 4/4 | Complete   | 2026-03-02 |
 | 3. Kontaktimport | 2/2 | Complete   | 2026-03-03 |
-| 4. Chatt och Push | 3/4 | Gap closure | 2026-03-03 |
+| 4. Chatt och Push | 4/4 | Complete   | 2026-03-03 |
 | 5. Utökade Vyer | 0/2 | Not started | - |
 | 6. Polish och App Store | 0/2 | Not started | - |

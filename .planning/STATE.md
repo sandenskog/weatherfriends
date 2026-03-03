@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 4 of 6 (Chatt och Push)
-Plan: 3 of 3 in current phase
+Plan: 4 of 4 in current phase
 Status: Complete
-Last activity: 2026-03-03 — Plan 04-03 komplett. Cloud Functions (chatPushTrigger + weatherAlertScheduler) skapade, APNs Authentication Key uppladdad till Firebase Console. Fas 4 klar.
+Last activity: 2026-03-03 — Plan 04-04 (gap-closure) komplett. WeatherAlertService (iOS) och weatherAlertTrigger (Cloud Function) implementerade. PUSH-01 fullt levererat end-to-end.
 
 Progress: [███████░░░] 75%
 
@@ -60,6 +60,7 @@ Progress: [███████░░░] 75%
 | Phase 04-chatt-och-push P01 | 3 | 2 tasks | 10 files |
 | Phase 04-chatt-och-push P02 | 2 | 2 tasks | 8 files |
 | Phase 04-chatt-och-push P03 | 5 | 2 tasks | 3 files |
+| Phase 04-chatt-och-push P04 | 3 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -112,6 +113,10 @@ Recent decisions affecting current work:
 - [Phase 04-03]: weatherAlertScheduler implementeras som placeholder i v1 — full WeatherKit-integration kräver iOS-klienten som sätter hasActiveAlert i Firestore
 - [Phase 04-03]: Alternativ A (iOS-klient sätter hasActiveAlert) väljs över Alternativ B (Cloud Function anropar WeatherKit REST API) — undviker JWT-hantering med .p8-nyckel i Cloud Functions
 - [Phase 04-03]: APNs Authentication Key laddas upp med Production-environment — säkerställer push-leverans för alla iOS-builds
+- [Phase 04-04]: WeatherAlertService är MainActor men ej @Observable — bakgrundstjänst behöver ingen UI-binding
+- [Phase 04-04]: onDocumentUpdated triggas vid varje Firestore-uppdatering — false-to-true-kontroll krävs för att undvika duplicerade notiser
+- [Phase 04-04]: lastAlertSentAt sätts EFTER lyckad FCM-leverans — rate-limiting hoppar över om push misslyckats
+- [Phase 04-04]: weatherAlertScheduler rensar stale alerts (>24h) som komplement till iOS-klienten
 
 ### Pending Todos
 
@@ -128,5 +133,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Completed 04-chatt-och-push-03-PLAN.md. Fas 4 (Chatt och Push) helt klar — alla 3 planer exekverade.
+Stopped at: Completed 04-chatt-och-push-04-PLAN.md. Gap-closure PUSH-01 klar — WeatherAlertService + weatherAlertTrigger implementerade. Fas 4 fullt klar med alla 4 planer.
 Resume file: None
