@@ -20,6 +20,7 @@ struct FriendsTabView: View {
     @State private var selectedTab: FriendsTab = .list
     @State private var viewModel = FriendListViewModel()
     @State private var selectedFriendWeather: FriendWeather?
+    @State private var dailyNotificationService = DailyWeatherNotificationService()
     @State private var showProfile = false
     @State private var showAddFriend = false
     @State private var showContactImport = false
@@ -143,6 +144,8 @@ struct FriendsTabView: View {
         .task {
             guard let uid = authManager.currentUser?.id else { return }
             await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
+            // Schemalägg daglig notis med aktuell favoritdata
+            await dailyNotificationService.schedule(favorites: viewModel.favorites)
         }
         .task {
             attribution = try? await weatherService.attribution

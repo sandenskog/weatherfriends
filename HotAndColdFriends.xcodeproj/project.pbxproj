@@ -22,6 +22,7 @@
 		2C734351BA0E285634373291 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 47014F2EAB98CBF799D97551 /* FacebookCore */; };
 		3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318457A3208319B531E0026 /* AuthState.swift */; };
 		34B88F423944EF00A8B58B62 /* FriendRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */; };
+		37E62F0EAC0C9C9491482539 /* DailyWeatherNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A43CF1210845D602D8EA8A /* DailyWeatherNotificationService.swift */; };
 		3BD13553ADB693861F76AEBC /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BE76294B35397FE9A5F57B /* MainTabView.swift */; };
 		3BDD9AFB21EC96E8A7EE92FF /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3560593D7328AF527A711AB5 /* GoogleSignInSwift */; };
 		41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */; };
@@ -96,6 +97,7 @@
 		49AEC5B49CAD762F884C75ED /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRowView.swift; sourceTree = "<group>"; };
 		50C17A00CA20FF485FF6DE6A /* FriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListView.swift; sourceTree = "<group>"; };
+		57A43CF1210845D602D8EA8A /* DailyWeatherNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherNotificationService.swift; sourceTree = "<group>"; };
 		59676B084BB0DFF1A9DDE540 /* ConversationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewModel.swift; sourceTree = "<group>"; };
 		59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailSheet.swift; sourceTree = "<group>"; };
 		616C89AE007BB29E51AABE54 /* WeatherStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStickerView.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */,
 				C823460B236F30515A2B6BA4 /* ChatService.swift */,
 				94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */,
+				57A43CF1210845D602D8EA8A /* DailyWeatherNotificationService.swift */,
 				4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */,
 				F114DFB02FD57BACC061D3CB /* FriendService.swift */,
 				26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */,
@@ -447,6 +450,7 @@
 				F1E4163C8B26301DCBA10F41 /* Conversation.swift in Sources */,
 				8B3F462DA2B0D8D87102B330 /* ConversationListView.swift in Sources */,
 				5490F71F115D180AAD2CCCA8 /* ConversationListViewModel.swift in Sources */,
+				37E62F0EAC0C9C9491482539 /* DailyWeatherNotificationService.swift in Sources */,
 				20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */,
 				5A2E4F25DBE3DA8AA52245A2 /* EditProfileView.swift in Sources */,
 				5C4A18FD9AB1FBDCC3D7523A /* Friend.swift in Sources */,
