@@ -126,9 +126,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 **Coverage:**
 - v1 requirements: 29 total
-- Satisfied: 23
-- Pending (gap closure 4.4-4.5): 0
-- Pending (Phase 5-6): 6
+- Satisfied: 26
+- Pending (Phase 6): 3 (AUTH-05, WTHR-02, WDGT-01)
 - Unmapped: 0
 
 ---

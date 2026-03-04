@@ -19,9 +19,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4.1: Fixa onboarding-kontaktimport** - INSERTED: Onboarding-wrapper anropar guessLocations() och sparar koordinater (Gap Closure) (completed 2026-03-03)
 - [x] **Phase 4.2: Fixa chatt-UID-mismatch** - INSERTED: Använd Auth UID istället för Friend.id vid chatt-skapande (Gap Closure) (completed 2026-03-03)
 - [x] **Phase 4.3: Fixa push deep link och tech debt** - INSERTED: Deep link-handler för weatherAlert + fcmToken i AppUser (Gap Closure) (completed 2026-03-03)
-- [ ] **Phase 4.4: Fixa authUid-population vid Friend-skapande** - INSERTED: Sätt authUid i alla Friend-skapande kodvägar (Gap Closure)
-- [ ] **Phase 4.5: Vänprofil-navigation och dokumentationsfix** - INSERTED: Tappbar profil-vy + SUMMARY/traceability-fix (Gap Closure)
-- [ ] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning
+- [x] **Phase 4.4: Fixa authUid-population vid Friend-skapande** - INSERTED: Sätt authUid i alla Friend-skapande kodvägar (Gap Closure) (completed 2026-03-03)
+- [x] **Phase 4.5: Vänprofil-navigation och dokumentationsfix** - INSERTED: Tappbar profil-vy + SUMMARY/traceability-fix (Gap Closure) (completed 2026-03-03)
+- [x] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning (completed 2026-03-04)
 - [ ] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering
 
 ## Phase Details
@@ -182,7 +182,7 @@ Plans:
 ### Phase 6: Polish och App Store
 **Goal**: Appen passerar App Store-granskning och når riktiga användare via TestFlight och lansering — med widget, animationer och alla obligatoriska krav uppfyllda
 **Depends on**: Phase 5
-**Requirements**: WDGT-01, AUTH-05
+**Requirements**: AUTH-05, WTHR-02, WDGT-01
 **Success Criteria** (what must be TRUE):
   1. iOS hemskärmswidget visar favoriters väder (WidgetKit, minst 2x2 medium)
   2. Animerade väderillustrationer visas bakom vänners profilbilder i listvyn
@@ -208,7 +208,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 4.1 Fixa onboarding-kontaktimport | 1/1 | Complete   | 2026-03-03 |
 | 4.2 Fixa chatt-UID-mismatch | 1/1 | Complete   | 2026-03-03 |
 | 4.3 Fixa push deep link + tech debt | 1/1 | Complete   | 2026-03-03 |
-| 4.4 Fixa authUid-population | 0/1 | Not started | - |
-| 4.5 Vänprofil-nav + docs | 0/1 | Not started | - |
-| 5. Utökade Vyer | 0/2 | Not started | - |
+| 4.4 Fixa authUid-population | 1/1 | Complete | 2026-03-03 |
+| 4.5 Vänprofil-nav + docs | 1/1 | Complete | 2026-03-03 |
+| 5. Utökade Vyer | 2/2 | Complete | 2026-03-04 |
 | 6. Polish och App Store | 0/2 | Not started | - |
