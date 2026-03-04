@@ -29,7 +29,6 @@
 		41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */; };
 		43B3A4CD67349EE853E277F1 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823460B236F30515A2B6BA4 /* ChatService.swift */; };
 		47BBD3950C60D053BC5E935E /* HotAndColdFriendsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9DE660F20F631B593A624396 /* HotAndColdFriendsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		4FD9565099440CEC64491342 /* WidgetFriendEntry+AppExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66575C102DED1FAD3A40AC62 /* WidgetFriendEntry+AppExtension.swift */; };
 		5490F71F115D180AAD2CCCA8 /* ConversationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59676B084BB0DFF1A9DDE540 /* ConversationListViewModel.swift */; };
 		561765040B94E999926C86D9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B8C3C60DADFC174ABB094F /* ProfileView.swift */; };
 		57E58C63B0AA9B1E741E0635 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B0EE016563BF8F8478701 /* ProfileViewModel.swift */; };
@@ -136,7 +135,6 @@
 		59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailSheet.swift; sourceTree = "<group>"; };
 		616C89AE007BB29E51AABE54 /* WeatherStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStickerView.swift; sourceTree = "<group>"; };
 		625A8067A1DC08A0ED9879E1 /* WeatherHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHeaderView.swift; sourceTree = "<group>"; };
-		66575C102DED1FAD3A40AC62 /* WidgetFriendEntry+AppExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WidgetFriendEntry+AppExtension.swift"; sourceTree = "<group>"; };
 		66579F50B54C2DB086C98BF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		680DE0113F1304C8D2F93C0D /* OnboardingLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLocationView.swift; sourceTree = "<group>"; };
 		6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
@@ -326,7 +324,6 @@
 				3CBA5CD41802CFE062FE5EAB /* FriendWeather.swift */,
 				DD414AD8699A2B68C55D7CF8 /* Report.swift */,
 				EDCA71A3C1F9825DAA965A6D /* WidgetFriendEntry.swift */,
-				66575C102DED1FAD3A40AC62 /* WidgetFriendEntry+AppExtension.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -576,7 +573,6 @@
 				EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */,
 				8C5DDD1B3D5EF71814EA8F19 /* WeatherHeaderView.swift in Sources */,
 				104A6991155EBF8F20498249 /* WeatherStickerView.swift in Sources */,
-				4FD9565099440CEC64491342 /* WidgetFriendEntry+AppExtension.swift in Sources */,
 				91B378E9C6224101CEFA458F /* WidgetFriendEntry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
