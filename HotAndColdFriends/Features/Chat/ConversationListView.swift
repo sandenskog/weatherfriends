@@ -68,11 +68,24 @@ struct ConversationListView: View {
         )
 
         if filtered.isEmpty && !viewModel.isLoading {
-            ContentUnavailableView(
-                "Inga chattar än",
-                systemImage: "bubble.left.and.bubble.right",
-                description: Text("Tryck på pennan uppe till höger för att starta en konversation")
-            )
+            VStack(spacing: 16) {
+                Spacer()
+                Image("EmptyStateChat")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: 200)
+
+                Text("No conversations yet")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.primary)
+
+                Text("Start chatting with a friend about the weather")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                Spacer()
+            }
+            .padding(32)
         } else {
             List(filtered) { conversation in
                 Button {

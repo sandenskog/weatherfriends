@@ -17,26 +17,55 @@ struct FriendListView: View {
     // MARK: - Main List
 
     private var mainList: some View {
-        List {
-            if viewModel.showDemoBanner {
-                demoBanner
-            }
+        Group {
+            if viewModel.others.isEmpty && viewModel.favorites.isEmpty && !viewModel.showDemoBanner {
+                emptyStateFriends
+            } else {
+                List {
+                    if viewModel.showDemoBanner {
+                        demoBanner
+                    }
 
-            if !viewModel.favorites.isEmpty {
-                favoritesSection
-            }
+                    if !viewModel.favorites.isEmpty {
+                        favoritesSection
+                    }
 
-            othersSection
+                    othersSection
 
-            if let attribution {
-                attributionFooter(attribution)
+                    if let attribution {
+                        attributionFooter(attribution)
+                    }
+                }
+                .listStyle(.insetGrouped)
+                .refreshable {
+                    guard let uid else { return }
+                    await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService)
+                }
             }
         }
-        .listStyle(.insetGrouped)
-        .refreshable {
-            guard let uid else { return }
-            await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService)
+    }
+
+    // MARK: - Empty State
+
+    private var emptyStateFriends: some View {
+        VStack(spacing: 16) {
+            Spacer()
+            Image("EmptyStateFriends")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: 200)
+
+            Text("No friends yet")
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(.primary)
+
+            Text("Add friends to see their weather")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            Spacer()
         }
+        .padding(32)
     }
 
     // MARK: - Demo Banner
