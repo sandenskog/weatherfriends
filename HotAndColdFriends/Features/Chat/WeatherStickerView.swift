@@ -7,7 +7,7 @@ struct WeatherStickerView: View {
 
     var body: some View {
         let celsius = weatherData.temperatureCelsius
-        let color = Color.temperatureColor(celsius: celsius)
+        let color = TemperatureZone(celsius: celsius).color
 
         VStack(spacing: 6) {
             Image(systemName: weatherData.conditionSymbol)

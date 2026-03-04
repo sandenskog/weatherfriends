@@ -1,24 +1,5 @@
 import SwiftUI
 
-// MARK: - Temperature Color Extension
-
-extension Color {
-    static func temperatureColor(celsius: Double) -> Color {
-        switch celsius {
-        case ..<0:
-            return Color(red: 0.2, green: 0.4, blue: 1.0)   // isblå
-        case 0..<10:
-            return Color(red: 0.4, green: 0.6, blue: 0.9)   // kylig blå
-        case 10..<20:
-            return Color(red: 0.5, green: 0.7, blue: 0.5)   // neutral grön
-        case 20..<28:
-            return Color(red: 1.0, green: 0.6, blue: 0.2)   // varm orange
-        default:
-            return Color(red: 0.9, green: 0.2, blue: 0.2)   // het röd
-        }
-    }
-}
-
 // MARK: - FriendRowView
 
 struct FriendRowView: View {
@@ -44,13 +25,13 @@ struct FriendRowView: View {
                 Text(friendWeather.temperatureFormatted)
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(
-                        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+                        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .bubbleTextSecondary
                     )
 
                 Image(systemName: friendWeather.symbolName)
                     .font(.body)
                     .foregroundStyle(
-                        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+                        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .bubbleTextSecondary
                     )
             }
         }

@@ -93,7 +93,7 @@ private struct FriendWeatherCard: View {
     let friendWeather: FriendWeather
 
     private var tempColor: Color {
-        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .secondary
     }
 
     var body: some View {

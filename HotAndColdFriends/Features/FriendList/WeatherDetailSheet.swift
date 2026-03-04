@@ -93,13 +93,13 @@ struct WeatherDetailSheet: View {
                 Text(friendWeather.temperatureFormatted)
                     .font(.system(size: 52, weight: .thin))
                     .foregroundStyle(
-                        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+                        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .secondary
                     )
 
                 Image(systemName: friendWeather.symbolName)
                     .font(.system(size: 48))
                     .foregroundStyle(
-                        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+                        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .secondary
                     )
             }
 

@@ -59,7 +59,7 @@ private struct FriendMapPin: View {
 
     private var pinSize: CGFloat { isFavorite ? 48 : 36 }
     private var tempColor: Color {
-        friendWeather.temperatureCelsius.map { Color.temperatureColor(celsius: $0) } ?? .secondary
+        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .secondary
     }
 
     var body: some View {

@@ -35,7 +35,7 @@ struct WeatherHeaderView: View {
                 if let celsius = data?.celsius {
                     Text("\(Int(celsius.rounded()))°")
                         .font(.title3.weight(.semibold))
-                        .foregroundStyle(Color.temperatureColor(celsius: celsius))
+                        .foregroundStyle(TemperatureZone(celsius: celsius).color)
                 } else {
                     Text("Laddar...")
                         .font(.caption)
@@ -93,7 +93,7 @@ struct WeatherHeaderView: View {
             if let celsius = data?.celsius {
                 Text("\(Int(celsius.rounded()))°")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(Color.temperatureColor(celsius: celsius))
+                    .foregroundStyle(TemperatureZone(celsius: celsius).color)
             }
         }
         .padding(.horizontal, 8)
@@ -117,7 +117,7 @@ struct WeatherHeaderView: View {
 
     private func tempColor(celsius: Double?) -> Color {
         guard let c = celsius else { return .secondary }
-        return Color.temperatureColor(celsius: c)
+        return TemperatureZone(celsius: c).color
     }
 }
 
