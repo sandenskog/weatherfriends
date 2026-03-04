@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-04T13:37:10.347Z"
+last_updated: "2026-03-04T18:02:03.243Z"
 progress:
-  total_phases: 11
-  completed_phases: 11
-  total_plans: 22
-  completed_plans: 22
+  total_phases: 13
+  completed_phases: 13
+  total_plans: 24
+  completed_plans: 24
 ---
 
 # Project State
@@ -22,12 +22,12 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 
 ## Current Position
 
-Phase: 07-tech-debt-cleanup
+Phase: 08-integration-fixes
 Plan: 1 of 1 in current phase
 Status: Plan 01 Complete
-Last activity: 2026-03-04 — Plan 07-01 komplett. DI-brott i ConversationListView/ViewModel fixade och dead code WidgetFriendEntry+AppExtension.swift borttagen (CHAT-01, CHAT-02).
+Last activity: 2026-03-04 — Plan 08-01 komplett. Deep link race condition fixad (dubbel onChange), storage path normaliserad (profile_images/{uid}.jpg), explicit environment injection på ImportReviewView-sheets.
 
-Progress: [██████████] 95%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -70,6 +70,7 @@ Progress: [██████████] 95%
 | Phase 05-utokade-vyer P02 | 3 | 2 tasks | 4 files |
 | Phase 06-polish-app-store P02 | 5 | 1 tasks | 11 files |
 | Phase 06-polish-app-store P01 | 7 | 2 tasks | 7 files |
+| Phase 08-integration-fixes P01 | 5 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -155,6 +156,9 @@ Recent decisions affecting current work:
 - [Phase 06-01]: revokeAppleToken() kallas före user.delete() för Apple-användare — Apples App Store-krav
 - [Phase 07-01]: UserService injiceras som parameter till viewModel-metoder (ej @Environment direkt i ViewModel) — konsekvent med hela appens mönster
 - [Phase 07-01]: WidgetFriendEntry+AppExtension.swift raderas — from(friendWeather:) anropades aldrig från annan fil (verifierat med grep)
+- [Phase 08-01]: Dubbel onChange används istället för extra @State loading-flag — ren lösning utan visuell ändring
+- [Phase 08-01]: profile_images/{uid}.jpg matchar UserService.uploadProfileImage exakt — storage path normaliserad
+- [Phase 08-01]: @Environment(UserService.self) läggs explicit på varje sheet som presenterar ImportReviewView — ingen fragil inheritance-kedja
 
 ### Pending Todos
 
@@ -171,5 +175,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-04
-Stopped at: Completed 07-tech-debt-cleanup-01-PLAN.md. DI-brott i ConversationListView/ViewModel fixade, dead code WidgetFriendEntry+AppExtension.swift borttagen. Alla v1.0 tech debt items åtgärdade.
+Stopped at: Completed 08-integration-fixes-01-PLAN.md. Deep link race condition, storage path mismatch, explicit environment injection och dokumentationsfix åtgärdade. Alla v1.0 integrationsgap stängda.
 Resume file: None

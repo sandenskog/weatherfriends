@@ -24,7 +24,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning (completed 2026-03-04)
 - [x] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering (completed 2026-03-04)
 - [x] **Phase 7: Tech Debt Cleanup** - DI-fix, dead code removal och dokumentationsfix (Gap Closure) (completed 2026-03-04)
-- [ ] **Phase 8: Integration Fixes** - Deep link race condition, storage path mismatch, environment injection och dokumentationsfix (Gap Closure)
+- [x] **Phase 8: Integration Fixes** - Deep link race condition, storage path mismatch, environment injection och dokumentationsfix (Gap Closure) (completed 2026-03-04)
 
 ## Phase Details
 
@@ -222,7 +222,7 @@ Plans:
   2. Kontoborttagning raderar profilbild korrekt (profile_images/{uid}.jpg, inte profileImages/{uid})
   3. ImportReviewView har explicit .environment(\.userService) — ej beroende av implicit inheritance
   4. 05-02-SUMMARY.md inkluderar VIEW-02 och PUSH-02 i requirements_completed
-**Plans:** 0/1 plans
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 08-01-PLAN.md — Deep link race condition fix, storage path fix, explicit environment injection, doc fix
@@ -246,4 +246,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 5. Utökade Vyer | 2/2 | Complete | 2026-03-04 |
 | 6. Polish och App Store | 2/2 | Complete | 2026-03-04 |
 | 7. Tech Debt Cleanup | 1/1 | Complete   | 2026-03-04 |
-| 8. Integration Fixes | 0/1 | Pending | — |
+| 8. Integration Fixes | 1/1 | Complete   | 2026-03-04 |
