@@ -37,10 +37,10 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 
 ### Assets
 
-- [ ] **ASSET-01**: 14 SVG väderikoner konverterade till iOS assets och används i alla vyer
-- [ ] **ASSET-02**: Ny app-ikon från SVG implementerad i Assets.xcassets
-- [ ] **ASSET-03**: Horisontell logotyp används på lämplig plats (t.ex. login, onboarding)
-- [ ] **ASSET-04**: Empty state-illustrationer (no friends, no chat) visas i tomma listor
+- [x] **ASSET-01**: 14 SVG väderikoner konverterade till iOS assets och används i alla vyer
+- [x] **ASSET-02**: Ny app-ikon från SVG implementerad i Assets.xcassets
+- [x] **ASSET-03**: Horisontell logotyp används på lämplig plats (t.ex. login, onboarding)
+- [x] **ASSET-04**: Empty state-illustrationer (no friends, no chat) visas i tomma listor
 
 ### Tech Debt
 
@@ -75,10 +75,10 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 | DSGN-03 | Phase 9 | Complete |
 | DSGN-04 | Phase 9 | Complete |
 | DSGN-05 | Phase 9 | Complete |
-| ASSET-01 | Phase 9 | Pending |
-| ASSET-02 | Phase 9 | Pending |
-| ASSET-03 | Phase 9 | Pending |
-| ASSET-04 | Phase 9 | Pending |
+| ASSET-01 | Phase 9 | Complete |
+| ASSET-02 | Phase 9 | Complete |
+| ASSET-03 | Phase 9 | Complete |
+| ASSET-04 | Phase 9 | Complete |
 | COMP-01 | Phase 10 | Pending |
 | COMP-02 | Phase 10 | Pending |
 | COMP-03 | Phase 10 | Pending |
