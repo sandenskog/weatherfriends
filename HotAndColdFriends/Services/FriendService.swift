@@ -29,8 +29,16 @@ class FriendService {
             .document(uid)
             .collection("friends")
             .getDocuments()
-        return try snapshot.documents
-            .map { try $0.data(as: Friend.self) }
+        return snapshot.documents
+            .compactMap { doc in
+                do {
+                    return try doc.data(as: Friend.self)
+                } catch {
+                    print("⚠️ FriendService: Failed to decode friend \(doc.documentID): \(error)")
+                    print("⚠️ FriendService: Raw data: \(doc.data())")
+                    return nil
+                }
+            }
             .sorted { $0.displayName < $1.displayName }
     }
 
