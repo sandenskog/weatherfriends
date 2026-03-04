@@ -30,7 +30,23 @@ En iOS-app som visar din vänlista organiserad utifrån vädret där dina vänne
 
 ### Active
 
-(Inga aktiva krav — definiera i nästa milstolpe)
+#### Current Milestone: v2.0 — Bubble Pop Design + Tech Debt
+
+**Goal:** Implementera det kompletta Bubble Pop design systemet och åtgärda v1.0 tech debt.
+
+**Target features:**
+- Bubble Pop design system (färgpalett, typografi, komponenter, animationer)
+- Custom väderikoner (SVG → SF Symbols/assets)
+- Ny app-ikon och logotyp
+- Empty state-illustrationer
+- Baloo 2 custom font
+- Temperaturzon-gradienter på avatarer, kort, widgets
+- Pill-knappar med bounce-animationer
+- Chattbubblor med gradient
+- Väder-stickers i chatt
+- Tech debt: lookupAuthUid → invite-system
+- Tech debt: WeatherAlertService i SwiftUI environment
+- Tech debt: Orphaned messages cleanup vid kontoborttagning
 
 ### Out of Scope
 
@@ -48,7 +64,14 @@ Shipped v1.0 med 7 576 rader Swift + Firebase Cloud Functions (TypeScript).
 Tech stack: SwiftUI (iOS 17+), Firebase (Auth, Firestore, Storage, Cloud Functions, FCM), WeatherKit, MapKit, WidgetKit.
 AI-platsgissning via OpenAI gpt-4o-mini (Cloud Function proxy).
 13 faser (inkl. 5 gap-closure), 24 planer, 29 krav satisfierade.
-3 info-nivå tech debt-items kvarstår (v2 backlog).
+
+Design pack levererat: "Bubble Pop Design System" i `Design/friendscast-design-pack/`:
+- `specs/ui-spec-and-components.html` — komplett designspec med Swift-referenskod
+- `svg-icons/` — 14 väderikoner (sol, moln, regn, snö, åska m.fl.)
+- `svg-ui/` — app-ikon, logotyp, empty state-illustrationer
+- Typsnitt: Baloo 2 (rubriker/knappar) + Inter/SF Pro (brödtext)
+- 5 temperaturzoner med gradienter: Tropical (>28°), Warm (20-28°), Cool (10-20°), Cold (0-10°), Arctic (<0°)
+- 8pt spacing grid, pill-knappar, spring-animationer, konfetti, bounce-in
 
 ## Key Decisions
 
@@ -73,4 +96,4 @@ AI-platsgissning via OpenAI gpt-4o-mini (Cloud Function proxy).
 - **Design**: Varm, social känsla — ej minimalistisk/monokromatisk
 
 ---
-*Last updated: 2026-03-04 after v1.0 milestone*
+*Last updated: 2026-03-04 after v2.0 milestone start*
