@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<string>202603042127</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -32,6 +32,8 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>FacebookAppID</key>
 	<string>2098653484363170</string>
 	<key>FacebookClientToken</key>
@@ -40,6 +42,16 @@
 	<string>Hot and Cold Friends</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Hot &amp; Cold Friends vill komma åt dina kontakter för att importera vänner och visa deras väder.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>FriendsCast använder din plats för att visa vädret där du befinner dig.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Baloo2-Regular.ttf</string>
+		<string>Baloo2-Medium.ttf</string>
+		<string>Baloo2-SemiBold.ttf</string>
+		<string>Baloo2-Bold.ttf</string>
+		<string>Baloo2-ExtraBold.ttf</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

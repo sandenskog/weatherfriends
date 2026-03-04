@@ -78,6 +78,21 @@
 		F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639990872A0AD5664410044 /* LoginView.swift */; };
 		FD49AECC6F0DBCCFD7332371 /* FriendProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B4A9387ECDC78DA98932C0 /* FriendProfileView.swift */; };
 		FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */; };
+		BEAF45DA476A45C6AACC9DD2 /* Baloo2-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 903D37CE594E4F99AE30250C /* Baloo2-Regular.ttf */; };
+		8CFC002566CE417C99350428 /* Baloo2-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 65284112E4BF42EE9D377992 /* Baloo2-Medium.ttf */; };
+		4A0B5FA4D3904D46A86D2046 /* Baloo2-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AD787ED7FAE4415ADA52EE8 /* Baloo2-SemiBold.ttf */; };
+		911310307C0A40C38D90D572 /* Baloo2-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85DB6A99D1D24D5D97DD48D8 /* Baloo2-Bold.ttf */; };
+		99CB3990B152438E94651CF8 /* Baloo2-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B49511AC9F46458295FE5964 /* Baloo2-ExtraBold.ttf */; };
+		F880C289CF4A43C5852EAC56 /* BubblePopColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFAC09421A941E39841863E /* BubblePopColors.swift */; };
+		2EE3936893B74CD38CD6956C /* BubblePopColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFAC09421A941E39841863E /* BubblePopColors.swift */; };
+		8D9E0DEE654C454382C744CA /* BubblePopTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C350D01910646648801C220 /* BubblePopTypography.swift */; };
+		DE98F4DC2B264C17B035C18B /* BubblePopTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C350D01910646648801C220 /* BubblePopTypography.swift */; };
+		97B3787590FF4AB582370936 /* BubblePopSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE417F4983DF4BDAA498B256 /* BubblePopSpacing.swift */; };
+		061097CB1A824B4FAD96B9C4 /* BubblePopSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE417F4983DF4BDAA498B256 /* BubblePopSpacing.swift */; };
+		29BBA592B593415FA2C6B5B1 /* BubblePopShadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E304BAE08F4F492BA08296DD /* BubblePopShadows.swift */; };
+		C06E4399A8E646609AEFFDA5 /* BubblePopShadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E304BAE08F4F492BA08296DD /* BubblePopShadows.swift */; };
+		ED10D335E03848CE8CD6DEE3 /* TemperatureZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100EE47A8F6843A79DD026C0 /* TemperatureZone.swift */; };
+		23D3FCE26F8C46FEAD1F60EB /* TemperatureZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100EE47A8F6843A79DD026C0 /* TemperatureZone.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +186,16 @@
 		F6DA19899947ADBAE62FB81C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportReviewView.swift; sourceTree = "<group>"; };
 		FD9B9FB773AAD71C1FFBC0A9 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		903D37CE594E4F99AE30250C /* Baloo2-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-Regular.ttf; sourceTree = "<group>"; };
+		65284112E4BF42EE9D377992 /* Baloo2-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-Medium.ttf; sourceTree = "<group>"; };
+		9AD787ED7FAE4415ADA52EE8 /* Baloo2-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-SemiBold.ttf; sourceTree = "<group>"; };
+		85DB6A99D1D24D5D97DD48D8 /* Baloo2-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-Bold.ttf; sourceTree = "<group>"; };
+		B49511AC9F46458295FE5964 /* Baloo2-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-ExtraBold.ttf; sourceTree = "<group>"; };
+		CFFAC09421A941E39841863E /* BubblePopColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopColors.swift; sourceTree = "<group>"; };
+		7C350D01910646648801C220 /* BubblePopTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopTypography.swift; sourceTree = "<group>"; };
+		BE417F4983DF4BDAA498B256 /* BubblePopSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopSpacing.swift; sourceTree = "<group>"; };
+		E304BAE08F4F492BA08296DD /* BubblePopShadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopShadows.swift; sourceTree = "<group>"; };
+		100EE47A8F6843A79DD026C0 /* TemperatureZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureZone.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,8 +355,9 @@
 		};
 		7923E981588C320F5564DDD6 /* Resources */ = {
 			isa = PBXGroup;
-			children = (
-				F6DA19899947ADBAE62FB81C /* Assets.xcassets */,
+				children = (
+					DFDEC06C3E9242528BBF37CA /* Fonts */,
+					F6DA19899947ADBAE62FB81C /* Assets.xcassets */,
 				1F1E46F80EE4810096655142 /* GoogleService-Info.plist */,
 				00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */,
 				AAEDC4DFF905CA78F3B8EA6E /* Info.plist */,
@@ -376,6 +402,7 @@
 			children = (
 				63921779186DC971AA450F54 /* App */,
 				9668781583DD23D32D968317 /* Core */,
+				96E7051309C04516BB9A9501 /* DesignSystem */,
 				FBDC65FEBF23573D92FF1194 /* Features */,
 				704C9E0A6F852E8E22E1C419 /* Models */,
 				7923E981588C320F5564DDD6 /* Resources */,
@@ -407,6 +434,31 @@
 				E901A952B0803E6034180815 /* Profile */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+
+		DFDEC06C3E9242528BBF37CA /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				903D37CE594E4F99AE30250C /* Baloo2-Regular.ttf */,
+				65284112E4BF42EE9D377992 /* Baloo2-Medium.ttf */,
+				9AD787ED7FAE4415ADA52EE8 /* Baloo2-SemiBold.ttf */,
+				85DB6A99D1D24D5D97DD48D8 /* Baloo2-Bold.ttf */,
+				B49511AC9F46458295FE5964 /* Baloo2-ExtraBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		96E7051309C04516BB9A9501 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				CFFAC09421A941E39841863E /* BubblePopColors.swift */,
+				7C350D01910646648801C220 /* BubblePopTypography.swift */,
+				BE417F4983DF4BDAA498B256 /* BubblePopSpacing.swift */,
+				E304BAE08F4F492BA08296DD /* BubblePopShadows.swift */,
+				100EE47A8F6843A79DD026C0 /* TemperatureZone.swift */,
+			);
+			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -506,6 +558,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEAF45DA476A45C6AACC9DD2 /* Baloo2-Regular.ttf in Resources */,
+				8CFC002566CE417C99350428 /* Baloo2-Medium.ttf in Resources */,
+				4A0B5FA4D3904D46A86D2046 /* Baloo2-SemiBold.ttf in Resources */,
+				911310307C0A40C38D90D572 /* Baloo2-Bold.ttf in Resources */,
+				99CB3990B152438E94651CF8 /* Baloo2-ExtraBold.ttf in Resources */,
 				0E9ADED7867FE59512BC818D /* Assets.xcassets in Resources */,
 				8BCC1D7419C1C8BF9ACF0500 /* GoogleService-Info.plist in Resources */,
 				C9930BD4051D14E757B05503 /* PrivacyInfo.xcprivacy in Resources */,
@@ -519,6 +576,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F880C289CF4A43C5852EAC56 /* BubblePopColors.swift in Sources */,
+				8D9E0DEE654C454382C744CA /* BubblePopTypography.swift in Sources */,
+				97B3787590FF4AB582370936 /* BubblePopSpacing.swift in Sources */,
+				29BBA592B593415FA2C6B5B1 /* BubblePopShadows.swift in Sources */,
+				ED10D335E03848CE8CD6DEE3 /* TemperatureZone.swift in Sources */,
 				6205811B236AE218203BC104 /* AddFriendSheet.swift in Sources */,
 				E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */,
 				A5A6F2FC3544EC1A7BFBFE7D /* AppRouter.swift in Sources */,
@@ -581,6 +643,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EE3936893B74CD38CD6956C /* BubblePopColors.swift in Sources */,
+				DE98F4DC2B264C17B035C18B /* BubblePopTypography.swift in Sources */,
+				061097CB1A824B4FAD96B9C4 /* BubblePopSpacing.swift in Sources */,
+				C06E4399A8E646609AEFFDA5 /* BubblePopShadows.swift in Sources */,
+				23D3FCE26F8C46FEAD1F60EB /* TemperatureZone.swift in Sources */,
 				7758C9A0A11DFDDD894D10F3 /* HotAndColdFriendsWidget.swift in Sources */,
 				9C5D837CE1F84587D31A8D8D /* WidgetFriendEntry.swift in Sources */,
 				031225AE3CC7B79EF8784EB7 /* WidgetViews.swift in Sources */,
@@ -650,7 +717,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 202603042127;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = A473BQKT8M;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -735,7 +802,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 202603042127;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = A473BQKT8M;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -765,7 +832,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 202603042127;
 				DEVELOPMENT_TEAM = A473BQKT8M;
 				INFOPLIST_FILE = HotAndColdFriendsWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -786,7 +853,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 202603042127;
 				DEVELOPMENT_TEAM = A473BQKT8M;
 				INFOPLIST_FILE = HotAndColdFriendsWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
