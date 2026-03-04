@@ -3,6 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-8 (shipped 2026-03-04) — [archive](milestones/v1.0-ROADMAP.md)
+- 🚧 **v2.0 Bubble Pop Design + Tech Debt** — Phases 9-12 (in progress)
 
 ## Phases
 
@@ -25,7 +26,84 @@
 
 </details>
 
+### 🚧 v2.0 Bubble Pop Design + Tech Debt (In Progress)
+
+**Milestone Goal:** Implementera det kompletta Bubble Pop design systemet och åtgärda v1.0 tech debt — appen ska kännas levande, varm och distinkt med konsekvent visuell identitet i alla vyer.
+
+- [ ] **Phase 9: Design Foundation** — Bubble Pop tokens (färger, typsnitt, grid, shadows) och alla visuella assets på plats
+- [ ] **Phase 10: Komponenter** — Alla UI-komponenter byggda med Bubble Pop-systemet (kort, knappar, bubblor, tabs, avatarer, widgets)
+- [ ] **Phase 11: Animationer** — Alla rörelser implementerade med spring-animationer och Reduce Motion-stöd
+- [ ] **Phase 12: Tech Debt** — lookupAuthUid ersatt med unik identifierare, WeatherAlertService i environment, orphaned messages städade
+
+## Phase Details
+
+### Phase 9: Design Foundation
+**Goal**: Appen har ett komplett visuellt fundament — Bubble Pop färgpalett, typsnitt, spacing-grid, shadows och alla grafiska assets är registrerade och tillgängliga för alla vyer
+**Depends on**: Phase 8
+**Requirements**: DSGN-01, DSGN-02, DSGN-03, DSGN-04, DSGN-05, ASSET-01, ASSET-02, ASSET-03, ASSET-04
+**Success Criteria** (what must be TRUE):
+  1. Appen använder Bubble Pop-färgpalett med 5 temperaturzoner synliga i listvy — inte standard SwiftUI-blått
+  2. Rubriker, knappar och temperaturer renderas i Baloo 2, brödtext i Inter/SF Pro
+  3. Väderikoner i alla vyer är de 14 custom SVG-ikonerna, inte SF Symbols-standardikoner
+  4. Ny app-ikon visas på hemskärmen och horisontell logotyp visas på login/onboarding-vy
+  5. Empty state-illustrationer visas när vänlistan och chattlistan är tomma
+**Plans**: TBD
+
+Plans:
+- [ ] 09-01: Bubble Pop color tokens, Baloo 2 font-integration, 8pt spacing grid och shadow-skala som SwiftUI-extensions
+- [ ] 09-02: SVG väderikoner → iOS asset catalog, app-ikon, logotyp och empty state-illustrationer i Assets.xcassets
+
+### Phase 10: Komponenter
+**Goal**: Varje UI-komponent i appen speglar Bubble Pop-designsystemet — vänkort, knappar, chattbubblor, stickers, tab-switcher, avatarer och widgets är alla byggda med tokens från fas 9
+**Depends on**: Phase 9
+**Requirements**: COMP-01, COMP-02, COMP-03, COMP-04, COMP-05, COMP-06, COMP-07
+**Success Criteria** (what must be TRUE):
+  1. Vänkort visar gradient-avatar baserad på vännens temperaturzon (Tropical/Warm/Cool/Cold/Arctic)
+  2. Knappar har pill-form med gradient-bakgrund och ger visuell respons vid tryck
+  3. Egna chattbubblor har gradient, andras är vita med border — med asymmetrisk border radius
+  4. Väder-stickers kan skickas i chatt och visas som kort med temperaturzon-gradient
+  5. Widgets på hemskärmen (small/medium/large) har temperaturzon-gradient bakgrund
+**Plans**: TBD
+
+Plans:
+- [ ] 10-01: FriendRowView med gradient-avatar, WeatherBadge och slide-hover — AvatarView med initialer och temperaturzon-gradient
+- [ ] 10-02: BubblePopButton (Capsule + gradient), ChatBubbleView (gradient/vit + asymmetrisk radius), WeatherStickerCard
+- [ ] 10-03: TabSwitcherView med pill + glow-shadow, widget-bakgrunder med temperaturzon-gradient
+
+### Phase 11: Animationer
+**Goal**: Appen känns levande med spring-animationer som förstärker interaktioner — och alla animationer faller tillbaka till crossfade för användare med Reduce Motion aktiverat
+**Depends on**: Phase 10
+**Requirements**: ANIM-01, ANIM-02, ANIM-03, ANIM-04, ANIM-05, ANIM-06, ANIM-07
+**Success Criteria** (what must be TRUE):
+  1. Trycka på favorit-hjärtat ger en tydlig pop-animation (shrink → overshoot → settle)
+  2. Lägga till en ny vän triggar konfetti i temperaturzon-färger
+  3. Skicka en sticker animeras med bounce-in (fade + slide upp → overshoot → settle)
+  4. Byta tab animeras med scale + glow, sortera vänlistan animeras med staggerad slide
+  5. Med "Reduce Motion" aktiverat i iOS visas crossfade istället för slide/bounce i alla animationer
+**Plans**: TBD
+
+Plans:
+- [ ] 11-01: FavoriteHeartAnimation (spring shrink/overshoot), ConfettiView (temperaturzon-färger), StickerBounceAnimation
+- [ ] 11-02: TabScaleGlowAnimation, StaggeredListAnimation (50ms delay/item), PullToRefreshCloudAnimation, AccessibilityMotionReducer
+
+### Phase 12: Tech Debt
+**Goal**: Tre identifierade v1.0 tech debt-items är åtgärdade — lookupAuthUid är robust, WeatherAlertService är tillgänglig i hela SwiftUI-trädet och orphaned messages rensas när ett konto raderas
+**Depends on**: Phase 11
+**Requirements**: DEBT-01, DEBT-02, DEBT-03
+**Success Criteria** (what must be TRUE):
+  1. Att lägga till eller chatta med en vän som har samma displayName som en annan användare fungerar korrekt — fel konto matchas inte
+  2. Pull-to-refresh i vänlistan triggar WeatherAlertService.checkAlertsForFriends() — inte bara vid cold-start
+  3. När ett konto raderas finns inga orphaned messages kvar i Firestore för de konversationer där användaren deltog
+**Plans**: TBD
+
+Plans:
+- [ ] 12-01: Invite-länk eller telefonnummer-baserad lookupAuthUid ersätter displayName-match
+- [ ] 12-02: WeatherAlertService.checkAlertsForFriends() exponeras via SwiftUI environment, orphaned messages cleanup vid kontoborttagning
+
 ## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 9 → 10 → 11 → 12
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -42,3 +120,7 @@
 | 6. Polish + App Store | v1.0 | 2/2 | Complete | 2026-03-04 |
 | 7. Tech Debt | v1.0 | 1/1 | Complete | 2026-03-04 |
 | 8. Integration Fixes | v1.0 | 1/1 | Complete | 2026-03-04 |
+| 9. Design Foundation | v2.0 | 0/2 | Not started | - |
+| 10. Komponenter | v2.0 | 0/3 | Not started | - |
+| 11. Animationer | v2.0 | 0/2 | Not started | - |
+| 12. Tech Debt | v2.0 | 0/2 | Not started | - |

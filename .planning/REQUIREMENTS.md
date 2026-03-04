@@ -70,13 +70,38 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (Fylls i vid roadmap-skapande) | | |
+| DSGN-01 | Phase 9 | Pending |
+| DSGN-02 | Phase 9 | Pending |
+| DSGN-03 | Phase 9 | Pending |
+| DSGN-04 | Phase 9 | Pending |
+| DSGN-05 | Phase 9 | Pending |
+| ASSET-01 | Phase 9 | Pending |
+| ASSET-02 | Phase 9 | Pending |
+| ASSET-03 | Phase 9 | Pending |
+| ASSET-04 | Phase 9 | Pending |
+| COMP-01 | Phase 10 | Pending |
+| COMP-02 | Phase 10 | Pending |
+| COMP-03 | Phase 10 | Pending |
+| COMP-04 | Phase 10 | Pending |
+| COMP-05 | Phase 10 | Pending |
+| COMP-06 | Phase 10 | Pending |
+| COMP-07 | Phase 10 | Pending |
+| ANIM-01 | Phase 11 | Pending |
+| ANIM-02 | Phase 11 | Pending |
+| ANIM-03 | Phase 11 | Pending |
+| ANIM-04 | Phase 11 | Pending |
+| ANIM-05 | Phase 11 | Pending |
+| ANIM-06 | Phase 11 | Pending |
+| ANIM-07 | Phase 11 | Pending |
+| DEBT-01 | Phase 12 | Pending |
+| DEBT-02 | Phase 12 | Pending |
+| DEBT-03 | Phase 12 | Pending |
 
 **Coverage:**
-- v2.0 requirements: 22 total
-- Mapped to phases: 0
-- Unmapped: 22 ⚠️
+- v2.0 requirements: 26 total (22 current + DEBT mapped explicitly)
+- Mapped to phases: 26
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-04*
-*Last updated: 2026-03-04 after initial definition*
+*Last updated: 2026-03-04 — traceability mapped after v2.0 roadmap creation*
