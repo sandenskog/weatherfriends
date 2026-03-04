@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120" width="600" height="120">
+  <defs>
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF6B8A"/>
+      <stop offset="50%" stop-color="#FF8E6B"/>
+      <stop offset="100%" stop-color="#FFD93D"/>
+    </linearGradient>
+  </defs>
+  <!-- Mini icon -->
+  <circle cx="40" cy="55" r="28" fill="url(#logoGrad)"/>
+  <circle cx="33" cy="50" r="9" fill="rgba(255,255,255,0.4)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+  <circle cx="47" cy="50" r="9" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+  <circle cx="30" cy="48" r="2" fill="rgba(255,255,255,0.7)"/>
+  <circle cx="36" cy="48" r="2" fill="rgba(255,255,255,0.7)"/>
+  <circle cx="44" cy="48" r="2" fill="rgba(255,255,255,0.6)"/>
+  <circle cx="50" cy="48" r="2" fill="rgba(255,255,255,0.6)"/>
+  <!-- Text -->
+  <text x="82" y="48" font-family="'SF Pro Rounded', 'Baloo 2', system-ui, sans-serif" font-weight="800" font-size="38" fill="#2D3142">Friends</text>
+  <text x="275" y="48" font-family="'SF Pro Rounded', 'Baloo 2', system-ui, sans-serif" font-weight="800" font-size="38" fill="url(#logoGrad)">Cast</text>
+  <text x="82" y="78" font-family="'SF Pro Rounded', 'Baloo 2', system-ui, sans-serif" font-weight="600" font-size="14" fill="#8892A8" letter-spacing="3">WEATHER + FRIENDS</text>
+</svg>

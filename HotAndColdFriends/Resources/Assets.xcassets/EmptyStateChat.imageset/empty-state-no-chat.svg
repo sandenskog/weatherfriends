@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="chatEmptyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6B9FE8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#FF6B8A" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <circle cx="150" cy="130" r="90" fill="url(#chatEmptyGrad)"/>
+  <!-- Chat bubbles (empty) -->
+  <rect x="70" y="85" width="120" height="40" rx="20" fill="#E8ECF4" stroke="#C0C8D8" stroke-width="2"/>
+  <circle cx="100" cy="105" r="3" fill="#C0C8D8" opacity="0.6"/>
+  <circle cx="115" cy="105" r="3" fill="#C0C8D8" opacity="0.4"/>
+  <circle cx="130" cy="105" r="3" fill="#C0C8D8" opacity="0.2"/>
+  <rect x="120" y="140" width="100" height="40" rx="20" fill="#FFF0F3" stroke="#FFCCD5" stroke-width="2"/>
+  <circle cx="150" cy="160" r="3" fill="#FFCCD5" opacity="0.6"/>
+  <circle cx="165" cy="160" r="3" fill="#FFCCD5" opacity="0.4"/>
+  <circle cx="180" cy="160" r="3" fill="#FFCCD5" opacity="0.2"/>
+  <!-- Weather sticker suggestion -->
+  <rect x="90" y="195" width="70" height="35" rx="12" fill="#FFF8E1" stroke="#FFD93D" stroke-width="1.5" opacity="0.6"/>
+  <text x="110" y="216" font-size="14" text-anchor="middle">☀️</text>
+  <text x="135" y="216" font-family="system-ui" font-weight="700" font-size="13" fill="#FFB347">25°</text>
+  <!-- Text -->
+  <text x="150" y="255" text-anchor="middle" font-family="'Baloo 2', system-ui" font-weight="700" font-size="16" fill="#2D3142">Starta en konversation!</text>
+  <text x="150" y="277" text-anchor="middle" font-family="system-ui" font-weight="500" font-size="12" fill="#8892A8">Skicka en väder-sticker som isbrytare</text>
+</svg>
