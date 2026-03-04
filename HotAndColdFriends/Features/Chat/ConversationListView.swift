@@ -5,6 +5,8 @@ struct ConversationListView: View {
     @Environment(ChatService.self) private var chatService
     @Environment(AuthManager.self) private var authManager
     @Environment(AppWeatherService.self) private var weatherService
+    @Environment(FriendService.self) private var friendService
+    @Environment(UserService.self) private var userService
     @Binding var openConversationId: String?
     @State private var viewModel = ConversationListViewModel()
     @State private var showNewConversation = false
@@ -38,13 +40,14 @@ struct ConversationListView: View {
                 }
                 .task {
                     guard !currentUid.isEmpty else { return }
-                    await viewModel.load(uid: currentUid, chatService: chatService, friendService: FriendService())
+                    await viewModel.load(uid: currentUid, chatService: chatService, friendService: friendService, userService: userService)
                 }
                 .onChange(of: chatService.conversations) { _, newConversations in
                     Task {
                         await viewModel.refreshUsersMapIfNeeded(
                             conversations: newConversations,
-                            currentUid: currentUid
+                            currentUid: currentUid,
+                            userService: userService
                         )
                     }
                 }

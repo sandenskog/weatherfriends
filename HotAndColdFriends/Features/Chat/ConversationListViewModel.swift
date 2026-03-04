@@ -11,9 +11,7 @@ class ConversationListViewModel {
     var blockedUserIds: Set<String> = Set()
     var isLoading = false
 
-    private var userService = UserService()
-
-    func load(uid: String, chatService: ChatService, friendService: FriendService) async {
+    func load(uid: String, chatService: ChatService, friendService: FriendService, userService: UserService) async {
         isLoading = true
         defer { isLoading = false }
 
@@ -26,14 +24,14 @@ class ConversationListViewModel {
         chatService.startListeningToConversations(uid: uid)
 
         // Bygg usersMap från konversationsdeltagare
-        await refreshUsersMap(conversations: chatService.conversations, currentUid: uid)
+        await refreshUsersMap(conversations: chatService.conversations, currentUid: uid, userService: userService)
     }
 
-    func refreshUsersMapIfNeeded(conversations: [Conversation], currentUid: String) async {
-        await refreshUsersMap(conversations: conversations, currentUid: currentUid)
+    func refreshUsersMapIfNeeded(conversations: [Conversation], currentUid: String, userService: UserService) async {
+        await refreshUsersMap(conversations: conversations, currentUid: currentUid, userService: userService)
     }
 
-    private func refreshUsersMap(conversations: [Conversation], currentUid: String) async {
+    private func refreshUsersMap(conversations: [Conversation], currentUid: String, userService: UserService) async {
         let allUids = Set(conversations.flatMap { $0.participants }).subtracting([currentUid])
         let missingUids = allUids.filter { usersMap[$0] == nil }
         for uid in missingUids {
