@@ -9,7 +9,7 @@ struct HotAndColdFriendsApp: App {
     @State private var appWeatherService: AppWeatherService
     @State private var friendService: FriendService
     @State private var chatService: ChatService
-    @State private var weatherAlertService = WeatherAlertService()
+    @State private var weatherAlertService: WeatherAlertService
 
     init() {
         // Firebase MÅSTE konfigureras innan AuthManager/UserService skapas,
@@ -22,6 +22,7 @@ struct HotAndColdFriendsApp: App {
         _appWeatherService = State(initialValue: AppWeatherService())
         _friendService = State(initialValue: FriendService())
         _chatService = State(initialValue: ChatService())
+        _weatherAlertService = State(initialValue: WeatherAlertService())
     }
 
     var body: some Scene {
