@@ -24,6 +24,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning (completed 2026-03-04)
 - [x] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering (completed 2026-03-04)
 - [x] **Phase 7: Tech Debt Cleanup** - DI-fix, dead code removal och dokumentationsfix (Gap Closure) (completed 2026-03-04)
+- [ ] **Phase 8: Integration Fixes** - Deep link race condition, storage path mismatch, environment injection och dokumentationsfix (Gap Closure)
 
 ## Phase Details
 
@@ -211,10 +212,25 @@ Plans:
 Plans:
 - [ ] 07-01-PLAN.md — DI-fix (ConversationListView/ViewModel), dead code removal (WidgetFriendEntry+AppExtension) och verifiering av redan fixade items
 
+### Phase 8: Integration Fixes (Gap Closure)
+**Goal**: Eliminera kvarstående integrationsgap — deep link race condition, storage path mismatch, fragil environment inheritance och dokumentationsgap
+**Depends on**: Phase 7
+**Requirements**: PUSH-01, WDGT-01, AUTH-05, FRND-02 (integration quality)
+**Gap Closure**: Closes INT-01, INT-02, INT-03, FLOW-01 from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. Deep link vid kall app-start (push/widget) navigerar korrekt till vännens väderdetalj — viewModel inväntas innan navigation
+  2. Kontoborttagning raderar profilbild korrekt (profile_images/{uid}.jpg, inte profileImages/{uid})
+  3. ImportReviewView har explicit .environment(\.userService) — ej beroende av implicit inheritance
+  4. 05-02-SUMMARY.md inkluderar VIEW-02 och PUSH-02 i requirements_completed
+**Plans:** 0/1 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Deep link race condition fix, storage path fix, explicit environment injection, doc fix
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 → 4.4 → 4.5 → 5 → 6 → 7
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 → 4.4 → 4.5 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -230,3 +246,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 5. Utökade Vyer | 2/2 | Complete | 2026-03-04 |
 | 6. Polish och App Store | 2/2 | Complete | 2026-03-04 |
 | 7. Tech Debt Cleanup | 1/1 | Complete   | 2026-03-04 |
+| 8. Integration Fixes | 0/1 | Pending | — |
