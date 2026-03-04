@@ -193,7 +193,7 @@ class AuthManager: NSObject {
         try await db.collection("users").document(uid).delete()
 
         // 4. Radera profilbild i Firebase Storage (try? — bild kanske inte finns)
-        let storageRef = Storage.storage().reference().child("profileImages/\(uid)")
+        let storageRef = Storage.storage().reference().child("profile_images/\(uid).jpg")
         try? await storageRef.delete()
     }
 

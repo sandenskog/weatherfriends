@@ -151,11 +151,15 @@ struct FriendsTabView: View {
             attribution = try? await weatherService.attribution
         }
         .onChange(of: openWeatherAlertFriendId) { _, friendId in
-            guard let friendId else { return }
+            guard let friendId, !viewModel.isLoading else { return }
             let all = viewModel.favorites + viewModel.others
-            if let fw = all.first(where: { $0.friend.id == friendId }) {
-                selectedFriendWeather = fw
-            }
+            selectedFriendWeather = all.first(where: { $0.friend.id == friendId })
+            openWeatherAlertFriendId = nil
+        }
+        .onChange(of: viewModel.isLoading) { _, isLoading in
+            guard !isLoading, let friendId = openWeatherAlertFriendId else { return }
+            let all = viewModel.favorites + viewModel.others
+            selectedFriendWeather = all.first(where: { $0.friend.id == friendId })
             openWeatherAlertFriendId = nil
         }
     }
