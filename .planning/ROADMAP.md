@@ -22,7 +22,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4.4: Fixa authUid-population vid Friend-skapande** - INSERTED: Sätt authUid i alla Friend-skapande kodvägar (Gap Closure) (completed 2026-03-03)
 - [x] **Phase 4.5: Vänprofil-navigation och dokumentationsfix** - INSERTED: Tappbar profil-vy + SUMMARY/traceability-fix (Gap Closure) (completed 2026-03-03)
 - [x] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning (completed 2026-03-04)
-- [ ] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering
+- [x] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering (completed 2026-03-04)
+- [ ] **Phase 7: Tech Debt Cleanup** - DI-fix, dead code removal och dokumentationsfix (Gap Closure)
 
 ## Phase Details
 
@@ -191,13 +192,26 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Animerade väderillustrationer (SwiftUI Canvas/TimelineView) och konto-radering (AuthManager + ProfileView)
-- [ ] 06-02-PLAN.md — iOS hemskärmswidget (WidgetKit), App Group-datadelning, deep links och privacy manifest
+- [x] 06-01-PLAN.md — Animerade väderillustrationer (SwiftUI Canvas/TimelineView) och konto-radering (AuthManager + ProfileView)
+- [x] 06-02-PLAN.md — iOS hemskärmswidget (WidgetKit), App Group-datadelning, deep links och privacy manifest
+
+### Phase 7: Tech Debt Cleanup (Gap Closure)
+**Goal**: Eliminera ackumulerad tech debt identifierad av milestone audit — DI-brott, dead code och dokumentationsgap
+**Depends on**: Phase 6
+**Requirements**: CHAT-01, CHAT-02 (integration quality)
+**Gap Closure**: Closes tech_debt gaps from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. ConversationListView använder `@Environment` FriendService istf throwaway-instans
+  2. ConversationListViewModel tar emot UserService via parameter-injection
+  3. Debug-print borttagen ur FriendListViewModel.swift
+  4. Dead code `from(friendWeather:)` borttagen ur WidgetFriendEntry+AppExtension.swift
+  5. 05-02-SUMMARY.md inkluderar VIEW-02 och PUSH-02 i frontmatter
+**Plans:** 0/1 plans
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 → 4.4 → 4.5 → 5 → 6
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 → 4.4 → 4.5 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -211,4 +225,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 4.4 Fixa authUid-population | 1/1 | Complete | 2026-03-03 |
 | 4.5 Vänprofil-nav + docs | 1/1 | Complete | 2026-03-03 |
 | 5. Utökade Vyer | 2/2 | Complete | 2026-03-04 |
-| 6. Polish och App Store | 0/2 | Not started | - |
+| 6. Polish och App Store | 2/2 | Complete | 2026-03-04 |
+| 7. Tech Debt Cleanup | 0/1 | Not started | - |
