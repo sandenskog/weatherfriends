@@ -56,14 +56,42 @@ targets:
         product: FacebookLogin
       - package: Firebase
         product: FirebaseMessaging
+      - target: HotAndColdFriendsWidgetExtension
+        embed: true
     entitlements:
       path: HotAndColdFriends/Resources/HotAndColdFriends.entitlements
       properties:
         com.apple.developer.weatherkit: true
         com.apple.developer.applesignin:
           - Default
+        com.apple.security.application-groups:
+          - group.se.sandenskog.hotandcoldfriends
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: se.sandenskog.hotandcoldfriends
         INFOPLIST_FILE: HotAndColdFriends/Resources/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+
+  HotAndColdFriendsWidgetExtension:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: HotAndColdFriendsWidget
+        excludes:
+          - "**/@eaDir"
+      - path: HotAndColdFriends/Models/WidgetFriendEntry.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: se.sandenskog.hotandcoldfriends.widget
+        INFOPLIST_FILE: HotAndColdFriendsWidget/Info.plist
+        SWIFT_VERSION: "5.9"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        DEVELOPMENT_TEAM: "A473BQKT8M"
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+    entitlements:
+      path: HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.se.sandenskog.hotandcoldfriends

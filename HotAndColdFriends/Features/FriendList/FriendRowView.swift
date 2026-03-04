@@ -27,8 +27,6 @@ struct FriendRowView: View {
     var body: some View {
         HStack(spacing: 12) {
             profileImage
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(friendWeather.friend.displayName)
@@ -61,17 +59,29 @@ struct FriendRowView: View {
 
     @ViewBuilder
     private var profileImage: some View {
-        if let urlString = friendWeather.friend.photoURL, let url = URL(string: urlString) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                default:
+        ZStack {
+            // Animationslager bakom profilbilden
+            WeatherAnimationView(condition: WeatherCondition.from(symbolName: friendWeather.symbolName))
+                .frame(width: 40, height: 40)
+                .clipShape(Circle())
+
+            // Profilbild ovanpå med lätt genomskinlighet — animationen syns som en glöd runt kanten
+            Group {
+                if let urlString = friendWeather.friend.photoURL, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image.resizable().scaledToFill()
+                        default:
+                            initialsCircle
+                        }
+                    }
+                } else {
                     initialsCircle
                 }
             }
-        } else {
-            initialsCircle
+            .frame(width: 34, height: 34)
+            .clipShape(Circle())
         }
     }
 

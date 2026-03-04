@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		015C89977A31E07AF102B3CF /* OnboardingFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3D7A85A327C5BADD0FE4B2 /* OnboardingFavoritesView.swift */; };
+		031225AE3CC7B79EF8784EB7 /* WidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2A1485C33F328D6E63E9BB /* WidgetViews.swift */; };
 		06A7CAEBD5D6F9D29B012C89 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = F8B44FFE32EBF050A94BE8AA /* GoogleSignIn */; };
 		0923FF83596356705AEEA84C /* AppWeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */; };
 		0E0A0EB16E769C9682197E5A /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114DFB02FD57BACC061D3CB /* FriendService.swift */; };
@@ -27,6 +28,8 @@
 		3BDD9AFB21EC96E8A7EE92FF /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3560593D7328AF527A711AB5 /* GoogleSignInSwift */; };
 		41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */; };
 		43B3A4CD67349EE853E277F1 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823460B236F30515A2B6BA4 /* ChatService.swift */; };
+		47BBD3950C60D053BC5E935E /* HotAndColdFriendsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9DE660F20F631B593A624396 /* HotAndColdFriendsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4FD9565099440CEC64491342 /* WidgetFriendEntry+AppExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66575C102DED1FAD3A40AC62 /* WidgetFriendEntry+AppExtension.swift */; };
 		5490F71F115D180AAD2CCCA8 /* ConversationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59676B084BB0DFF1A9DDE540 /* ConversationListViewModel.swift */; };
 		561765040B94E999926C86D9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B8C3C60DADFC174ABB094F /* ProfileView.swift */; };
 		57E58C63B0AA9B1E741E0635 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B0EE016563BF8F8478701 /* ProfileViewModel.swift */; };
@@ -35,8 +38,10 @@
 		5F64AB1D959D25FB3C756F0C /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */; };
 		6205811B236AE218203BC104 /* AddFriendSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D198A6FFAF3C36481DF57EC /* AddFriendSheet.swift */; };
 		6F93C5D433398194F1718108 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0595D92E8471402A2465017 /* UserService.swift */; };
+		7222AC8CB0FA8073920A1194 /* WeatherAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FEF5CBE394AD4CFCBECA2A /* WeatherAnimationView.swift */; };
 		728B80C4300E19BC3170558F /* OnboardingNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */; };
 		76D58889D5DD6FEBC491DCC0 /* ContactImportRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F7A7C3ABE2D55AC4851133 /* ContactImportRow.swift */; };
+		7758C9A0A11DFDDD894D10F3 /* HotAndColdFriendsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4983BC091BC878A6DCCEFF65 /* HotAndColdFriendsWidget.swift */; };
 		7CCBF541B71A56D605D16032 /* FriendListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C773FC6DD78C9854596E5D /* FriendListViewModel.swift */; };
 		89FD7BADF5356C400F79236E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C665750FE31C993FBAB8CFD6 /* LoginViewModel.swift */; };
 		8A1F4FC9052B1E1BDFE9BF2F /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */; };
@@ -47,13 +52,16 @@
 		8CA3ABF18999AE1697108BA2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0349F96B865000DA59EC0FDA /* FirebaseMessaging */; };
 		8EE4E92657DA0078618AFFE9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = BCF5F5391A781D6D3DDD6B4B /* FirebaseAuth */; };
 		9001F0FA1C4AF8B41E0EE87E /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E534A735B585F4550CAE1A58 /* ChatMessage.swift */; };
+		91B378E9C6224101CEFA458F /* WidgetFriendEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCA71A3C1F9825DAA965A6D /* WidgetFriendEntry.swift */; };
 		94179C511E6289B2EB6E01AB /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B20F948D1A9868EE70A5272 /* OnboardingView.swift */; };
 		97E21DAEF34CA72BF1ABBA47 /* ChatBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D50E45FEF6B20630356DDD /* ChatBubbleView.swift */; };
 		9BB9864F2639D615362A3180 /* FriendMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DD254978A557D8DFB2EA3B /* FriendMapView.swift */; };
+		9C5D837CE1F84587D31A8D8D /* WidgetFriendEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCA71A3C1F9825DAA965A6D /* WidgetFriendEntry.swift */; };
 		A5A6F2FC3544EC1A7BFBFE7D /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AEC5B49CAD762F884C75ED /* AppRouter.swift */; };
 		B2B0860E2220BB010905DE15 /* ContactImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81775B5DEE9ABD7A1262F0 /* ContactImportView.swift */; };
 		B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC38AB7BDC03D9814B36926 /* AuthManager.swift */; };
 		C3D69DA3003679DFAB00C76E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */; };
+		C9930BD4051D14E757B05503 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DB73DE87C26C659D7FA9B19C /* PrivacyInfo.xcprivacy */; };
 		C9AF99B0F8F84E9E987F1B6E /* FriendMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD83D4A4F94EA7B27B72CA97 /* FriendMapViewModel.swift */; };
 		CC740470FC314853DEFD878F /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD414AD8699A2B68C55D7CF8 /* Report.swift */; };
 		CCFC4ED925834CEC5A5EA8EE /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72797A3E84EADA4B957500B5 /* ChatViewModel.swift */; };
@@ -73,6 +81,30 @@
 		FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8A8D1FAD1682E332F06AA5FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00DC4A437621618867294229 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9B4677BEA7494FABF7890624;
+			remoteInfo = HotAndColdFriendsWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		721F6654E6602BF055D2540C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				47BBD3950C60D053BC5E935E /* HotAndColdFriendsWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotAndColdFriends.entitlements; sourceTree = "<group>"; };
 		08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -84,6 +116,7 @@
 		1F40D14036FC668699DE4464 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		21C773FC6DD78C9854596E5D /* FriendListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewModel.swift; sourceTree = "<group>"; };
 		2443925B1B0DF6EC55C0E98F /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		258BBCF26EBD1AC21640B13D /* HotAndColdFriendsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotAndColdFriendsWidget.entitlements; sourceTree = "<group>"; };
 		26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		27DD254978A557D8DFB2EA3B /* FriendMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendMapView.swift; sourceTree = "<group>"; };
 		2A3D7A85A327C5BADD0FE4B2 /* OnboardingFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFavoritesView.swift; sourceTree = "<group>"; };
@@ -94,6 +127,7 @@
 		3CBA5CD41802CFE062FE5EAB /* FriendWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendWeather.swift; sourceTree = "<group>"; };
 		46BE76294B35397FE9A5F57B /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoFriendService.swift; sourceTree = "<group>"; };
+		4983BC091BC878A6DCCEFF65 /* HotAndColdFriendsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotAndColdFriendsWidget.swift; sourceTree = "<group>"; };
 		49AEC5B49CAD762F884C75ED /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRowView.swift; sourceTree = "<group>"; };
 		50C17A00CA20FF485FF6DE6A /* FriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListView.swift; sourceTree = "<group>"; };
@@ -102,6 +136,8 @@
 		59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailSheet.swift; sourceTree = "<group>"; };
 		616C89AE007BB29E51AABE54 /* WeatherStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStickerView.swift; sourceTree = "<group>"; };
 		625A8067A1DC08A0ED9879E1 /* WeatherHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHeaderView.swift; sourceTree = "<group>"; };
+		66575C102DED1FAD3A40AC62 /* WidgetFriendEntry+AppExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WidgetFriendEntry+AppExtension.swift"; sourceTree = "<group>"; };
+		66579F50B54C2DB086C98BF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		680DE0113F1304C8D2F93C0D /* OnboardingLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLocationView.swift; sourceTree = "<group>"; };
 		6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		72797A3E84EADA4B957500B5 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
@@ -114,18 +150,23 @@
 		986FCC0691322A4C8D26A54C /* NewConversationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationSheet.swift; sourceTree = "<group>"; };
 		9B84BDDA57D947D21BF33DD3 /* FriendCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCategoryView.swift; sourceTree = "<group>"; };
 		9D198A6FFAF3C36481DF57EC /* AddFriendSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendSheet.swift; sourceTree = "<group>"; };
+		9DE660F20F631B593A624396 /* HotAndColdFriendsWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = HotAndColdFriendsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0595D92E8471402A2465017 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AAEDC4DFF905CA78F3B8EA6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B639990872A0AD5664410044 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotAndColdFriendsApp.swift; sourceTree = "<group>"; };
 		BD83D4A4F94EA7B27B72CA97 /* FriendMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendMapViewModel.swift; sourceTree = "<group>"; };
+		BE2A1485C33F328D6E63E9BB /* WidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViews.swift; sourceTree = "<group>"; };
+		C0FEF5CBE394AD4CFCBECA2A /* WeatherAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAnimationView.swift; sourceTree = "<group>"; };
 		C665750FE31C993FBAB8CFD6 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWeatherService.swift; sourceTree = "<group>"; };
 		C823460B236F30515A2B6BA4 /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		D318457A3208319B531E0026 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		DB73DE87C26C659D7FA9B19C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		DD414AD8699A2B68C55D7CF8 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		E534A735B585F4550CAE1A58 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		EB81775B5DEE9ABD7A1262F0 /* ContactImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportView.swift; sourceTree = "<group>"; };
+		EDCA71A3C1F9825DAA965A6D /* WidgetFriendEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetFriendEntry.swift; sourceTree = "<group>"; };
 		F114DFB02FD57BACC061D3CB /* FriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendService.swift; sourceTree = "<group>"; };
 		F3D50E45FEF6B20630356DDD /* ChatBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleView.swift; sourceTree = "<group>"; };
 		F5AADA557D58C83067C0A07B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -170,6 +211,17 @@
 			path = FriendList;
 			sourceTree = "<group>";
 		};
+		236B5DC004E5D0A5F80B7C56 /* HotAndColdFriendsWidget */ = {
+			isa = PBXGroup;
+			children = (
+				258BBCF26EBD1AC21640B13D /* HotAndColdFriendsWidget.entitlements */,
+				4983BC091BC878A6DCCEFF65 /* HotAndColdFriendsWidget.swift */,
+				66579F50B54C2DB086C98BF6 /* Info.plist */,
+				BE2A1485C33F328D6E63E9BB /* WidgetViews.swift */,
+			);
+			path = HotAndColdFriendsWidget;
+			sourceTree = "<group>";
+		};
 		252155F44BE65BC89B423DE6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,10 +255,19 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
+		393B44CB1A1040F1B51FEA71 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				C0FEF5CBE394AD4CFCBECA2A /* WeatherAnimationView.swift */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
 		3E0E69EB15ADFC8687E8356B /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				2A67B39B28528E02AB997109 /* HotAndColdFriends.app */,
+				9DE660F20F631B593A624396 /* HotAndColdFriendsWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -264,6 +325,8 @@
 				FD9B9FB773AAD71C1FFBC0A9 /* Friend.swift */,
 				3CBA5CD41802CFE062FE5EAB /* FriendWeather.swift */,
 				DD414AD8699A2B68C55D7CF8 /* Report.swift */,
+				EDCA71A3C1F9825DAA965A6D /* WidgetFriendEntry.swift */,
+				66575C102DED1FAD3A40AC62 /* WidgetFriendEntry+AppExtension.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -275,6 +338,7 @@
 				1F1E46F80EE4810096655142 /* GoogleService-Info.plist */,
 				00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */,
 				AAEDC4DFF905CA78F3B8EA6E /* Info.plist */,
+				DB73DE87C26C659D7FA9B19C /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -283,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				C2360FC8FE5410A56BD90BCE /* HotAndColdFriends */,
+				236B5DC004E5D0A5F80B7C56 /* HotAndColdFriendsWidget */,
 				3E0E69EB15ADFC8687E8356B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -336,6 +401,7 @@
 		FBDC65FEBF23573D92FF1194 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				393B44CB1A1040F1B51FEA71 /* Animations */,
 				2C3920DD15E7CC576F83AF64 /* Chat */,
 				3EAD0A4D63AC08A5F894BD8B /* ContactImport */,
 				2084E22EF3A69E14272FD731 /* FriendList */,
@@ -356,10 +422,12 @@
 				666F8C7AB0B7B293DA4B102C /* Sources */,
 				F0567509066A8C839C704A67 /* Resources */,
 				4A6E8F42AA77459E04FC8285 /* Frameworks */,
+				721F6654E6602BF055D2540C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				75E78DAFE80385F17C6C4394 /* PBXTargetDependency */,
 			);
 			name = HotAndColdFriends;
 			packageProductDependencies = (
@@ -377,6 +445,23 @@
 			productReference = 2A67B39B28528E02AB997109 /* HotAndColdFriends.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9B4677BEA7494FABF7890624 /* HotAndColdFriendsWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 777B6C4997AA81CCB606C979 /* Build configuration list for PBXNativeTarget "HotAndColdFriendsWidgetExtension" */;
+			buildPhases = (
+				D3B5FE89C59302B9AA3C61A3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HotAndColdFriendsWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = HotAndColdFriendsWidgetExtension;
+			productReference = 9DE660F20F631B593A624396 /* HotAndColdFriendsWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -387,6 +472,9 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					0FBAAC30773D82F16E475729 = {
+						DevelopmentTeam = A473BQKT8M;
+					};
+					9B4677BEA7494FABF7890624 = {
 						DevelopmentTeam = A473BQKT8M;
 					};
 				};
@@ -411,6 +499,7 @@
 			projectRoot = "";
 			targets = (
 				0FBAAC30773D82F16E475729 /* HotAndColdFriends */,
+				9B4677BEA7494FABF7890624 /* HotAndColdFriendsWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -422,6 +511,7 @@
 			files = (
 				0E9ADED7867FE59512BC818D /* Assets.xcassets in Resources */,
 				8BCC1D7419C1C8BF9ACF0500 /* GoogleService-Info.plist in Resources */,
+				C9930BD4051D14E757B05503 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,13 +572,34 @@
 				CC740470FC314853DEFD878F /* Report.swift in Sources */,
 				6F93C5D433398194F1718108 /* UserService.swift in Sources */,
 				EE887857D9F81FF71E52BA78 /* WeatherAlertService.swift in Sources */,
+				7222AC8CB0FA8073920A1194 /* WeatherAnimationView.swift in Sources */,
 				EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */,
 				8C5DDD1B3D5EF71814EA8F19 /* WeatherHeaderView.swift in Sources */,
 				104A6991155EBF8F20498249 /* WeatherStickerView.swift in Sources */,
+				4FD9565099440CEC64491342 /* WidgetFriendEntry+AppExtension.swift in Sources */,
+				91B378E9C6224101CEFA458F /* WidgetFriendEntry.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D3B5FE89C59302B9AA3C61A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7758C9A0A11DFDDD894D10F3 /* HotAndColdFriendsWidget.swift in Sources */,
+				9C5D837CE1F84587D31A8D8D /* WidgetFriendEntry.swift in Sources */,
+				031225AE3CC7B79EF8784EB7 /* WidgetViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		75E78DAFE80385F17C6C4394 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9B4677BEA7494FABF7890624 /* HotAndColdFriendsWidgetExtension */;
+			targetProxy = 8A8D1FAD1682E332F06AA5FD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1A50F12A82802E8BFAA30464 /* Release */ = {
@@ -654,9 +765,60 @@
 			};
 			name = Release;
 		};
+		A6323F72E9A49C916028623C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A473BQKT8M;
+				INFOPLIST_FILE = HotAndColdFriendsWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = se.sandenskog.hotandcoldfriends.widget;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CD2F3255BBAF0D55F892CF20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A473BQKT8M;
+				INFOPLIST_FILE = HotAndColdFriendsWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = se.sandenskog.hotandcoldfriends.widget;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		777B6C4997AA81CCB606C979 /* Build configuration list for PBXNativeTarget "HotAndColdFriendsWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD2F3255BBAF0D55F892CF20 /* Debug */,
+				A6323F72E9A49C916028623C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		AB8611E96C5D19599D6DBE72 /* Build configuration list for PBXProject "HotAndColdFriends" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
