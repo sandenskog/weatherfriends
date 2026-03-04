@@ -13,7 +13,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **AUTH-02**: Användare kan logga in med Google Sign-In
 - [x] **AUTH-03**: Användare kan logga in med Facebook Login
 - [x] **AUTH-04**: Användarsession bevaras mellan app-starter
-- [ ] **AUTH-05**: Användare kan radera sitt konto (App Store-krav)
+- [x] **AUTH-05**: Användare kan radera sitt konto (App Store-krav)
 
 ### Profil
 
@@ -32,7 +32,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Väder
 
 - [x] **WTHR-01**: Realtidsväder visas per vän (temperatur, ikon, vind, fuktighet, prognos)
-- [ ] **WTHR-02**: Animerade väderillustrationer bakom vännens profilbild
+- [x] **WTHR-02**: Animerade väderillustrationer bakom vännens profilbild
 - [x] **WTHR-03**: Väderdata uppdateras automatiskt med caching
 
 ### Vyer
@@ -98,7 +98,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete (01-01) |
-| AUTH-05 | Phase 6 | Pending |
+| AUTH-05 | Phase 6 | Complete |
 | PROF-01 | Phase 1 | Complete |
 | PROF-02 | Phase 1 | Complete |
 | PROF-03 | Phase 4.5 | Complete |
@@ -108,7 +108,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FRND-04 | Phase 4.1 | Complete |
 | FRND-05 | Phase 2 | Complete |
 | WTHR-01 | Phase 4.1 | Complete |
-| WTHR-02 | Phase 6 | Pending |
+| WTHR-02 | Phase 6 | Complete |
 | WTHR-03 | Phase 2 | Complete |
 | VIEW-01 | Phase 2 | Complete |
 | VIEW-02 | Phase 5 | Complete |

@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 5: Utökade Vyer
+**Current focus:** Phase 6: Polish och App Store
 
 ## Current Position
 
-Phase: 05-utokade-vyer
-Plan: 2 of 2 in current phase
-Status: Plan 02 Complete — Phase 05 Complete
-Last activity: 2026-03-04 — Plan 05-02 komplett. FriendCategoryView med WeatherCategory-karuseller och DailyWeatherNotificationService implementerade.
+Phase: 06-polish-app-store
+Plan: 1 of 2 in current phase
+Status: Plan 01 Complete
+Last activity: 2026-03-04 — Plan 06-01 komplett. WeatherAnimationView med 5 vädertyper och konto-radering implementerade (WTHR-02 + AUTH-05).
 
-Progress: [██████████] 100%
+Progress: [██████████] 95%
 
 ## Performance Metrics
 
@@ -69,6 +69,7 @@ Progress: [██████████] 100%
 | Phase 05-utokade-vyer P01 | 4 | 2 tasks | 5 files |
 | Phase 05-utokade-vyer P02 | 3 | 2 tasks | 4 files |
 | Phase 06-polish-app-store P02 | 5 | 1 tasks | 11 files |
+| Phase 06-polish-app-store P01 | 7 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -148,6 +149,10 @@ Recent decisions affecting current work:
 - [Phase 06-polish-app-store]: WidgetFriendEntry är ren Codable-struct — from(friendWeather:) flyttades till FriendListViewModel för att undvika kompilationsfel i widget-target
 - [Phase 06-polish-app-store]: Profilbilder exkluderas från widget v1 — AsyncImage fungerar ej i WidgetKit, initialer visas istället
 - [Phase 06-polish-app-store]: Widget deep links återanvänder .openWeatherAlert Notification.Name (AppRouter) — navigerar till väderdetalj utan ny NotificationCenter-hantering
+- [Phase 06-01]: WeatherAnimationView visas som 40x40-ring bakom profilbild (34x34) i ZStack — animation syns som subtil levande ram
+- [Phase 06-01]: WidgetFriendEntry+AppExtension.swift skapad som app-only extension — from(friendWeather:) kräver FriendWeather som ej finns i widget-target
+- [Phase 06-01]: cleanupUserData körs FÖRE user.delete() — data raderas även vid timing-kantfall
+- [Phase 06-01]: revokeAppleToken() kallas före user.delete() för Apple-användare — Apples App Store-krav
 
 ### Pending Todos
 
@@ -164,5 +169,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-04
-Stopped at: Completed 05-utokade-vyer-02-PLAN.md. FriendCategoryView med WeatherCategory-karuseller och DailyWeatherNotificationService implementerade. Phase 05 komplett.
+Stopped at: Completed 06-polish-app-store-01-PLAN.md. WeatherAnimationView (5 vädertyper) och konto-radering (AuthManager + ProfileView) implementerade. Plan 06-01 komplett.
 Resume file: None
