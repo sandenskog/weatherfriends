@@ -9,11 +9,11 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 
 ### Design Tokens
 
-- [ ] **DSGN-01**: Appen använder Bubble Pop färgpalett (temperaturzoner, brand, UI, semantiska färger) konsekvent i alla vyer
-- [ ] **DSGN-02**: Baloo 2 custom font används för rubriker, knappar och temperaturvärden
-- [ ] **DSGN-03**: Inter/SF Pro används för brödtext och captions
-- [ ] **DSGN-04**: 8pt spacing grid och border radius-skala (sm/md/lg/xl/round) tillämpas
-- [ ] **DSGN-05**: Shadow-skala (sm/md/lg/glow) implementerad
+- [x] **DSGN-01**: Appen använder Bubble Pop färgpalett (temperaturzoner, brand, UI, semantiska färger) konsekvent i alla vyer
+- [x] **DSGN-02**: Baloo 2 custom font används för rubriker, knappar och temperaturvärden
+- [x] **DSGN-03**: Inter/SF Pro används för brödtext och captions
+- [x] **DSGN-04**: 8pt spacing grid och border radius-skala (sm/md/lg/xl/round) tillämpas
+- [x] **DSGN-05**: Shadow-skala (sm/md/lg/glow) implementerad
 
 ### Komponenter
 
@@ -70,11 +70,11 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DSGN-01 | Phase 9 | Pending |
-| DSGN-02 | Phase 9 | Pending |
-| DSGN-03 | Phase 9 | Pending |
-| DSGN-04 | Phase 9 | Pending |
-| DSGN-05 | Phase 9 | Pending |
+| DSGN-01 | Phase 9 | Complete |
+| DSGN-02 | Phase 9 | Complete |
+| DSGN-03 | Phase 9 | Complete |
+| DSGN-04 | Phase 9 | Complete |
+| DSGN-05 | Phase 9 | Complete |
 | ASSET-01 | Phase 9 | Pending |
 | ASSET-02 | Phase 9 | Pending |
 | ASSET-03 | Phase 9 | Pending |
