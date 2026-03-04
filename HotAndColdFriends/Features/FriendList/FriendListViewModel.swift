@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import WidgetKit
 
 @Observable
 @MainActor
@@ -37,6 +38,9 @@ class FriendListViewModel {
             }
             favorites = sorted.filter { $0.friend.isFavorite }
             others = sorted.filter { !$0.friend.isFavorite }
+
+            // Skriv favoriter till delad UserDefaults för widget
+            updateWidgetData(favorites: self.favorites)
         } catch {
             errorMessage = "Kunde inte hämta vänner: \(error.localizedDescription)"
         }
@@ -106,6 +110,44 @@ class FriendListViewModel {
     func refresh(uid: String, friendService: FriendService, weatherService: AppWeatherService) async {
         await weatherService.clearCache()
         await load(uid: uid, friendService: friendService, weatherService: weatherService)
+    }
+
+    // MARK: - Widget Data
+
+    private func updateWidgetData(favorites: [FriendWeather]) {
+        let entries: [WidgetFriendEntry] = favorites.compactMap { fw in
+            guard let id = fw.friend.id else { return nil }
+            let temp = fw.temperatureCelsius
+            let rgb: [Double]
+            if let celsius = temp {
+                if celsius < 0 {
+                    rgb = [0.6, 0.85, 1.0]   // isblå
+                } else if celsius < 10 {
+                    rgb = [0.4, 0.7, 0.95]   // kylig blå
+                } else if celsius < 20 {
+                    rgb = [0.3, 0.75, 0.45]  // grön
+                } else if celsius < 28 {
+                    rgb = [1.0, 0.65, 0.2]   // orange
+                } else {
+                    rgb = [1.0, 0.3, 0.2]    // röd
+                }
+            } else {
+                rgb = [0.6, 0.6, 0.6]        // grå fallback
+            }
+            return WidgetFriendEntry(
+                id: id,
+                displayName: fw.friend.displayName,
+                city: fw.friend.city,
+                temperatureCelsius: temp,
+                symbolName: fw.symbolName,
+                temperatureColorRGB: rgb
+            )
+        }
+        if let data = try? JSONEncoder().encode(entries) {
+            let defaults = UserDefaults(suiteName: "group.se.sandenskog.hotandcoldfriends")
+            defaults?.set(data, forKey: "widgetFavorites")
+        }
+        WidgetCenter.shared.reloadTimelines(ofKind: "HotAndColdFriendsWidget")
     }
 
     // MARK: - Private helpers

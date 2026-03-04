@@ -32,6 +32,18 @@ struct HotAndColdFriendsApp: App {
                 .environment(appWeatherService)
                 .environment(friendService)
                 .environment(chatService)
+                .onOpenURL { url in
+                    // Parsa hotandcold://friend/<id> — widget deep links
+                    guard url.scheme == "hotandcold",
+                          url.host == "friend",
+                          let friendId = url.pathComponents.dropFirst().first else {
+                        return
+                    }
+                    NotificationCenter.default.post(
+                        name: .openWeatherAlert,
+                        object: friendId
+                    )
+                }
                 .task {
                     delegate.registerForPushNotifications()
                     // Kontrollera extremvader for vanners platser

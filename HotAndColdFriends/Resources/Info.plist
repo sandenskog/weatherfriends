@@ -54,6 +54,12 @@
 				<string>com.googleusercontent.apps.508810025023-blhjc4rivf7qitnalcvdka8u8t48rqpq</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>hotandcold</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>
