@@ -188,11 +188,11 @@ Plans:
   2. Animerade väderillustrationer visas bakom vänners profilbilder i listvyn
   3. Användare kan radera sitt konto via inställningar (App Store-krav sedan 2023)
   4. Appen passerar `Product → Archive → Validate` utan ITMS-91061 (privacy manifests)
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 06-01: iOS hemskärmswidget (WidgetKit) och animerade väderillustrationer (Lottie/SwiftUI)
-- [ ] 06-02: Konto-borttagningsflöde, privacy manifest-audit och TestFlight-submission
+- [ ] 06-01-PLAN.md — Animerade väderillustrationer (SwiftUI Canvas/TimelineView) och konto-radering (AuthManager + ProfileView)
+- [ ] 06-02-PLAN.md — iOS hemskärmswidget (WidgetKit), App Group-datadelning, deep links och privacy manifest
 
 ## Progress
 
