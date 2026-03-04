@@ -23,7 +23,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4.5: Vänprofil-navigation och dokumentationsfix** - INSERTED: Tappbar profil-vy + SUMMARY/traceability-fix (Gap Closure) (completed 2026-03-03)
 - [x] **Phase 5: Utökade Vyer** - Kartvy, grupperade väderkort och daglig sammanfattning (completed 2026-03-04)
 - [x] **Phase 6: Polish och App Store** - Widget, animationer och App Store-lansering (completed 2026-03-04)
-- [ ] **Phase 7: Tech Debt Cleanup** - DI-fix, dead code removal och dokumentationsfix (Gap Closure)
+- [x] **Phase 7: Tech Debt Cleanup** - DI-fix, dead code removal och dokumentationsfix (Gap Closure) (completed 2026-03-04)
 
 ## Phase Details
 
@@ -206,7 +206,7 @@ Plans:
   3. Debug-print borttagen ur FriendListViewModel.swift
   4. Dead code `from(friendWeather:)` borttagen ur WidgetFriendEntry+AppExtension.swift
   5. 05-02-SUMMARY.md inkluderar VIEW-02 och PUSH-02 i frontmatter
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 07-01-PLAN.md — DI-fix (ConversationListView/ViewModel), dead code removal (WidgetFriendEntry+AppExtension) och verifiering av redan fixade items
@@ -229,4 +229,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 4.1 → 4.2 → 4.3 →
 | 4.5 Vänprofil-nav + docs | 1/1 | Complete | 2026-03-03 |
 | 5. Utökade Vyer | 2/2 | Complete | 2026-03-04 |
 | 6. Polish och App Store | 2/2 | Complete | 2026-03-04 |
-| 7. Tech Debt Cleanup | 0/1 | Not started | - |
+| 7. Tech Debt Cleanup | 1/1 | Complete   | 2026-03-04 |

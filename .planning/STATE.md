@@ -22,10 +22,10 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 
 ## Current Position
 
-Phase: 06-polish-app-store
-Plan: 1 of 2 in current phase
+Phase: 07-tech-debt-cleanup
+Plan: 1 of 1 in current phase
 Status: Plan 01 Complete
-Last activity: 2026-03-04 — Plan 06-01 komplett. WeatherAnimationView med 5 vädertyper och konto-radering implementerade (WTHR-02 + AUTH-05).
+Last activity: 2026-03-04 — Plan 07-01 komplett. DI-brott i ConversationListView/ViewModel fixade och dead code WidgetFriendEntry+AppExtension.swift borttagen (CHAT-01, CHAT-02).
 
 Progress: [██████████] 95%
 
@@ -153,6 +153,8 @@ Recent decisions affecting current work:
 - [Phase 06-01]: WidgetFriendEntry+AppExtension.swift skapad som app-only extension — from(friendWeather:) kräver FriendWeather som ej finns i widget-target
 - [Phase 06-01]: cleanupUserData körs FÖRE user.delete() — data raderas även vid timing-kantfall
 - [Phase 06-01]: revokeAppleToken() kallas före user.delete() för Apple-användare — Apples App Store-krav
+- [Phase 07-01]: UserService injiceras som parameter till viewModel-metoder (ej @Environment direkt i ViewModel) — konsekvent med hela appens mönster
+- [Phase 07-01]: WidgetFriendEntry+AppExtension.swift raderas — from(friendWeather:) anropades aldrig från annan fil (verifierat med grep)
 
 ### Pending Todos
 
@@ -169,5 +171,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-04
-Stopped at: Completed 06-polish-app-store-01-PLAN.md. WeatherAnimationView (5 vädertyper) och konto-radering (AuthManager + ProfileView) implementerade. Plan 06-01 komplett.
+Stopped at: Completed 07-tech-debt-cleanup-01-PLAN.md. DI-brott i ConversationListView/ViewModel fixade, dead code WidgetFriendEntry+AppExtension.swift borttagen. Alla v1.0 tech debt items åtgärdade.
 Resume file: None
