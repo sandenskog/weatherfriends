@@ -28,8 +28,7 @@ struct FriendRowView: View {
                         friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .bubbleTextSecondary
                     )
 
-                Image(systemName: friendWeather.symbolName)
-                    .font(.body)
+                WeatherIconMapper.icon(for: friendWeather.symbolName, size: 24)
                     .foregroundStyle(
                         friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .bubbleTextSecondary
                     )
