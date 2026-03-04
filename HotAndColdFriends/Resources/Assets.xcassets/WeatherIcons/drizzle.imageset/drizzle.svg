@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="drizCloud" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D0D8E8"/>
+      <stop offset="100%" stop-color="#A8B4C8"/>
+    </linearGradient>
+    <filter id="dShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#8892A8" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Cloud -->
+  <g filter="url(#dShadow)">
+    <ellipse cx="55" cy="44" rx="36" ry="20" fill="url(#drizCloud)"/>
+    <circle cx="35" cy="32" r="18" fill="url(#drizCloud)"/>
+    <circle cx="60" cy="28" r="22" fill="url(#drizCloud)"/>
+    <circle cx="78" cy="36" r="14" fill="url(#drizCloud)"/>
+  </g>
+  <!-- Mild face -->
+  <circle cx="45" cy="40" r="2" fill="#8892A8"/>
+  <circle cx="61" cy="40" r="2" fill="#8892A8"/>
+  <path d="M48 50 Q53 53 58 50" fill="none" stroke="#8892A8" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Gentle drizzle dots -->
+  <circle cx="35" cy="72" r="2.5" fill="#6B9FE8" opacity="0.6"/>
+  <circle cx="48" cy="80" r="2" fill="#6B9FE8" opacity="0.5"/>
+  <circle cx="60" cy="74" r="2.5" fill="#6B9FE8" opacity="0.6"/>
+  <circle cx="72" cy="82" r="2" fill="#6B9FE8" opacity="0.4"/>
+  <circle cx="42" cy="92" r="2" fill="#6B9FE8" opacity="0.3"/>
+  <circle cx="55" cy="96" r="2.5" fill="#6B9FE8" opacity="0.35"/>
+  <circle cx="68" cy="90" r="2" fill="#6B9FE8" opacity="0.3"/>
+</svg>

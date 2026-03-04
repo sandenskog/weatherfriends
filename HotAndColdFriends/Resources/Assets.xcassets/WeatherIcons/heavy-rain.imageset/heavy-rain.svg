@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="heavyCloud" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8892A8"/>
+      <stop offset="100%" stop-color="#6B7B9E"/>
+    </linearGradient>
+    <linearGradient id="hDropGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4A6CF7"/>
+      <stop offset="100%" stop-color="#3455D1"/>
+    </linearGradient>
+    <filter id="hShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#4A5580" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <!-- Cloud -->
+  <g filter="url(#hShadow)">
+    <ellipse cx="55" cy="42" rx="38" ry="22" fill="url(#heavyCloud)"/>
+    <circle cx="32" cy="28" r="20" fill="url(#heavyCloud)"/>
+    <circle cx="58" cy="24" r="24" fill="url(#heavyCloud)"/>
+    <circle cx="80" cy="34" r="16" fill="url(#heavyCloud)"/>
+  </g>
+  <!-- Worried face -->
+  <circle cx="44" cy="38" r="2.5" fill="#4A5580"/>
+  <circle cx="60" cy="38" r="2.5" fill="#4A5580"/>
+  <ellipse cx="52" cy="50" rx="5" ry="4" fill="#4A5580" opacity="0.6"/>
+  <!-- Heavy drops -->
+  <line x1="28" y1="68" x2="22" y2="86" stroke="url(#hDropGrad)" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <line x1="40" y1="66" x2="34" y2="84" stroke="url(#hDropGrad)" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+  <line x1="52" y1="70" x2="46" y2="88" stroke="url(#hDropGrad)" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <line x1="64" y1="66" x2="58" y2="84" stroke="url(#hDropGrad)" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <line x1="76" y1="68" x2="70" y2="86" stroke="url(#hDropGrad)" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+  <line x1="34" y1="88" x2="28" y2="106" stroke="url(#hDropGrad)" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="58" y1="90" x2="52" y2="108" stroke="url(#hDropGrad)" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="70" y1="88" x2="64" y2="106" stroke="url(#hDropGrad)" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+</svg>

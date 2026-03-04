@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="rainCloud" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C0C8D8"/>
+      <stop offset="100%" stop-color="#8892A8"/>
+    </linearGradient>
+    <linearGradient id="dropGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6B9FE8"/>
+      <stop offset="100%" stop-color="#4A6CF7"/>
+    </linearGradient>
+    <filter id="rShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#6B7B9E" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Cloud -->
+  <g filter="url(#rShadow)">
+    <ellipse cx="55" cy="48" rx="36" ry="20" fill="url(#rainCloud)"/>
+    <circle cx="35" cy="36" r="18" fill="url(#rainCloud)"/>
+    <circle cx="60" cy="30" r="22" fill="url(#rainCloud)"/>
+    <circle cx="78" cy="40" r="14" fill="url(#rainCloud)"/>
+  </g>
+  <!-- Sad face -->
+  <circle cx="45" cy="44" r="2.5" fill="#6B7B9E"/>
+  <circle cx="61" cy="44" r="2.5" fill="#6B7B9E"/>
+  <path d="M47 54 Q53 50 59 54" fill="none" stroke="#6B7B9E" stroke-width="2" stroke-linecap="round"/>
+  <!-- Rain drops -->
+  <path d="M35 72 Q33 80 35 84 Q37 86 39 84 Q41 80 39 72 Z" fill="url(#dropGrad)" opacity="0.8"/>
+  <path d="M52 76 Q50 84 52 88 Q54 90 56 88 Q58 84 56 76 Z" fill="url(#dropGrad)" opacity="0.7"/>
+  <path d="M69 72 Q67 80 69 84 Q71 86 73 84 Q75 80 73 72 Z" fill="url(#dropGrad)" opacity="0.8"/>
+  <path d="M43 88 Q41 96 43 100 Q45 102 47 100 Q49 96 47 88 Z" fill="url(#dropGrad)" opacity="0.5"/>
+  <path d="M61 90 Q59 98 61 102 Q63 104 65 102 Q67 98 65 90 Z" fill="url(#dropGrad)" opacity="0.6"/>
+</svg>

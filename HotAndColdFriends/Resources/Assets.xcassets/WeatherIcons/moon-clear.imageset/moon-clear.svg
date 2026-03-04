@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <radialGradient id="moonGlow" cx="40%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#E8ECF4"/>
+      <stop offset="100%" stop-color="#B0BFD6"/>
+    </radialGradient>
+    <filter id="moonSoft">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Stars -->
+  <circle cx="90" cy="25" r="2.5" fill="#FFD93D" opacity="0.8"/>
+  <circle cx="100" cy="45" r="1.5" fill="#FFD93D" opacity="0.6"/>
+  <circle cx="85" cy="75" r="2" fill="#FFD93D" opacity="0.7"/>
+  <circle cx="105" cy="65" r="1.5" fill="#FFD93D" opacity="0.5"/>
+  <circle cx="95" cy="90" r="2" fill="#FFD93D" opacity="0.6"/>
+  <!-- Moon body -->
+  <circle cx="52" cy="55" r="30" fill="url(#moonGlow)" filter="url(#moonSoft)"/>
+  <circle cx="38" cy="40" r="26" fill="#0D0D20" opacity="0.15"/>
+  <!-- Sleepy face -->
+  <path d="M40 50 Q44 48 48 50" fill="none" stroke="#8892A8" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M56 50 Q60 48 64 50" fill="none" stroke="#8892A8" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="52" cy="64" r="4" fill="#C0C8D8" opacity="0.5"/>
+</svg>

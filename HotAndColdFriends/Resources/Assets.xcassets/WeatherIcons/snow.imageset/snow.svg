@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="snowCloud" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D0D8E8"/>
+      <stop offset="100%" stop-color="#B0BFD6"/>
+    </linearGradient>
+    <filter id="sShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#8892A8" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Cloud -->
+  <g filter="url(#sShadow)">
+    <ellipse cx="55" cy="42" rx="36" ry="20" fill="url(#snowCloud)"/>
+    <circle cx="35" cy="30" r="18" fill="url(#snowCloud)"/>
+    <circle cx="60" cy="26" r="22" fill="url(#snowCloud)"/>
+    <circle cx="78" cy="34" r="14" fill="url(#snowCloud)"/>
+  </g>
+  <!-- Cozy face -->
+  <circle cx="45" cy="38" r="2.5" fill="#8892A8"/>
+  <circle cx="61" cy="38" r="2.5" fill="#8892A8"/>
+  <path d="M48 48 Q53 52 58 48" fill="none" stroke="#8892A8" stroke-width="2" stroke-linecap="round"/>
+  <!-- Snowflakes -->
+  <g fill="none" stroke="#6B9FE8" stroke-width="1.5" stroke-linecap="round" opacity="0.8">
+    <g transform="translate(30,72)">
+      <line x1="0" y1="-6" x2="0" y2="6"/>
+      <line x1="-5.2" y1="-3" x2="5.2" y2="3"/>
+      <line x1="-5.2" y1="3" x2="5.2" y2="-3"/>
+    </g>
+    <g transform="translate(55,78)">
+      <line x1="0" y1="-7" x2="0" y2="7"/>
+      <line x1="-6" y1="-3.5" x2="6" y2="3.5"/>
+      <line x1="-6" y1="3.5" x2="6" y2="-3.5"/>
+    </g>
+    <g transform="translate(78,70)">
+      <line x1="0" y1="-5" x2="0" y2="5"/>
+      <line x1="-4.3" y1="-2.5" x2="4.3" y2="2.5"/>
+      <line x1="-4.3" y1="2.5" x2="4.3" y2="-2.5"/>
+    </g>
+  </g>
+  <!-- Small dots -->
+  <circle cx="40" cy="90" r="2.5" fill="#6B9FE8" opacity="0.5"/>
+  <circle cx="65" cy="95" r="2" fill="#6B9FE8" opacity="0.4"/>
+  <circle cx="48" cy="100" r="2.5" fill="#6B9FE8" opacity="0.3"/>
+  <circle cx="72" cy="85" r="2" fill="#6B9FE8" opacity="0.5"/>
+</svg>

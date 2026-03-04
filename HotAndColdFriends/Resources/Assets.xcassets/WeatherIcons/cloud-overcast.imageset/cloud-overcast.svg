@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="cloudMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8ECF4"/>
+      <stop offset="100%" stop-color="#C0C8D8"/>
+    </linearGradient>
+    <linearGradient id="cloudBack" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D0D8E8"/>
+      <stop offset="100%" stop-color="#B0BFD6"/>
+    </linearGradient>
+    <filter id="cShadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#8892A8" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Back cloud -->
+  <g opacity="0.6">
+    <ellipse cx="65" cy="50" rx="30" ry="18" fill="url(#cloudBack)"/>
+    <circle cx="50" cy="40" r="16" fill="url(#cloudBack)"/>
+    <circle cx="75" cy="42" r="14" fill="url(#cloudBack)"/>
+  </g>
+  <!-- Front cloud -->
+  <g filter="url(#cShadow)">
+    <ellipse cx="50" cy="70" rx="38" ry="22" fill="url(#cloudMain)"/>
+    <circle cx="30" cy="56" r="20" fill="url(#cloudMain)"/>
+    <circle cx="56" cy="50" r="24" fill="url(#cloudMain)"/>
+    <circle cx="76" cy="60" r="16" fill="url(#cloudMain)"/>
+  </g>
+  <!-- Neutral face -->
+  <circle cx="42" cy="66" r="2.5" fill="#8892A8"/>
+  <circle cx="58" cy="66" r="2.5" fill="#8892A8"/>
+  <line x1="44" y1="77" x2="56" y2="77" stroke="#8892A8" stroke-width="2" stroke-linecap="round"/>
+</svg>
