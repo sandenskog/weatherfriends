@@ -18,12 +18,13 @@ struct LoginView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                // Header: appnamn och tagline
+                // Header: logotyp och tagline
                 VStack(spacing: 12) {
-                    Text("Hot & Cold Friends")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
+                    Image("LogoHorizontal")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: 220)
+                        .padding(.bottom, 4)
 
                     Text("Se vädret hos dina vänner")
                         .font(.title3)
