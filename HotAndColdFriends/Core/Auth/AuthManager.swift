@@ -3,6 +3,7 @@ import CryptoKit
 import FirebaseCore
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 import GoogleSignIn
 import FacebookLogin
 import AuthenticationServices
@@ -102,6 +103,126 @@ class AuthManager: NSObject {
         } catch {
             // Log error — state listener kommer att reagera
         }
+    }
+
+    // MARK: - Delete Account
+
+    func deleteAccount() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw DeleteAccountError.noUser
+        }
+        let uid = user.uid
+
+        // 1. Rensa Firestore och Storage INNAN Firebase Auth-radering
+        try await cleanupUserData(uid: uid)
+
+        // 2. Apple Sign In kräver token revocation FÖRE user.delete()
+        if user.providerData.contains(where: { $0.providerID == "apple.com" }) {
+            try await revokeAppleToken()
+        }
+
+        // 3. Radera Firebase Auth-konto
+        do {
+            try await user.delete()
+        } catch let error as NSError
+            where error.code == AuthErrorCode.requiresRecentLogin.rawValue {
+            throw DeleteAccountError.requiresRecentLogin
+        } catch {
+            throw DeleteAccountError.deletionFailed(error)
+        }
+
+        // 4. Rensa lokal state
+        self.currentUser = nil
+        self.authState = .unauthenticated
+    }
+
+    // MARK: - Reauthenticate (för requiresRecentLogin-fallet)
+
+    func reauthenticate() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw DeleteAccountError.noUser
+        }
+        let providerID = user.providerData.first?.providerID ?? ""
+
+        if providerID.contains("apple") {
+            try await signInWithApple()
+        } else if providerID.contains("google") {
+            try await signInWithGoogle()
+        } else if providerID.contains("facebook") {
+            try await signInWithFacebook()
+        }
+    }
+
+    // MARK: - Private: Cleanup User Data
+
+    private func cleanupUserData(uid: String) async throws {
+        let db = Firestore.firestore()
+
+        // 1. Radera vänner (subcollection users/{uid}/friends/*)
+        let friendsSnapshot = try await db.collection("users").document(uid)
+            .collection("friends").getDocuments()
+        let friendDocs = friendsSnapshot.documents
+        for chunk in stride(from: 0, to: friendDocs.count, by: 400) {
+            let batch = db.batch()
+            let end = min(chunk + 400, friendDocs.count)
+            for doc in friendDocs[chunk..<end] {
+                batch.deleteDocument(doc.reference)
+            }
+            try await batch.commit()
+        }
+
+        // 2. Radera konversationer där uid är deltagare + deras meddelanden
+        let convsSnapshot = try await db.collection("conversations")
+            .whereField("participants", arrayContains: uid)
+            .getDocuments()
+        for convDoc in convsSnapshot.documents {
+            let messagesSnapshot = try await convDoc.reference
+                .collection("messages").getDocuments()
+            for msgChunk in stride(from: 0, to: messagesSnapshot.documents.count, by: 400) {
+                let batch = db.batch()
+                let end = min(msgChunk + 400, messagesSnapshot.documents.count)
+                for msgDoc in messagesSnapshot.documents[msgChunk..<end] {
+                    batch.deleteDocument(msgDoc.reference)
+                }
+                try await batch.commit()
+            }
+            try await convDoc.reference.delete()
+        }
+
+        // 3. Radera användarprofil
+        try await db.collection("users").document(uid).delete()
+
+        // 4. Radera profilbild i Firebase Storage (try? — bild kanske inte finns)
+        let storageRef = Storage.storage().reference().child("profileImages/\(uid)")
+        try? await storageRef.delete()
+    }
+
+    // MARK: - Private: Revoke Apple Token
+
+    private func revokeAppleToken() async throws {
+        let nonce = randomNonceString()
+        currentNonce = nonce
+
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = []  // Inga scopes — bara authorization code
+        request.nonce = sha256(nonce)
+
+        let authorization = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<ASAuthorization, Error>) in
+            self.appleSignInContinuation = continuation
+            let controller = ASAuthorizationController(authorizationRequests: [request])
+            controller.delegate = self
+            controller.presentationContextProvider = self
+            controller.performRequests()
+        }
+
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
+              let authorizationCode = appleIDCredential.authorizationCode,
+              let codeString = String(data: authorizationCode, encoding: .utf8) else {
+            throw DeleteAccountError.appleTokenRevocationFailed
+        }
+
+        try await Auth.auth().revokeToken(withAuthorizationCode: codeString)
     }
 
     // MARK: - Sign In With Apple
@@ -314,6 +435,28 @@ enum AuthError: LocalizedError {
             return "Kunde inte presentera inloggningsdialog."
         case .cancelled:
             return "Inloggningen avbröts."
+        }
+    }
+}
+
+// MARK: - DeleteAccountError
+
+enum DeleteAccountError: LocalizedError {
+    case noUser
+    case requiresRecentLogin
+    case appleTokenRevocationFailed
+    case deletionFailed(Error)
+
+    var errorDescription: String? {
+        switch self {
+        case .noUser:
+            return "Inget inloggat konto hittades."
+        case .requiresRecentLogin:
+            return "Du behöver logga in igen innan kontot kan raderas."
+        case .appleTokenRevocationFailed:
+            return "Kunde inte återkalla Apple-token."
+        case .deletionFailed(let error):
+            return "Konto-radering misslyckades: \(error.localizedDescription)"
         }
     }
 }

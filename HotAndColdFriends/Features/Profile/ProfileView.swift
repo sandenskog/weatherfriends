@@ -6,6 +6,10 @@ struct ProfileView: View {
     @Environment(UserService.self) private var userService
     @State private var viewModel = ProfileViewModel()
     @State private var showEditProfile = false
+    @State private var showDeleteConfirmation = false
+    @State private var isDeletingAccount = false
+    @State private var showReauthAlert = false
+    @State private var deleteError: String?
 
     private var isOwnProfile: Bool {
         authManager.currentUser?.id == uid
@@ -52,6 +56,25 @@ struct ProfileView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                             .padding(.horizontal)
+
+                            // Konto-radering
+                            Button(role: .destructive) {
+                                showDeleteConfirmation = true
+                            } label: {
+                                if isDeletingAccount {
+                                    ProgressView()
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 10)
+                                } else {
+                                    Label("Radera konto", systemImage: "trash")
+                                        .font(.subheadline.weight(.medium))
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 10)
+                                }
+                            }
+                            .disabled(isDeletingAccount)
+                            .padding(.horizontal)
+                            .padding(.top, 8)
                         }
 
                         Spacer(minLength: 32)
@@ -70,6 +93,37 @@ struct ProfileView: View {
         }
         .task {
             await viewModel.loadProfile(uid: uid, userService: userService)
+        }
+        .alert("Radera konto?", isPresented: $showDeleteConfirmation) {
+            Button("Radera", role: .destructive) {
+                Task { await performDeleteAccount() }
+            }
+            Button("Avbryt", role: .cancel) {}
+        } message: {
+            Text("Ditt konto och all din data raderas permanent. Åtgärden kan inte ångras.")
+        }
+        .alert("Inloggning krävs", isPresented: $showReauthAlert) {
+            Button("Logga in igen") {
+                Task {
+                    do {
+                        try await authManager.reauthenticate()
+                        await performDeleteAccount()
+                    } catch {
+                        deleteError = error.localizedDescription
+                    }
+                }
+            }
+            Button("Avbryt", role: .cancel) {}
+        } message: {
+            Text("Av säkerhetsskäl behöver du logga in igen innan kontot kan raderas.")
+        }
+        .alert("Fel", isPresented: Binding(
+            get: { deleteError != nil },
+            set: { if !$0 { deleteError = nil } }
+        )) {
+            Button("OK") { deleteError = nil }
+        } message: {
+            Text(deleteError ?? "")
         }
         .sheet(isPresented: $showEditProfile) {
             // Ladda om profilen efter redigering
@@ -125,6 +179,22 @@ struct ProfileView: View {
         let last = parts.count > 1 ? (parts.last?.first.map(String.init) ?? "") : ""
         let result = (first + last).uppercased()
         return result.isEmpty ? "?" : result
+    }
+
+    private func performDeleteAccount() async {
+        isDeletingAccount = true
+        defer { isDeletingAccount = false }
+        do {
+            try await authManager.deleteAccount()
+            // authState sätts till .unauthenticated av deleteAccount() ->
+            // AppRouter navigerar automatiskt till LoginView
+        } catch {
+            if case DeleteAccountError.requiresRecentLogin = error {
+                showReauthAlert = true
+            } else {
+                deleteError = error.localizedDescription
+            }
+        }
     }
 }
 

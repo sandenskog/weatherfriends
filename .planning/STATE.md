@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T23:19:44.719Z"
+last_updated: "2026-03-04T08:15:59.407Z"
 progress:
-  total_phases: 10
+  total_phases: 11
   completed_phases: 10
-  total_plans: 20
-  completed_plans: 20
+  total_plans: 22
+  completed_plans: 21
 ---
 
 # Project State
@@ -68,6 +68,7 @@ Progress: [██████████] 100%
 | Phase 04.5-vanprofil-docs P01 | 4 | 2 tasks | 4 files |
 | Phase 05-utokade-vyer P01 | 4 | 2 tasks | 5 files |
 | Phase 05-utokade-vyer P02 | 3 | 2 tasks | 4 files |
+| Phase 06-polish-app-store P02 | 5 | 1 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -144,6 +145,9 @@ Recent decisions affecting current work:
 - [Phase 05-02]: WeatherCategory.allCases ordning tropical first (varmast) till arctic sist (kallast) — matchar FriendListView sortering
 - [Phase 05-02]: DailyWeatherNotificationService är @MainActor men ej @Observable — bakgrundstjänst utan UI-binding (samma mönster som WeatherAlertService)
 - [Phase 05-02]: schedule() anropas i .task{} efter viewModel.load() — enklare än onChange(of: isLoading)
+- [Phase 06-polish-app-store]: WidgetFriendEntry är ren Codable-struct — from(friendWeather:) flyttades till FriendListViewModel för att undvika kompilationsfel i widget-target
+- [Phase 06-polish-app-store]: Profilbilder exkluderas från widget v1 — AsyncImage fungerar ej i WidgetKit, initialer visas istället
+- [Phase 06-polish-app-store]: Widget deep links återanvänder .openWeatherAlert Notification.Name (AppRouter) — navigerar till väderdetalj utan ny NotificationCenter-hantering
 
 ### Pending Todos
 

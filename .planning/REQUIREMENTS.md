@@ -58,7 +58,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Widget
 
-- [ ] **WDGT-01**: iOS hemskärmswidget visar favoriters väder
+- [x] **WDGT-01**: iOS hemskärmswidget visar favoriters väder
 
 ## v2 Requirements
 
@@ -122,7 +122,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PUSH-01 | Phase 4.3 | Complete |
 | PUSH-02 | Phase 5 | Complete |
 | PUSH-03 | Phase 4 | Complete |
-| WDGT-01 | Phase 6 | Pending |
+| WDGT-01 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 29 total
