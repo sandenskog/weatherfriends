@@ -70,7 +70,7 @@ Varje task commiterades atomiskt:
 1. **Task 1: Fixa DI i ConversationListView och ConversationListViewModel** - `78a1592` (fix)
 2. **Task 2: Ta bort dead code och verifiera redan fixade items** - `c0a8c3b` (fix)
 
-**Plan metadata:** (skapas efter SUMMARY-commit)
+**Plan metadata:** `cf38588` (docs: complete plan)
 
 ## Files Created/Modified
 - `HotAndColdFriends/Features/Chat/ConversationListView.swift` — Lade till @Environment(FriendService.self) och @Environment(UserService.self); skickar injicerade services till viewModel.load() och refreshUsersMapIfNeeded()

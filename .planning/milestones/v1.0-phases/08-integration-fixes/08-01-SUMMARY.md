@@ -112,6 +112,16 @@ None - no external service configuration required.
 - Inga kvarstående kända buggar i v1.0
 - Projektet redo för App Store-submission när testning är klar
 
+## Self-Check: PASSED
+
+- HotAndColdFriends/Features/FriendList/FriendsTabView.swift: FOUND
+- HotAndColdFriends/Core/Auth/AuthManager.swift: FOUND
+- HotAndColdFriends/Features/ContactImport/ContactImportView.swift: FOUND
+- HotAndColdFriends/Features/Onboarding/OnboardingFavoritesView.swift: FOUND
+- .planning/phases/08-integration-fixes/08-01-SUMMARY.md: FOUND
+- Commit 3f2e66c (Task 1): FOUND
+- Commit 6960787 (Task 2): FOUND
+
 ---
 *Phase: 08-integration-fixes*
 *Completed: 2026-03-04*

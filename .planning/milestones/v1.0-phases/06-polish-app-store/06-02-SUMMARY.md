@@ -139,6 +139,18 @@ App Group-registrering i Apple Developer Portal krävs innan widget-datadelning 
 - Väntar på manuell verifiering (Task 2: checkpoint:human-verify)
 - App Group-registrering i Apple Developer Portal krävs för full funktionalitet
 
+## Self-Check: PASSED
+
+- HotAndColdFriendsWidget/HotAndColdFriendsWidget.swift: FOUND
+- HotAndColdFriendsWidget/WidgetViews.swift: FOUND
+- HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements: FOUND
+- HotAndColdFriendsWidget/Info.plist: FOUND
+- HotAndColdFriends/Models/WidgetFriendEntry.swift: FOUND
+- HotAndColdFriends/Resources/PrivacyInfo.xcprivacy: FOUND
+- 06-02-SUMMARY.md: FOUND
+- Task commit 4d1cf74: FOUND
+- BUILD SUCCEEDED verifierat
+
 ---
 *Phase: 06-polish-app-store*
 *Completed: 2026-03-04*
