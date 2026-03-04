@@ -7,6 +7,7 @@ struct ContactImportView: View {
     let onImported: () -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(UserService.self) private var userService
     @State private var contactImportService = ContactImportService()
     @State private var contacts: [ImportableContact] = []
     @State private var selectedIds: Set<String> = []
@@ -106,6 +107,7 @@ struct ContactImportView: View {
                     onImported()
                     dismiss()
                 }
+                .environment(userService)
             }
         }
         .task {

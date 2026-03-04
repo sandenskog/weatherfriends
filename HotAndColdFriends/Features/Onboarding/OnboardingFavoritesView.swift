@@ -352,6 +352,7 @@ struct OnboardingFavoritesView: View {
 private struct ContactImportOnboardingWrapper: View {
     @Binding var pendingFriends: [PendingFriend]
     @Environment(\.dismiss) private var dismiss
+    @Environment(UserService.self) private var userService
     @State private var contactImportService = ContactImportService()
     @State private var contacts: [ImportableContact] = []
     @State private var selectedIds: Set<String> = []
@@ -458,6 +459,7 @@ private struct ContactImportOnboardingWrapper: View {
                 ) {
                     dismiss()  // Stäng ContactImportOnboardingWrapper när review är klar
                 }
+                .environment(userService)
             }
         }
         .task {

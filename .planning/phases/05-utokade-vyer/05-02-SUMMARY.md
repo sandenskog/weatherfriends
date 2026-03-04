@@ -30,6 +30,9 @@ metrics:
 requirements:
   - VIEW-02
   - PUSH-02
+requirements_completed:
+  - VIEW-02
+  - PUSH-02
 ---
 
 # Phase 05 Plan 02: FriendCategoryView och DailyWeatherNotificationService Summary
