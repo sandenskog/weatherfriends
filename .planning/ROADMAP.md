@@ -206,7 +206,10 @@ Plans:
   3. Debug-print borttagen ur FriendListViewModel.swift
   4. Dead code `from(friendWeather:)` borttagen ur WidgetFriendEntry+AppExtension.swift
   5. 05-02-SUMMARY.md inkluderar VIEW-02 och PUSH-02 i frontmatter
-**Plans:** 0/1 plans
+**Plans:** 1 plan
+
+Plans:
+- [ ] 07-01-PLAN.md — DI-fix (ConversationListView/ViewModel), dead code removal (WidgetFriendEntry+AppExtension) och verifiering av redan fixade items
 
 ## Progress
 
