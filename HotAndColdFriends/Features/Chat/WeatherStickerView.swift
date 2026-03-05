@@ -5,36 +5,41 @@ import SwiftUI
 struct WeatherStickerView: View {
     let weatherData: WeatherStickerData
 
+    private var zone: TemperatureZone {
+        TemperatureZone(celsius: weatherData.temperatureCelsius)
+    }
+
     var body: some View {
         let celsius = weatherData.temperatureCelsius
-        let color = TemperatureZone(celsius: celsius).color
 
         VStack(spacing: 6) {
-            Image(systemName: weatherData.conditionSymbol)
-                .font(.largeTitle)
-                .symbolRenderingMode(.multicolor)
+            WeatherIconMapper.icon(for: weatherData.conditionSymbol, size: 36)
 
             Text(weatherData.city)
-                .font(.caption.weight(.semibold))
+                .font(.bubbleCaption)
+                .foregroundStyle(Color.bubbleTextSecondary)
                 .lineLimit(1)
 
             Text("\(Int(celsius.rounded()))°")
-                .font(.title3.weight(.bold))
-                .foregroundStyle(color)
+                .font(.bubbleTemperature)
+                .foregroundStyle(zone.gradient)
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 14)
         .frame(maxWidth: 200)
         .background(
-            LinearGradient(
-                colors: [color.opacity(0.15), color.opacity(0.05)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            zone.gradient.opacity(0.12)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(color.opacity(0.3), lineWidth: 1)
+                .strokeBorder(
+                    LinearGradient(
+                        colors: [zone.color.opacity(0.5), zone.color.opacity(0.2)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1.5
+                )
         )
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }

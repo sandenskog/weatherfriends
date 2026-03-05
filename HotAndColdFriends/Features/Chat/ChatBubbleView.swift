@@ -66,14 +66,47 @@ struct ChatBubbleView: View {
     private var bubbleContent: some View {
         if message.type == .weatherSticker, let weatherData = message.weatherData {
             WeatherStickerView(weatherData: weatherData)
+        } else if isCurrentUser {
+            Text(message.text ?? "")
+                .font(.bubbleBody)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .background(LinearGradient.chatMine)
+                .clipShape(UnevenRoundedRectangle(
+                    cornerRadii: .init(
+                        topLeading: 20,
+                        bottomLeading: 20,
+                        bottomTrailing: 6,
+                        topTrailing: 20
+                    )
+                ))
         } else {
             Text(message.text ?? "")
-                .font(.body)
-                .foregroundStyle(isCurrentUser ? .white : .primary)
-                .padding(.horizontal, 14)
+                .font(.bubbleBody)
+                .foregroundStyle(Color.bubbleTextPrimary)
+                .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(isCurrentUser ? Color.blue : Color(.systemGray5))
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .background(Color.bubbleSurface)
+                .overlay(
+                    UnevenRoundedRectangle(
+                        cornerRadii: .init(
+                            topLeading: 6,
+                            bottomLeading: 20,
+                            bottomTrailing: 20,
+                            topTrailing: 20
+                        )
+                    )
+                    .strokeBorder(Color.bubbleBorder, lineWidth: 1)
+                )
+                .clipShape(UnevenRoundedRectangle(
+                    cornerRadii: .init(
+                        topLeading: 6,
+                        bottomLeading: 20,
+                        bottomTrailing: 20,
+                        topTrailing: 20
+                    )
+                ))
         }
     }
 
