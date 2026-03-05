@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Bubble Pop Design + Tech Debt
 status: unknown
-last_updated: "2026-03-04T22:37:44.262Z"
+last_updated: "2026-03-05T07:16:06.277Z"
 progress:
-  total_phases: 1
+  total_phases: 2
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 5
+  completed_plans: 4
 ---
 
 # Project State
@@ -47,6 +47,8 @@ Recent decisions affecting current work:
 - [Phase 10-02]: UnevenRoundedRectangle (iOS 16+) för pratbubbla-hake-känsla i ChatBubbleView — 6pt hörn mot avsändare
 - [Phase 10-02]: foregroundStyle(Color.bubbleTextPrimary) explicit — Swift resolvar inte ShapeStyle-extension via dot-syntax
 - [Phase 10-02]: DragGesture(minimumDistance:0) + simultaneousGesture för bounce i BubblePopButton
+- [Phase 10-01]: CardShadowModifier som private ViewModifier för shadowMd/shadowLg-switch i FriendRowView
+- [Phase 10-01]: WeatherAnimationView borttagen från FriendRowView — AvatarView gradient ersätter animationslagret
 
 ### Pending Todos
 
@@ -59,6 +61,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T07:13:38Z
-Stopped at: 10-02-PLAN.md checkpoint:human-verify — BubblePopButton (pill+bounce), ChatBubbleView gradient/asymmetrisk radius, WeatherStickerView gradient-accent, BUILD SUCCEEDED
+Last session: 2026-03-05T07:18:00Z
+Stopped at: 10-01-PLAN.md checkpoint:human-verify — AvatarView gradient-avatar + FriendRowView Bubble Pop-kort, BUILD SUCCEEDED
 Resume file: None
