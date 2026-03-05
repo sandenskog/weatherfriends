@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-03-04)
 ## Current Position
 
 Phase: 10 of 12 (Komponenter)
-Plan: 2 of 3 in current phase
-Status: Awaiting human-verify checkpoint (10-02)
-Last activity: 2026-03-05 — 10-02 BubblePopButton, ChatBubbleView gradient, WeatherStickerView gradient-accent — BUILD SUCCEEDED
+Plan: 3 of 3 in current phase
+Status: Awaiting human-verify checkpoint (10-03)
+Last activity: 2026-03-05 — 10-03 Custom pill-tab-switcher i FriendsTabView + widget temperaturzon-gradient bakgrunder — BUILD SUCCEEDED
 
 Progress: [████░░░░░░] 33% (3/9 plans complete)
 
@@ -49,6 +49,8 @@ Recent decisions affecting current work:
 - [Phase 10-02]: DragGesture(minimumDistance:0) + simultaneousGesture för bounce i BubblePopButton
 - [Phase 10-01]: CardShadowModifier som private ViewModifier för shadowMd/shadowLg-switch i FriendRowView
 - [Phase 10-01]: WeatherAnimationView borttagen från FriendRowView — AvatarView gradient ersätter animationslagret
+- [Phase 10-03]: Widget-target saknar tillgång till DesignSystem — gradient-logik dupliceras lokalt via zoneGradient() och Color(widgetHex:) extension
+- [Phase 10-03]: matchedGeometryEffect kräver @Namespace i samma View-struct — placerat korrekt i FriendsTabView
 
 ### Pending Todos
 
@@ -61,6 +63,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T07:18:00Z
-Stopped at: 10-01-PLAN.md checkpoint:human-verify — AvatarView gradient-avatar + FriendRowView Bubble Pop-kort, BUILD SUCCEEDED
+Last session: 2026-03-05T07:15:47Z
+Stopped at: 10-03-PLAN.md checkpoint:human-verify — Pill-tab-switcher + widget gradient-bakgrunder, BUILD SUCCEEDED
 Resume file: None
