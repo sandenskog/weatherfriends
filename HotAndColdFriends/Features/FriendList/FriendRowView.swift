@@ -5,8 +5,6 @@ import SwiftUI
 struct FriendRowView: View {
     let friendWeather: FriendWeather
 
-    @State private var isPressed = false
-
     // MARK: - Derived
 
     private var zone: TemperatureZone {
@@ -51,26 +49,6 @@ struct FriendRowView: View {
         .padding(.vertical, Spacing.sm + Spacing.xs)
         .background(Color.bubbleSurface)
         .clipShape(RoundedRectangle(cornerRadius: CornerRadius.md))
-        .modifier(CardShadowModifier(isPressed: isPressed))
-        .scaleEffect(isPressed ? 1.02 : 1.0)
-        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isPressed)
-        .onLongPressGesture(minimumDuration: 0, pressing: { pressing in
-            isPressed = pressing
-        }, perform: {})
-    }
-}
-
-// MARK: - CardShadowModifier
-
-/// Switches between shadowMd and shadowLg depending on press state.
-private struct CardShadowModifier: ViewModifier {
-    let isPressed: Bool
-
-    func body(content: Content) -> some View {
-        if isPressed {
-            content.shadowLg()
-        } else {
-            content.shadowMd()
-        }
+        .shadowMd()
     }
 }

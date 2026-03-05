@@ -21,20 +21,26 @@
 		20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */; };
 		226BC0E6E4484946DFF8AAD3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1DF6AB643D3A1D887131F2BA /* FirebaseStorage */; };
 		2C734351BA0E285634373291 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 47014F2EAB98CBF799D97551 /* FacebookCore */; };
+		2D39D41B1ABC1FE934FC5DBB /* BubblePopColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F241891D477BD81453A39B /* BubblePopColors.swift */; };
+		2E3F1FDC026268BC3EE57F17 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBAFC9CE5CD8CA5A655350 /* AvatarView.swift */; };
 		3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318457A3208319B531E0026 /* AuthState.swift */; };
 		34B88F423944EF00A8B58B62 /* FriendRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */; };
 		37E62F0EAC0C9C9491482539 /* DailyWeatherNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A43CF1210845D602D8EA8A /* DailyWeatherNotificationService.swift */; };
 		3BD13553ADB693861F76AEBC /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BE76294B35397FE9A5F57B /* MainTabView.swift */; };
 		3BDD9AFB21EC96E8A7EE92FF /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3560593D7328AF527A711AB5 /* GoogleSignInSwift */; };
+		3F5468D5AFE1E907ECD4F956 /* BubblePopTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36569491ED501201E12AB83 /* BubblePopTypography.swift */; };
 		41B410495D3A8703AA619245 /* HotAndColdFriendsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */; };
 		43B3A4CD67349EE853E277F1 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C823460B236F30515A2B6BA4 /* ChatService.swift */; };
 		47BBD3950C60D053BC5E935E /* HotAndColdFriendsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9DE660F20F631B593A624396 /* HotAndColdFriendsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		483599993794809842960960 /* TemperatureZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72A68D906C593415A0D8223 /* TemperatureZone.swift */; };
 		5490F71F115D180AAD2CCCA8 /* ConversationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59676B084BB0DFF1A9DDE540 /* ConversationListViewModel.swift */; };
 		561765040B94E999926C86D9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B8C3C60DADFC174ABB094F /* ProfileView.swift */; };
 		57E58C63B0AA9B1E741E0635 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1B0EE016563BF8F8478701 /* ProfileViewModel.swift */; };
 		5A2E4F25DBE3DA8AA52245A2 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F40D14036FC668699DE4464 /* EditProfileView.swift */; };
 		5C4A18FD9AB1FBDCC3D7523A /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9B9FB773AAD71C1FFBC0A9 /* Friend.swift */; };
+		5F35820409317BCC9BCBD622 /* Baloo2-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4E9F651701E8C2DB9883A54 /* Baloo2-Medium.ttf */; };
 		5F64AB1D959D25FB3C756F0C /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */; };
+		6202E0BA9ABD7F5A07BB4A61 /* BubblePopSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043304F4D489638E745DF9EF /* BubblePopSpacing.swift */; };
 		6205811B236AE218203BC104 /* AddFriendSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D198A6FFAF3C36481DF57EC /* AddFriendSheet.swift */; };
 		6F93C5D433398194F1718108 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0595D92E8471402A2465017 /* UserService.swift */; };
 		7222AC8CB0FA8073920A1194 /* WeatherAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FEF5CBE394AD4CFCBECA2A /* WeatherAnimationView.swift */; };
@@ -42,6 +48,8 @@
 		76D58889D5DD6FEBC491DCC0 /* ContactImportRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97F7A7C3ABE2D55AC4851133 /* ContactImportRow.swift */; };
 		7758C9A0A11DFDDD894D10F3 /* HotAndColdFriendsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4983BC091BC878A6DCCEFF65 /* HotAndColdFriendsWidget.swift */; };
 		7CCBF541B71A56D605D16032 /* FriendListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C773FC6DD78C9854596E5D /* FriendListViewModel.swift */; };
+		7EF631C44B6BC270658AC077 /* BubblePopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1EFF0A6534ACFB54468414 /* BubblePopButton.swift */; };
+		7EFC29424D21BCCDE654E849 /* WeatherIconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6E7334B26A11EED5A8E2C1 /* WeatherIconMapper.swift */; };
 		89FD7BADF5356C400F79236E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C665750FE31C993FBAB8CFD6 /* LoginViewModel.swift */; };
 		8A1F4FC9052B1E1BDFE9BF2F /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */; };
 		8AEC6AF2E3C3D1310CF1629C /* OnboardingLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680DE0113F1304C8D2F93C0D /* OnboardingLocationView.swift */; };
@@ -56,7 +64,9 @@
 		97E21DAEF34CA72BF1ABBA47 /* ChatBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D50E45FEF6B20630356DDD /* ChatBubbleView.swift */; };
 		9BB9864F2639D615362A3180 /* FriendMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DD254978A557D8DFB2EA3B /* FriendMapView.swift */; };
 		9C5D837CE1F84587D31A8D8D /* WidgetFriendEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCA71A3C1F9825DAA965A6D /* WidgetFriendEntry.swift */; };
+		A389A325DCA011D5606B02AF /* Baloo2-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1EF3BC52FB3A54A37F911953 /* Baloo2-SemiBold.ttf */; };
 		A5A6F2FC3544EC1A7BFBFE7D /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AEC5B49CAD762F884C75ED /* AppRouter.swift */; };
+		A99CB7B8D7615B5CD5BE814A /* Baloo2-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 72DD38C60BF5B832B7B3BA34 /* Baloo2-Bold.ttf */; };
 		B2B0860E2220BB010905DE15 /* ContactImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB81775B5DEE9ABD7A1262F0 /* ContactImportView.swift */; };
 		B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC38AB7BDC03D9814B36926 /* AuthManager.swift */; };
 		C3D69DA3003679DFAB00C76E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AA76B894E3A6EB74C5E6B6 /* LocationService.swift */; };
@@ -67,8 +77,11 @@
 		D2ECEFED9515A6FF40E8788C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CD4E76478D6F38D4786EA39A /* FirebaseFirestore */; };
 		D3AB8C23696CE09363855001 /* NewConversationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986FCC0691322A4C8D26A54C /* NewConversationSheet.swift */; };
 		D3F12FC7FC22B4A683338628 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 0E207B2F3C8877482BDA8A6D /* FacebookLogin */; };
+		DB96D71A82A7DB0129E10913 /* Baloo2-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FEBE43327806CD4E3FAFF63 /* Baloo2-ExtraBold.ttf */; };
 		DD39A0BACDC411EC18D61E72 /* ImportReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */; };
+		E291650E579207ED6B7CE35C /* Baloo2-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7AB47D6D726781EE5B56E3 /* Baloo2-Regular.ttf */; };
 		E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AADA557D58C83067C0A07B /* AppDelegate.swift */; };
+		E3D74A067A1D115C475324AE /* BubblePopShadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E394EDE655E5BCA671CA19D7 /* BubblePopShadows.swift */; };
 		E5F1888F2C07A59B2ACCFE21 /* FriendCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B84BDDA57D947D21BF33DD3 /* FriendCategoryView.swift */; };
 		E821AE5D2E43037E4998C7C8 /* ContactImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */; };
 		EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C4267EC810F7CB90C18295 /* WeatherDetailSheet.swift */; };
@@ -78,26 +91,6 @@
 		F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639990872A0AD5664410044 /* LoginView.swift */; };
 		FD49AECC6F0DBCCFD7332371 /* FriendProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B4A9387ECDC78DA98932C0 /* FriendProfileView.swift */; };
 		FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */; };
-		BEAF45DA476A45C6AACC9DD2 /* Baloo2-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 903D37CE594E4F99AE30250C /* Baloo2-Regular.ttf */; };
-		8CFC002566CE417C99350428 /* Baloo2-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 65284112E4BF42EE9D377992 /* Baloo2-Medium.ttf */; };
-		4A0B5FA4D3904D46A86D2046 /* Baloo2-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AD787ED7FAE4415ADA52EE8 /* Baloo2-SemiBold.ttf */; };
-		911310307C0A40C38D90D572 /* Baloo2-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85DB6A99D1D24D5D97DD48D8 /* Baloo2-Bold.ttf */; };
-		99CB3990B152438E94651CF8 /* Baloo2-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B49511AC9F46458295FE5964 /* Baloo2-ExtraBold.ttf */; };
-		A1B2C3D4E5F60718293A4B5C /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E7F8091A2B3C4D5E6F7081 /* AvatarView.swift */; };
-		F880C289CF4A43C5852EAC56 /* BubblePopColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFAC09421A941E39841863E /* BubblePopColors.swift */; };
-		2EE3936893B74CD38CD6956C /* BubblePopColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFAC09421A941E39841863E /* BubblePopColors.swift */; };
-		8D9E0DEE654C454382C744CA /* BubblePopTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C350D01910646648801C220 /* BubblePopTypography.swift */; };
-		DE98F4DC2B264C17B035C18B /* BubblePopTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C350D01910646648801C220 /* BubblePopTypography.swift */; };
-		97B3787590FF4AB582370936 /* BubblePopSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE417F4983DF4BDAA498B256 /* BubblePopSpacing.swift */; };
-		061097CB1A824B4FAD96B9C4 /* BubblePopSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE417F4983DF4BDAA498B256 /* BubblePopSpacing.swift */; };
-		29BBA592B593415FA2C6B5B1 /* BubblePopShadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E304BAE08F4F492BA08296DD /* BubblePopShadows.swift */; };
-		C06E4399A8E646609AEFFDA5 /* BubblePopShadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E304BAE08F4F492BA08296DD /* BubblePopShadows.swift */; };
-		ED10D335E03848CE8CD6DEE3 /* TemperatureZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100EE47A8F6843A79DD026C0 /* TemperatureZone.swift */; };
-		23D3FCE26F8C46FEAD1F60EB /* TemperatureZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100EE47A8F6843A79DD026C0 /* TemperatureZone.swift */; };
-		9407BD3AE2C24FA4B9FB22AA /* WeatherIconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145D5436F56D4365AC1939C0 /* WeatherIconMapper.swift */; };
-		654D72C7D1AE4179B51EF579 /* WeatherIconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145D5436F56D4365AC1939C0 /* WeatherIconMapper.swift */; };
-		3626D8CEE80D4F11814A5931 /* BubblePopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66155DFEE3BF43A58A1EECDD /* BubblePopButton.swift */; };
-		2F1F90AEF35543FEB33D420E /* BubblePopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66155DFEE3BF43A58A1EECDD /* BubblePopButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,11 +119,13 @@
 
 /* Begin PBXFileReference section */
 		00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotAndColdFriends.entitlements; sourceTree = "<group>"; };
+		043304F4D489638E745DF9EF /* BubblePopSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopSpacing.swift; sourceTree = "<group>"; };
 		08DC5CA1D9EA7E3DA8C1A93B /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		10C4F7C7CE6C88821310C717 /* WeatherAlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAlertService.swift; sourceTree = "<group>"; };
 		16B4A9387ECDC78DA98932C0 /* FriendProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileView.swift; sourceTree = "<group>"; };
 		16EF143E99F47157F84C8BC8 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		1A01965131E6255B5C1057AF /* ConversationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListView.swift; sourceTree = "<group>"; };
+		1EF3BC52FB3A54A37F911953 /* Baloo2-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo2-SemiBold.ttf"; sourceTree = "<group>"; };
 		1F1E46F80EE4810096655142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F40D14036FC668699DE4464 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		21C773FC6DD78C9854596E5D /* FriendListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewModel.swift; sourceTree = "<group>"; };
@@ -158,7 +153,9 @@
 		66579F50B54C2DB086C98BF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		680DE0113F1304C8D2F93C0D /* OnboardingLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLocationView.swift; sourceTree = "<group>"; };
 		6D5D09E7D2EB63EA3EDCDDDF /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
+		6F7AB47D6D726781EE5B56E3 /* Baloo2-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo2-Regular.ttf"; sourceTree = "<group>"; };
 		72797A3E84EADA4B957500B5 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		72DD38C60BF5B832B7B3BA34 /* Baloo2-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo2-Bold.ttf"; sourceTree = "<group>"; };
 		7CC38AB7BDC03D9814B36926 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7EB4EAC612CD687061805314 /* FriendsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTabView.swift; sourceTree = "<group>"; };
 		81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNameView.swift; sourceTree = "<group>"; };
@@ -166,22 +163,30 @@
 		94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportService.swift; sourceTree = "<group>"; };
 		97F7A7C3ABE2D55AC4851133 /* ContactImportRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportRow.swift; sourceTree = "<group>"; };
 		986FCC0691322A4C8D26A54C /* NewConversationSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationSheet.swift; sourceTree = "<group>"; };
+		9B6E7334B26A11EED5A8E2C1 /* WeatherIconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconMapper.swift; sourceTree = "<group>"; };
 		9B84BDDA57D947D21BF33DD3 /* FriendCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCategoryView.swift; sourceTree = "<group>"; };
 		9D198A6FFAF3C36481DF57EC /* AddFriendSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendSheet.swift; sourceTree = "<group>"; };
 		9DE660F20F631B593A624396 /* HotAndColdFriendsWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = HotAndColdFriendsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FEBE43327806CD4E3FAFF63 /* Baloo2-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo2-ExtraBold.ttf"; sourceTree = "<group>"; };
 		A0595D92E8471402A2465017 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		AAEDC4DFF905CA78F3B8EA6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B639990872A0AD5664410044 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		B72A68D906C593415A0D8223 /* TemperatureZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureZone.swift; sourceTree = "<group>"; };
 		B963C03952B9BE216F70BEAC /* HotAndColdFriendsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotAndColdFriendsApp.swift; sourceTree = "<group>"; };
 		BD83D4A4F94EA7B27B72CA97 /* FriendMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendMapViewModel.swift; sourceTree = "<group>"; };
 		BE2A1485C33F328D6E63E9BB /* WidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViews.swift; sourceTree = "<group>"; };
 		C0FEF5CBE394AD4CFCBECA2A /* WeatherAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAnimationView.swift; sourceTree = "<group>"; };
+		C36569491ED501201E12AB83 /* BubblePopTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopTypography.swift; sourceTree = "<group>"; };
 		C665750FE31C993FBAB8CFD6 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWeatherService.swift; sourceTree = "<group>"; };
 		C823460B236F30515A2B6BA4 /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		C9FBAFC9CE5CD8CA5A655350 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D318457A3208319B531E0026 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		DB73DE87C26C659D7FA9B19C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		DD414AD8699A2B68C55D7CF8 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
+		E2F241891D477BD81453A39B /* BubblePopColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopColors.swift; sourceTree = "<group>"; };
+		E394EDE655E5BCA671CA19D7 /* BubblePopShadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopShadows.swift; sourceTree = "<group>"; };
+		E4E9F651701E8C2DB9883A54 /* Baloo2-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo2-Medium.ttf"; sourceTree = "<group>"; };
 		E534A735B585F4550CAE1A58 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		EB81775B5DEE9ABD7A1262F0 /* ContactImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportView.swift; sourceTree = "<group>"; };
 		EDCA71A3C1F9825DAA965A6D /* WidgetFriendEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetFriendEntry.swift; sourceTree = "<group>"; };
@@ -190,20 +195,8 @@
 		F5AADA557D58C83067C0A07B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6DA19899947ADBAE62FB81C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportReviewView.swift; sourceTree = "<group>"; };
+		FA1EFF0A6534ACFB54468414 /* BubblePopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopButton.swift; sourceTree = "<group>"; };
 		FD9B9FB773AAD71C1FFBC0A9 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
-		903D37CE594E4F99AE30250C /* Baloo2-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-Regular.ttf; sourceTree = "<group>"; };
-		65284112E4BF42EE9D377992 /* Baloo2-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-Medium.ttf; sourceTree = "<group>"; };
-		9AD787ED7FAE4415ADA52EE8 /* Baloo2-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-SemiBold.ttf; sourceTree = "<group>"; };
-		85DB6A99D1D24D5D97DD48D8 /* Baloo2-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-Bold.ttf; sourceTree = "<group>"; };
-		B49511AC9F46458295FE5964 /* Baloo2-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baloo2-ExtraBold.ttf; sourceTree = "<group>"; };
-		D6E7F8091A2B3C4D5E6F7081 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
-		CFFAC09421A941E39841863E /* BubblePopColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopColors.swift; sourceTree = "<group>"; };
-		7C350D01910646648801C220 /* BubblePopTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopTypography.swift; sourceTree = "<group>"; };
-		BE417F4983DF4BDAA498B256 /* BubblePopSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopSpacing.swift; sourceTree = "<group>"; };
-		E304BAE08F4F492BA08296DD /* BubblePopShadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopShadows.swift; sourceTree = "<group>"; };
-		100EE47A8F6843A79DD026C0 /* TemperatureZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureZone.swift; sourceTree = "<group>"; };
-		145D5436F56D4365AC1939C0 /* WeatherIconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconMapper.swift; sourceTree = "<group>"; };
-		66155DFEE3BF43A58A1EECDD /* BubblePopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -363,15 +356,30 @@
 		};
 		7923E981588C320F5564DDD6 /* Resources */ = {
 			isa = PBXGroup;
-				children = (
-					DFDEC06C3E9242528BBF37CA /* Fonts */,
-					F6DA19899947ADBAE62FB81C /* Assets.xcassets */,
+			children = (
+				F6DA19899947ADBAE62FB81C /* Assets.xcassets */,
 				1F1E46F80EE4810096655142 /* GoogleService-Info.plist */,
 				00401E5EF0ABA708741615B5 /* HotAndColdFriends.entitlements */,
 				AAEDC4DFF905CA78F3B8EA6E /* Info.plist */,
 				DB73DE87C26C659D7FA9B19C /* PrivacyInfo.xcprivacy */,
+				B029DF8A15744EF1EB18EB61 /* Fonts */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		7DF03D1609E0C66BE93C61A2 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				C9FBAFC9CE5CD8CA5A655350 /* AvatarView.swift */,
+				FA1EFF0A6534ACFB54468414 /* BubblePopButton.swift */,
+				E2F241891D477BD81453A39B /* BubblePopColors.swift */,
+				E394EDE655E5BCA671CA19D7 /* BubblePopShadows.swift */,
+				043304F4D489638E745DF9EF /* BubblePopSpacing.swift */,
+				C36569491ED501201E12AB83 /* BubblePopTypography.swift */,
+				B72A68D906C593415A0D8223 /* TemperatureZone.swift */,
+				9B6E7334B26A11EED5A8E2C1 /* WeatherIconMapper.swift */,
+			);
+			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 		9329504446FF44C7F81E4564 = {
@@ -405,12 +413,24 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		B029DF8A15744EF1EB18EB61 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				72DD38C60BF5B832B7B3BA34 /* Baloo2-Bold.ttf */,
+				9FEBE43327806CD4E3FAFF63 /* Baloo2-ExtraBold.ttf */,
+				E4E9F651701E8C2DB9883A54 /* Baloo2-Medium.ttf */,
+				6F7AB47D6D726781EE5B56E3 /* Baloo2-Regular.ttf */,
+				1EF3BC52FB3A54A37F911953 /* Baloo2-SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		C2360FC8FE5410A56BD90BCE /* HotAndColdFriends */ = {
 			isa = PBXGroup;
 			children = (
 				63921779186DC971AA450F54 /* App */,
 				9668781583DD23D32D968317 /* Core */,
-				96E7051309C04516BB9A9501 /* DesignSystem */,
+				7DF03D1609E0C66BE93C61A2 /* DesignSystem */,
 				FBDC65FEBF23573D92FF1194 /* Features */,
 				704C9E0A6F852E8E22E1C419 /* Models */,
 				7923E981588C320F5564DDD6 /* Resources */,
@@ -442,34 +462,6 @@
 				E901A952B0803E6034180815 /* Profile */,
 			);
 			path = Features;
-			sourceTree = "<group>";
-		};
-
-		DFDEC06C3E9242528BBF37CA /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				903D37CE594E4F99AE30250C /* Baloo2-Regular.ttf */,
-				65284112E4BF42EE9D377992 /* Baloo2-Medium.ttf */,
-				9AD787ED7FAE4415ADA52EE8 /* Baloo2-SemiBold.ttf */,
-				85DB6A99D1D24D5D97DD48D8 /* Baloo2-Bold.ttf */,
-				B49511AC9F46458295FE5964 /* Baloo2-ExtraBold.ttf */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
-		96E7051309C04516BB9A9501 /* DesignSystem */ = {
-			isa = PBXGroup;
-			children = (
-				D6E7F8091A2B3C4D5E6F7081 /* AvatarView.swift */,
-				CFFAC09421A941E39841863E /* BubblePopColors.swift */,
-				7C350D01910646648801C220 /* BubblePopTypography.swift */,
-				BE417F4983DF4BDAA498B256 /* BubblePopSpacing.swift */,
-				E304BAE08F4F492BA08296DD /* BubblePopShadows.swift */,
-				66155DFEE3BF43A58A1EECDD /* BubblePopButton.swift */,
-				100EE47A8F6843A79DD026C0 /* TemperatureZone.swift */,
-				145D5436F56D4365AC1939C0 /* WeatherIconMapper.swift */,
-			);
-			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -569,12 +561,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEAF45DA476A45C6AACC9DD2 /* Baloo2-Regular.ttf in Resources */,
-				8CFC002566CE417C99350428 /* Baloo2-Medium.ttf in Resources */,
-				4A0B5FA4D3904D46A86D2046 /* Baloo2-SemiBold.ttf in Resources */,
-				911310307C0A40C38D90D572 /* Baloo2-Bold.ttf in Resources */,
-				99CB3990B152438E94651CF8 /* Baloo2-ExtraBold.ttf in Resources */,
 				0E9ADED7867FE59512BC818D /* Assets.xcassets in Resources */,
+				A99CB7B8D7615B5CD5BE814A /* Baloo2-Bold.ttf in Resources */,
+				DB96D71A82A7DB0129E10913 /* Baloo2-ExtraBold.ttf in Resources */,
+				5F35820409317BCC9BCBD622 /* Baloo2-Medium.ttf in Resources */,
+				E291650E579207ED6B7CE35C /* Baloo2-Regular.ttf in Resources */,
+				A389A325DCA011D5606B02AF /* Baloo2-SemiBold.ttf in Resources */,
 				8BCC1D7419C1C8BF9ACF0500 /* GoogleService-Info.plist in Resources */,
 				C9930BD4051D14E757B05503 /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -587,14 +579,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1B2C3D4E5F60718293A4B5C /* AvatarView.swift in Sources */,
-				F880C289CF4A43C5852EAC56 /* BubblePopColors.swift in Sources */,
-				8D9E0DEE654C454382C744CA /* BubblePopTypography.swift in Sources */,
-				97B3787590FF4AB582370936 /* BubblePopSpacing.swift in Sources */,
-				29BBA592B593415FA2C6B5B1 /* BubblePopShadows.swift in Sources */,
-				ED10D335E03848CE8CD6DEE3 /* TemperatureZone.swift in Sources */,
-				9407BD3AE2C24FA4B9FB22AA /* WeatherIconMapper.swift in Sources */,
-				3626D8CEE80D4F11814A5931 /* BubblePopButton.swift in Sources */,
 				6205811B236AE218203BC104 /* AddFriendSheet.swift in Sources */,
 				E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */,
 				A5A6F2FC3544EC1A7BFBFE7D /* AppRouter.swift in Sources */,
@@ -602,6 +586,12 @@
 				0923FF83596356705AEEA84C /* AppWeatherService.swift in Sources */,
 				B5574A7DB63C97694C30F7B2 /* AuthManager.swift in Sources */,
 				3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */,
+				2E3F1FDC026268BC3EE57F17 /* AvatarView.swift in Sources */,
+				7EF631C44B6BC270658AC077 /* BubblePopButton.swift in Sources */,
+				2D39D41B1ABC1FE934FC5DBB /* BubblePopColors.swift in Sources */,
+				E3D74A067A1D115C475324AE /* BubblePopShadows.swift in Sources */,
+				6202E0BA9ABD7F5A07BB4A61 /* BubblePopSpacing.swift in Sources */,
+				3F5468D5AFE1E907ECD4F956 /* BubblePopTypography.swift in Sources */,
 				97E21DAEF34CA72BF1ABBA47 /* ChatBubbleView.swift in Sources */,
 				9001F0FA1C4AF8B41E0EE87E /* ChatMessage.swift in Sources */,
 				43B3A4CD67349EE853E277F1 /* ChatService.swift in Sources */,
@@ -643,11 +633,13 @@
 				561765040B94E999926C86D9 /* ProfileView.swift in Sources */,
 				57E58C63B0AA9B1E741E0635 /* ProfileViewModel.swift in Sources */,
 				CC740470FC314853DEFD878F /* Report.swift in Sources */,
+				483599993794809842960960 /* TemperatureZone.swift in Sources */,
 				6F93C5D433398194F1718108 /* UserService.swift in Sources */,
 				EE887857D9F81FF71E52BA78 /* WeatherAlertService.swift in Sources */,
 				7222AC8CB0FA8073920A1194 /* WeatherAnimationView.swift in Sources */,
 				EB88DA4EA3DBFD252CB01BE9 /* WeatherDetailSheet.swift in Sources */,
 				8C5DDD1B3D5EF71814EA8F19 /* WeatherHeaderView.swift in Sources */,
+				7EFC29424D21BCCDE654E849 /* WeatherIconMapper.swift in Sources */,
 				104A6991155EBF8F20498249 /* WeatherStickerView.swift in Sources */,
 				91B378E9C6224101CEFA458F /* WidgetFriendEntry.swift in Sources */,
 			);
@@ -657,13 +649,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EE3936893B74CD38CD6956C /* BubblePopColors.swift in Sources */,
-				DE98F4DC2B264C17B035C18B /* BubblePopTypography.swift in Sources */,
-				061097CB1A824B4FAD96B9C4 /* BubblePopSpacing.swift in Sources */,
-				C06E4399A8E646609AEFFDA5 /* BubblePopShadows.swift in Sources */,
-				23D3FCE26F8C46FEAD1F60EB /* TemperatureZone.swift in Sources */,
-				654D72C7D1AE4179B51EF579 /* WeatherIconMapper.swift in Sources */,
-				2F1F90AEF35543FEB33D420E /* BubblePopButton.swift in Sources */,
 				7758C9A0A11DFDDD894D10F3 /* HotAndColdFriendsWidget.swift in Sources */,
 				9C5D837CE1F84587D31A8D8D /* WidgetFriendEntry.swift in Sources */,
 				031225AE3CC7B79EF8784EB7 /* WidgetViews.swift in Sources */,
@@ -733,7 +718,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 202603042127;
+				CURRENT_PROJECT_VERSION = 202603051026;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = A473BQKT8M;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -818,7 +803,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 202603042127;
+				CURRENT_PROJECT_VERSION = 202603051026;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = A473BQKT8M;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -848,7 +833,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 202603042127;
+				CURRENT_PROJECT_VERSION = 202603051026;
 				DEVELOPMENT_TEAM = A473BQKT8M;
 				INFOPLIST_FILE = HotAndColdFriendsWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -869,7 +854,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 202603042127;
+				CURRENT_PROJECT_VERSION = 202603051026;
 				DEVELOPMENT_TEAM = A473BQKT8M;
 				INFOPLIST_FILE = HotAndColdFriendsWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

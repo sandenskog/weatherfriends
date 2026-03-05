@@ -3,31 +3,19 @@ import SwiftUI
 // MARK: - WeatherCategory Enum
 
 enum WeatherCategory: String, CaseIterable {
-    case tropical = "Tropical"
-    case warm = "Warm"
-    case cool = "Cool"
-    case cold = "Cold"
-    case arctic = "Arctic"
+    case hottest = "Hottest"
+    case coldest = "Coldest"
+    case windiest = "Windiest"
+    case wettest = "Wettest"
 
     var label: String { rawValue }
 
     var emoji: String {
         switch self {
-        case .tropical: return "🔥"
-        case .warm: return "☀️"
-        case .cool: return "🌤"
-        case .cold: return "❄️"
-        case .arctic: return "🧊"
-        }
-    }
-
-    static func category(for celsius: Double) -> WeatherCategory {
-        switch celsius {
-        case ..<0:      return .arctic
-        case 0..<10:    return .cold
-        case 10..<20:   return .cool
-        case 20..<28:   return .warm
-        default:        return .tropical
+        case .hottest: return "🔥"
+        case .coldest: return "❄️"
+        case .windiest: return "💨"
+        case .wettest: return "🌧"
         }
     }
 }
@@ -38,14 +26,31 @@ struct FriendCategoryView: View {
     let friendWeathers: [FriendWeather]
     @Binding var selectedFriendWeather: FriendWeather?
 
-    private var categorized: [WeatherCategory: [FriendWeather]] {
-        Dictionary(grouping: friendWeathers.filter { $0.temperatureCelsius != nil }) { fw in
-            WeatherCategory.category(for: fw.temperatureCelsius!)
+    private func ranked(for category: WeatherCategory) -> [FriendWeather] {
+        let withWeather = friendWeathers.filter { $0.weather != nil }
+        switch category {
+        case .hottest:
+            return withWeather
+                .filter { $0.temperatureCelsius != nil }
+                .sorted { ($0.temperatureCelsius ?? 0) > ($1.temperatureCelsius ?? 0) }
+        case .coldest:
+            return withWeather
+                .filter { $0.temperatureCelsius != nil }
+                .sorted { ($0.temperatureCelsius ?? 0) < ($1.temperatureCelsius ?? 0) }
+        case .windiest:
+            return withWeather
+                .filter { $0.windSpeed != nil }
+                .sorted { ($0.windSpeed ?? 0) > ($1.windSpeed ?? 0) }
+        case .wettest:
+            return withWeather
+                .filter { $0.humidity != nil }
+                .sorted { ($0.humidity ?? 0) > ($1.humidity ?? 0) }
         }
     }
 
     var body: some View {
-        if categorized.isEmpty {
+        let withWeather = friendWeathers.filter { $0.weather != nil }
+        if withWeather.isEmpty {
             ContentUnavailableView(
                 "Inga väderdata",
                 systemImage: "cloud.fill",
@@ -55,7 +60,8 @@ struct FriendCategoryView: View {
             ScrollView(.vertical) {
                 LazyVStack(alignment: .leading, spacing: 24) {
                     ForEach(WeatherCategory.allCases, id: \.self) { category in
-                        if let friends = categorized[category], !friends.isEmpty {
+                        let friends = ranked(for: category)
+                        if !friends.isEmpty {
                             categoryRow(category: category, friends: friends)
                         }
                     }
@@ -75,7 +81,7 @@ struct FriendCategoryView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
                     ForEach(friends) { fw in
-                        FriendWeatherCard(friendWeather: fw)
+                        FriendWeatherCard(friendWeather: fw, category: category)
                             .onTapGesture { selectedFriendWeather = fw }
                     }
                 }
@@ -91,9 +97,38 @@ struct FriendCategoryView: View {
 
 private struct FriendWeatherCard: View {
     let friendWeather: FriendWeather
+    var category: WeatherCategory = .hottest
 
-    private var tempColor: Color {
+    private var accentColor: Color {
         friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .secondary
+    }
+
+    private var valueText: String {
+        switch category {
+        case .hottest, .coldest:
+            return friendWeather.temperatureFormatted
+        case .windiest:
+            if let speed = friendWeather.windSpeed {
+                return String(format: "%.0f m/s", speed)
+            }
+            return "—"
+        case .wettest:
+            if let humidity = friendWeather.humidity {
+                return String(format: "%.0f%%", humidity)
+            }
+            return "—"
+        }
+    }
+
+    private var valueIcon: String {
+        switch category {
+        case .hottest, .coldest:
+            return friendWeather.symbolName
+        case .windiest:
+            return "wind"
+        case .wettest:
+            return "humidity.fill"
+        }
     }
 
     var body: some View {
@@ -110,18 +145,18 @@ private struct FriendWeatherCard: View {
             .font(.caption)
             .lineLimit(1)
 
-            Text(friendWeather.temperatureFormatted)
+            Text(valueText)
                 .font(.title3.weight(.bold))
-                .foregroundStyle(tempColor)
+                .foregroundStyle(accentColor)
 
-            Image(systemName: friendWeather.symbolName)
+            Image(systemName: valueIcon)
                 .font(.body)
-                .foregroundStyle(tempColor)
+                .foregroundStyle(accentColor)
         }
         .frame(width: 140, height: 160)
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(tempColor.opacity(0.12))
+                .fill(accentColor.opacity(0.12))
         )
     }
 

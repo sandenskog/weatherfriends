@@ -58,9 +58,9 @@ struct BubblePopButton: View {
             print("secondary tapped")
         }
 
-        BubblePopButton(title: "Delete Account", isDestructive: true) {
+        BubblePopButton(title: "Delete Account", action: {
             print("destructive tapped")
-        }
+        }, isDestructive: true)
     }
     .padding()
 }

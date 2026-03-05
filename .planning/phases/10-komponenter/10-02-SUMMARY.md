@@ -118,6 +118,15 @@ None - ingen extern konfiguration krävs. Ändringar är rent SwiftUI/DesignSyst
 - WeatherStickerView visar tydligare gradient-accent med WeatherIconMapper-ikoner
 - Checkpoint awaiting human visual verification i simulator
 
+## Self-Check: PASSED
+
+- FOUND: HotAndColdFriends/DesignSystem/BubblePopButton.swift
+- FOUND: HotAndColdFriends/Features/Chat/ChatBubbleView.swift
+- FOUND: HotAndColdFriends/Features/Chat/WeatherStickerView.swift
+- FOUND: commit 156b248 (BubblePopButton)
+- FOUND: commit b9e8ab9 (ChatBubbleView + WeatherStickerView)
+- BUILD SUCCEEDED (CODE_SIGNING_REQUIRED=NO)
+
 ---
 *Phase: 10-komponenter*
 *Completed: 2026-03-05*
