@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-04)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 9 — Design Foundation
+**Current focus:** Phase 10 — Komponenter (Bubble Pop UI)
 
 ## Current Position
 
-Phase: 9 of 12 (Design Foundation)
-Plan: 2 of 2 in current phase
-Status: Phase Complete
-Last activity: 2026-03-04 — 09-02 Asset integration completed (18 assets, WeatherIconMapper, BUILD SUCCEEDED)
+Phase: 10 of 12 (Komponenter)
+Plan: 2 of 3 in current phase
+Status: Awaiting human-verify checkpoint (10-02)
+Last activity: 2026-03-05 — 10-02 BubblePopButton, ChatBubbleView gradient, WeatherStickerView gradient-accent — BUILD SUCCEEDED
 
-Progress: [███░░░░░░░] 22% (2/9 plans complete)
+Progress: [████░░░░░░] 33% (3/9 plans complete)
 
 ## Accumulated Context
 
@@ -44,6 +44,9 @@ Recent decisions affecting current work:
 - [Phase 09-01]: Alla temperatureColor-anrop i hela kodbasen migrerades samtidigt — nödvändigt eftersom extension-definitionen låg i FriendRowView
 - [Phase 09-01]: DesignSystem-filer lades till i både main target och widget target — alla tokens tillgängliga för widget-koden
 - [Phase 09]: WeatherIconMapper normaliserar .fill-suffix — alla WeatherKit symboler hanteras oavsett variant
+- [Phase 10-02]: UnevenRoundedRectangle (iOS 16+) för pratbubbla-hake-känsla i ChatBubbleView — 6pt hörn mot avsändare
+- [Phase 10-02]: foregroundStyle(Color.bubbleTextPrimary) explicit — Swift resolvar inte ShapeStyle-extension via dot-syntax
+- [Phase 10-02]: DragGesture(minimumDistance:0) + simultaneousGesture för bounce i BubblePopButton
 
 ### Pending Todos
 
@@ -56,6 +59,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T22:33:02Z
-Stopped at: Completed 09-02-PLAN.md — Asset integration (18 custom assets, WeatherIconMapper, app-ikon, logotyp, empty states, BUILD SUCCEEDED)
+Last session: 2026-03-05T07:13:38Z
+Stopped at: 10-02-PLAN.md checkpoint:human-verify — BubblePopButton (pill+bounce), ChatBubbleView gradient/asymmetrisk radius, WeatherStickerView gradient-accent, BUILD SUCCEEDED
 Resume file: None
