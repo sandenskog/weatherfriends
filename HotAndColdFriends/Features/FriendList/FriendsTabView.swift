@@ -25,19 +25,51 @@ struct FriendsTabView: View {
     @State private var showAddFriend = false
     @State private var showContactImport = false
     @State private var attribution: WeatherAttribution?
+    @Namespace private var tabNamespace
+
+    private var tabSwitcher: some View {
+        HStack(spacing: Spacing.xs) {
+            ForEach(FriendsTab.allCases, id: \.self) { tab in
+                Button {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                        selectedTab = tab
+                    }
+                } label: {
+                    Text(tab.rawValue)
+                        .font(.bubbleButton)
+                        .foregroundStyle(selectedTab == tab ? .white : Color.bubbleTextSecondary)
+                        .padding(.horizontal, Spacing.md)
+                        .padding(.vertical, Spacing.sm)
+                        .background {
+                            if selectedTab == tab {
+                                Capsule()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [.bubblePrimary, .bubbleSecondary],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                                    .matchedGeometryEffect(id: "activeTab", in: tabNamespace)
+                                    .shadowGlowPrimary()
+                            }
+                        }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(Spacing.xs)
+        .background(Color.bubbleBg)
+        .clipShape(Capsule())
+    }
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                Picker("Vy", selection: $selectedTab) {
-                    ForEach(FriendsTab.allCases, id: \.self) {
-                        Text($0.rawValue).tag($0)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                .padding(.top, 8)
-                .padding(.bottom, 4)
+                tabSwitcher
+                    .padding(.horizontal, Spacing.md)
+                    .padding(.top, Spacing.sm)
+                    .padding(.bottom, Spacing.xs)
 
                 Group {
                     switch selectedTab {
