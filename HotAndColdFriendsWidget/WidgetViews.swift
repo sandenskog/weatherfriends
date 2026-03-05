@@ -26,25 +26,31 @@ struct SmallWidgetView: View {
 
     var body: some View {
         if let friend {
-            VStack(spacing: 6) {
-                initialsCircle(for: friend, size: 36)
-                Text(friend.displayName)
-                    .font(.caption.weight(.semibold))
-                    .lineLimit(1)
-                HStack(spacing: 4) {
-                    Image(systemName: friend.symbolName)
-                        .font(.caption2)
-                        .foregroundStyle(temperatureColor(for: friend))
-                    if let temp = friend.temperatureCelsius {
-                        Text(String(format: "%.0f\u{00B0}", temp))
-                            .font(.title3.weight(.bold))
-                            .foregroundStyle(temperatureColor(for: friend))
+            ZStack {
+                zoneGradient(celsius: friend.temperatureCelsius)
+                    .ignoresSafeArea()
+
+                VStack(spacing: 6) {
+                    initialsCircle(for: friend, size: 36)
+                    Text(friend.displayName)
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                    HStack(spacing: 4) {
+                        Image(systemName: friend.symbolName)
+                            .font(.caption2)
+                            .foregroundStyle(.white.opacity(0.85))
+                        if let temp = friend.temperatureCelsius {
+                            Text(String(format: "%.0f\u{00B0}", temp))
+                                .font(.title3.weight(.bold))
+                                .foregroundStyle(.white)
+                        }
                     }
+                    Text(friend.city)
+                        .font(.caption2)
+                        .foregroundStyle(.white.opacity(0.8))
+                        .lineLimit(1)
                 }
-                Text(friend.city)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
             }
             .widgetURL(URL(string: "hotandcold://friend/\(friend.id)")!)
         } else {
@@ -118,6 +124,7 @@ struct FriendWidgetCell: View {
             initialsCircle(for: friend, size: 32)
             Text(friend.displayName)
                 .font(.caption2.weight(.medium))
+                .foregroundStyle(.white)
                 .lineLimit(1)
             HStack(spacing: 2) {
                 Image(systemName: friend.symbolName)
@@ -127,14 +134,20 @@ struct FriendWidgetCell: View {
                         .font(.caption.weight(.bold))
                 }
             }
-            .foregroundStyle(temperatureColor(for: friend))
+            .foregroundStyle(.white.opacity(0.9))
             Text(friend.city)
                 .font(.system(size: 9))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.white.opacity(0.75))
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 4)
+        .padding(.vertical, 6)
+        .padding(.horizontal, 4)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(zoneGradient(celsius: friend.temperatureCelsius).opacity(0.85))
+        )
+        .padding(2)
     }
 }
 
@@ -147,10 +160,16 @@ private func initialsCircle(for friend: WidgetFriendEntry, size: CGFloat) -> som
         .joined()
     return ZStack {
         Circle()
-            .fill(temperatureColor(for: friend).opacity(0.15))
+            .fill(
+                LinearGradient(
+                    colors: [Color.white.opacity(0.3), Color.white.opacity(0.1)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
         Text(initials)
             .font(.system(size: size * 0.4, weight: .semibold))
-            .foregroundStyle(temperatureColor(for: friend))
+            .foregroundStyle(.white)
     }
     .frame(width: size, height: size)
 }
@@ -161,6 +180,42 @@ private func temperatureColor(for friend: WidgetFriendEntry) -> Color {
         green: friend.temperatureColorRGB[safe: 1] ?? 0.6,
         blue: friend.temperatureColorRGB[safe: 2] ?? 0.6
     )
+}
+
+// MARK: - TemperatureZone Gradient Helper (widget-lokal)
+
+private func zoneGradient(celsius: Double?) -> LinearGradient {
+    guard let c = celsius else {
+        return LinearGradient(
+            colors: [Color(widgetHex: 0x4A6CF7), Color(widgetHex: 0x7B61FF)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+    let colors: [Color]
+    switch c {
+    case let t where t > 28:
+        colors = [Color(widgetHex: 0xFF6B6B), Color(widgetHex: 0xFF8E6B)]
+    case 20...28:
+        colors = [Color(widgetHex: 0xFFB347), Color(widgetHex: 0xFFD93D)]
+    case 10..<20:
+        colors = [Color(widgetHex: 0x6BCB77), Color(widgetHex: 0x6B9FE8)]
+    case 0..<10:
+        colors = [Color(widgetHex: 0x6B9FE8), Color(widgetHex: 0x4A6CF7)]
+    default:
+        colors = [Color(widgetHex: 0x4A6CF7), Color(widgetHex: 0x7B61FF)]
+    }
+    return LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+}
+
+private extension Color {
+    init(widgetHex hex: UInt) {
+        self.init(
+            red: Double((hex >> 16) & 0xFF) / 255,
+            green: Double((hex >> 8) & 0xFF) / 255,
+            blue: Double(hex & 0xFF) / 255
+        )
+    }
 }
 
 private var emptyState: some View {

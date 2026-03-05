@@ -5,79 +5,72 @@ import SwiftUI
 struct FriendRowView: View {
     let friendWeather: FriendWeather
 
+    @State private var isPressed = false
+
+    // MARK: - Derived
+
+    private var zone: TemperatureZone {
+        TemperatureZone(celsius: friendWeather.temperatureCelsius ?? -99)
+    }
+
+    // MARK: - Body
+
     var body: some View {
-        HStack(spacing: 12) {
-            profileImage
+        HStack(spacing: Spacing.md) {
+            AvatarView(
+                displayName: friendWeather.friend.displayName,
+                temperatureCelsius: friendWeather.temperatureCelsius,
+                size: 52,
+                photoURL: friendWeather.friend.photoURL
+            )
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(friendWeather.friend.displayName)
-                    .font(.body.weight(.medium))
+                    .font(.bubbleH3)
+                    .foregroundStyle(Color.bubbleTextPrimary)
                     .lineLimit(1)
+
                 Text(friendWeather.friend.city)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.bubbleCaption)
+                    .foregroundStyle(Color.bubbleTextSecondary)
                     .lineLimit(1)
             }
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: 2) {
+            VStack(alignment: .trailing, spacing: 4) {
                 Text(friendWeather.temperatureFormatted)
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(
-                        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .bubbleTextSecondary
-                    )
+                    .font(.bubbleTemperature)
+                    .foregroundStyle(zone.color)
 
-                WeatherIconMapper.icon(for: friendWeather.symbolName, size: 24)
-                    .foregroundStyle(
-                        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .bubbleTextSecondary
-                    )
+                WeatherIconMapper.icon(for: friendWeather.symbolName, size: 28)
+                    .foregroundStyle(zone.color)
             }
         }
-        .padding(.vertical, 4)
+        .padding(.horizontal, Spacing.md)
+        .padding(.vertical, Spacing.sm + Spacing.xs)
+        .background(Color.bubbleSurface)
+        .clipShape(RoundedRectangle(cornerRadius: CornerRadius.md))
+        .modifier(CardShadowModifier(isPressed: isPressed))
+        .scaleEffect(isPressed ? 1.02 : 1.0)
+        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isPressed)
+        .onLongPressGesture(minimumDuration: 0, pressing: { pressing in
+            isPressed = pressing
+        }, perform: {})
     }
+}
 
-    @ViewBuilder
-    private var profileImage: some View {
-        ZStack {
-            // Animationslager bakom profilbilden
-            WeatherAnimationView(condition: WeatherCondition.from(symbolName: friendWeather.symbolName))
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
+// MARK: - CardShadowModifier
 
-            // Profilbild ovanpå med lätt genomskinlighet — animationen syns som en glöd runt kanten
-            Group {
-                if let urlString = friendWeather.friend.photoURL, let url = URL(string: urlString) {
-                    AsyncImage(url: url) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image.resizable().scaledToFill()
-                        default:
-                            initialsCircle
-                        }
-                    }
-                } else {
-                    initialsCircle
-                }
-            }
-            .frame(width: 34, height: 34)
-            .clipShape(Circle())
+/// Switches between shadowMd and shadowLg depending on press state.
+private struct CardShadowModifier: ViewModifier {
+    let isPressed: Bool
+
+    func body(content: Content) -> some View {
+        if isPressed {
+            content.shadowLg()
+        } else {
+            content.shadowMd()
         }
-    }
-
-    private var initialsCircle: some View {
-        ZStack {
-            Circle()
-                .fill(Color(.systemGray5))
-            Text(initials(from: friendWeather.friend.displayName))
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
-        }
-    }
-
-    private func initials(from name: String) -> String {
-        let parts = name.split(separator: " ")
-        let letters = parts.prefix(2).compactMap { $0.first.map { String($0) } }
-        return letters.joined().uppercased()
     }
 }
