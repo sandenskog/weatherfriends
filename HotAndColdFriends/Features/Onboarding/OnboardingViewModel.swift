@@ -120,6 +120,7 @@ class OnboardingViewModel {
         authManager.authState = .authenticated
 
         // 6. Spara favorit-vänner till Firestore
+        // Contact-imported friends use displayName lookup — will be linked via invite later
         for (index, pending) in pendingFriends.enumerated() {
             let resolvedAuthUid = await userService.lookupAuthUid(
                 byDisplayName: pending.displayName

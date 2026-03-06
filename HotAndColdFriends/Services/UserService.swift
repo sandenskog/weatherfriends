@@ -34,6 +34,8 @@ class UserService {
 
     // MARK: - Auth UID Lookup
 
+    // DEPRECATED — used only by ContactImportService and OnboardingViewModel for bulk import.
+    // New friend connections should use InviteService (invite-link flow) instead.
     /// Slår upp Firebase Auth UID för en användare via displayName
     /// Returnerar nil vid nätverksfel, timeout, eller ingen match
     func lookupAuthUid(byDisplayName displayName: String) async -> String? {
