@@ -4,12 +4,15 @@ struct ProfileView: View {
     let uid: String
     @Environment(AuthManager.self) private var authManager
     @Environment(UserService.self) private var userService
+    @Environment(InviteService.self) private var inviteService
     @State private var viewModel = ProfileViewModel()
     @State private var showEditProfile = false
     @State private var showDeleteConfirmation = false
     @State private var isDeletingAccount = false
     @State private var showReauthAlert = false
     @State private var deleteError: String?
+    @State private var inviteURL: URL?
+    @State private var isGeneratingInvite = false
 
     private var isOwnProfile: Bool {
         authManager.currentUser?.id == uid
@@ -48,7 +51,7 @@ struct ProfileView: View {
                             Button {
                                 showEditProfile = true
                             } label: {
-                                Label("Redigera profil", systemImage: "pencil")
+                                Label("Edit profile", systemImage: "pencil")
                                     .font(.subheadline.weight(.medium))
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 10)
@@ -56,6 +59,38 @@ struct ProfileView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                             .padding(.horizontal)
+
+                            // Share invite link
+                            if let inviteURL {
+                                ShareLink(item: inviteURL) {
+                                    Label("Share my invite link", systemImage: "square.and.arrow.up")
+                                        .font(.subheadline.weight(.medium))
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 10)
+                                        .background(Color(.systemGray6))
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
+                                .padding(.horizontal)
+                            } else {
+                                Button {
+                                    Task { await generateInvite() }
+                                } label: {
+                                    if isGeneratingInvite {
+                                        ProgressView()
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 10)
+                                    } else {
+                                        Label("Generate invite link", systemImage: "link.badge.plus")
+                                            .font(.subheadline.weight(.medium))
+                                            .frame(maxWidth: .infinity)
+                                            .padding(.vertical, 10)
+                                            .background(Color(.systemGray6))
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    }
+                                }
+                                .disabled(isGeneratingInvite)
+                                .padding(.horizontal)
+                            }
 
                             // Konto-radering
                             Button(role: .destructive) {
@@ -181,6 +216,17 @@ struct ProfileView: View {
         return result.isEmpty ? "?" : result
     }
 
+    private func generateInvite() async {
+        isGeneratingInvite = true
+        defer { isGeneratingInvite = false }
+        do {
+            let token = try await inviteService.createInviteToken(for: uid, userService: userService)
+            inviteURL = inviteService.inviteURL(token: token)
+        } catch {
+            deleteError = error.localizedDescription
+        }
+    }
+
     private func performDeleteAccount() async {
         isDeletingAccount = true
         defer { isDeletingAccount = false }
@@ -204,5 +250,6 @@ struct ProfileView: View {
             ProfileView(uid: "preview-uid")
                 .environment(AuthManager())
                 .environment(UserService())
+                .environment(InviteService())
         }
 }

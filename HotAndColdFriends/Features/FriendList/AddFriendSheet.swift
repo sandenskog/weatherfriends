@@ -1,5 +1,4 @@
 import SwiftUI
-import MapKit
 
 struct AddFriendSheet: View {
     let uid: String
@@ -8,13 +7,11 @@ struct AddFriendSheet: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(UserService.self) private var userService
-    @State private var name = ""
-    @State private var city = ""
-    @State private var latitude: Double?
-    @State private var longitude: Double?
-    @State private var locationService = LocationService()
-    @State private var isSaving = false
+    @Environment(InviteService.self) private var inviteService
+    @State private var tokenInput = ""
+    @State private var isRedeeming = false
     @State private var errorMessage: String?
+    @State private var successName: String?
     @State private var showConfetti = false
     @State private var confettiZone: TemperatureZone = .warm
 
@@ -22,121 +19,89 @@ struct AddFriendSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
-                    // MARK: - Namn
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Namn")
-                            .font(.caption.weight(.semibold))
+                    // MARK: - Explanation
+                    VStack(spacing: 12) {
+                        Image(systemName: "link.badge.plus")
+                            .font(.system(size: 40))
                             .foregroundStyle(.secondary)
 
-                        TextField("Vännens namn", text: $name)
-                            .padding()
-                            .background(Color(.systemGray6))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
+                        Text("Add a friend")
+                            .font(.title3.weight(.semibold))
 
-                    // MARK: - Stad med autocomplete
+                        Text("Ask your friend to share their invite link from their profile, then paste it here.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.top, 8)
+
+                    // MARK: - Token input
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Stad")
+                        Text("Invite link or token")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.secondary)
 
                         HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundStyle(.secondary)
-                            TextField("Sök stad eller ort...", text: $locationService.queryFragment)
+                            TextField("Paste invite link...", text: $tokenInput)
                                 .autocorrectionDisabled()
                                 .textInputAutocapitalization(.never)
 
-                            if !locationService.queryFragment.isEmpty {
-                                Button {
-                                    locationService.queryFragment = ""
-                                    city = ""
-                                    latitude = nil
-                                    longitude = nil
-                                } label: {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .foregroundStyle(.secondary)
-                                }
+                            Button {
+                                pasteFromClipboard()
+                            } label: {
+                                Image(systemName: "doc.on.clipboard")
+                                    .foregroundStyle(.secondary)
                             }
                         }
                         .padding()
                         .background(Color(.systemGray6))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
-
-                        // Autocomplete-förslag
-                        if !locationService.suggestions.isEmpty && !locationService.queryFragment.isEmpty {
-                            VStack(alignment: .leading, spacing: 0) {
-                                ForEach(locationService.suggestions.prefix(6), id: \.self) { suggestion in
-                                    Button {
-                                        Task { await selectSuggestion(suggestion) }
-                                    } label: {
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(suggestion.title)
-                                                .font(.body)
-                                                .foregroundStyle(.primary)
-                                            if !suggestion.subtitle.isEmpty {
-                                                Text(suggestion.subtitle)
-                                                    .font(.caption)
-                                                    .foregroundStyle(.secondary)
-                                            }
-                                        }
-                                        .padding(.horizontal)
-                                        .padding(.vertical, 10)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    }
-                                    Divider()
-                                }
-                            }
-                            .background(Color(.systemBackground))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .shadow(color: .black.opacity(0.08), radius: 8, y: 4)
-                        }
-
-                        // Vald stad
-                        if !city.isEmpty {
-                            HStack {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundStyle(.green)
-                                Text(city)
-                                    .font(.subheadline.weight(.medium))
-                                Spacer()
-                            }
-                            .padding()
-                            .background(Color.green.opacity(0.08))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                        }
                     }
 
-                    // MARK: - Lägg till-knapp
+                    // MARK: - Success state
+                    if let name = successName {
+                        HStack {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                            Text("You and \(name) are now friends!")
+                                .font(.subheadline.weight(.medium))
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color.green.opacity(0.08))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+
+                    // MARK: - Redeem button
                     Button {
-                        Task { await addFriend() }
+                        Task { await redeemInvite() }
                     } label: {
-                        if isSaving {
+                        if isRedeeming {
                             ProgressView()
                                 .frame(maxWidth: .infinity)
                                 .padding()
                         } else {
-                            Text("Lägg till")
+                            Text("Redeem invite")
                                 .font(.body.weight(.medium))
                                 .frame(maxWidth: .infinity)
                                 .padding()
                         }
                     }
-                    .background(canAdd ? Color.primary : Color(.systemGray4))
+                    .background(canRedeem ? Color.primary : Color(.systemGray4))
                     .foregroundStyle(Color(.systemBackground))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .disabled(!canAdd || isSaving)
+                    .disabled(!canRedeem || isRedeeming)
                 }
                 .padding()
             }
-            .navigationTitle("Lägg till vän")
+            .navigationTitle("Add friend")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Avbryt") { dismiss() }
+                    Button("Cancel") { dismiss() }
                 }
             }
-            .alert("Fel", isPresented: Binding(
+            .alert("Error", isPresented: Binding(
                 get: { errorMessage != nil },
                 set: { if !$0 { errorMessage = nil } }
             )) {
@@ -150,67 +115,67 @@ struct AddFriendSheet: View {
 
     // MARK: - Computed
 
-    private var canAdd: Bool {
-        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !city.isEmpty
+    private var canRedeem: Bool {
+        !extractedToken.isEmpty && successName == nil
+    }
+
+    /// Extracts the token from either a full URL or raw token input
+    private var extractedToken: String {
+        let trimmed = tokenInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        // Handle full URL: hotandcold://invite/<token>
+        if let url = URL(string: trimmed),
+           url.scheme == "hotandcold",
+           url.host == "invite",
+           let token = url.pathComponents.dropFirst().first {
+            return token
+        }
+        // Handle raw token
+        return trimmed
     }
 
     // MARK: - Actions
 
-    private func addFriend() async {
-        isSaving = true
-        defer { isSaving = false }
-
-        let resolvedAuthUid = await userService.lookupAuthUid(
-            byDisplayName: name.trimmingCharacters(in: .whitespacesAndNewlines)
-        )
-
-        let friend = Friend(
-            authUid: resolvedAuthUid,
-            displayName: name.trimmingCharacters(in: .whitespacesAndNewlines),
-            photoURL: nil,
-            city: city,
-            cityLatitude: latitude,
-            cityLongitude: longitude,
-            isFavorite: false,
-            isDemo: false
-        )
-
-        do {
-            try await friendService.addFriend(uid: uid, friend: friend)
-            // Determine zone from latitude (rough approximation)
-            if let lat = latitude {
-                let absLat = abs(lat)
-                if absLat < 15 { confettiZone = .tropical }
-                else if absLat < 30 { confettiZone = .warm }
-                else if absLat < 50 { confettiZone = .cool }
-                else if absLat < 65 { confettiZone = .cold }
-                else { confettiZone = .arctic }
-            }
-            showConfetti = true
-            onAdded()
-            // Delay dismiss so confetti is visible
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-                dismiss()
-            }
-        } catch {
-            errorMessage = "Kunde inte lägga till vän: \(error.localizedDescription)"
+    private func pasteFromClipboard() {
+        if let content = UIPasteboard.general.string {
+            tokenInput = content
         }
     }
 
-    private func selectSuggestion(_ suggestion: MKLocalSearchCompletion) async {
-        if let placemark = await locationService.resolveLocation(suggestion) {
-            latitude = placemark.location?.coordinate.latitude
-            longitude = placemark.location?.coordinate.longitude
+    private func redeemInvite() async {
+        isRedeeming = true
+        defer { isRedeeming = false }
 
-            let country = placemark.country ?? suggestion.subtitle.components(separatedBy: ",").last?.trimmingCharacters(in: .whitespaces) ?? ""
-            if !country.isEmpty {
-                city = "\(suggestion.title), \(country)"
-            } else {
-                city = suggestion.title
+        let token = extractedToken
+        guard !token.isEmpty else { return }
+
+        do {
+            // Look up invite to get sender info for success message and confetti
+            guard let invite = try await inviteService.lookupInviteToken(token) else {
+                errorMessage = InviteError.invalidToken.localizedDescription
+                return
             }
-        } else {
-            city = suggestion.title
+
+            // Derive confetti zone from sender's city latitude if available
+            // (we don't have lat in invite doc, so use default warm zone)
+            confettiZone = .warm
+
+            try await inviteService.redeemInvite(
+                token: token,
+                redeemerUid: uid,
+                friendService: friendService,
+                userService: userService
+            )
+
+            successName = invite.senderDisplayName
+            showConfetti = true
+            onAdded()
+
+            // Delay dismiss so confetti and success message are visible
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                dismiss()
+            }
+        } catch {
+            errorMessage = error.localizedDescription
         }
-        locationService.queryFragment = ""
     }
 }
