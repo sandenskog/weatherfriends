@@ -26,6 +26,7 @@
 		2D39D41B1ABC1FE934FC5DBB /* BubblePopColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F241891D477BD81453A39B /* BubblePopColors.swift */; };
 		2E3F1FDC026268BC3EE57F17 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9FBAFC9CE5CD8CA5A655350 /* AvatarView.swift */; };
 		3224CEADB543DD6572289FC1 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D318457A3208319B531E0026 /* AuthState.swift */; };
+		3433F80A0AF0751699B9A708 /* CloudRefreshModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207432E4EEB1EB4E1CA2C75D /* CloudRefreshModifier.swift */; };
 		34B88F423944EF00A8B58B62 /* FriendRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */; };
 		37E62F0EAC0C9C9491482539 /* DailyWeatherNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57A43CF1210845D602D8EA8A /* DailyWeatherNotificationService.swift */; };
 		3BD13553ADB693861F76AEBC /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BE76294B35397FE9A5F57B /* MainTabView.swift */; };
@@ -134,6 +135,7 @@
 		1EF3BC52FB3A54A37F911953 /* Baloo2-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo2-SemiBold.ttf"; sourceTree = "<group>"; };
 		1F1E46F80EE4810096655142 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F40D14036FC668699DE4464 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		207432E4EEB1EB4E1CA2C75D /* CloudRefreshModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudRefreshModifier.swift; sourceTree = "<group>"; };
 		21C773FC6DD78C9854596E5D /* FriendListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewModel.swift; sourceTree = "<group>"; };
 		2443925B1B0DF6EC55C0E98F /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		258BBCF26EBD1AC21640B13D /* HotAndColdFriendsWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HotAndColdFriendsWidget.entitlements; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 		393B44CB1A1040F1B51FEA71 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				207432E4EEB1EB4E1CA2C75D /* CloudRefreshModifier.swift */,
 				7F7B1C7FCB4A8345F80F96B2 /* ConfettiOverlay.swift */,
 				D61A57D22D42675824C7C3A1 /* HeartPopModifier.swift */,
 				4EFCC73DCEDCA74A6C840EC9 /* MotionReducer.swift */,
@@ -623,6 +626,7 @@
 				43B3A4CD67349EE853E277F1 /* ChatService.swift in Sources */,
 				1076B577218F0D9FB02F95A6 /* ChatView.swift in Sources */,
 				CCFC4ED925834CEC5A5EA8EE /* ChatViewModel.swift in Sources */,
+				3433F80A0AF0751699B9A708 /* CloudRefreshModifier.swift in Sources */,
 				17E26C84BD53AE831F06DE99 /* ConfettiOverlay.swift in Sources */,
 				76D58889D5DD6FEBC491DCC0 /* ContactImportRow.swift in Sources */,
 				E821AE5D2E43037E4998C7C8 /* ContactImportService.swift in Sources */,

@@ -11,6 +11,7 @@ struct FriendListView: View {
     let authManager: AuthManager
 
     @State private var heartPopFriendId: String?
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         mainList
@@ -39,7 +40,7 @@ struct FriendListView: View {
                     }
                 }
                 .listStyle(.insetGrouped)
-                .refreshable {
+                .cloudRefreshable {
                     guard let uid else { return }
                     await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService)
                 }
@@ -104,9 +105,22 @@ struct FriendListView: View {
 
     private var favoritesSection: some View {
         Section("Favoriter") {
-            ForEach(viewModel.favorites) { fw in
+            ForEach(Array(viewModel.favorites.enumerated()), id: \.element.id) { index, fw in
                 FriendRowView(friendWeather: fw)
                     .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
+                    .transition(.asymmetric(
+                        insertion: reduceMotion
+                            ? .opacity
+                            : .move(edge: .trailing).combined(with: .opacity),
+                        removal: .opacity
+                    ))
+                    .animation(
+                        reduceMotion
+                            ? .easeInOut(duration: 0.25)
+                            : .spring(response: 0.35, dampingFraction: 0.7)
+                                .delay(Double(index) * 0.05),
+                        value: viewModel.refreshToken
+                    )
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedFriendWeather = fw
@@ -131,9 +145,22 @@ struct FriendListView: View {
 
     private var othersSection: some View {
         Section(viewModel.favorites.isEmpty ? "Vänner" : "Övriga") {
-            ForEach(viewModel.others) { fw in
+            ForEach(Array(viewModel.others.enumerated()), id: \.element.id) { index, fw in
                 FriendRowView(friendWeather: fw)
                     .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
+                    .transition(.asymmetric(
+                        insertion: reduceMotion
+                            ? .opacity
+                            : .move(edge: .trailing).combined(with: .opacity),
+                        removal: .opacity
+                    ))
+                    .animation(
+                        reduceMotion
+                            ? .easeInOut(duration: 0.25)
+                            : .spring(response: 0.35, dampingFraction: 0.7)
+                                .delay(Double(index) * 0.05),
+                        value: viewModel.refreshToken
+                    )
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedFriendWeather = fw
