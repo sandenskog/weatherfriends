@@ -122,12 +122,16 @@ Plans:
   1. ProfileView anvander AvatarView-komponenten med temperaturzon-gradient — inte egen initialsCircle() med Color(.systemGray5)
   2. Phase 10 har VERIFICATION.md som bekraftar COMP-01, COMP-03, COMP-04, COMP-05, COMP-06, COMP-07
   3. MotionReducer convenience-metoder (.motionReduced(), .crossfadeIfReduced()) ar borttagna (dead code)
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 14-01-PLAN.md — ProfileView AvatarView-integration och MotionReducer dead code cleanup
+- [ ] 14-02-PLAN.md — Phase 10 VERIFICATION.md for COMP-01, COMP-03, COMP-04, COMP-05, COMP-06, COMP-07
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
+Phases execute in numeric order: 9 → 10 → 11 → 12 → 13 → 14
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -149,4 +153,4 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 11. Animationer | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 12. Tech Debt | 2/2 | Complete    | 2026-03-06 | - |
 | 13. BubblePopButton Adoption | 1/1 | Complete    | 2026-03-06 | - |
-| 14. Phase 10 Verify + Avatar Fix | v2.0 | 0/0 | Pending | - |
+| 14. Phase 10 Verify + Avatar Fix | v2.0 | 0/2 | Pending | - |
