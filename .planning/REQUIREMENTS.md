@@ -28,11 +28,11 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 ### Animationer
 
 - [x] **ANIM-01**: Favorit-markering har heart-pop animation (shrink → overshoot → settle, 0.6s spring)
-- [ ] **ANIM-02**: Ny vän tillagd triggar konfetti-animation med temperaturzon-färger
+- [x] **ANIM-02**: Ny vän tillagd triggar konfetti-animation med temperaturzon-färger
 - [x] **ANIM-03**: Sticker skickad visas med bounce-in animation (fade + slide up → overshoot → settle)
-- [ ] **ANIM-04**: Tab-byte animeras med scale + glow (0.35s spring)
-- [ ] **ANIM-05**: Temperatursortering animeras med staggered slide (50ms delay per item)
-- [ ] **ANIM-06**: Pull-to-refresh har moln-animation (bounce → spin → sol-pop)
+- [x] **ANIM-04**: Tab-byte animeras med scale + glow (0.35s spring)
+- [x] **ANIM-05**: Temperatursortering animeras med staggered slide (50ms delay per item)
+- [x] **ANIM-06**: Pull-to-refresh har moln-animation (bounce → spin → sol-pop)
 - [x] **ANIM-07**: Animationer respekterar "Reduce Motion" (crossfade istället för slide/bounce)
 
 ### Assets
@@ -87,11 +87,11 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 | COMP-06 | Phase 10 | Complete |
 | COMP-07 | Phase 10 | Complete |
 | ANIM-01 | Phase 11 | Complete |
-| ANIM-02 | Phase 11 | Pending |
+| ANIM-02 | Phase 11 | Complete |
 | ANIM-03 | Phase 11 | Complete |
-| ANIM-04 | Phase 11 | Pending |
-| ANIM-05 | Phase 11 | Pending |
-| ANIM-06 | Phase 11 | Pending |
+| ANIM-04 | Phase 11 | Complete |
+| ANIM-05 | Phase 11 | Complete |
+| ANIM-06 | Phase 11 | Complete |
 | ANIM-07 | Phase 11 | Complete |
 | DEBT-01 | Phase 12 | Pending |
 | DEBT-02 | Phase 12 | Pending |
