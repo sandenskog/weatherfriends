@@ -79,6 +79,7 @@ Tre identifierade v1.0 tech debt-items atgardas: (1) lookupAuthUid ersatts med i
 ## Deferred Ideas
 
 - **"Chat about XXX"-knappar med viral SMS-invite** -- Exponera weather-triggered chat affordances pa varje van (t.ex. "Chat about the snowstorm!"). Om vannen inte anvander appen, triggar chat-forsoket en invite via SMS/iOS Messages. Stark viral growth-feature -- egen fas.
+- **Facebook-vanimport (research)** -- Undersok om Facebooks `user_friends`-permission (returnerar vanner som ocksa anvander appen) kan anvandas for att matcha befintliga anvandare. Facebooks Friends API (invitable_friends/taggable_friends) stangdes 2018 efter Cambridge Analytica -- inget satt att importera hela vanlistan. Mojligen anvandbart for re-engagement nar appen har fler anvandare.
 
 </deferred>
 
