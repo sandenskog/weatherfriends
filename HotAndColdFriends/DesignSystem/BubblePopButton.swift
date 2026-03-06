@@ -8,28 +8,40 @@ struct BubblePopButton: View {
     let title: String
     let action: () -> Void
     var isDestructive: Bool = false
+    var isLoading: Bool = false
+    var isDisabled: Bool = false
 
     @State private var isPressed = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        Text(title)
-            .font(.bubbleButton)
-            .foregroundStyle(.white)
-            .padding(.horizontal, Spacing.lg)
-            .padding(.vertical, Spacing.sm + Spacing.xs)
-            .background(background)
-            .clipShape(Capsule())
-            .scaleEffect(isPressed ? 0.96 : 1.0)
-            .animation(.spring(response: 0.25, dampingFraction: 0.6), value: isPressed)
-            .shadowGlowPrimary()
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in isPressed = true }
-                    .onEnded { _ in
-                        isPressed = false
-                        action()
-                    }
-            )
+        Group {
+            if isLoading {
+                ProgressView()
+                    .tint(.white)
+            } else {
+                Text(title)
+            }
+        }
+        .font(.bubbleButton)
+        .foregroundStyle(.white)
+        .padding(.horizontal, Spacing.lg)
+        .padding(.vertical, Spacing.sm + Spacing.xs)
+        .background(background)
+        .clipShape(Capsule())
+        .scaleEffect(isPressed && !reduceMotion ? 0.96 : 1.0)
+        .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.6), value: isPressed)
+        .shadowGlowPrimary()
+        .opacity(isDisabled ? 0.5 : 1.0)
+        .allowsHitTesting(!isDisabled && !isLoading)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in isPressed = true }
+                .onEnded { _ in
+                    isPressed = false
+                    action()
+                }
+        )
     }
 
     @ViewBuilder
