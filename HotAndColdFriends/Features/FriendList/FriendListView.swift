@@ -11,6 +11,7 @@ struct FriendListView: View {
     let authManager: AuthManager
 
     @State private var heartPopFriendId: String?
+    @Environment(WeatherAlertService.self) private var weatherAlertService
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
@@ -43,6 +44,9 @@ struct FriendListView: View {
                 .cloudRefreshable {
                     guard let uid else { return }
                     await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService)
+                    // Trigger alert check with refreshed friend data
+                    let allFriends = viewModel.favorites.map(\.friend) + viewModel.others.map(\.friend)
+                    await weatherAlertService.checkAlertsForFriends(uid: uid, friends: allFriends)
                 }
             }
         }

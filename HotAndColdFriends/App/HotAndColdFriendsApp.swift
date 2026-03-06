@@ -10,6 +10,7 @@ struct HotAndColdFriendsApp: App {
     @State private var friendService: FriendService
     @State private var chatService: ChatService
     @State private var weatherAlertService: WeatherAlertService
+    @State private var inviteService: InviteService
 
     init() {
         // Firebase MÅSTE konfigureras innan AuthManager/UserService skapas,
@@ -23,6 +24,7 @@ struct HotAndColdFriendsApp: App {
         _friendService = State(initialValue: FriendService())
         _chatService = State(initialValue: ChatService())
         _weatherAlertService = State(initialValue: WeatherAlertService())
+        _inviteService = State(initialValue: InviteService())
     }
 
     var body: some Scene {
@@ -33,17 +35,31 @@ struct HotAndColdFriendsApp: App {
                 .environment(appWeatherService)
                 .environment(friendService)
                 .environment(chatService)
+                .environment(weatherAlertService)
+                .environment(inviteService)
                 .onOpenURL { url in
-                    // Parsa hotandcold://friend/<id> — widget deep links
-                    guard url.scheme == "hotandcold",
-                          url.host == "friend",
-                          let friendId = url.pathComponents.dropFirst().first else {
-                        return
+                    guard url.scheme == "hotandcold" else { return }
+
+                    if url.host == "invite",
+                       let token = url.pathComponents.dropFirst().first {
+                        // Handle hotandcold://invite/<token> — invite link redemption
+                        Task {
+                            guard let uid = authManager.currentUser?.id else { return }
+                            try? await inviteService.redeemInvite(
+                                token: token,
+                                redeemerUid: uid,
+                                friendService: friendService,
+                                userService: userService
+                            )
+                        }
+                    } else if url.host == "friend",
+                              let friendId = url.pathComponents.dropFirst().first {
+                        // Handle hotandcold://friend/<id> — widget deep links
+                        NotificationCenter.default.post(
+                            name: .openWeatherAlert,
+                            object: friendId
+                        )
                     }
-                    NotificationCenter.default.post(
-                        name: .openWeatherAlert,
-                        object: friendId
-                    )
                 }
                 .task {
                     delegate.registerForPushNotifications()

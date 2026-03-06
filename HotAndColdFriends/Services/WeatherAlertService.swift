@@ -6,6 +6,7 @@ import FirebaseFirestore
 /// Kontrollerar extremvader (WeatherKit weatherAlerts) for varje van med koordinater
 /// och skriver hasActiveAlert/alertSummary till Firestore.
 /// Anropas vid app-start fran HotAndColdFriendsApp .task{}.
+@Observable
 @MainActor
 class WeatherAlertService {
     private let weatherService = WeatherKit.WeatherService.shared

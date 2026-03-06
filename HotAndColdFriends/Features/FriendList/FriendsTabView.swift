@@ -16,6 +16,7 @@ struct FriendsTabView: View {
     @Environment(AuthManager.self) private var authManager
     @Environment(AppWeatherService.self) private var weatherService
     @Environment(FriendService.self) private var friendService
+    @Environment(WeatherAlertService.self) private var weatherAlertService
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var selectedTab: FriendsTab = .list
