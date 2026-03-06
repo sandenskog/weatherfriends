@@ -17,13 +17,13 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 
 ### Komponenter
 
-- [ ] **COMP-01**: Vänkort har gradient-avatar baserad på temperaturzon, weather badge och slide-hover-effekt
+- [x] **COMP-01**: Vänkort har gradient-avatar baserad på temperaturzon, weather badge och slide-hover-effekt
 - [x] **COMP-02**: Knappar har pill-form (Capsule), gradient-bakgrund och bounce-effekt vid tryck
-- [ ] **COMP-03**: Chattbubblor har gradient (egna) respektive vit med border (andras) med asymmetrisk border radius
-- [ ] **COMP-04**: Väder-stickers kan skickas i chatt som interaktiva kort med temperaturzon-gradient
-- [ ] **COMP-05**: Tab-switcher har pill-form med glow-shadow och scale-animation på aktiv tab
+- [x] **COMP-03**: Chattbubblor har gradient (egna) respektive vit med border (andras) med asymmetrisk border radius
+- [x] **COMP-04**: Väder-stickers kan skickas i chatt som interaktiva kort med temperaturzon-gradient
+- [x] **COMP-05**: Tab-switcher har pill-form med glow-shadow och scale-animation på aktiv tab
 - [x] **COMP-06**: Avatarer visar initialer med temperaturzon-gradient och 52x52pt storlek
-- [ ] **COMP-07**: Widgets (small/medium/large) har temperaturzon-gradient bakgrund enligt spec
+- [x] **COMP-07**: Widgets (small/medium/large) har temperaturzon-gradient bakgrund enligt spec
 
 ### Animationer
 
@@ -79,13 +79,13 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 | ASSET-02 | Phase 9 | Complete |
 | ASSET-03 | Phase 9 | Complete |
 | ASSET-04 | Phase 9 | Complete |
-| COMP-01 | Phase 14 | Pending |
+| COMP-01 | Phase 14 | Complete |
 | COMP-02 | Phase 13 | Complete |
-| COMP-03 | Phase 14 | Pending |
-| COMP-04 | Phase 14 | Pending |
-| COMP-05 | Phase 14 | Pending |
+| COMP-03 | Phase 14 | Complete |
+| COMP-04 | Phase 14 | Complete |
+| COMP-05 | Phase 14 | Complete |
 | COMP-06 | Phase 14 | Complete |
-| COMP-07 | Phase 14 | Pending |
+| COMP-07 | Phase 14 | Complete |
 | ANIM-01 | Phase 11 | Complete |
 | ANIM-02 | Phase 11 | Complete |
 | ANIM-03 | Phase 11 | Complete |
