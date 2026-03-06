@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-04)
 ## Current Position
 
 Phase: 12 of 12 (Tech Debt)
-Plan: 2 of 3 in current phase
-Status: 12-02 complete — alert refresh and robust cleanup
-Last activity: 2026-03-06 — 12-02 WeatherAlertService environment injection, resilient cleanupUserData — BUILD SUCCEEDED
+Plan: 3 of 3 in current phase
+Status: 12-01 complete — invite-link system replaces displayName lookups
+Last activity: 2026-03-06 — 12-01 InviteService, invite-link AddFriendSheet, ProfileView share button — BUILD SUCCEEDED
 
-Progress: [█████████░] 89% (8/9 plans complete)
+Progress: [██████████] 100% (9/9 plans complete)
 
 ## Accumulated Context
 
@@ -62,6 +62,9 @@ Recent decisions affecting current work:
 - [Phase 11-02]: Confetti zone derived from latitude (abs value ranges) since temperature unknown at add-time
 - [Phase 12-02]: Added @Observable to WeatherAlertService — required for @Environment(Type.self) injection pattern
 - [Phase 12-02]: cleanupUserData no longer throws on individual step failure — continues cleanup and only logs errors
+- [Phase 12-01]: Invite tokens are 12-char lowercase UUID prefixes in Firestore 'invites' collection
+- [Phase 12-01]: lookupAuthUid kept for ContactImportService/OnboardingViewModel but marked deprecated
+- [Phase 12-01]: Contact-imported friends auto-merged on invite redemption (authUid updated)
 
 ### Pending Todos
 
@@ -74,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T13:23:13Z
-Stopped at: Completed 12-02-PLAN.md
-Resume file: .planning/phases/12-tech-debt/12-02-SUMMARY.md
+Last session: 2026-03-06T13:24:44Z
+Stopped at: Completed 12-01-PLAN.md
+Resume file: .planning/phases/12-tech-debt/12-01-SUMMARY.md

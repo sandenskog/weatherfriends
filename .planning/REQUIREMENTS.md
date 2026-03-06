@@ -44,7 +44,7 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 
 ### Tech Debt
 
-- [ ] **DEBT-01**: lookupAuthUid ersätts med invite-länk eller annan unik identifierare (ej displayName-match)
+- [x] **DEBT-01**: lookupAuthUid ersätts med invite-länk eller annan unik identifierare (ej displayName-match)
 - [x] **DEBT-02**: WeatherAlertService injiceras i SwiftUI environment så vyer kan trigga alert-check
 - [x] **DEBT-03**: Orphaned messages i konversationer rensas vid kontoborttagning
 
@@ -93,7 +93,7 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 | ANIM-05 | Phase 11 | Complete |
 | ANIM-06 | Phase 11 | Complete |
 | ANIM-07 | Phase 11 | Complete |
-| DEBT-01 | Phase 12 | Pending |
+| DEBT-01 | Phase 12 | Complete |
 | DEBT-02 | Phase 12 | Complete |
 | DEBT-03 | Phase 12 | Complete |
 
