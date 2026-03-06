@@ -18,7 +18,7 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 ### Komponenter
 
 - [x] **COMP-01**: Vänkort har gradient-avatar baserad på temperaturzon, weather badge och slide-hover-effekt
-- [x] **COMP-02**: Knappar har pill-form (Capsule), gradient-bakgrund och bounce-effekt vid tryck
+- [ ] **COMP-02**: Knappar har pill-form (Capsule), gradient-bakgrund och bounce-effekt vid tryck
 - [x] **COMP-03**: Chattbubblor har gradient (egna) respektive vit med border (andras) med asymmetrisk border radius
 - [x] **COMP-04**: Väder-stickers kan skickas i chatt som interaktiva kort med temperaturzon-gradient
 - [x] **COMP-05**: Tab-switcher har pill-form med glow-shadow och scale-animation på aktiv tab
@@ -80,7 +80,7 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 | ASSET-03 | Phase 9 | Complete |
 | ASSET-04 | Phase 9 | Complete |
 | COMP-01 | Phase 10 | Complete |
-| COMP-02 | Phase 10 | Complete |
+| COMP-02 | Phase 13 | Pending |
 | COMP-03 | Phase 10 | Complete |
 | COMP-04 | Phase 10 | Complete |
 | COMP-05 | Phase 10 | Complete |
@@ -99,7 +99,7 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 
 **Coverage:**
 - v2.0 requirements: 26 total (22 current + DEBT mapped explicitly)
-- Mapped to phases: 26
+- Mapped to phases: 26 (COMP-02 remapped to Phase 13 gap closure)
 - Unmapped: 0 ✓
 
 ---
