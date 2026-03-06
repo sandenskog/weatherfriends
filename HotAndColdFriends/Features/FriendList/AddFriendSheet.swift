@@ -15,6 +15,8 @@ struct AddFriendSheet: View {
     @State private var locationService = LocationService()
     @State private var isSaving = false
     @State private var errorMessage: String?
+    @State private var showConfetti = false
+    @State private var confettiZone: TemperatureZone = .warm
 
     var body: some View {
         NavigationStack {
@@ -142,6 +144,7 @@ struct AddFriendSheet: View {
             } message: {
                 Text(errorMessage ?? "")
             }
+            .confettiOverlay(isActive: $showConfetti, zone: confettiZone)
         }
     }
 
@@ -174,8 +177,21 @@ struct AddFriendSheet: View {
 
         do {
             try await friendService.addFriend(uid: uid, friend: friend)
+            // Determine zone from latitude (rough approximation)
+            if let lat = latitude {
+                let absLat = abs(lat)
+                if absLat < 15 { confettiZone = .tropical }
+                else if absLat < 30 { confettiZone = .warm }
+                else if absLat < 50 { confettiZone = .cool }
+                else if absLat < 65 { confettiZone = .cold }
+                else { confettiZone = .arctic }
+            }
+            showConfetti = true
             onAdded()
-            dismiss()
+            // Delay dismiss so confetti is visible
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
+                dismiss()
+            }
         } catch {
             errorMessage = "Kunde inte lägga till vän: \(error.localizedDescription)"
         }

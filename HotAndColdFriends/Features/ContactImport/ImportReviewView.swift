@@ -40,6 +40,7 @@ struct ImportReviewView: View {
     @State private var isSaving = false
     @State private var isLoadingReview = true
     @State private var errorMessage: String?
+    @State private var showConfetti = false
 
     // MARK: - Body
 
@@ -102,6 +103,7 @@ struct ImportReviewView: View {
                 Text(errorMessage ?? "")
             }
         }
+        .confettiOverlay(isActive: $showConfetti, zone: .warm)
         .task {
             await buildReviewItems()
         }
@@ -342,8 +344,12 @@ struct ImportReviewView: View {
                     friendService: friendService,
                     userService: userService
                 )
+                showConfetti = true
                 onCompleted()
-                dismiss()
+                // Delay dismiss so confetti is visible
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
+                    dismiss()
+                }
             } catch {
                 errorMessage = "Kunde inte spara kontakter: \(error.localizedDescription)"
             }

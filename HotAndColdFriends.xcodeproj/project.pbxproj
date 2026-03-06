@@ -17,6 +17,7 @@
 		104A6991155EBF8F20498249 /* WeatherStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616C89AE007BB29E51AABE54 /* WeatherStickerView.swift */; };
 		1076B577218F0D9FB02F95A6 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443925B1B0DF6EC55C0E98F /* ChatView.swift */; };
 		1722CF6916F244F717C5E677 /* MotionReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFCC73DCEDCA74A6C840EC9 /* MotionReducer.swift */; };
+		17E26C84BD53AE831F06DE99 /* ConfettiOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7B1C7FCB4A8345F80F96B2 /* ConfettiOverlay.swift */; };
 		206CA7F5CD9F5B7F6DEEC65D /* FriendWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBA5CD41802CFE062FE5EAB /* FriendWeather.swift */; };
 		20C40295A428CE765A09C78A /* FriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C17A00CA20FF485FF6DE6A /* FriendListView.swift */; };
 		20F4C115E36989720250E76E /* DemoFriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */; };
@@ -165,6 +166,7 @@
 		72DD38C60BF5B832B7B3BA34 /* Baloo2-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baloo2-Bold.ttf"; sourceTree = "<group>"; };
 		7CC38AB7BDC03D9814B36926 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7EB4EAC612CD687061805314 /* FriendsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTabView.swift; sourceTree = "<group>"; };
+		7F7B1C7FCB4A8345F80F96B2 /* ConfettiOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiOverlay.swift; sourceTree = "<group>"; };
 		81ACB61652C42F6BA4E33618 /* OnboardingNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingNameView.swift; sourceTree = "<group>"; };
 		83B8C3C60DADFC174ABB094F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactImportService.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 		393B44CB1A1040F1B51FEA71 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				7F7B1C7FCB4A8345F80F96B2 /* ConfettiOverlay.swift */,
 				D61A57D22D42675824C7C3A1 /* HeartPopModifier.swift */,
 				4EFCC73DCEDCA74A6C840EC9 /* MotionReducer.swift */,
 				1305C18C52CCF0BBCCE8E942 /* StickerBounceModifier.swift */,
@@ -620,6 +623,7 @@
 				43B3A4CD67349EE853E277F1 /* ChatService.swift in Sources */,
 				1076B577218F0D9FB02F95A6 /* ChatView.swift in Sources */,
 				CCFC4ED925834CEC5A5EA8EE /* ChatViewModel.swift in Sources */,
+				17E26C84BD53AE831F06DE99 /* ConfettiOverlay.swift in Sources */,
 				76D58889D5DD6FEBC491DCC0 /* ContactImportRow.swift in Sources */,
 				E821AE5D2E43037E4998C7C8 /* ContactImportService.swift in Sources */,
 				B2B0860E2220BB010905DE15 /* ContactImportView.swift in Sources */,

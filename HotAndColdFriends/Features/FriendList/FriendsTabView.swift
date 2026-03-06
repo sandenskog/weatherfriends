@@ -16,6 +16,7 @@ struct FriendsTabView: View {
     @Environment(AuthManager.self) private var authManager
     @Environment(AppWeatherService.self) private var weatherService
     @Environment(FriendService.self) private var friendService
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var selectedTab: FriendsTab = .list
     @State private var viewModel = FriendListViewModel()
@@ -31,13 +32,17 @@ struct FriendsTabView: View {
         HStack(spacing: Spacing.xs) {
             ForEach(FriendsTab.allCases, id: \.self) { tab in
                 Button {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                    withAnimation(reduceMotion
+                        ? .easeInOut(duration: 0.25)
+                        : .spring(response: 0.35, dampingFraction: 0.7)
+                    ) {
                         selectedTab = tab
                     }
                 } label: {
                     Text(tab.rawValue)
                         .font(.bubbleButton)
                         .foregroundStyle(selectedTab == tab ? .white : Color.bubbleTextSecondary)
+                        .scaleEffect(selectedTab == tab && !reduceMotion ? 1.02 : 1.0)
                         .padding(.horizontal, Spacing.md)
                         .padding(.vertical, Spacing.sm)
                         .background {
