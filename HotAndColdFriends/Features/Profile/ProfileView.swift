@@ -161,48 +161,8 @@ struct ProfileView: View {
         .presentationDragIndicator(.visible)
     }
 
-    @ViewBuilder
     private func profileImageView(user: AppUser) -> some View {
-        if let photoURL = user.profileImageURL {
-            AsyncImage(url: photoURL) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 100, height: 100)
-                        .clipShape(Circle())
-                case .failure(_), .empty:
-                    initialsCircle(name: user.displayName, size: 100)
-                @unknown default:
-                    initialsCircle(name: user.displayName, size: 100)
-                }
-            }
-        } else {
-            initialsCircle(name: user.displayName, size: 100)
-        }
-    }
-
-    private func initialsCircle(name: String, size: CGFloat) -> some View {
-        ZStack {
-            Circle()
-                .fill(Color(.systemGray5))
-                .frame(width: size, height: size)
-            Text(initials(from: name))
-                .font(.system(size: size * 0.38, weight: .medium))
-                .foregroundStyle(.secondary)
-        }
-    }
-
-    private func initials(from name: String) -> String {
-        let parts = name
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .components(separatedBy: .whitespaces)
-            .filter { !$0.isEmpty }
-        let first = parts.first?.first.map(String.init) ?? ""
-        let last = parts.count > 1 ? (parts.last?.first.map(String.init) ?? "") : ""
-        let result = (first + last).uppercased()
-        return result.isEmpty ? "?" : result
+        AvatarView(displayName: user.displayName, temperatureCelsius: nil, size: 100, photoURL: user.photoURL)
     }
 
     private func generateInvite() async {
