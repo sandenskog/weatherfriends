@@ -2,7 +2,7 @@ import SwiftUI
 
 // MARK: - WeatherCondition
 
-enum WeatherCondition {
+enum WeatherCondition: Equatable {
     case sun, clouds, rain, snow, thunder
 
     static func from(symbolName: String) -> WeatherCondition {
@@ -22,17 +22,20 @@ struct WeatherAnimationView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        if reduceMotion {
-            staticIcon
-        } else {
-            switch condition {
-            case .sun: SunPulseView()
-            case .clouds: CloudDriftView()
-            case .rain: ParticleAnimationView(type: .rain)
-            case .snow: ParticleAnimationView(type: .snow)
-            case .thunder: ThunderFlashView()
+        Group {
+            if reduceMotion {
+                staticIcon
+            } else {
+                switch condition {
+                case .sun: SunPulseView()
+                case .clouds: CloudDriftView()
+                case .rain: ParticleAnimationView(type: .rain)
+                case .snow: ParticleAnimationView(type: .snow)
+                case .thunder: ThunderFlashView()
+                }
             }
         }
+        .crossfadeIfReduced(value: condition)
     }
 
     private var staticIcon: some View {

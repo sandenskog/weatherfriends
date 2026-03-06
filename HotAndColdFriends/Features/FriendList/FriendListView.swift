@@ -10,6 +10,8 @@ struct FriendListView: View {
     let weatherService: AppWeatherService
     let authManager: AuthManager
 
+    @State private var heartPopFriendId: String?
+
     var body: some View {
         mainList
     }
@@ -104,12 +106,14 @@ struct FriendListView: View {
         Section("Favoriter") {
             ForEach(viewModel.favorites) { fw in
                 FriendRowView(friendWeather: fw)
+                    .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedFriendWeather = fw
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button {
+                            if let fid = fw.friend.id { triggerHeartPop(friendId: fid) }
                             Task {
                                 guard let uid else { return }
                                 await viewModel.toggleFavorite(uid: uid, friend: fw.friend, friendService: friendService)
@@ -129,12 +133,14 @@ struct FriendListView: View {
         Section(viewModel.favorites.isEmpty ? "Vänner" : "Övriga") {
             ForEach(viewModel.others) { fw in
                 FriendRowView(friendWeather: fw)
+                    .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedFriendWeather = fw
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button {
+                            if let fid = fw.friend.id { triggerHeartPop(friendId: fid) }
                             Task {
                                 guard let uid else { return }
                                 await viewModel.toggleFavorite(uid: uid, friend: fw.friend, friendService: friendService)
@@ -145,6 +151,15 @@ struct FriendListView: View {
                         .tint(.yellow)
                     }
             }
+        }
+    }
+
+    // MARK: - Heart Pop Helper
+
+    private func triggerHeartPop(friendId: String) {
+        heartPopFriendId = friendId
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            heartPopFriendId = nil
         }
     }
 
