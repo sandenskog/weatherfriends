@@ -35,7 +35,6 @@ struct WeatherAnimationView: View {
                 }
             }
         }
-        .crossfadeIfReduced(value: condition)
     }
 
     private var staticIcon: some View {
