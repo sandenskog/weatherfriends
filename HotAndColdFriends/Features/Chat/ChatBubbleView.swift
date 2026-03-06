@@ -66,6 +66,7 @@ struct ChatBubbleView: View {
     private var bubbleContent: some View {
         if message.type == .weatherSticker, let weatherData = message.weatherData {
             WeatherStickerView(weatherData: weatherData)
+                .stickerBounce()
         } else if isCurrentUser {
             Text(message.text ?? "")
                 .font(.bubbleBody)
