@@ -16,7 +16,6 @@
 		10484AEF454F2341CDCCB81C /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = A3174E5AD01F2CA839F31AF3 /* FirebaseFunctions */; };
 		104A6991155EBF8F20498249 /* WeatherStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616C89AE007BB29E51AABE54 /* WeatherStickerView.swift */; };
 		1076B577218F0D9FB02F95A6 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443925B1B0DF6EC55C0E98F /* ChatView.swift */; };
-		1722CF6916F244F717C5E677 /* MotionReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFCC73DCEDCA74A6C840EC9 /* MotionReducer.swift */; };
 		17E26C84BD53AE831F06DE99 /* ConfettiOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7B1C7FCB4A8345F80F96B2 /* ConfettiOverlay.swift */; };
 		206CA7F5CD9F5B7F6DEEC65D /* FriendWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBA5CD41802CFE062FE5EAB /* FriendWeather.swift */; };
 		20C40295A428CE765A09C78A /* FriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C17A00CA20FF485FF6DE6A /* FriendListView.swift */; };
@@ -155,7 +154,6 @@
 		4983BC091BC878A6DCCEFF65 /* HotAndColdFriendsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotAndColdFriendsWidget.swift; sourceTree = "<group>"; };
 		49AEC5B49CAD762F884C75ED /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		4BF4883BF93DB7BD9B5DE307 /* FriendRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendRowView.swift; sourceTree = "<group>"; };
-		4EFCC73DCEDCA74A6C840EC9 /* MotionReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionReducer.swift; sourceTree = "<group>"; };
 		50C17A00CA20FF485FF6DE6A /* FriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListView.swift; sourceTree = "<group>"; };
 		57A43CF1210845D602D8EA8A /* DailyWeatherNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeatherNotificationService.swift; sourceTree = "<group>"; };
 		59676B084BB0DFF1A9DDE540 /* ConversationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewModel.swift; sourceTree = "<group>"; };
@@ -300,7 +298,6 @@
 				207432E4EEB1EB4E1CA2C75D /* CloudRefreshModifier.swift */,
 				7F7B1C7FCB4A8345F80F96B2 /* ConfettiOverlay.swift */,
 				D61A57D22D42675824C7C3A1 /* HeartPopModifier.swift */,
-				4EFCC73DCEDCA74A6C840EC9 /* MotionReducer.swift */,
 				1305C18C52CCF0BBCCE8E942 /* StickerBounceModifier.swift */,
 				C0FEF5CBE394AD4CFCBECA2A /* WeatherAnimationView.swift */,
 			);
@@ -659,7 +656,6 @@
 				F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */,
 				89FD7BADF5356C400F79236E /* LoginViewModel.swift in Sources */,
 				3BD13553ADB693861F76AEBC /* MainTabView.swift in Sources */,
-				1722CF6916F244F717C5E677 /* MotionReducer.swift in Sources */,
 				D3AB8C23696CE09363855001 /* NewConversationSheet.swift in Sources */,
 				015C89977A31E07AF102B3CF /* OnboardingFavoritesView.swift in Sources */,
 				8AEC6AF2E3C3D1310CF1629C /* OnboardingLocationView.swift in Sources */,
