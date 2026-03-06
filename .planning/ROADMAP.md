@@ -108,12 +108,15 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. BubblePopButton anvands i minst en user-facing vy (inte bara #Preview)
   2. Knappens gradient, pill-form och bounce-effekt syns for anvandaren vid interaktion
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 13-01-PLAN.md — Utoka BubblePopButton med loading/disabled/reduceMotion och adopta i AddFriendSheet + ProfileView
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 9 → 10 → 11 → 12
+Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -134,4 +137,4 @@ Phases execute in numeric order: 9 → 10 → 11 → 12
 | 10. Komponenter | v2.0 | 3/3 | Complete | 2026-03-05 |
 | 11. Animationer | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 12. Tech Debt | 2/2 | Complete    | 2026-03-06 | - |
-| 13. BubblePopButton Adoption | v2.0 | 0/0 | Planned | - |
+| 13. BubblePopButton Adoption | v2.0 | 0/1 | Planned | - |
