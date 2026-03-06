@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.0
-milestone_name: Bubble Pop Design + Tech Debt
-status: shipped
-stopped_at: Milestone v2.0 archived
+milestone: v3.0
+milestone_name: Virality & Polish
+status: defining-requirements
+stopped_at: null
 last_updated: "2026-03-06"
-last_activity: 2026-03-06 — v2.0 milestone archived, all 7 phases and 13 plans complete
+last_activity: 2026-03-06 — Milestone v3.0 started
 progress:
-  total_phases: 7
-  completed_phases: 7
-  total_plans: 13
-  completed_plans: 13
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -21,16 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-06)
 
 **Core value:** Oppna appen och omedelbart se hur vadret ar hos dina vanner -- sorterat, visuellt och levande -- sa att vadret blir en naturlig anledning att hora av sig.
-**Current focus:** Milestone v2.0 shipped — planera nasta milestone med `/gsd:new-milestone`
+**Current focus:** Defining requirements for v3.0 Virality & Polish
 
 ## Current Position
 
-Phase: All complete
-Plan: All complete
-Status: v2.0 Bubble Pop Design + Tech Debt shipped 2026-03-06
-Last activity: 2026-03-06 — milestone archived
-
-Progress: [##########] 100% (13/13 plans complete)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-06 — Milestone v3.0 started
 
 ## Accumulated Context
 
@@ -50,5 +48,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-03-06
-Stopped at: Milestone v2.0 archived
+Stopped at: Defining requirements
 Resume file: None

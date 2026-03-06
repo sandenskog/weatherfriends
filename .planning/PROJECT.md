@@ -43,7 +43,15 @@ En iOS-app som visar din vänlista organiserad utifrån vädret där dina vänne
 
 ### Active
 
-(Inga aktiva krav — planera nästa milestone med `/gsd:new-milestone`)
+## Current Milestone: v3.0 Virality & Polish
+
+**Goal:** Gör appen visuellt komplett, bygg invite-upplevelse som driver viralitet, och skapa delnings- och engagemangs-loopar.
+
+**Target features:**
+- Visual polish — full adoption av BubblePopTypography/Spacing/CornerRadius i alla vyer
+- Invite-upplevelse — enklare flöde, visuellt tilltalande, incitament att bjuda in
+- Delningsbara väderkort — snygga bilder att dela på Instagram/iMessage
+- In-app engagement loops — nudges, reaktioner och triggers som driver interaktion
 
 ### Out of Scope
 
@@ -97,4 +105,4 @@ Bubble Pop Design System fullt implementerat:
 - **Design**: Varm, social känsla — ej minimalistisk/monokromatisk
 
 ---
-*Last updated: 2026-03-06 after v2.0 milestone*
+*Last updated: 2026-03-06 after v3.0 milestone started*
