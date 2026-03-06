@@ -2,7 +2,7 @@
 
 ## What This Is
 
-En iOS-app som visar din vänlista organiserad utifrån vädret där dina vänner befinner sig. Importera vänner från iOS-kontakter (med AI-driven platsgissning), se deras väder i realtid, och chatta med dem — med vädret som naturlig samtalsöppnare. Appen har tre vyer (sorterad lista, karta, kategorier), push-notiser, hemskärmswidget och animerade väderillustrationer.
+En iOS-app som visar din vänlista organiserad utifrån vädret där dina vänner befinner sig. Importera vänner från iOS-kontakter (med AI-driven platsgissning) eller via invite-länk, se deras väder i realtid, och chatta med dem — med vädret som naturlig samtalsöppnare. Appen har tre vyer (sorterad lista, karta, kategorier), push-notiser, hemskärmswidget och ett komplett Bubble Pop design system med temperaturzon-gradienter, spring-animationer och custom väderikoner.
 
 ## Core Value
 
@@ -27,26 +27,23 @@ En iOS-app som visar din vänlista organiserad utifrån vädret där dina vänne
 - ✓ Rapportera/blockera (App Store-krav) — v1.0
 - ✓ Push: extremväder, daglig sammanfattning, chattmeddelande — v1.0
 - ✓ iOS hemskärmswidget — v1.0
+- ✓ Bubble Pop design system (färgpalett, typografi, spacing, shadows, 5 temperaturzoner) — v2.0
+- ✓ Custom väderikoner (14 SVG), app-ikon, logotyp, empty state-illustrationer — v2.0
+- ✓ AvatarView med temperaturzon-gradient i alla vyer — v2.0
+- ✓ BubblePopButton med pill-form, gradient och bounce — v2.0
+- ✓ Chattbubblor med gradient och asymmetrisk border radius — v2.0
+- ✓ Väder-stickers i chatt — v2.0
+- ✓ Tab-switcher med pill-form, glow och scale-animation — v2.0
+- ✓ Widgets med temperaturzon-gradient bakgrund — v2.0
+- ✓ Spring-animationer (hjärt-pop, konfetti, sticker-bounce, tab-glow, cloud refresh) — v2.0
+- ✓ Reduce Motion-stöd i alla animationer — v2.0
+- ✓ Invite-länk-system (ersätter displayName-match) — v2.0
+- ✓ WeatherAlertService i SwiftUI environment — v2.0
+- ✓ Robust kontoborttagning med orphaned messages cleanup — v2.0
 
 ### Active
 
-#### Current Milestone: v2.0 — Bubble Pop Design + Tech Debt
-
-**Goal:** Implementera det kompletta Bubble Pop design systemet och åtgärda v1.0 tech debt.
-
-**Target features:**
-- Bubble Pop design system (färgpalett, typografi, komponenter, animationer)
-- Custom väderikoner (SVG → SF Symbols/assets)
-- Ny app-ikon och logotyp
-- Empty state-illustrationer
-- Baloo 2 custom font
-- Temperaturzon-gradienter på avatarer, kort, widgets
-- Pill-knappar med bounce-animationer
-- Chattbubblor med gradient
-- Väder-stickers i chatt
-- Tech debt: lookupAuthUid → invite-system
-- Tech debt: WeatherAlertService i SwiftUI environment
-- Tech debt: Orphaned messages cleanup vid kontoborttagning
+(Inga aktiva krav — planera nästa milestone med `/gsd:new-milestone`)
 
 ### Out of Scope
 
@@ -60,18 +57,18 @@ En iOS-app som visar din vänlista organiserad utifrån vädret där dina vänne
 
 ## Context
 
-Shipped v1.0 med 7 576 rader Swift + Firebase Cloud Functions (TypeScript).
+Shipped v2.0 med 8 846 rader Swift + Firebase Cloud Functions (TypeScript).
 Tech stack: SwiftUI (iOS 17+), Firebase (Auth, Firestore, Storage, Cloud Functions, FCM), WeatherKit, MapKit, WidgetKit.
 AI-platsgissning via OpenAI gpt-4o-mini (Cloud Function proxy).
-13 faser (inkl. 5 gap-closure), 24 planer, 29 krav satisfierade.
+2 milestones shipped: v1.0 (13 faser, 24 planer) + v2.0 (7 faser, 13 planer). Totalt 55 krav satisfierade.
 
-Design pack levererat: "Bubble Pop Design System" i `Design/friendscast-design-pack/`:
-- `specs/ui-spec-and-components.html` — komplett designspec med Swift-referenskod
-- `svg-icons/` — 14 väderikoner (sol, moln, regn, snö, åska m.fl.)
-- `svg-ui/` — app-ikon, logotyp, empty state-illustrationer
-- Typsnitt: Baloo 2 (rubriker/knappar) + Inter/SF Pro (brödtext)
+Bubble Pop Design System fullt implementerat:
 - 5 temperaturzoner med gradienter: Tropical (>28°), Warm (20-28°), Cool (10-20°), Cold (0-10°), Arctic (<0°)
-- 8pt spacing grid, pill-knappar, spring-animationer, konfetti, bounce-in
+- Baloo 2 typografi, 8pt spacing grid, shadow-skala
+- 14 custom SVG väderikoner, app-ikon, logotyp, empty state-illustrationer
+- AvatarView, BubblePopButton, chattbubblor med gradient, tab-switcher med glow
+- Spring-animationer med Reduce Motion-stöd
+- Invite-länk-system för vänförfrågningar
 
 ## Key Decisions
 
@@ -85,7 +82,11 @@ Design pack levererat: "Bubble Pop Design System" i `Design/friendscast-design-p
 | OpenAI via Cloud Function proxy | Skyddar API-nyckel, server-side validering | ✓ Good |
 | xcodegen för projektgenerering | CLI-baserat, project.yml versionsstyrd | ✓ Good |
 | Auth UID i konversationer (ej Friend.id) | Korrekt participant-matchning i chattar | ✓ Good — krävde gap-closure |
-| lookupAuthUid via displayName-match | Enklaste lösningen utan invite-system | ⚠️ Revisit i v2 (ej unikt) |
+| lookupAuthUid via displayName-match | Enklaste lösningen utan invite-system | ✓ Replaced — invite-länk i v2.0 |
+| Invite-länk med 12-char UUID-prefix | Unikt, delbart, deep-link-kompatibelt | ✓ Good — v2.0 |
+| Bubble Pop Design System | Varm, social känsla med temperaturzoner | ✓ Good — v2.0 |
+| AvatarView som enda avatar-komponent | Konsekvent gradient-avatarer i alla vyer | ✓ Good — v2.0 |
+| MotionReducer pattern | Centralt Reduce Motion-stöd för alla animationer | ✓ Good — v2.0 |
 
 ## Constraints
 
@@ -96,4 +97,4 @@ Design pack levererat: "Bubble Pop Design System" i `Design/friendscast-design-p
 - **Design**: Varm, social känsla — ej minimalistisk/monokromatisk
 
 ---
-*Last updated: 2026-03-04 after v2.0 milestone start*
+*Last updated: 2026-03-06 after v2.0 milestone*
