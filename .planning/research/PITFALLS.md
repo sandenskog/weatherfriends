@@ -1,176 +1,211 @@
 # Pitfalls Research
 
-**Domain:** Social weather iOS app with friend-import, AI location inference, real-time chat, push notifications
-**Researched:** 2026-03-02
-**Confidence:** HIGH (social API restrictions, App Store rules) / MEDIUM (weather API cost patterns, Firebase scaling) / LOW (AI inference cost at scale)
+**Domain:** Viral sharing, invite experience, shareable weather cards, and engagement loops for existing iOS social weather app
+**Researched:** 2026-03-06
+**Confidence:** HIGH (deep linking, ImageRenderer, push notification patterns) / MEDIUM (engagement loop design, share sheet behavior) / LOW (Instagram Stories sharing API changes)
 
 ---
 
 ## Critical Pitfalls
 
-### Pitfall 1: Social Platform Friend-Import Is Effectively Dead
+### Pitfall 1: Custom URL Scheme Invite Links Are Unclickable Outside the App
 
 **What goes wrong:**
-The app is designed around importing friends from Facebook, Instagram, and Snapchat. In practice, none of these platforms expose a friend list or contact discovery API to third-party apps. Instagram Basic Display API was killed December 4, 2024. Meta Graph API only works with Business/Creator accounts — not regular consumer accounts. Snapchat Kit gives OAuth login and Bitmoji but no friend list access. Building the import flow assuming API access works leads to a dead-end and a complete pivot in the middle of development.
+The current invite system generates `hotandcold://invite/<token>` URLs. When shared via iMessage, WhatsApp, Instagram DM, or email, these custom URL scheme links have critical problems: (1) they only work if the app is already installed -- new users see an error or nothing happens, (2) social platforms and email clients often strip or block custom scheme URLs as potential phishing vectors, (3) iMessage renders them as plain text rather than tappable rich link previews. The entire viral invite flow breaks for the most important audience: people who don't have the app yet.
 
 **Why it happens:**
-Developers read outdated tutorials or assume "login with X" equals "read friends from X." These are entirely separate permission scopes. Meta tightened access after Cambridge Analytica, and the 2024 Basic Display EOL removed the last consumer-facing read access.
+Custom URL schemes were the original deep linking mechanism and work perfectly for internal navigation (widgets, notifications). Developers who've only tested within the app ecosystem don't realize the scheme is invisible to the outside world. The v2.0 invite system was built for existing-user-to-existing-user flows, not for viral acquisition.
 
 **How to avoid:**
-Design the friend-import flow around what is actually available today:
-- **Facebook/Instagram Login:** You can authenticate the user and get their name + email only. Use this as identity verification, not contact discovery.
-- **Phone contacts import** (iOS Contacts framework): The user's phone contact book can be cross-referenced against registered users in your own database. This is how WhatsApp, Snapchat, and Telegram actually work. Build this as the primary import path.
-- **Manual invite by email/link:** Fallback for contacts not yet registered.
-- **"Connect accounts" as identity linking:** Social login verifies identity; your own database stores who knows whom.
+Migrate invite links to Universal Links using an HTTPS domain (e.g., `https://friendscast.app/invite/<token>` or `https://apps.sandenskog.se/invite/<token>`). This requires:
+1. An `apple-app-site-association` (AASA) file hosted on the domain
+2. Associated Domains entitlement in the app (`applinks:friendscast.app`)
+3. A web fallback page at the same URL that redirects to App Store if the app isn't installed
+4. Keep `hotandcold://` scheme for internal navigation (widgets, local notifications) but never expose it in shared content
 
-Validate this design before writing a single line of import logic.
+Firebase Dynamic Links shut down August 25, 2025. Do NOT use them. Build your own simple AASA + fallback page, or use a lightweight alternative like Branch if attribution analytics are needed.
 
 **Warning signs:**
-- Any plan referencing `friends` endpoint from Meta Graph API
-- Designs that show "import your friends from Instagram" as a single-step action
-- No mention of iOS Contacts framework or manual invite flow
+- Invite share text contains `hotandcold://` anywhere
+- No AASA file hosted on any domain
+- No web fallback page for invite URLs
+- Testing invite flow only between two devices that both have the app installed
 
-**Phase to address:** Phase 1 (foundation/architecture) — before any social feature is built.
+**Phase to address:** Invite Experience phase -- this is the foundation that all sharing features depend on. Must be the first thing built.
 
 ---
 
-### Pitfall 2: AI Location Inference Creates Privacy and Legal Exposure
+### Pitfall 2: SwiftUI ImageRenderer Silently Produces Blank or Incomplete Images
 
 **What goes wrong:**
-The app uses AI to guess a friend's city/country from their social profile data (phone number country code, bio text, post locations, etc.). This creates two compounding problems: (1) privacy regulation exposure — inferring location from social data about another person without their consent is legally sensitive in GDPR, CCPA, and growing number of US state laws; (2) App Store rejection — Apple will ask why the app collects and processes social profile data of third parties, and "to guess where they live" is a hard answer to defend.
+SwiftUI's `ImageRenderer` (iOS 16+) is used to generate shareable weather card images. It has several undocumented limitations that cause blank or partial renders: (1) any view inside a `ScrollView` renders as blank, (2) `AsyncImage` content doesn't render (images from URLs are missing), (3) UIKit-backed views like `ProgressView`, `Picker`, and `Map` are omitted, (4) custom fonts sometimes fail to render in the image context, (5) the renderer doesn't respect `@Environment` values from the parent view hierarchy. The generated image looks perfect in-app preview but the exported PNG is broken.
 
 **Why it happens:**
-The value proposition is compelling — fill in unknown locations automatically — so developers implement it without running it past a privacy lawyer or the App Store guidelines. The inference feels technical and innocuous. It is neither.
+ImageRenderer works by snapshotting the SwiftUI render tree, but it creates its own isolated rendering context. Views that depend on UIKit hosting, async loading, or environment injection from parent views fail silently -- no crash, no error, just missing content. Developers build the card view in a regular SwiftUI preview (where everything works) and only discover the issue when testing the actual export.
 
 **How to avoid:**
-- The AI guessing should run on data the **user themselves provided or consented to share** — not scraped or inferred from third-party profiles without explicit user consent.
-- The correct architecture: **invite friends into the app**, and when they join, they declare their own city. AI-assisted suggestion ("we think you're in Stockholm — correct?") is fine for the joining user, not for passively guessing about non-users.
-- For friends who haven't joined yet, show "location unknown" with an invite prompt — this is the correct UX.
-- Document in the privacy policy exactly what data is used and for what inference.
+- Build the shareable weather card as a **self-contained view** that takes all data as parameters (temperature, city, weather icon, friend name, avatar image as `UIImage`). No `AsyncImage`, no environment dependencies.
+- Pre-load all images (avatar, weather icons) as `UIImage` before passing to the card view.
+- Use bundled SVG/PDF weather icons (already available in the asset catalog) rather than loading from network.
+- Wrap ImageRenderer usage in `@MainActor` context -- the `scale` property is MainActor-isolated and will crash or silently fail if set from a background thread.
+- Test the generated image by saving to Photos and inspecting, not by previewing in SwiftUI.
+- Fallback: if ImageRenderer output is unexpectedly small or blank, use `UIHostingController` + `UIGraphicsImageRenderer` as backup rendering path.
 
 **Warning signs:**
-- Any code that reads a friend's Instagram bio/location tag to infer city without that friend's consent
-- No per-user location consent flow
-- AI inference described as "automatic" with no opt-in or correction step
+- Weather card view uses `AsyncImage` or `@Environment` values
+- ImageRenderer code runs outside `@MainActor`
+- Testing only in SwiftUI preview, never exporting actual PNG
+- Generated image file size is suspiciously small (< 10KB for a card)
 
-**Phase to address:** Phase 1 (architecture and data model) — consent model must be baked in from the start.
+**Phase to address:** Shareable Weather Cards phase -- establish the rendering pipeline early, test export before building elaborate card designs.
 
 ---
 
-### Pitfall 3: App Store Rejection for Missing "Sign in with Apple"
+### Pitfall 3: Share Sheet Fires Without Useful Content or With Wrong Metadata
 
 **What goes wrong:**
-The app offers Facebook Login and Google Sign-In. Apple requires that any app offering a third-party login must also offer an equivalent privacy-respecting alternative (Sign in with Apple, or another option that limits data collection to name and email and doesn't track for advertising). Submitting without Sign in with Apple when Facebook/Google login are present is a near-certain rejection under Guideline 4.8.
+The iOS share sheet (`UIActivityViewController` or SwiftUI `ShareLink`) is used to share weather cards to Instagram Stories, iMessage, etc. Common failures: (1) sharing a `UIImage` without also sharing a URL means no link back to the app -- the shared image is a dead end with zero viral value, (2) Instagram Stories sharing requires the `instagram-stories://` URL scheme and specific `UIPasteboard` items (not the standard share sheet), (3) sharing text + image + URL together causes some share targets to only use one item and discard the rest, (4) Open Graph metadata missing from the link means iMessage/WhatsApp show a bare URL instead of a rich preview.
 
 **Why it happens:**
-Developers prioritize social logins because they give access to social identity data, and treat Sign in with Apple as optional. It is not optional when third-party logins exist.
+The share sheet is deceptively simple to invoke but each share target (iMessage, Instagram, WhatsApp, Twitter) handles the shared content differently. Developers test with one target and assume it works universally.
 
 **How to avoid:**
-Implement Sign in with Apple as a required auth method from the start. Apple's hidden email relay feature (which gives users a masked email) must be handled correctly — the app must accept apple-relay-format email addresses and not reject them during account creation.
+- Always share **image + URL** together. The URL should be a Universal Link that works even without the app installed.
+- For Instagram Stories specifically: use the `instagram-stories://share` URL scheme with pasteboard items (`com.instagram.sharedSticker.backgroundImage`, etc.). This is a separate code path from the general share sheet.
+- Add Open Graph meta tags to the web fallback page so shared URLs render rich previews in iMessage, WhatsApp, Slack, etc.
+- Test sharing to at least: iMessage, WhatsApp, Instagram Stories, Instagram DM, and "Save Image." Each has different behavior.
+- Embed the invite link as text overlay or watermark on the image itself -- this ensures the link survives platforms that strip metadata.
 
 **Warning signs:**
-- Auth implementation only covers Facebook + Google
-- Account creation that validates email format too strictly (rejecting `@privaterelay.appleid.com`)
-- Any plan to "add Apple login later before submission"
+- Share sheet only shares an image with no associated URL
+- No separate Instagram Stories sharing implementation
+- Web fallback page has no `og:image`, `og:title`, `og:description` meta tags
+- Only tested sharing to one platform
 
-**Phase to address:** Phase 2 (authentication) — must be in the initial auth implementation, not retrofitted.
+**Phase to address:** Shareable Weather Cards phase -- but depends on Universal Links from the Invite Experience phase being complete first.
 
 ---
 
-### Pitfall 4: Firebase Firestore Real-Time Listener Cost Explosion
+### Pitfall 4: Engagement Loop Notifications Become Spam and Drive Uninstalls
 
 **What goes wrong:**
-The chat feature uses Firestore real-time listeners. Each listener fires a read charge every time any document in the query result set changes. In a social app where users have 10-50 friends each with live weather data updating every 30 minutes, the listener math is brutal: 1,000 users × 20 friends × 48 weather updates/day = nearly 1 million reads/day before a single chat message is sent. On paid tier this costs hundreds of dollars per month at scale.
+The app adds engagement nudges: "Your friend Anna has snow today!", "3 friends are experiencing a heatwave!", "You haven't checked the weather in 2 days." These sound valuable in a product spec but in practice: (1) one weekly push notification causes 10% of users to disable push, (2) 3-6 weekly pushes cause 40% to opt out, (3) 71% of all app uninstalls are triggered by a push notification. The engagement loop designed to increase retention actively drives churn.
 
 **Why it happens:**
-Firestore listeners feel "free" in development with a handful of test users. The billing only becomes visible at real user counts. Additionally, if offline persistence is enabled and a listener reconnects after >30 minutes offline, Firestore charges for a full re-read as if it's a brand new query.
+Product teams optimize for short-term engagement metrics (DAU, open rate) without measuring notification fatigue. Each individual notification seems justified ("it's relevant -- their friend has extreme weather!"), but the cumulative volume across all notification types (chat messages, weather alerts, daily summary, engagement nudges, invite reminders) overwhelms users.
 
 **How to avoid:**
-- Keep weather data out of Firestore real-time listeners. Weather data is **not** user-generated and doesn't need to propagate instantly to friends. Fetch it on-demand or via scheduled Cloud Functions.
-- Use Firestore real-time listeners only for actual real-time events: new chat messages, online presence.
-- Cache aggressively on device — weather doesn't change meaningfully in 30 minutes.
-- Set Firebase budget alerts before going to production (non-negotiable).
-- Architect chat subcollections so each user only listens to their active conversations, not all conversations.
+- Implement a **notification budget** per user: maximum 1 engagement nudge per day, maximum 4 per week across ALL non-chat notification types combined. Chat message notifications are exempt (user-initiated).
+- Use a server-side notification throttling system (Cloud Function) that tracks recent notifications sent to each user and suppresses if budget is exceeded.
+- Make nudge notifications opt-in per category in app settings, not just a global on/off.
+- Prioritize by signal strength: extreme weather alert > weather change for favorite friend > general engagement nudge. If budget is spent on a high-priority notification, suppress the lower-priority ones.
+- Never send "come back" re-engagement notifications in the first 7 days. Let the user establish their own usage pattern first.
 
 **Warning signs:**
-- Single top-level listener on a users collection that includes weather fields
-- No budget alerts configured in Firebase console
-- Weather data updating more than once per hour per friend via listeners
-- Offline persistence enabled without understanding the reconnect re-read billing behavior
+- No per-user notification throttling logic
+- Multiple Cloud Functions that each independently send notifications without awareness of each other
+- No notification settings screen in the app beyond the system-level toggle
+- Product discussions framing notification count as "engagement opportunities"
 
-**Phase to address:** Phase 3 (backend/data architecture) — architecture must be designed before chat is implemented.
+**Phase to address:** Engagement Loops phase -- the throttling infrastructure should be built BEFORE any new notification types are added.
 
 ---
 
-### Pitfall 5: App Store Rejection for Missing UGC Moderation in Chat
+### Pitfall 5: Invite Incentive Creates Spam or Abuse Without Adding Real Value
 
 **What goes wrong:**
-The app has in-app chat (user-generated content). Apple Guideline 1.2 requires that apps with UGC include: (1) a mechanism to filter or flag objectionable material, (2) a way to report abusive content/users, (3) a way to block users, and (4) published developer contact information for reporting. Missing any of these causes rejection. Guideline 1.2.1(a) (effective November 2025) also requires age-gating mechanisms for UGC apps.
+The app adds incentives to invite friends (e.g., "Invite 5 friends to unlock weather stickers" or "See your invite count"). This creates perverse incentives: (1) users spam their entire contact list to hit the threshold, annoying non-users and damaging brand perception, (2) users create fake accounts to redeem their own invites, (3) the incentive becomes the goal rather than the social connection, which conflicts with the app's "warm, social" design philosophy. The feature explicitly contradicts the "no gamification" constraint in PROJECT.md.
 
 **Why it happens:**
-Chat is often built as a pure communication feature. Developers build the message sending/receiving flow and consider it done. The moderation layer is invisible to users in happy-path testing.
+Viral growth mechanics from gaming and e-commerce apps are borrowed without considering context. Weather-friends is a relationship-based app, not a transactional one. Incentive mechanics that work for Dropbox ("get free storage") feel manipulative in a social context.
 
 **How to avoid:**
-Design the report/block system as part of the initial chat feature, not as a post-launch add-on. Minimum viable implementation:
-- Long-press message → "Report" option
-- User profile → "Block [name]" option
-- Support email visible in settings
-- Age rating questionnaire completed before submission (Apple deadline was January 31, 2026 for updated questionnaire)
+- Frame invites around **social value, not rewards**: "Share your weather with Anna" rather than "Invite 5 friends to unlock X."
+- The invite flow should be embedded in natural social moments: viewing a friend's weather and wanting to share it, seeing an extreme weather event, or wanting to add a specific person -- not a standalone "invite friends" CTA.
+- No invite counters, no unlock thresholds, no leaderboards. These are gamification.
+- The "incentive" should be the relationship itself: the app becomes more valuable with more friends, and this should be the messaging.
+- Rate-limit invite sending per user per day (max 10) to prevent contact list spam.
 
 **Warning signs:**
-- Chat implementation with no block/report UI
-- App info screen with no contact information
-- Age rating set to 4+ on a social chat app
+- Any design that includes invite counters or unlock thresholds
+- A standalone "Invite Friends" tab or prominent CTA unrelated to a social context
+- Invite flow that encourages selecting many contacts at once rather than individual invites
+- No rate limiting on invite creation
 
-**Phase to address:** Phase 4 (chat feature) — moderation must ship with the chat, not after.
+**Phase to address:** Invite Experience phase -- design review before implementation. Cross-reference with PROJECT.md "no gamification" constraint.
 
 ---
 
-### Pitfall 6: Push Notifications for Weather Alerts Are Unreliable by Design
+### Pitfall 6: Deep Link Handling Fails for Unauthenticated Users
 
 **What goes wrong:**
-Weather alerts and daily weather summaries are implemented as silent/background push notifications. Silent pushes ("content-available: 1") are explicitly not guaranteed by APNs — iOS can throttle, delay, or drop them based on battery state, whether the user force-quit the app, time of day, and historical app engagement. Users see weather notifications arriving hours late or not at all, with no obvious cause.
+A new user taps an invite Universal Link, the app opens (or installs and opens), but the deep link payload is lost because: (1) the user hasn't signed in yet so `authManager.currentUser?.id` is nil, and the current `onOpenURL` handler silently returns, (2) on fresh install, iOS delivers the Universal Link before the app finishes initialization, so Firebase Auth hasn't restored the session yet, (3) the user signs up (creating a new account) and the invite token is completely forgotten -- they need to manually paste the invite code.
 
 **Why it happens:**
-Silent push delivery feels reliable in testing (developer device, plugged in, app recently active). Production conditions are far more varied. Additionally, sending more than 2-3 background notifications per hour per user causes APNs to start throttling.
+The current `onOpenURL` handler (line 47 of `HotAndColdFriendsApp.swift`) has a `guard let uid = authManager.currentUser?.id else { return }` that silently drops the invite if the user isn't authenticated. This was acceptable for v2.0 where both users already had the app, but breaks the viral acquisition flow entirely.
 
 **How to avoid:**
-- Use **visible push notifications** for weather alerts (not silent), which have guaranteed delivery.
-- For daily summaries, use scheduled notifications fired locally from the app (no server round-trip needed) — more reliable than server push.
-- Request notification permissions at a contextually appropriate moment (not on first launch — this kills permission grant rate).
-- Test on real devices in airplane mode, then reconnect, to simulate real-world delivery conditions.
-- Always set `apns-push-type` header correctly (`alert` vs `background`); missing this causes APNs to drop notifications on iOS 13+.
+- Store the pending invite token in a `@State` or persistent storage (UserDefaults) when received before authentication.
+- After successful sign-in/sign-up, check for pending invite tokens and redeem them automatically.
+- Show the invite context during onboarding: "Anna invited you to see her weather! Sign up to connect."
+- Handle the timing issue: `onOpenURL` can fire before `@State` is initialized. Use `AppDelegate` `application(_:continue:)` for Universal Links as a more reliable entry point.
+- Test the complete flow: tap link -> App Store -> install -> first launch -> sign up -> auto-redeem invite.
 
 **Warning signs:**
-- Notification permission request on app first launch (before user understands the value)
-- Weather update logic that relies exclusively on silent push to trigger
-- No fallback for when background refresh is disabled by the user
-- Tests only run on simulator or plugged-in developer device
+- `onOpenURL` handler that requires authentication before processing
+- No persistent storage for pending deep link payloads
+- Testing invite flow only between two already-authenticated users
+- No "deferred deep link" handling for fresh installs
 
-**Phase to address:** Phase 4-5 (notifications) — architecture decision before implementation.
+**Phase to address:** Invite Experience phase -- this is the single most important fix for viral growth. Without it, the entire invite funnel leaks at the most critical point.
 
 ---
 
-### Pitfall 7: Privacy Manifest Missing for Third-Party SDKs
+### Pitfall 7: Weather Card Image Generation Blocks the Main Thread
 
 **What goes wrong:**
-The app includes SDKs (Firebase, Facebook SDK, potentially analytics tools). Since May 2024, and strictly enforced from February 2025, Apple requires every included third-party SDK to have a privacy manifest file (`PrivacyInfo.xcprivacy`). Apps submitted without these manifests are rejected with `ITMS-91061`. Approximately 12% of App Store submissions in Q1 2025 were rejected for this reason.
+Generating a shareable weather card image involves rendering a SwiftUI view to a `UIImage`, then encoding it as PNG/JPEG. If done synchronously on the main thread (which ImageRenderer requires for the render step), the UI freezes for 200-500ms. Users tap "Share" and experience a visible hang before the share sheet appears. On older devices (iPhone SE, iPad mini), this can exceed 1 second and feel broken.
 
 **Why it happens:**
-Privacy manifests are a new requirement many developers aren't aware of. Older SDK versions don't include them. The error only appears at submission time, not during local testing.
+`ImageRenderer.render()` and `.uiImage` must be called on the MainActor. Developers do the entire pipeline (render + encode + create share items) synchronously in a button tap handler because "it has to be on MainActor anyway."
 
 **How to avoid:**
-- Use the latest versions of all SDKs (Firebase, FacebookSDK, etc.) — privacy manifests were added in late 2024 versions.
-- Run `Xcode → Product → Archive → Validate App` before submitting to catch manifest violations early.
-- Audit every third-party dependency with the Apple required SDK list.
-- Do a test submission to TestFlight before final App Store submission to surface manifest issues without affecting launch timelines.
+- Split the pipeline: render to `UIImage` on MainActor (fast, <50ms), then dispatch PNG encoding to a background task.
+- Show an immediate loading state (spinner on the share button, or a preview with progress indicator) while the image is being prepared.
+- Pre-render the share image when the weather card view appears (not on tap), so it's ready instantly when the user taps share. Cache the rendered image and invalidate when weather data changes.
+- Set `ImageRenderer.proposedSize` to a fixed size (e.g., 1080x1920 for Instagram Stories) rather than letting it auto-size, which is slower.
 
 **Warning signs:**
-- Using Firebase SDK versions older than late 2024 releases
-- Any SDK added without checking if it's on Apple's required privacy manifest list
-- First submission to App Store being the actual launch version
+- Share button handler that synchronously creates ImageRenderer, renders, encodes, and presents share sheet
+- No loading indicator between tap and share sheet appearance
+- No image caching -- re-renders on every share tap
 
-**Phase to address:** Phase 6 (App Store submission prep) — dedicate a pre-submission audit phase.
+**Phase to address:** Shareable Weather Cards phase -- establish the async rendering pipeline from the start.
+
+---
+
+### Pitfall 8: Visual Polish Phase Breaks Existing Layouts Without Automated Regression
+
+**What goes wrong:**
+The visual polish phase updates all views to fully adopt `BubblePopTypography`, `BubblePopSpacing`, and `BubblePopCornerRadius`. These changes propagate through the entire UI. Without visual regression testing, subtle layout breaks go unnoticed: text truncation in friend list cells, avatar clipping in chat bubbles, widget layout overflow, incorrect spacing on smaller screens (iPhone SE), or Dynamic Type accessibility breakage at larger text sizes.
+
+**Why it happens:**
+SwiftUI's layout system recalculates automatically when spacing/typography values change. A spacing change in one component can cascade to parent views. Developers test on their primary device size and miss edge cases. The Bubble Pop design system has 5 temperature zones with different gradient colors, meaning bugs may only appear in certain weather conditions.
+
+**How to avoid:**
+- Create a **visual test checklist** covering all screen sizes (SE, standard, Pro Max) and all temperature zones before starting polish work.
+- Test with Dynamic Type at maximum size -- BubblePopTypography should respect accessibility scaling.
+- Test with Reduce Motion enabled -- all spring animations should degrade gracefully (already implemented but could regress).
+- Make typography/spacing changes incrementally (one view at a time) rather than a bulk find-and-replace.
+- Screenshot each view before and after changes for manual comparison.
+
+**Warning signs:**
+- Bulk replacement of `Font.system` with `BubblePopTypography` across all files in one commit
+- No testing on iPhone SE screen size
+- No testing with Dynamic Type large sizes
+- Changes to spacing constants in the design system without checking all consumers
+
+**Phase to address:** Visual Polish phase -- establish the testing protocol before making changes, not after.
 
 ---
 
@@ -178,12 +213,12 @@ Privacy manifests are a new requirement many developers aren't aware of. Older S
 
 | Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
 |----------|-------------------|----------------|-----------------|
-| Hardcode weather API key in app bundle | Faster setup | Key exposed in binary, can be extracted and abused — rotated key breaks all old versions | Never — use server-side proxy or environment config |
-| Store all chat messages in one Firestore document | Simpler queries | Firestore documents have 1MB limit; message history is unbounded | Never for chat history — use subcollections |
-| Skip location consent and use device GPS as "your location" | Simpler onboarding | Apple review rejects "Always On" location without justification; battery drain | Acceptable for "While Using" location only |
-| Use one weather API key shared by all users | Zero backend cost | Rate limit hit by aggregate traffic; single key abuse locks out everyone | Never in production — proxy through backend |
-| Implement invite-only via deep link without server validation | Fast to build | Invite links can be shared publicly, bypassing intended social graph | Acceptable in MVP if abuse is low risk |
-| Open Firestore security rules during development | Faster iteration | Rules often never get locked — production data becomes public | Never — use Firebase Emulator Suite instead |
+| Keep `hotandcold://` scheme for invite links instead of Universal Links | Zero infrastructure work | Invite links don't work for new users, killed by messaging platforms | Never for external sharing -- must migrate |
+| Render weather card image synchronously in button handler | Simpler code | UI freeze on every share tap, worse on older devices | Never -- use async pipeline from start |
+| Skip Open Graph meta tags on fallback page | Faster shipping | Shared links show as bare URLs in iMessage/WhatsApp -- no viral preview effect | Acceptable for first iteration, but must add within same milestone |
+| Single notification Cloud Function without throttling | Faster to ship each notification type | Users overwhelmed, uninstall rate spikes | Only for chat notifications (user-initiated), never for engagement nudges |
+| Store pending invite token in memory only | Simpler than UserDefaults | Lost on app termination between install and sign-up | Never -- use UserDefaults or Keychain |
+| Hardcode weather card dimensions for one platform | Fewer layout variants | Looks bad on Instagram Stories (9:16) vs iMessage (1:1) | Acceptable if you pick 9:16 (works reasonably everywhere) |
 
 ---
 
@@ -191,13 +226,13 @@ Privacy manifests are a new requirement many developers aren't aware of. Older S
 
 | Integration | Common Mistake | Correct Approach |
 |-------------|----------------|------------------|
-| Facebook Login | Expecting to read `friends` list after login | Facebook only returns the subset of friends who also have your specific app installed AND granted friends permission — effectively zero for a new app. Use for identity only. |
-| Instagram Graph API | Assuming it works for consumer accounts | Only works for Business/Creator accounts linked to a Facebook Page. Useless for personal account friend discovery. |
-| Sign in with Apple | Rejecting `@privaterelay.appleid.com` email format | Accept all email formats at account creation. Never use email as a unique key — use the Apple user ID (`sub` field) instead. |
-| Firebase Authentication + Firestore | Assuming auth UID is stable across social re-logins | If a user logs in with Google then later with Apple (same email), Firebase creates two separate users. Implement account linking or enforce single auth provider. |
-| OpenWeatherMap free tier | Fetching weather for 50 friends on app open | Free tier is 60 calls/minute. 50 friends × several users simultaneously = rate limit hit immediately. Batch or stagger requests, cache aggressively. |
-| APNs device tokens | Storing token once and never updating | APNs tokens change after reinstalls and iOS updates. Always update token on app launch; handle `UNREGISTERED` errors to clean stale tokens. |
-| WeatherAPI.com free tier | Assuming unlimited calls | Free tier stops serving data for the entire billing month once the call limit is exceeded. Set up cost alerts and implement graceful degradation. |
+| Universal Links (AASA) | Serving AASA file with wrong Content-Type or via redirect | Must be `application/json`, served directly (no redirects), at `/.well-known/apple-app-site-association` exactly |
+| Universal Links (testing) | Testing by pasting URL in Safari address bar | Universal Links don't activate from the address bar. Test by tapping link in Notes app, iMessage, or a webpage |
+| Instagram Stories API | Using standard `UIActivityViewController` for Instagram Stories | Must use `instagram-stories://share` URL scheme with pasteboard items. Different code path entirely |
+| SwiftUI ImageRenderer | Setting `.scale` from background thread | `scale` is MainActor-isolated. Must configure ImageRenderer entirely within MainActor context |
+| Firebase Cloud Messaging | Sending engagement notification without checking user's in-app preference | Check both APNs permission AND in-app notification settings document before sending. Users expect granular control |
+| Share sheet on iPad | Presenting `UIActivityViewController` without `popoverPresentationController` source | Crashes on iPad. Always set `sourceView`/`sourceRect` or use SwiftUI `ShareLink` which handles this |
+| Open Graph previews | Expecting instant preview updates after changing meta tags | iMessage, WhatsApp, Slack all cache OG previews aggressively. Use unique URLs or cache-busting query params during testing |
 
 ---
 
@@ -205,12 +240,11 @@ Privacy manifests are a new requirement many developers aren't aware of. Older S
 
 | Trap | Symptoms | Prevention | When It Breaks |
 |------|----------|------------|----------------|
-| Fetching weather for all friends on every app open | Slow load, rate limit errors, battery drain | Cache weather data per friend with 30-minute TTL; only refresh on foreground after TTL expires | At 20+ friends per user |
-| Real-time Firestore listener on entire users collection | Massive read counts, high Firebase bill | Scope listeners to only documents the current user owns or is directly involved in | At 500+ users |
-| Synchronous geocoding in AI location inference | UI freeze during onboarding import | Run geocoding/AI inference in background Task; show progress UI | Immediately — geocoding is always slow |
-| Unmanaged Firestore listeners | Memory leaks, duplicate chat messages appearing | Store listener handles in @StateObject or view model; call `remove()` in `onDisappear` | In complex SwiftUI navigation flows |
-| No weather data pagination | Loading all weather history at once | Only load current conditions + 24h forecast; load extended forecast on demand | N/A — architecture decision |
-| Sending one push notification per friend's weather change | APNs throttling, notification spam | Batch weather alerts into a daily digest notification; only alert on extreme weather events | At 10+ friends with active weather |
+| Generating weather card image on every share tap | 200-500ms UI freeze, user taps twice thinking it didn't work | Pre-render and cache; invalidate on weather data change | Immediately on older devices |
+| Loading all friend avatars as UIImage for card generation | Memory spike, potential OOM on devices with many friends | Only load avatar for the specific friend being shared | At 20+ friends with high-res avatars |
+| Universal Links AASA file not cached by CDN | Slow deep link resolution, especially first tap | Host AASA on a CDN (Cloudflare, etc.) with appropriate cache headers | At scale, but even single-user latency matters for first impression |
+| Multiple independent notification Cloud Functions all querying same user document | Redundant Firestore reads, higher cost, race conditions | Single notification orchestrator function that batches and throttles | At 1000+ users with multiple notification types |
+| Rendering weather card at device screen resolution instead of fixed export size | Inconsistent image quality across devices, oversized files on 3x Retina | Fix export at 2x scale, 1080px wide | Immediately -- 3x Retina generates unnecessarily large files |
 
 ---
 
@@ -218,11 +252,11 @@ Privacy manifests are a new requirement many developers aren't aware of. Older S
 
 | Mistake | Risk | Prevention |
 |---------|------|------------|
-| Weather API key in iOS app binary | Key extracted from .ipa file, abused by third parties — you pay the bill | Route all weather API calls through a backend Cloud Function or edge function. Never embed paid API keys in client code. |
-| Firestore security rules open to authenticated users | Any authenticated user can read any other user's data, chat messages, location | Write and test security rules from day one. Rule: users can only read/write documents they own or are explicitly listed as participants. |
-| Storing friend's inferred location without their knowledge | GDPR violation, App Store privacy policy mismatch, user trust destruction if discovered | Only store location data that the user themselves confirmed or entered. AI inference is a suggestion UI tool only, never silently persisted. |
-| No rate limiting on chat messages | Spam/abuse floods other users, Firestore write costs spike | Implement Firebase App Check + server-side rate limiting via Cloud Functions |
-| Logging chat message content to analytics | User content in analytics tools violates privacy expectations and potentially GDPR | Never log message content — log only events (message_sent, conversation_opened) with no content payload |
+| Invite tokens predictable or enumerable | Attacker generates valid tokens, adds themselves as friend of any user | Current 12-char UUID prefix has sufficient entropy. Keep it. Add rate limiting on redemption attempts per IP |
+| No server-side validation of invite redemption | Client could forge invite redemption, adding arbitrary users as friends | Move invite redemption to a Cloud Function with server-side validation (currently client-side Firestore writes) |
+| Shareable weather card contains precise friend location | Shared image reveals where someone's friend lives to anyone who sees the image | Only show city name on card, never coordinates. Don't embed EXIF location data in generated images |
+| Universal Link fallback page leaks invite token to analytics | Third-party analytics on fallback page captures invite tokens from URL | Don't load third-party scripts on fallback page, or strip token before analytics fire |
+| Push notification content visible on lock screen reveals friend's weather/location | Privacy breach if someone else sees the notification | Use notification category with `.hiddenPreviewsBodyPlaceholder` for sensitive content |
 
 ---
 
@@ -230,26 +264,25 @@ Privacy manifests are a new requirement many developers aren't aware of. Older S
 
 | Pitfall | User Impact | Better Approach |
 |---------|-------------|-----------------|
-| Empty friend list on first open | User sees a blank screen, immediately uninstalls | Show live example data with fictional friends and real weather — PROJECT.md explicitly requires this. Replace with real data as friends join. |
-| Requesting notification permission on first launch | ~40% grant rate vs. ~70% if asked at value moment | Ask after user has set up first favorite friend and seen the weather — contextual ask with clear value proposition |
-| Requesting "Always On" location permission | High deny rate and App Store scrutiny | Only request "While Using" — you don't need device location in background. Use city input instead of precise GPS for the friend weather use case. |
-| Showing "Location Unknown" with no call to action | User confusion, feature feels broken | Turn unknown location into an engagement mechanic: "Tap to invite [name] and see their weather" |
-| Friend list sorted alphabetically | Context-free list that misses the core value | Default view must be sorted by weather contrast/temperature delta — the more extreme the difference vs. user's weather, the higher the friend appears |
-| Asking for all permissions at onboarding before showing value | Permission fatigue, users deny everything | Show value first (example data), then progressively ask for contacts, notifications, and location as user engages |
+| Share button on every friend card creates decision fatigue | Users ignore share because it's everywhere | Show share prominently only on extreme/interesting weather events. Subtle share icon elsewhere |
+| Weather card design is generic and not worth sharing | Users don't share because the image is boring | The card must be visually distinctive -- use Bubble Pop gradients, temperature zone colors, and playful weather icons. It should look like something users are proud to post |
+| Invite flow requires too many steps (copy token, send message, explain to friend) | Drop-off at each step kills viral coefficient | One-tap share that opens iMessage/WhatsApp with pre-composed message including Universal Link and friendly text |
+| "Come back" push notification after 1 day of inactivity | Feels desperate, users associate app with nagging | Minimum 3-day quiet period. Frame as value ("Snow just started in Stockholm where Anna is!") not guilt ("You haven't opened the app") |
+| Engagement nudge shown as modal popup on app open | Blocks the user from their intended action, creates resentment | Use inline banners or subtle indicators in the friend list, never modals |
+| No feedback after sharing (did it work? did they join?) | User feels uncertain, stops sharing | Show "Invite sent!" confirmation and later "Anna joined!" notification when invite is redeemed |
 
 ---
 
 ## "Looks Done But Isn't" Checklist
 
-- [ ] **Friend import:** "Import friends" works in demo — verify it works for real users with zero existing app users in their network (chicken-and-egg check)
-- [ ] **Sign in with Apple:** Login appears to work — verify it handles the hidden email relay address and doesn't create duplicate accounts on re-login
-- [ ] **Chat moderation:** Chat sends and receives messages — verify Report and Block actions actually exist and function in the UI
-- [ ] **Push notifications:** Notifications arrive in simulator — verify delivery on real device with app force-quit and background refresh disabled
-- [ ] **Weather caching:** Weather loads correctly — verify what happens when the API is down or rate-limited (graceful degradation, not crash)
-- [ ] **Privacy manifest:** App builds and runs — verify `Product → Archive → Validate` passes without ITMS-91061 errors
-- [ ] **Account deletion:** App has settings — verify there is an in-app "Delete Account" flow (required by App Store since 2023)
-- [ ] **Location consent:** App shows friend weather — verify no friend's location was stored without that friend's explicit consent
-- [ ] **Firebase rules:** App works in development — verify security rules reject unauthorized reads before TestFlight
+- [ ] **Universal Links:** AASA file hosted and app opens from link -- verify it also works for FRESH INSTALL (deferred deep link with pending token storage)
+- [ ] **Weather card sharing:** Image generates and share sheet opens -- verify the image actually contains all elements (avatar, weather icon, temperature, city) by saving to Photos and inspecting
+- [ ] **Instagram Stories sharing:** Share sheet includes Instagram option -- verify it actually opens Instagram Stories composer with the image, not just the Instagram app
+- [ ] **Invite flow for new users:** Invite link works between two test devices -- verify the COMPLETE flow: non-user taps link -> App Store -> install -> sign up -> auto-friend connection
+- [ ] **Notification throttling:** Engagement notifications send correctly -- verify a user with 20 friends during extreme weather doesn't receive 20 separate notifications
+- [ ] **Visual polish:** All views updated to BubblePopTypography -- verify on iPhone SE (smallest screen) AND with Dynamic Type at largest setting
+- [ ] **Share preview:** Universal Link shared in iMessage -- verify it shows rich preview with app icon, title, and description (not bare URL)
+- [ ] **iPad share sheet:** Share button works on iPhone -- verify it doesn't crash on iPad (popover requirement)
 
 ---
 
@@ -257,13 +290,13 @@ Privacy manifests are a new requirement many developers aren't aware of. Older S
 
 | Pitfall | Recovery Cost | Recovery Steps |
 |---------|---------------|----------------|
-| Social API friend import built wrong | HIGH | Pivot to phone contacts import (iOS Contacts framework) + manual invite. Requires UX redesign but no backend changes. |
-| App Store rejected for missing Sign in with Apple | LOW | Add Sign in with Apple (1-2 days). Resubmit. Common and well-documented. |
-| App Store rejected for missing UGC moderation | MEDIUM | Build report/block UI (3-5 days). Common, Apple will provide specific guidance in rejection notes. |
-| Firebase cost explosion from listener overuse | HIGH | Requires architecture refactor — move weather data to pull model, redesign listener scope. 1-3 weeks. |
-| Privacy manifest rejection | LOW | Update SDK versions, add missing manifests (1-2 days). Well-documented fix. |
-| AI location inference causes privacy complaint | HIGH | Remove inference feature, replace with user-declared location only. Potential legal exposure if not caught before launch. |
-| APNs token stale — push notifications stop working | MEDIUM | Add token refresh on login and app launch. 1 day fix, but requires resubmission. |
+| Custom URL scheme invite links don't work for new users | MEDIUM | Set up Universal Links (domain, AASA, entitlement, fallback page). 3-5 days including testing. Old `hotandcold://` links for widgets keep working. |
+| ImageRenderer produces blank images | LOW | Switch to `UIHostingController` + `UIGraphicsImageRenderer` fallback. 1-2 days. Well-documented pattern. |
+| Engagement notifications cause uninstalls | MEDIUM | Add throttling Cloud Function and per-category settings. 2-3 days. Requires new app version for settings UI. |
+| Deep link lost for unauthenticated users | LOW | Add UserDefaults pending token storage + post-auth redemption check. 1 day. |
+| Visual polish breaks existing layouts | MEDIUM | Revert to pre-polish commit, apply changes incrementally with testing. Cost depends on how many views were changed in bulk. |
+| Share sheet crashes on iPad | LOW | Add `popoverPresentationController` configuration. 1 hour fix. |
+| Instagram Stories sharing doesn't work | LOW | Implement dedicated `instagram-stories://` code path. 1 day. |
 
 ---
 
@@ -271,34 +304,33 @@ Privacy manifests are a new requirement many developers aren't aware of. Older S
 
 | Pitfall | Prevention Phase | Verification |
 |---------|------------------|--------------|
-| Social API friend-import dead end | Phase 1: Architecture | Confirm import strategy uses Contacts framework + invite flow before any code written |
-| AI location inference without consent | Phase 1: Architecture | Data model shows location is user-declared, not inferred about non-consenting third parties |
-| Missing Sign in with Apple | Phase 2: Authentication | Auth PR checklist includes Apple login; test with hidden email relay address |
-| Firebase listener cost explosion | Phase 3: Backend architecture | Firestore usage design reviewed; weather data is cached/polled, not listener-driven |
-| Missing UGC moderation in chat | Phase 4: Chat feature | Chat feature includes Report + Block UI in initial implementation |
-| Push notification unreliability | Phase 4-5: Notifications | Notification architecture uses visible alerts (not silent push) for weather alerts |
-| Missing privacy manifests for SDKs | Phase 6: App Store prep | Xcode Archive → Validate runs clean before TestFlight submission |
-| Account deletion missing | Phase 6: App Store prep | Settings screen includes in-app delete account flow |
-| Firebase security rules open | All phases | Firebase Emulator Suite used for local development; rules reviewed before each environment promotion |
+| Custom URL scheme unusable for sharing | Invite Experience | Universal Link opens app from iMessage on device without app installed |
+| ImageRenderer blank output | Shareable Weather Cards | Exported PNG saved to Photos contains all visual elements |
+| Share sheet wrong metadata | Shareable Weather Cards | Links shared in iMessage show rich preview; Instagram Stories opens correctly |
+| Notification spam drives uninstalls | Engagement Loops | Cloud Function throttling tested: user with 30 friends gets max 1 nudge/day |
+| Invite incentive becomes gamification | Invite Experience | Design review against PROJECT.md "no gamification" constraint before implementation |
+| Deep link lost for new users | Invite Experience | Complete fresh-install flow tested: link -> install -> sign up -> auto-friend |
+| Image generation blocks main thread | Shareable Weather Cards | Share button shows loading state; no UI freeze measurable on iPhone SE |
+| Visual polish breaks layouts | Visual Polish | Screenshot comparison on SE, standard, Pro Max before and after; Dynamic Type large tested |
+| Invite redemption client-side vulnerability | Invite Experience | Redemption moved to Cloud Function with server-side validation |
 
 ---
 
 ## Sources
 
-- [Instagram API Deprecation and 2026 API Rules — Storrito](https://storrito.com/resources/Instagram-API-2026/) — HIGH confidence
-- [Facebook Unofficial API Overview — Data365](https://data365.co/blog/facebook-unofficial-api) — MEDIUM confidence
-- [Apple App Store Rejection Reasons 2025 — twinr.dev](https://twinr.dev/blogs/apple-app-store-rejection-reasons-2025/) — HIGH confidence
-- [Apple App Store Review Guidelines (official) — Apple Developer](https://developer.apple.com/app-store/review/guidelines/) — HIGH confidence
-- [Sign in with Apple requirement change — 9to5Mac 2024](https://9to5mac.com/2024/01/27/sign-in-with-apple-rules-app-store/) — HIGH confidence
-- [Top 10 Firebase Mistakes 2025 — DEV Community](https://dev.to/mridudixit15/top-10-mistakes-developers-still-make-with-firebase-in-2025-53ah) — MEDIUM confidence
-- [Firebase Firestore Real-Time Queries at Scale — Firebase Official Docs](https://firebase.google.com/docs/firestore/real-time_queries_at_scale) — HIGH confidence
-- [Silent Push Notifications Not Guaranteed — Medium/Mohsin Khan](https://mohsinkhan845.medium.com/silent-push-notifications-in-ios-opportunities-not-guarantees-2f18f645b5d5) — HIGH confidence
-- [Apple Privacy Manifest Requirements — Apple Developer Docs](https://developer.apple.com/documentation/bundleresources/adding-a-privacy-manifest-to-your-app-or-third-party-sdk) — HIGH confidence
-- [UGC Moderation Requirements for App Store — Apple Developer Forum](https://developer.apple.com/forums/thread/62186) — HIGH confidence
-- [AI and Location Privacy Regulation 2025 — CSA Blog](https://cloudsecurityalliance.org/blog/2025/04/22/ai-and-privacy-2024-to-2025-embracing-the-future-of-global-legal-developments) — MEDIUM confidence
-- [iOS Location Services Battery Optimization — Rangle.io](https://rangle.io/blog/optimizing-ios-location-services) — MEDIUM confidence
-- [Push Notification Architecture Failures — Netguru](https://www.netguru.com/blog/why-mobile-push-notification-architecture-fails) — MEDIUM confidence
+- [Apple ImageRenderer Documentation](https://developer.apple.com/documentation/swiftui/imagerenderer) -- HIGH confidence
+- [ImageRenderer fails to render content (Apple Developer Forums)](https://developer.apple.com/forums/thread/725196) -- HIGH confidence, documents blank render issues
+- [AsyncImage not rendering with ImageRenderer (Apple Developer Forums)](https://developer.apple.com/forums/thread/728114) -- HIGH confidence
+- [Universal & Deep Links: 2026 Complete Guide (DEV Community)](https://dev.to/marko_boras_64fe51f7833a6/universal-deep-links-2026-complete-guide-36c4) -- MEDIUM confidence
+- [Firebase Dynamic Links Shutdown Alternatives (Airbridge)](https://www.airbridge.io/blog/firebase-dynamic-links-alternatives) -- HIGH confidence, confirms August 2025 shutdown
+- [Push Notification Best Practices 2026 (Appbot)](https://appbot.co/blog/app-push-notifications-2026-best-practices/) -- MEDIUM confidence
+- [Push Notification Statistics 2025 (Business of Apps)](https://www.businessofapps.com/marketplace/push-notifications/research/push-notifications-statistics/) -- HIGH confidence, source for uninstall/opt-out statistics
+- [Rethinking Mobile App Retention 2026 (OneSignal)](https://onesignal.com/blog/how-leading-mobile-teams-are-rethinking-retention-for-2026/) -- MEDIUM confidence
+- [How to Implement iOS Deep Linking Using Universal Links (Medium)](https://medium.com/@sonerkaraevli/how-to-implement-ios-deep-linking-using-universal-links-step-by-step-deep-dive-guide-2024-fe3882b3017c) -- MEDIUM confidence
+- [Firebase Dynamic Links Replacement with Custom Server (Medium)](https://medium.com/@azaikin/firebase-dynamic-links-is-shutting-down-heres-how-i-replaced-it-with-a-custom-deep-link-server-e8dfeb7ec6b3) -- MEDIUM confidence
+- [ImageRenderer in SwiftUI (Swift with Majid)](https://swiftwithmajid.com/2023/04/18/imagerenderer-in-swiftui/) -- MEDIUM confidence
+- Existing codebase analysis: `InviteService.swift`, `HotAndColdFriendsApp.swift`, `AddFriendSheet.swift` -- HIGH confidence
 
 ---
-*Pitfalls research for: Social weather iOS app (Hot & Cold Friends)*
-*Researched: 2026-03-02*
+*Pitfalls research for: Viral sharing, invite experience, shareable weather cards, and engagement loops (FriendsCast v3.0)*
+*Researched: 2026-03-06*

@@ -1,218 +1,345 @@
-# Stack Research
+# Stack Research: v3.0 Virality & Polish
 
-**Domain:** Social weather iOS app (native SwiftUI, managed backend)
-**Researched:** 2026-03-02
-**Confidence:** MEDIUM-HIGH (core stack HIGH, social API constraints MEDIUM)
+**Domain:** iOS social weather app — shareable image generation, invite deep linking, in-app engagement
+**Researched:** 2026-03-06
+**Confidence:** HIGH
+
+## Scope
+
+This research covers ONLY new stack additions for v3.0. The existing validated stack (SwiftUI iOS 17+, Firebase 11.x, WeatherKit, MapKit, WidgetKit, OpenAI proxy, Bubble Pop Design System) is not re-evaluated.
+
+Three capability areas:
+1. **Shareable weather cards** — generating images from SwiftUI views, sharing to Instagram/iMessage
+2. **Improved invite flows** — Universal Links replacing custom URL scheme, web fallback
+3. **In-app engagement** — contextual tips, nudges, engagement triggers
 
 ---
 
-## Recommended Stack
+## Recommended Stack Additions
 
-### Core Technologies
+### 1. Shareable Image Generation
 
 | Technology | Version | Purpose | Why Recommended |
 |------------|---------|---------|-----------------|
-| Swift | 6.x (Xcode 16+) | Primary language | Apple-native, mandatory for App Store, strict concurrency in Swift 6 eliminates data races |
-| SwiftUI | iOS 15+ | UI framework | Modern declarative UI, required for any new iOS social app, @Observable macro simplifies state |
-| Firebase iOS SDK | 12.10.0 (Feb 2026) | Backend-as-a-Service | Auth + Firestore + FCM in one SDK, best real-time chat performance for social apps, mature iOS integration |
-| Xcode | 16.2+ | IDE | Required. SPM support for Firebase requires Xcode 16.2+ |
+| `ImageRenderer` (SwiftUI) | iOS 16+ (already available) | Convert SwiftUI views to UIImage/CGImage | Native Apple API, zero dependencies. Renders any SwiftUI view including Bubble Pop gradients, AvatarView, custom weather icons. No third-party library needed. |
+| `ShareLink` (SwiftUI) | iOS 16+ (already in use) | Present system share sheet | Already used in ProfileView for invite links. Extend to share generated weather card images with Transferable protocol. |
+| Instagram Stories URL scheme | N/A | Direct share to Instagram Stories | Uses `instagram-stories://share` with pasteboard data. Supports background image + sticker overlay + gradient background colors. ~20 lines of code — no SDK needed. |
 
-**Why Firebase over Supabase for this project:**
-Firebase wins for real-time chat (600ms RTT on Realtime DB vs 1500ms on Firestore), push notifications via FCM, and social auth (Google, Facebook, Apple) all in one SDK. The NoSQL data model suits message streams naturally. Supabase's SQL strengths (joins, RLS) are less relevant here — friend relationships and chat messages are the primary data structures, not complex relational queries. For an MVP social app prioritizing speed to market and real-time feel, Firebase is the correct choice.
+**Key insight:** No new packages needed. `ImageRenderer` + `ShareLink` are built into SwiftUI and already available at the iOS 17 deployment target. The weather card is just a SwiftUI view — design it with Bubble Pop components, render to image, share.
 
----
+#### ImageRenderer Pattern
 
-### Backend Services (Firebase)
+```swift
+// 1. Design the card as a normal SwiftUI view
+struct WeatherCard: View { ... }
 
-| Service | Purpose | Why |
-|---------|---------|-----|
-| Firebase Authentication | Social login (Apple, Google, Facebook) | Handles OAuth token exchange, session management, App Store compliance — all in one |
-| Cloud Firestore | User profiles, friend lists, app state | Flexible document model, offline sync, real-time listeners. Use for profile data and friend graph |
-| Firebase Realtime Database | Chat messages | Lower latency than Firestore (600ms vs 1500ms RTT), better suited for message stream updates |
-| Firebase Cloud Messaging (FCM) | Push notifications | Official APNs bridge, handles delivery receipts, topic subscriptions for weather alerts |
-| Firebase Remote Config | Feature flags, example data at first run | Control first-run demo data without app releases |
+// 2. Render to UIImage (must be on @MainActor)
+let renderer = ImageRenderer(content: WeatherCard(friend: friend))
+renderer.scale = UIScreen.main.scale  // Retina resolution
+let image = renderer.uiImage
 
-**Note on Firestore vs Realtime Database split:** Use Firestore for user/friend data (richer queries, offline support), Realtime Database for chat (lower latency). Both can coexist in one Firebase project.
-
----
-
-### Weather API
-
-| Service | Tier | Calls | Why Recommended |
-|---------|------|-------|-----------------|
-| Apple WeatherKit | Included in Apple Developer membership ($99/yr) | 500,000/month free | Native Swift SDK, no API key management, privacy-first (no user tracking), required attribution only. Best fit for iOS-first app. Upgrade plans from $49.99/month for 1M calls |
-
-**Why WeatherKit over alternatives:**
-- Included with Apple Developer membership you already need for App Store distribution
-- 500K free calls/month is sufficient for early-stage social app
-- Native Swift async/await integration — no third-party SDK needed
-- Privacy-preserving (location not tracked between requests) — relevant for App Store review
-- Attribution required: must display "Weather" Apple trademark in UI
-
-**WeatherKit minimum iOS requirement:** iOS 16. This sets the deployment target for the entire app.
-
-**Fallback option (if WeatherKit quota insufficient):** WeatherAPI.com — 1 million calls/month free, $9.99/month paid. REST-based JSON. Good global coverage. Keep as a backup for heavy load.
-
-**Open-Meteo is NOT recommended** for this use case despite being free — no commercial use allowed, requires attribution, and lacks the precipitation/hourly granularity needed for a polished social weather card.
-
----
-
-### Social Login
-
-| Provider | SDK | Scope available |
-|----------|-----|-----------------|
-| Sign in with Apple | AuthenticationServices (Apple native) | name, email. MANDATORY: Apple requires this when any third-party login is offered |
-| Google Sign-In | Firebase Auth (built-in) | profile, email |
-| Facebook Login | Facebook iOS SDK (facebook/facebook-ios-sdk) | public_profile, email, user_friends (restricted — see critical note) |
-
-**Critical: Facebook friend_list limitation.** `user_friends` permission only returns friends who have ALSO installed your app AND granted the same permission. It does NOT return the user's full Facebook friends list. This is a hard platform constraint since Graph API v2.0 (2014) and is not changing. This fundamentally affects the friend-import feature design.
-
-**Snapchat Login Kit:** Available scopes are limited to `user.display_name`, `user.external_id`, `user.bitmoji.avatar`. No friend list access available. Snapchat cannot be used for friend import — only for login identity.
-
-**Instagram:** The Basic Display API (personal account read access) reached end-of-life December 4, 2024. All remaining APIs target business accounts only. Instagram friend/follower import for a consumer app is not possible through official APIs as of 2026.
-
-**Implication for "friend import" feature:** The social import model must shift from bulk friend-list import to an in-app friend discovery model (invite via contact/phone number, find by username, or share a join link). Facebook can surface mutual app users over time, not upfront bulk import. This is a significant architectural constraint the roadmap must address.
-
----
-
-### Supporting Libraries
-
-| Library | Version | Purpose | When to Use |
-|---------|---------|---------|-------------|
-| FacebookSDKLoginKit | 17.x (via SPM) | Facebook OAuth login + user_friends discovery | Always — needed for Facebook auth |
-| GoogleSignIn-iOS | 8.x (via SPM) | Google OAuth | Always — cleaner than Firebase Auth's built-in Google flow |
-| AuthenticationServices | iOS 13+ (Apple native) | Sign in with Apple | Always — mandatory for App Store |
-| UserNotifications | iOS 10+ (Apple native) | Local + push notification permission management | Always |
-
-**Note:** No third-party chat UI framework needed. Build chat UI in SwiftUI directly — Firebase's real-time listeners plus SwiftUI state management give you everything required without adding a dependency like Stream or Sendbird.
-
----
-
-### Development Tools
-
-| Tool | Purpose | Notes |
-|------|---------|-------|
-| Xcode 16.2+ | IDE + Swift Package Manager | Minimum required for Firebase 12.x SPM |
-| Swift Package Manager | Dependency management | Use instead of CocoaPods or Carthage. Firebase fully supports SPM. Snapchat Snap Kit may require CocoaPods — check before planning |
-| Firebase Emulator Suite | Local development | Emulate Auth, Firestore, Realtime DB, and FCM locally. Essential for testing without hitting production quotas |
-| Fastlane | iOS build automation | Code signing, TestFlight uploads, App Store submission automation |
-| TestFlight | Beta distribution | Standard Apple beta channel, required before App Store submission |
-
----
-
-## Installation
-
-```bash
-# In Xcode: File > Add Package Dependencies
-# Core Firebase (select modules needed):
-https://github.com/firebase/firebase-ios-sdk
-# Select: FirebaseAuth, FirebaseFirestore, FirebaseDatabase,
-#          FirebaseMessaging, FirebaseRemoteConfig
-
-# Facebook SDK:
-https://github.com/facebook/facebook-ios-sdk
-# Select: FacebookLogin
-
-# Google Sign-In:
-https://github.com/google/GoogleSignIn-iOS
-# Select: GoogleSignIn
-
-# WeatherKit: built into Apple frameworks — no package needed
-# AuthenticationServices: built into Apple frameworks — no package needed
+// 3. Share via ShareLink or Instagram Stories
 ```
+
+**Important:** `ImageRenderer` runs on `@MainActor`. For complex views, render asynchronously to avoid blocking the UI. The renderer handles gradients, shadows, and custom fonts — all Bubble Pop components will render correctly.
+
+#### Instagram Stories Integration
+
+Requires adding to Info.plist:
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>instagram-stories</string>
+</array>
+```
+
+Share via pasteboard with keys:
+- `com.instagram.sharedSticker.backgroundImage` — weather card as PNG data
+- `com.instagram.sharedSticker.stickerImage` — optional FriendsCast logo overlay
+- `com.instagram.sharedSticker.backgroundTopColor` / `backgroundBottomColor` — fallback gradient (use temperature zone colors)
+
+Always guard with `UIApplication.shared.canOpenURL(URL(string: "instagram-stories://share")!)` before showing the Instagram share option.
+
+---
+
+### 2. Universal Links (Invite Deep Linking)
+
+| Technology | Version | Purpose | Why Recommended |
+|------------|---------|---------|-----------------|
+| Universal Links (Apple) | iOS 9+ | HTTPS-based deep links | Replaces current `hotandcold://` custom URL scheme for invite links. More secure (domain-verified), works everywhere links are shared (iMessage, Instagram, email), falls back to web if app not installed. |
+| `apple-app-site-association` | N/A | JSON file on web server | Associates the domain with the app. Hosted at `https://<domain>/.well-known/apple-app-site-association`. |
+| Associated Domains entitlement | Xcode capability | Register domain in app | Add `applinks:<domain>` to Associated Domains. |
+
+#### Why Migrate from Custom URL Scheme
+
+The current `hotandcold://invite/<token>` scheme has critical virality problems:
+
+1. **iMessage strips custom schemes** — links become unclickable plain text
+2. **Instagram/social media block custom schemes** — links don't work when shared
+3. **No web fallback** — if app isn't installed, nothing happens (dead end for new users)
+4. **No deferred deep linking** — user installs app but loses the invite context
+
+Universal Links (`https://friendscast.app/invite/<token>`) solve all four problems:
+- Clickable everywhere (it's just an HTTPS URL)
+- Falls back to web page with App Store link if app not installed
+- App opens directly if installed (no browser intermediate)
+
+#### What's Needed
+
+**On the app side:**
+- Add Associated Domains entitlement with `applinks:<domain>`
+- Handle Universal Links in `onOpenURL` (same modifier, different URL format)
+- Change `InviteService.inviteURL()` to return HTTPS URL
+
+**On the server side (existing Docker website on Synology):**
+1. Serve `/.well-known/apple-app-site-association` with `Content-Type: application/json`
+2. Add `/invite/<token>` route — redirects to App Store if app not detected, or shows invite preview page
+
+**AASA file content:**
+```json
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "A473BQKT8M.se.sandenskog.hotandcoldfriends",
+        "paths": ["/invite/*"]
+      }
+    ]
+  }
+}
+```
+
+**Important:** Apple's CDN caches this file. Changes can take 24-48 hours to propagate. Test with Apple's AASA validator during development.
+
+#### Keep Custom URL Scheme for Internal Use
+
+The `hotandcold://friend/<id>` scheme for widget deep links should remain — it's internal (widget to app) and doesn't go through external platforms.
+
+#### No Third-Party Deep Link Service Needed
+
+Firebase Dynamic Links shut down August 25, 2025 — do NOT use. Branch.io, AppsFlyer, etc. are overkill for an iOS-only app with a single link type (invites). Native Universal Links with a simple web fallback is the correct approach: free, no SDK dependency, no third-party privacy implications.
+
+---
+
+### 3. In-App Engagement & Nudges
+
+| Technology | Version | Purpose | Why Recommended |
+|------------|---------|---------|-----------------|
+| TipKit (Apple) | iOS 17+ (exact match with target) | Contextual in-app tips and feature discovery | Native Apple framework. Declarative API matching SwiftUI patterns. Handles display frequency, eligibility rules, and dismissal persistence automatically. |
+| UNUserNotificationCenter (local) | iOS 10+ (already used) | Scheduled local notification nudges | Already in use for push. Local notifications for engagement nudges ("3 friends have weather changes today!") without server involvement. |
+| `sensoryFeedback` (SwiftUI) | iOS 17+ (exact match) | Haptic feedback on engagement actions | Native modifier for haptic responses on shares, reactions, invite accepts. Enhances tactile feel of social interactions. |
+
+#### TipKit Use Cases for FriendsCast
+
+| Tip | Trigger | Where |
+|-----|---------|-------|
+| "Share a weather card" | After viewing 3+ friend details | WeatherDetailView |
+| "Invite friends to see their weather" | Friend count < 5 | FriendListView |
+| "Try the map view" | After 5 list view sessions | Tab area |
+| "React to weather changes" | First extreme weather event | Weather alert banner |
+| "Add to favorites" | After chatting with same friend 3 times | Friend row |
+
+#### Why TipKit Over Custom Tooltips
+
+- Apple handles persistence — tips don't re-show after dismissal across sessions
+- Built-in frequency throttling — `.daily`, `.weekly`, `.monthly` presets
+- Parameter-based rules — trigger tips based on user behavior counters
+- Native popover and inline styles matching iOS design language
+- Optional CloudKit sync across devices
+- Zero custom state management code needed
+
+#### TipKit Setup
+
+```swift
+// In HotAndColdFriendsApp.init():
+try? Tips.configure([
+    .displayFrequency(.daily)  // Max one tip per day
+])
+
+// Define a tip:
+struct ShareWeatherCardTip: Tip {
+    var title: Text { Text("Share this weather") }
+    var message: Text? { Text("Create a beautiful card to share with friends") }
+    var image: Image? { Image(systemName: "square.and.arrow.up") }
+
+    @Parameter static var friendViewCount: Int = 0
+
+    var rules: [Rule] {
+        #Rule(Self.$friendViewCount) { $0 >= 3 }
+    }
+}
+```
+
+#### Local Notification Nudges
+
+Extend existing notification infrastructure for engagement:
+- "You haven't checked your friends' weather today" — morning reminder (user-configurable)
+- "Weather changed dramatically for 3 friends" — triggered by weather check
+- Re-engagement after 3 days of inactivity
+
+Use `UNMutableNotificationContent` + `UNCalendarNotificationTrigger` / `UNTimeIntervalNotificationTrigger`. No new framework needed.
+
+---
+
+## What NOT to Add
+
+| Avoid | Why | Use Instead |
+|-------|-----|-------------|
+| Firebase Dynamic Links | **Shut down August 25, 2025.** Non-functional. | Universal Links with web fallback |
+| Branch.io / AppsFlyer / deep link SDKs | Overkill for iOS-only app with single link type. Adds SDK dependency, privacy consent requirements, and cost. | Native Universal Links |
+| Third-party image generation (server-side) | `ImageRenderer` handles everything natively with zero latency. Server rendering adds complexity and cost for no benefit. | SwiftUI `ImageRenderer` |
+| Custom tooltip/tip libraries | TipKit is purpose-built by Apple for this exact use case. Custom solutions require state management, persistence, and frequency logic you'd have to build yourself. | Apple TipKit |
+| IGStoryKit (SPM package) | Wrapper around Instagram's URL scheme — the underlying code is ~20 lines. Not worth a dependency. | Direct Instagram Stories URL scheme |
+| Additional animation libraries (Lottie, etc.) | AnimationKit local package + SwiftUI spring animations already cover all needs. | Existing AnimationKit + SwiftUI `.spring()` |
+| Analytics SDKs (Mixpanel, Amplitude) | Premature. Firebase Analytics (already included in Firebase SDK) handles basic event tracking. Add dedicated analytics only when product-market fit is proven. | Firebase Analytics |
+| Snap Kit sharing | Snapchat sharing SDK adds complexity and another dependency. Instagram Stories has 10x the sharing volume for weather content. Snapchat can be added later if demand exists. | Instagram Stories + general ShareLink |
 
 ---
 
 ## Alternatives Considered
 
-| Category | Recommended | Alternative | When to Use Alternative |
-|----------|-------------|-------------|-------------------------|
-| Backend | Firebase | Supabase | If you need complex relational queries, SQL familiarity, or want to avoid Google lock-in. Not better for real-time chat or this project's specific needs |
-| Weather API | WeatherKit | WeatherAPI.com | If app needs to support iOS 15 (WeatherKit requires iOS 16), or if call volume exceeds 500K/month before upgrading |
-| Weather API | WeatherKit | OpenWeatherMap | If you need enterprise SLA, detailed air quality data. OpenWeatherMap 3.0 paid plan from $40/month. Free tier is 1000 calls/day only |
-| Architecture | MVVM + @Observable | TCA (The Composable Architecture) | If team grows large and needs enforced unidirectional state management. TCA adds boilerplate overhead not justified for a solo/small team iOS project |
-| Chat UI | Custom SwiftUI | Stream Chat SDK / Sendbird | If chat becomes a primary product focus with threads, reactions, moderation. Not needed for v1 |
-| Auth | Firebase Auth | Auth0 | If you need enterprise SSO, custom identity providers, or fine-grained permissions. Unnecessary complexity for a consumer social app |
+| Recommended | Alternative | When to Use Alternative |
+|-------------|-------------|-------------------------|
+| Universal Links | Custom URL scheme (current `hotandcold://`) | Keep only for internal widget-to-app deep links. Never for externally shared links. |
+| `ImageRenderer` | Server-side rendering (Cloud Function + Puppeteer/Sharp) | Only if cards need to be generated without the app (e.g., for link preview images in OG meta tags). Could be a future enhancement. |
+| TipKit | Custom SwiftUI overlay system | Only if needing to target iOS 16 or earlier. Since target is iOS 17+, always use TipKit. |
+| Direct Instagram URL scheme | IGStoryKit SPM package | Never — the abstraction adds no value for a single integration point. |
+| `ShareLink` | `UIActivityViewController` wrapper | Only if needing to exclude specific share targets or add custom activities. ShareLink covers all v3.0 needs. |
+| Local notification nudges | Server-triggered push via FCM | Use FCM for real-time events (friend weather alerts). Use local notifications for time-based engagement (daily check-in reminders). |
 
 ---
 
-## What NOT to Use
+## Configuration Changes Required
 
-| Avoid | Why | Use Instead |
-|-------|-----|-------------|
-| CocoaPods | Deprecated dependency manager, slow builds, poor Xcode 16 support. Firebase officially recommends SPM | Swift Package Manager |
-| Supabase for chat | Supabase Realtime uses PostgreSQL replication + websockets — higher latency (no hard number but architecturally slower than Firebase Realtime DB for message streams). Also lacks FCM integration | Firebase Realtime Database for messages |
-| Instagram API for friend import | Instagram Basic Display API reached end-of-life December 4, 2024. No personal account APIs exist | Phone number / contact matching via user invitation instead |
-| Snapchat for friend import | Login Kit scopes don't include friends list. Snap Kit is login-only | Snapchat login for identity only, not social graph |
-| UIKit | Adds complexity, requires bridging to SwiftUI. SwiftUI is mature enough for all required UI patterns as of iOS 16 | SwiftUI throughout |
-| Third-party chat framework (Stream, Sendbird) | ~$400-1000/month at scale, overkill for v1 chat. Firebase already handles real-time messaging | Firebase Realtime Database + custom SwiftUI chat view |
-| OpenWeatherMap free tier for production | Only 1000 calls/day free. A social app with 50 users checking weather for 20 friends each = 1000 calls/day immediately | WeatherKit (500K/month free with dev membership) |
+### project.yml Additions
 
----
+```yaml
+# Add entitlements file reference
+settings:
+  base:
+    # ... existing settings unchanged ...
+    CODE_SIGN_ENTITLEMENTS: HotAndColdFriends/HotAndColdFriends.entitlements
 
-## Stack Patterns by Variant
+# Or add via entitlements section (xcodegen syntax)
+targets:
+  HotAndColdFriends:
+    entitlements:
+      path: HotAndColdFriends/HotAndColdFriends.entitlements
+      properties:
+        com.apple.developer.associated-domains:
+          - "applinks:friendscast.app"  # Replace with actual domain
+```
 
-**If deployment target is iOS 15 (maximum reach):**
-- Cannot use WeatherKit (requires iOS 16)
-- Use WeatherAPI.com instead (REST, 1M calls/month free)
-- Lose native Swift weather integration but maintain broad compatibility
+### Info.plist Additions
 
-**If deployment target is iOS 16+ (recommended):**
-- Use WeatherKit natively
-- Access to newer SwiftUI features (NavigationStack, etc.)
-- ~90%+ of active iPhones run iOS 16+ as of 2025
+```xml
+<!-- Instagram Stories sharing capability check -->
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>instagram-stories</string>
+</array>
+```
 
-**If chat needs to scale beyond MVP:**
-- Migrate chat from Firebase Realtime Database to a dedicated solution (Stream Chat, Sendbird) only at that point
-- Firebase Realtime Database handles tens of thousands of concurrent users without issues
+### New Swift Imports
 
-**If friend import is needed before network effects kick in:**
-- Implement phone number/contact matching as the primary friend discovery
-- Use Apple's CNContactStore framework for contacts access
-- Users manually enter city/country for friends who haven't joined yet (matches PROJECT.md onboarding model)
+```swift
+import TipKit  // For in-app tips — new addition
+// ImageRenderer, ShareLink, sensoryFeedback are in SwiftUI — no new import
+```
+
+### App Initialization
+
+```swift
+// Add to HotAndColdFriendsApp.init():
+try? Tips.configure([
+    .displayFrequency(.daily)
+])
+```
 
 ---
 
 ## Version Compatibility
 
-| Package | Compatible With | Notes |
-|---------|-----------------|-------|
-| Firebase iOS SDK 12.x | iOS 15.0+ | Breaking change from 11.x (was iOS 13+). Confirmed from official release notes |
-| WeatherKit | iOS 16.0+ | Apple native. Sets minimum deployment target |
-| facebook-ios-sdk 17.x | iOS 16+ | Verify before locking — check Facebook developer portal |
-| GoogleSignIn-iOS 8.x | iOS 13+ | Broad compatibility |
-| Swift 6 | Xcode 16+ | Required for strict concurrency. Firebase 12.x is Swift 6 compatible |
+| Component | Minimum iOS | Available in Target (17+) | Notes |
+|-----------|-------------|--------------------------|-------|
+| ImageRenderer | iOS 16 | Yes | Use `@MainActor` context. Set `.scale` for Retina output. |
+| ShareLink | iOS 16 | Yes | Already in use in ProfileView. |
+| TipKit | iOS 17 | Yes | Exact match with deployment target. |
+| Universal Links | iOS 9 | Yes | Universally supported. Requires HTTPS domain with valid cert. |
+| Instagram Stories URL scheme | iOS 10 | Yes | Requires Instagram app installed. Guard with `canOpenURL`. |
+| sensoryFeedback modifier | iOS 17 | Yes | Exact match with deployment target. |
+| UNUserNotificationCenter | iOS 10 | Yes | Already in use for push notifications. |
 
-**Recommended deployment target: iOS 16** — covers WeatherKit, Firebase 12.x, modern SwiftUI, and ~90%+ of active devices.
+**All recommended technologies are available at the iOS 17 deployment target. No minimum version changes needed.**
+
+---
+
+## Integration Points with Existing Stack
+
+| New Capability | Integrates With | How |
+|----------------|----------------|-----|
+| Weather card rendering | Bubble Pop Design System | Card view uses temperature zone gradients, AvatarView, BubblePopTypography, custom weather icons |
+| Weather card rendering | WeatherKit data | Renders friend's current weather (temp, condition, icon) into visual card |
+| Weather card rendering | Friend model | Card includes friend name, city, avatar with gradient |
+| Universal Links | InviteService | Change `inviteURL(token:)` to return `https://<domain>/invite/<token>` instead of `hotandcold://invite/<token>` |
+| Universal Links | HotAndColdFriendsApp `onOpenURL` | Same handler, parse HTTPS URLs in addition to custom scheme |
+| Universal Links | Website Docker container | Add AASA file + invite route to existing Synology-hosted website |
+| Universal Links | Synology reverse proxy | Follow existing pattern (reverse proxy + Let's Encrypt cert) |
+| TipKit | FriendListView, WeatherDetailView, MapView | Attach `.popoverTip()` modifiers to relevant UI elements |
+| TipKit | User behavior tracking | Increment `@Parameter` counters on friend views, shares, chats |
+| Local notifications | WeatherAlertService | Extend existing service with engagement-type local notifications |
+| Instagram sharing | ImageRenderer output | Generated weather card image feeds into Instagram Stories pasteboard |
+| sensoryFeedback | BubblePopButton, share actions, invite accept | Add `.sensoryFeedback(.success, ...)` on key interactions |
+
+---
+
+## Domain/Hosting for Universal Links
+
+Universal Links require an HTTPS domain with the AASA file. Based on existing infrastructure:
+
+**Recommended approach:** Use the existing FriendsCast website (Docker on Synology). It already has a landing page — add:
+1. `/.well-known/apple-app-site-association` JSON file
+2. `/invite/<token>` route with web fallback (show invite info + App Store button)
+3. SSL certificate via Synology Let's Encrypt (already documented in CLAUDE.md)
+
+This requires a domain (verify if one exists for the website, or set one up following the existing Synology pattern).
+
+---
+
+## Summary: What Changes
+
+| Category | Before (v2.0) | After (v3.0) |
+|----------|---------------|--------------|
+| Image generation | None | `ImageRenderer` for weather cards |
+| Sharing | `ShareLink` for invite URL only | `ShareLink` for images + Instagram Stories direct share |
+| Deep linking | `hotandcold://` custom scheme | Universal Links (HTTPS) for invites, custom scheme kept for widgets |
+| In-app guidance | None | TipKit for contextual feature discovery |
+| Engagement nudges | Push notifications only | Push + local notification engagement nudges |
+| Haptics | None | `sensoryFeedback` on key interactions |
+| New packages | — | **Zero new packages** |
+| New Apple frameworks | — | TipKit (1 new import) |
+
+**The most significant finding: all v3.0 capabilities can be achieved with zero new third-party dependencies.** Everything needed is built into iOS 17 and SwiftUI. The only infrastructure change is adding Universal Links support to the existing website.
 
 ---
 
 ## Sources
 
-- Firebase iOS SDK release notes (official, HIGH confidence): https://firebase.google.com/support/release-notes/ios — Version 12.10.0 confirmed Feb 25, 2026, iOS 15 minimum
-- Firebase/firebase-ios-sdk GitHub releases (HIGH confidence): Latest version 12.10.0
-- Apple WeatherKit documentation (official, HIGH confidence): https://developer.apple.com/weatherkit/ — 500K calls/month free, iOS 16 minimum, attribution required
-- Facebook Graph API user_friends limitation (MEDIUM confidence, multiple corroborating sources): Only returns mutual app users since Graph API v2.0
-- Snapchat Login Kit scopes (official docs, HIGH confidence): https://developers.snap.com/snap-kit/login-kit/overview — No friends list scope available
-- Instagram Basic Display API end-of-life (official, HIGH confidence): EOL December 4, 2024
-- Firebase vs Supabase real-time comparison (MEDIUM confidence, multiple sources agree): Firebase Realtime DB ~600ms RTT vs Firestore ~1500ms
-- SwiftUI @Observable macro (Apple official docs, HIGH confidence): https://developer.apple.com/documentation/SwiftUI/Migrating-from-the-observable-object-protocol-to-the-observable-macro
-- Apple Sign in with Apple requirement (MEDIUM confidence): Required when any third-party login offered, as of App Store guidelines
-- Open-Meteo non-commercial restriction (HIGH confidence): https://open-meteo.com — Free for non-commercial only
+- [Apple ImageRenderer documentation](https://developer.apple.com/documentation/swiftui/imagerenderer) — official API reference (HIGH confidence)
+- [Apple TipKit documentation](https://developer.apple.com/documentation/tipkit/) — official framework reference (HIGH confidence)
+- [Apple Universal Links documentation](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) — official setup guide (HIGH confidence)
+- [SwiftLee — Universal Links implementation](https://www.avanderlee.com/swiftui/universal-links-ios/) — practical SwiftUI implementation (HIGH confidence)
+- [tanaschita — Universal Links in SwiftUI](https://tanaschita.com/ios-universal-links-swiftui/) — SwiftUI-specific handling (HIGH confidence)
+- [Hacking with Swift — ImageRenderer](https://www.hackingwithswift.com/quick-start/swiftui/how-to-convert-a-swiftui-view-to-an-image) — practical tutorial (HIGH confidence)
+- [Hacking with Swift — ShareLink](https://www.hackingwithswift.com/books/ios-swiftui/sharing-an-image-using-sharelink) — image sharing tutorial (HIGH confidence)
+- [Firebase Dynamic Links shutdown](https://chottulink.com/blog/firebase-dynamic-links-shut-down-5-best-alternatives-for-2026/) — confirms August 25, 2025 shutdown (MEDIUM confidence)
+- [Instagram Stories sharing from iOS](https://medium.com/@danielcrompton5/share-content-to-an-instagram-story-from-an-ios-app-d55b1e10e68a) — URL scheme implementation (MEDIUM confidence)
+- [Instagram Stories SwiftUI PoC](https://gist.github.com/shaundon/28d121931eab29d4feb1f61b21b60e28) — working code example (MEDIUM confidence)
+- [Codakuma — Instagram Stories in SwiftUI](https://codakuma.com/instagram-stories-sharing-swiftui/) — SwiftUI-specific guide (MEDIUM confidence)
+- [Universal Links vs Custom URL Schemes 2026](https://dev.to/marko_boras_64fe51f7833a6/universal-deep-links-2026-complete-guide-36c4) — comparison and best practices (MEDIUM confidence)
+- [Mastering TipKit](https://fatbobman.com/en/posts/mastering-tipkit-basic/) — comprehensive TipKit guide (MEDIUM confidence)
 
 ---
-
-## Critical Constraint Summary
-
-The biggest unresolved risk is the social friend import model. The planned "import from Facebook/Instagram/Snapchat" feature as described in PROJECT.md is not achievable through official APIs:
-
-1. Facebook: Returns only mutual app users, not full friend list
-2. Instagram: No consumer API exists post-December 2024
-3. Snapchat: No friend list scope in Login Kit
-
-The roadmap must plan for an alternative friend discovery strategy. The most viable approach is phone contact matching (users grant contacts permission, backend hashes phone numbers and matches against registered users) or a manual "add by username/invite link" flow. This is a design decision that affects the entire onboarding phase.
-
----
-
-*Stack research for: Hot & Cold Friends — social weather iOS app*
-*Researched: 2026-03-02*
+*Stack research for: FriendsCast v3.0 Virality & Polish*
+*Researched: 2026-03-06*

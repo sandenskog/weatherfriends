@@ -1,208 +1,172 @@
 # Project Research Summary
 
-**Project:** Hot & Cold Friends — social weather iOS app
-**Domain:** Social iOS app med vänners väder i realtid, kontaktimport, AI-platsgissning och realtidschatt
-**Researched:** 2026-03-02
-**Confidence:** MEDIUM-HIGH
+**Project:** FriendsCast v3.0 -- Virality & Polish
+**Domain:** iOS social weather app -- viral sharing, invite deep linking, engagement loops
+**Researched:** 2026-03-06
+**Confidence:** HIGH
 
 ## Executive Summary
 
-Hot & Cold Friends är en nativ iOS-app (SwiftUI + Firebase) som visar vänners väder i realtid sorterat efter temperatur — det sociala formatet som skiljer den från vanliga väderapplikationer. Forskning bekräftar att produktkonceptet har en tydlig nisch mellan Fair Weather Friends (närmaste konkurrent, men saknar chatt och avancerad import) och nedlagda Zenly (stark social känsla men platsbaserad). Den rekommenderade stacken är Swift 6 / SwiftUI (iOS 16+), Firebase som helhetsplattform (Auth + Firestore + Realtime DB + FCM), Apple WeatherKit för väderdata och OpenAI via backend-proxy för AI-driven platsgissning. MVVM med `@Observable` (iOS 17+) är arkitekturstandarden 2025-2026 för SwiftUI-appar.
+FriendsCast v3.0 is about transforming a functional social weather app into one that grows organically. The core problem is clear: the current invite system uses custom URL schemes (`hotandcold://`) that are invisible to the outside world -- links fail in iMessage, get stripped by Instagram, and offer zero fallback for users without the app. Every sharing and viral growth feature is hobbled until this foundation is fixed. The recommended approach is Universal Links with a simple web fallback page, hosted on existing Synology infrastructure.
 
-Det finns ett fundamentalt designbeslut som måste fattas tidigt och som påverkar hela onboarding-flödet: det går inte att importera vänner från Facebook, Instagram eller Snapchat via officiella API:er. Facebook ger bara ömsesidiga app-användare tillbaka (ej hela vänlistan), Instagrams consumer API stängdes december 2024, och Snapchat Kit har inga vänskapslistor. Den enda pålitliga importvägen är iOS Contacts-ramverket kombinerat med AI-driven platsgissning baserat på kontaktdata användaren själv äger. Denna pivit är inte ett hinder — den är faktiskt mer integritetsrespekterande och undviker plattformsberoende.
+The good news: all v3.0 capabilities can be built with zero new third-party dependencies. SwiftUI's `ImageRenderer` handles weather card generation natively, Apple's TipKit provides contextual feature discovery, and Universal Links replace the broken custom scheme. The existing Bubble Pop design system, Firebase backend, and WeatherKit integration provide everything needed. The only infrastructure addition is a web domain with an AASA file and a landing page for invite link fallback.
 
-De tre mest kritiska riskerna är: (1) Firebase-kostnadsbomb om Firestore-lyssnare används fel (väderdata ska INTE drivas av realtidslyssnare), (2) App Store-avvisning om chatt saknar moderationsmekanism (rapport/blockering krävs av Guideline 1.2 sedan November 2025) och (3) privacy-exponering om AI-inferens gissar en väns plats utan det vänens samtycke. Alla tre är arkitekturella beslut som måste låsas i fas 1, inte retroaktivt.
-
----
+The key risks are (1) ImageRenderer's silent failure modes -- it produces blank images when views use AsyncImage, ScrollView, or environment dependencies, requiring carefully self-contained card views; (2) engagement notification spam driving uninstalls -- research shows 3-6 weekly pushes cause 40% opt-out; and (3) deep link loss for unauthenticated users -- the current `onOpenURL` handler silently drops invite tokens when the user isn't signed in, breaking the entire viral acquisition funnel. All three are avoidable with the patterns documented in the research.
 
 ## Key Findings
 
 ### Recommended Stack
 
-Firebase är rätt val över Supabase för detta projekt: lägre RTT för chatt (600 ms Realtime DB vs 1500 ms Firestore för meddelandeströmmar), FCM-integration för push, och social auth i samma SDK. WeatherKit (iOS 16+) är inkluderat i Apple Developer-memberskapet och ger 500 000 anrop/månad utan kostnad — mer än tillräckligt för tidigt stadium. AI-platsgissning ska alltid gå via en backend-proxy (Firebase Cloud Function) och aldrig anropa OpenAI direkt från appen.
+No new packages or third-party SDKs are needed. All capabilities map to built-in iOS 17 / SwiftUI APIs already available at the app's deployment target. See [STACK.md](STACK.md) for full details.
 
 **Core technologies:**
-- **Swift 6 / SwiftUI (iOS 16+):** Primärt språk och UI-ramverk. iOS 16 sätts av WeatherKit. Swift 6 eliminerar data races via strict concurrency. @Observable (iOS 17+) förenklar state.
-- **Firebase (Auth + Firestore + Realtime DB + FCM):** Helhetsplattform. Firestore för profiler och vänlistor; Realtime DB för chat (lägre latens); FCM för push via APNs.
-- **Apple WeatherKit:** Nativt Swift-API, 500K anrop/mån gratis med developer-membership, ingen nyckelhantering, privacy-first. Kräver obligatorisk Apple-attribution i UI.
-- **OpenAI API (via Cloud Function proxy):** AI-platsgissning vid kontaktimport. Får ALDRIG anropas direkt från iOS-appen — API-nyckel kan extraheras ur .ipa.
-- **Swift Package Manager:** Beroendehantering. CocoaPods är deprecated och ska undvikas.
-- **Firebase Emulator Suite:** Lokal utveckling utan att belasta produktionskvoter.
-
-Se `.planning/research/STACK.md` för fullständig version-, alternativ- och kompatibilitetsmatris.
+- **ImageRenderer (SwiftUI):** Client-side weather card image generation -- native, zero-latency, renders all Bubble Pop components
+- **Universal Links + AASA:** HTTPS-based invite deep links -- replaces broken custom URL scheme, works everywhere links are shared
+- **TipKit (iOS 17):** Contextual in-app tips for feature discovery -- handles persistence, frequency throttling, and eligibility rules automatically
+- **Instagram Stories URL scheme:** Direct share to Instagram Stories via pasteboard -- ~20 lines of code, no SDK
+- **sensoryFeedback (SwiftUI):** Haptic feedback on social interactions -- native modifier, exact iOS 17 match
 
 ### Expected Features
 
-**Must have (table stakes / v1):**
-- Social inloggning: Sign in with Apple (OBLIGATORISK om Google/Facebook erbjuds) + Google Sign-In
-- Användarprofil med stad/land
-- Kontaktimport från iOS Contacts + AI-driven platsgissning (den kritiska differentiator som ersätter social API-import)
-- Väderdata i realtid per vän (temperatur + ikon)
-- Vädersorterad listvy med temperaturgradering (primär differentiator, låg komplexitet)
-- Favoriter (6 vänner överst — explicit krav i PROJECT.md)
-- Onboarding med live exempeldata (fiktiva vänner med riktigt väder — "aldrig tom vy")
-- Realtidschatt med push-notiser INKL rapport/blockering (App Store-krav)
-- Push-notis för extremväder hos vän
+See [FEATURES.md](FEATURES.md) for full feature landscape including dependency graph.
 
-**Should have (differentiators, v1.x):**
-- Grupperade väderkort — "Hot & Cold"-vy (visuell humor, unikt bland konkurrenter)
-- Kartvy med vänners platser (MapKit, beror på att vän+plats-data finns)
-- Daglig vädersammanfattnings-notis (morgon-push, konversationsstarter)
-- iOS-widget hemskärm (WidgetKit)
-- Animerade väderillustrationer (Lottie eller SwiftUI-animationer)
+**Must have (table stakes):**
+- Universal Links with web fallback -- without this, shared invite links are dead for new users
+- One-tap invite sharing with contextual message text
+- Shareable weather card (static image) with app branding
+- Rich link preview (Open Graph meta tags) so links look good in iMessage/WhatsApp
+- Invite success celebration with Bubble Pop animations
 
-**Defer (v2+):**
-- Facebook/Instagram login (Apple + Google räcker för v1)
-- Apple Watch-komplikation
-- Vädervarning per specifik vän (kräver polling-infrastruktur och kalibrering)
-- Flerspråksstöd (engelska först)
+**Should have (differentiators):**
+- "Me vs You" comparison card -- the unique viral differentiator, no other app does friend-to-friend weather comparison as a shareable image
+- Share to Instagram Stories -- weather content gets massive engagement on Instagram
+- Weather reaction nudges -- "It's snowing where Emma is! Send her a message?"
+- Daily weather digest as shareable card
 
-**Anti-features att undvika:** realtids-GPS-spårning, video/röstsamtal, social feed, crowdsourcad väderrapportering, gamification (leaderboards/streaks).
-
-Se `.planning/research/FEATURES.md` för fullständig prioriteringsmatris och konkurrentanalys.
+**Defer (v4+):**
+- Animated weather cards (video/GIF) -- high complexity, only if static cards prove share volume
+- "Weather twins" notification -- extension of nudge logic, needs proven engagement first
+- Invite social proof ("3 contacts already here") -- requires backend contact cross-reference
+- Friend weather check-in streak -- low impact on virality
 
 ### Architecture Approach
 
-MVVM med `@Observable` (iOS 17) är standardarkitekturen. Varje feature-modul (Onboarding, FriendList, Chat, Map, FriendImport, Auth) är självständig under `Features/`. Delade tjänster (`WeatherService`, `ChatService`, `AuthService`, etc.) i `Services/` är protokollbaserade och injiceras via `DependencyContainer` — kritiskt för testbarhet och för att kunna byta live-tjänster mot demo-implementationer vid first-run. Väderdata hämtas lazy per kort (inte bulk på listvyn) med 30-minuters TTL-cache.
+The architecture extends the existing MVVM + `@Observable` service pattern with two new services (`ShareService`, `NudgeService`) injected via SwiftUI `.environment()`. Weather card rendering is entirely client-side. Engagement nudges use a hybrid client + server model: in-app nudge display is client-side (NudgeService), while re-engagement push notifications are server-side (new `engagementNudgeScheduler` Cloud Function). See [ARCHITECTURE.md](ARCHITECTURE.md) for component details and data flows.
 
 **Major components:**
-1. **Features/ (Onboarding, FriendList, Chat, Map, FriendImport, Auth)** — self-contained feature-moduler, Views + ViewModels
-2. **Services/ (WeatherService, ChatService, AuthService, FriendService, AILocationService, NotificationService)** — protokollbaserade externa integrationer
-3. **Firebase (Auth + Firestore + Realtime DB + FCM + Cloud Functions)** — backend; Cloud Functions är obligatoriska för FCM-trigger vid chat och OpenAI-proxy
-4. **DemoWeatherService + DemoFriendService** — mock-implementationer som delar protokoll med live-tjänster; aktiveras vid first-run onboarding
-5. **Firestore datamodell:** `users/{uid}/friends/{friendId}` + `conversations/{id}/messages/{messageId}` (subcollection, ALDRIG array-fält — 1MB-gräns)
+1. **WeatherCardView + WeatherCardRenderer** -- Self-contained SwiftUI view rendered to UIImage via ImageRenderer at 3x scale. Two formats: story (9:16) and square (1:1)
+2. **ShareService** -- Coordinates all sharing flows (weather cards, invite cards, Instagram Stories). Owns rendering pipeline and caching
+3. **InviteService (modified)** -- Persistent invite codes (not deleted on use), Universal Link URL generation, redemption count tracking
+4. **NudgeService** -- Client-side nudge state tracking with UserDefaults persistence. Three nudge types: invite friends, share weather, enable notifications
+5. **engagementNudgeScheduler (Cloud Function)** -- Server-side scheduled push for inactive users (3+ days). Rate-limited to max 1 nudge per 3 days
 
-Bygg-ordning baserad på komponentberoenden: Auth → Firestore-lager → WeatherService + Listvy → Onboarding+DemoData → Kartvy → Chatt → Push → AI-import → (social platform-import).
-
-Se `.planning/research/ARCHITECTURE.md` för dataflöden, kodexempel och skalningsgränser.
+**Firestore schema changes:**
+- `users/{uid}`: add `inviteCode`, `lastActiveAt`, `lastNudgeSentAt`
+- `invites/{code}`: stop deleting on redemption, add `redemptionCount`
 
 ### Critical Pitfalls
 
-1. **Social API-vänimport är omöjlig** — Facebook ger bara ömsesidiga app-användare, Instagram consumer API avvecklades december 2024, Snapchat har inga vänlistscopesa. Ersätt med iOS Contacts + manuell inbjudan. Besluta detta INNAN någon importkod skrivs.
+See [PITFALLS.md](PITFALLS.md) for all 8 pitfalls with recovery strategies.
 
-2. **Firebase Firestore-kostnadsbomb via felaktig lyssnarkonfiguration** — Väderdata får INTE drivas av realtidslyssnare (math: 1000 användare × 20 vänner × 48 uppdateringar/dag = ~1M läsningar/dag). Realtidslyssnare ENBART för chatt. Konfigurera alltid Firebase-budgetvarning.
-
-3. **App Store-avvisning för saknad Sign in with Apple** — Obligatorisk om Google eller Facebook-login erbjuds (Guideline 4.8). Implementeras i fas 2, inte retroaktivt.
-
-4. **App Store-avvisning för saknad UGC-moderering i chat** — Guideline 1.2 (skärpt november 2025) kräver rapport-mekanism, blockering och synlig kontaktinfo. Måste byggas TILLSAMMANS med chattfunktionen.
-
-5. **AI-platsgissning utan samtycke skapar legal exponering** — GDPR/CCPA-risk om AI infererar en annan persons plats utan deras samtycke. Korrekt modell: AI ger FÖRSLAG till den inloggade användaren; vännen deklarerar sin egen plats när hen går med i appen. Aldrig tyst lagra AI-inferens om en icke-registrerad person.
-
-6. **Saknade privacy manifests för tredjepartsSDK:er** — Apple kräver `PrivacyInfo.xcprivacy` sedan februari 2025. Kör `Product → Archive → Validate` innan TestFlight-submission.
-
-Se `.planning/research/PITFALLS.md` för fullständig checklista, recovery-strategier och integrations-gotchas.
-
----
+1. **Custom URL scheme links are unclickable outside the app** -- Migrate to Universal Links before building any sharing features. This is the foundation everything depends on.
+2. **ImageRenderer silently produces blank images** -- Build weather card as fully self-contained view (all data as parameters, no AsyncImage, no environment dependencies). Test by saving to Photos, not just previewing.
+3. **Deep link lost for unauthenticated users** -- Store pending invite token in UserDefaults when received before auth. Auto-redeem after sign-up. The current `guard let uid` silently drops the invite.
+4. **Engagement notifications become spam** -- Implement notification budget (max 1 nudge/day, 4/week across all non-chat types). Build throttling infrastructure BEFORE adding notification types.
+5. **Share sheet fires without viral content** -- Always share image + URL together. Instagram Stories requires separate pasteboard code path. Embed invite link as watermark on the image itself.
 
 ## Implications for Roadmap
 
-Baserat på komponentberoenden, pitfall-fas-mappningar och feature-prioriteringar rekommenderas följande fasstruktur:
+Based on research, suggested phase structure:
 
-### Phase 1: Foundation — Auth, Profil, Datamodell och Samtyckesstrategi
-**Rationale:** Allt annat beror på en autentiserad användare och en fastlåst datamodell. Samtyckesstrategi för AI-platsgissning och vänimport MÅSTE beslutas nu — inte retroaktivt.
-**Delivers:** Fungerande Sign in with Apple + Google. Användarprofil med stad/land. Firestore-struktur för vänner och konversationer. Dokumenterad samtyckesmodell för plats.
-**Addresses:** Social login (tabell-stakes), användarprofil (grund för allt)
-**Avoids:** Pitfall 3 (Sign in with Apple saknas), Pitfall 2 (AI utan samtycke), öppna Firestore-regler i produktion
+### Phase 1: Invite Foundation (Universal Links + Persistent Codes)
+**Rationale:** Every sharing and viral feature depends on working invite links. The current custom URL scheme is the single biggest blocker for growth. This must come first -- all subsequent phases build on it.
+**Delivers:** Working HTTPS invite links that are clickable everywhere, web fallback page with App Store redirect, rich link previews via OG meta tags, persistent invite codes that don't expire after single use.
+**Addresses:** Table stakes (invite link works without app, rich link preview, one-tap invite sharing), deferred deep link handling for fresh installs.
+**Avoids:** Pitfall 1 (unclickable custom scheme), Pitfall 6 (deep link lost for unauthenticated users), Pitfall 5 (invite incentive as gamification).
+**Infrastructure:** Requires domain setup, AASA file hosting, web landing page on Synology. Follow existing reverse proxy + Let's Encrypt pattern.
 
-### Phase 2: Kärnupplevelse — Väderdata, Vänlista och Onboarding
-**Rationale:** Appens kärnvärde. WeatherService + FriendList är den minimala produkt som kan visa att konceptet fungerar. DemoWeatherService/DemoFriendService byggs parallellt för onboarding.
-**Delivers:** Vädersorterad listvy med temperaturgradering. Favoriter (6 vänner). Onboarding med live exempeldata (aldrig tom vy). WeatherService med 30-min TTL-cache (lazy per kort, ej bulk).
-**Uses:** Apple WeatherKit, Firestore, MVVM + @Observable
-**Implements:** FriendListViewModel, WeatherService, DemoWeatherService, DemoFriendService
-**Avoids:** N+1 API-anrop vid listladdning (Pitfall 4), tom vy vid first-run (UX-pitfall)
+### Phase 2: Shareable Weather Cards
+**Rationale:** Once invite links work, the next highest-value feature is shareable content that drives organic discovery. Weather cards are the primary viral payload -- they make the app visible on Instagram, iMessage, and WhatsApp.
+**Delivers:** Static weather card images (story + square formats), share button in WeatherDetailSheet, context menu sharing from friend list, Instagram Stories direct share.
+**Addresses:** Table stakes (shareable weather card, share card for specific friend), differentiators (Instagram Stories sharing).
+**Avoids:** Pitfall 2 (ImageRenderer blank output -- self-contained views), Pitfall 3 (share sheet wrong metadata -- image + URL together), Pitfall 7 (main thread blocking -- async rendering pipeline with caching).
 
-### Phase 3: Kontaktimport och AI-Platsgissning
-**Rationale:** Den primära onboarding-mekanismen för att snabbt fylla appen med vänner. Bygger på fas 2 (vän + plats-modellen). AI-proxy-arkitekturen måste vara säker från start.
-**Delivers:** iOS Contacts-import med CNContactStore. AI-platsgissning via säker Cloud Function-proxy. Presentationsflöde för bekräftelse/justering av gissad plats. Manuell "lägg till vän"-fallback.
-**Uses:** iOS Contacts framework, OpenAI API via Firebase Cloud Function proxy
-**Implements:** FriendImportViewModel, AILocationService (protokollbaserad), ImportSourceView
-**Avoids:** Direkt OpenAI-anrop från app (Pitfall — API-nyckel i .ipa), tyst lagring av AI-inferens om icke-registrerade (Pitfall 2)
+### Phase 3: Comparison Cards + Invite Polish
+**Rationale:** The "Me vs You" comparison card is THE viral differentiator -- no other weather app does friend-to-friend comparison as a shareable image. Combined with invite flow polish (prominent placement, celebration animation, visual invite card), this phase maximizes viral coefficient.
+**Delivers:** Two-panel comparison weather card, visual invite card for sharing, prominent invite placement in toolbar + empty state, invite success celebration with Bubble Pop animations.
+**Addresses:** Differentiator ("Me vs You" comparison card), table stakes (invite success celebration), invite discoverability.
 
-### Phase 4: Realtidschatt med Push-notiser och Moderering
-**Rationale:** Social trigger är kärnvärdet — utan chatt är appen ett informationswidget. Chatt, push och moderering byggs TILLSAMMANS (App Store-krav, och push utan chatt är meningslöst).
-**Delivers:** Firebase Realtime DB-baserad chatt. FCM-push via Cloud Function-trigger. Rapport + Blockering-UI (Guideline 1.2). Support-kontakt i inställningar. Extremväder-push-notis.
-**Uses:** Firebase Realtime Database, FCM, APNs, Cloud Functions
-**Implements:** ChatService med snapshot listener (detach vid onDisappear), NotificationService, rapport/block-UI
-**Avoids:** Pitfall 5 (UGC-moderering saknas), Pitfall 6 (silent push istället för visible alerts), listener-läckor vid SwiftUI-navigering
+### Phase 4: Engagement Loops
+**Rationale:** Engagement features come last because they depend on the invite and sharing foundation being solid. Building nudges before the viral loop works is premature optimization.
+**Delivers:** TipKit contextual tips, NudgeService with in-app banners, engagementNudgeScheduler Cloud Function, notification budget/throttling system, lastActiveAt tracking.
+**Addresses:** Differentiators (weather reaction nudges), in-app feature discovery via TipKit.
+**Avoids:** Pitfall 4 (notification spam -- throttling built first), Pitfall 5 (gamification -- social framing, not rewards).
 
-### Phase 5: Utökade Vyer — Kartvy och Grupperade Kort
-**Rationale:** Differentierande vyer som bygger på att fas 2-3 är stabila. Karta kräver MapKit men är i övrigt straightforward när vän+plats-data finns. Hot/Cold-vy är låg komplexitet men hög underhållningsfaktor.
-**Delivers:** MapKit-kartvy med vänners platser och väderprops. Grupperade väderkort ("Tropical/Warm/Cool/Cold/Arctic"-vy). Daglig vädersammanfattnings-notis (lokal schemalagd notis).
-**Uses:** MapKit (native, ingen extern SDK), SwiftUI LazyVGrid, schemalagda lokala notiser (mer pålitliga än server-push)
-**Implements:** FriendMapView, FriendMapViewModel, Grouped weather cards-vy
-
-### Phase 6: Polish, Widget och App Store-Prep
-**Rationale:** Sista fasen före lansering. Privacy manifests, konto-borttagning och TestFlight-validering är icke-förhandlingsbara App Store-krav. iOS-widget är en power-user-funktion som kräver WidgetKit.
-**Delivers:** iOS-hemskärmswidget (WidgetKit, medium 2x2 minimum). Animerade väderillustrationer (Lottie). In-app "Radera konto"-flöde (App Store-krav sedan 2023). Privacy manifest-audit (`Product → Archive → Validate` utan ITMS-91061). TestFlight-betaperiod.
-**Avoids:** Pitfall 7 (saknade privacy manifests), konto-borttagning saknas, Privacy-policy missmatch
+### Phase 5: Visual Polish + Haptics
+**Rationale:** Polish comes after all functional features are in place. Avoids the risk of breaking layouts during feature development, and ensures polish work covers all new views.
+**Delivers:** sensoryFeedback on key interactions, final Bubble Pop design system alignment across all new views, visual regression testing.
+**Avoids:** Pitfall 8 (visual polish breaks existing layouts -- incremental changes with testing checklist).
 
 ### Phase Ordering Rationale
 
-- **Auth-first** är icke-förhandlingsbart: Firestore-säkerhetsregler, FCM-tokens och samtyckesmodell bygger alla på autentiserad användare.
-- **Väder + listvy före import** validerar kärnkonceptet utan extern API-osäkerhet. DemoWeatherService möjliggör visuellt genombrott tidigt.
-- **Import i fas 3** (efter kärnupplevelse) innebär att man kan bevisa att produkten fungerar även med manuellt tillagda vänner — minskar risken om iOS Contacts-tillståndet nekas.
-- **Chatt + push + moderering i en fas** är obligatoriskt: App Store-granskning ser dessa som ett paket. Att leverera chatt utan moderering garanterar avvisning.
-- **Vyer och widget sist** — de beror på stabil data-grund men blockerar inte MVP-validering.
+- **Dependency chain:** Universal Links (Phase 1) -> Weather Cards with working links (Phase 2) -> Comparison cards reusing card infrastructure (Phase 3) -> Engagement nudges referencing invites and shares (Phase 4) -> Polish on all completed views (Phase 5)
+- **Risk front-loading:** The highest-risk item (Universal Links with domain setup + AASA) is Phase 1, giving maximum time for Apple CDN propagation and testing
+- **Value delivery:** Each phase delivers a usable, shippable increment. Phase 1 alone fixes the broken invite funnel. Phase 2 alone enables organic sharing.
+- **No backend changes until Phase 1:** Phase 1's Firestore schema changes (persistent invite codes) are the only migration, and Phase 4's Cloud Function is additive
 
 ### Research Flags
 
-Faser som sannolikt behöver fördjupad research under planering:
-- **Fas 3 (AI-import):** OpenAI API-promptstrategi för platsgissning, Cloud Function-arkitektur för proxy, batching-strategi för stora kontaktlistor. Kostnadsbild per import-session är okänd.
-- **Fas 4 (Chatt + Push):** Firebase Cloud Functions-triggers för FCM vid ny chatt-message, APNs-konfiguration för visible vs. silent push, rate-limiting via Firebase App Check.
-- **Fas 6 (App Store):** Age-gating-frågeformuläret (Apple-deadline januari 2026 för uppdaterat formulär — kontrollera status).
+Phases likely needing deeper research during planning:
+- **Phase 1 (Invite Foundation):** Domain setup, AASA hosting, and Apple CDN propagation timing need careful testing. The web fallback page needs OG meta tag design. Research-phase recommended.
+- **Phase 4 (Engagement Loops):** Notification throttling architecture across multiple Cloud Functions is non-trivial. TipKit rule design needs UX input. Research-phase recommended.
 
-Faser med välkända mönster (kan hoppa över research-fas):
-- **Fas 1 (Auth):** Firebase Auth med Apple/Google är välbeskriven i officiella docs. Inga kunskapsluckor.
-- **Fas 2 (WeatherKit + listvy):** Apple WeatherKit-dokumentation är fullständig. MVVM-mönster är standardiserat.
-- **Fas 5 (MapKit):** Native MapKit för SwiftUI har officiell Apple-dokumentation, inga externa beroenden.
-
----
+Phases with standard patterns (skip research-phase):
+- **Phase 2 (Weather Cards):** ImageRenderer is well-documented with clear patterns. The rendering pipeline is straightforward.
+- **Phase 3 (Comparison Cards):** Extension of Phase 2's card infrastructure. Standard SwiftUI layout work.
+- **Phase 5 (Visual Polish):** Uses existing Bubble Pop design system. Standard design token application.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Firebase SDK-versioner bekräftade från officiella release notes (feb 2026). WeatherKit iOS 16-krav är officiell Apple-doc. Social API-begränsningar bekräftade från flera oberoende källor. |
-| Features | MEDIUM | Konkurrentanalys baserad på App Store + medieartiklar (inte direkt API-åtkomst). Fair Weather Friends-features observerade men inte verifierade internt. Competitor retention-data är inference. |
-| Architecture | MEDIUM | MVVM + @Observable är bekräftat mönster (officiella Apple docs + community). Firestore-datamodell baserad på Firebase-docs + community best practices. Skalningstal för listener-kost är community-inference, inte Firebase-officiellt. |
-| Pitfalls | HIGH | Social API-begränsningar är officiellt dokumenterade och bekräftade. App Store-avvisningsregler är från officiella Apple Developer guidelines. Firebase-kostnadsbild är MEDIUM (community-uppskattningar, inte exakta fakturor). |
+| Stack | HIGH | All technologies are native Apple APIs with official documentation. Zero third-party dependencies. Every API is verified available at iOS 17 deployment target. |
+| Features | HIGH | Feature prioritization backed by dependency analysis and competitive research. Clear table stakes vs differentiators. Anti-features well-justified by PROJECT.md constraints. |
+| Architecture | HIGH | Extends proven existing patterns (MVVM + @Observable + environment injection). All new components follow established codebase conventions. Data flows are straightforward. |
+| Pitfalls | HIGH | Critical pitfalls (broken deep links, ImageRenderer quirks, notification spam) backed by Apple Developer Forums posts and industry statistics. Recovery strategies documented. |
 
-**Overall confidence:** MEDIUM-HIGH
+**Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **AI-platsgissningskostnad:** Okänd kostnad per kontaktimport-session med OpenAI. Behöver kostnadsuppskattning och eventuellt rate-limiting-strategi tidigt i fas 3-planering.
-- **Facebook SDK 17.x iOS 16-krav:** Noterat "verifiera" i STACK.md — bekräfta exakt iOS-minimum mot Facebook Developer Portal innan fas 1.
-- **@Observable iOS 17 vs. iOS 16-deploymål:** ARCHITECTURE.md rekommenderar @Observable (iOS 17+) men WeatherKit sätter minimum till iOS 16. Beslut behövs: är iOS 16-stöd viktigt eller är iOS 17+ acceptabelt? ~90%+ av aktiva enheter kör iOS 16+, men iOS 17+ är lägre andel. Rekommendation: sätt deployment target iOS 17 för att kunna använda @Observable fullt ut.
-- **Age-gating-formulär status:** Apple satte deadline januari 2026 för uppdaterat formulär för UGC-appar. Verifiera att detta är genomfört korrekt i App Store Connect.
-- **Firebase Cloud Functions-kostnad:** Proxy för OpenAI och FCM-trigger kräver Blaze (betalplan). Kostnadsuppskattning behövs i fas 3-4 planering.
-
----
+- **Domain for Universal Links:** No domain is confirmed for the AASA file. Existing `apps.sandenskog.se` could work, or a new `friendscast.app` domain. Decision needed before Phase 1 implementation.
+- **Instagram Stories API stability:** Instagram's URL scheme for Stories sharing is undocumented officially and could change. LOW confidence on long-term stability. Mitigation: guard with `canOpenURL` and degrade gracefully to standard share sheet.
+- **OG image generation for link previews:** The web fallback page needs an OG preview image. Options: static generic image, or server-side per-invite image generation. Decision needed during Phase 1 planning.
+- **Invite redemption security:** Current client-side Firestore writes for invite redemption should move to a Cloud Function for server-side validation. Not researched in depth -- address during Phase 1 planning.
+- **Notification permission prompt timing:** When to ask for notification permission in the context of new engagement nudges. UX decision needed during Phase 4.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- Firebase iOS SDK release notes v12.10.0 — https://firebase.google.com/support/release-notes/ios
-- Apple WeatherKit documentation — https://developer.apple.com/weatherkit/
-- Apple App Store Review Guidelines — https://developer.apple.com/app-store/review/guidelines/
-- Apple Privacy Manifest requirements — https://developer.apple.com/documentation/bundleresources/adding-a-privacy-manifest-to-your-app-or-third-party-sdk
-- Snapchat Login Kit scopes — https://developers.snap.com/snap-kit/login-kit/overview
-- Instagram Basic Display API EOL — officiell avveckling december 2024
-- Firebase Firestore real-time queries at scale — https://firebase.google.com/docs/firestore/real-time_queries_at_scale
-- Silent push notifications not guaranteed (APNs) — mohsinkhan845.medium.com + Apple documentation
+- [Apple ImageRenderer documentation](https://developer.apple.com/documentation/swiftui/imagerenderer)
+- [Apple TipKit documentation](https://developer.apple.com/documentation/tipkit/)
+- [Apple Universal Links documentation](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app)
+- [Apple Developer Forums -- ImageRenderer blank render issues](https://developer.apple.com/forums/thread/725196)
+- [Apple Developer Forums -- AsyncImage + ImageRenderer](https://developer.apple.com/forums/thread/728114)
+- [Firebase Dynamic Links shutdown FAQ](https://firebase.google.com/support/dynamic-links-faq)
+- [Firebase Cloud Messaging iOS docs](https://firebase.google.com/docs/cloud-messaging/ios/get-started)
+- [Firebase Schedule Functions docs](https://firebase.google.com/docs/functions/schedule-functions)
+- [Push notification statistics 2025 (Business of Apps)](https://www.businessofapps.com/marketplace/push-notifications/research/push-notifications-statistics/)
 
 ### Secondary (MEDIUM confidence)
-- Firebase vs Supabase real-time comparison — latenstal (600 ms / 1500 ms) från multiple community sources
-- MVVM + @Observable iOS 17 pattern — medium.com/@csmax, medium.com/@sayefeddineh
-- Facebook Graph API user_friends limitation — multiple corroborating sources post-Cambridge Analytica
-- Fair Weather Friends App Store listing — direkt analys
-- Zenly post-mortem coverage — TechCrunch 2022
-- AI and location privacy regulation 2025 — cloudsecurityalliance.org
-
-### Tertiary (LOW confidence)
-- AI location inference cost at scale — inga exakta siffror tillgängliga, baserat på OpenAI pricing models
-- Firebase Firestore listener cost calculations — community-uppskattningar, inte officiella Firebase-siffror
+- [SwiftLee -- Universal Links implementation](https://www.avanderlee.com/swiftui/universal-links-ios/)
+- [Hacking with Swift -- ImageRenderer](https://www.hackingwithswift.com/quick-start/swiftui/how-to-convert-a-swiftui-view-to-an-image)
+- [Hacking with Swift -- ShareLink](https://www.hackingwithswift.com/books/ios-swiftui/sharing-an-image-using-sharelink)
+- [Universal Deep Links 2026 guide (DEV Community)](https://dev.to/marko_boras_64fe51f7833a6/universal-deep-links-2026-complete-guide-36c4)
+- [Mastering TipKit (Fat Bob Man)](https://fatbobman.com/en/posts/mastering-tipkit-basic/)
+- [Instagram Stories sharing from iOS (Medium)](https://medium.com/@danielcrompton5/share-content-to-an-instagram-story-from-an-ios-app-d55b1e10e68a)
+- [CARROT Weather share flow (Mobbin)](https://mobbin.com/explore/flows/0a4dc1d9-69e5-41d4-b16c-6568d2dd387b)
+- Existing codebase analysis: InviteService.swift, HotAndColdFriendsApp.swift, AddFriendSheet.swift
 
 ---
-*Research completed: 2026-03-02*
+*Research completed: 2026-03-06*
 *Ready for roadmap: yes*

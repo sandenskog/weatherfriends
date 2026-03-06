@@ -1,441 +1,633 @@
-# Architecture Research
+# Architecture Patterns: v3.0 Virality & Polish
 
-**Domain:** Social weather iOS app with real-time chat, friend import, and AI-driven location inference
-**Researched:** 2026-03-02
-**Confidence:** MEDIUM
+**Domain:** Viral sharing, invite experience, and engagement loops for existing SwiftUI + Firebase weather social app
+**Researched:** 2026-03-06
+**Confidence:** HIGH (based on existing codebase analysis + verified Apple APIs)
 
-## Standard Architecture
+## Current Architecture Summary
 
-### System Overview
-
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                        iOS CLIENT (SwiftUI)                          │
-├──────────────┬────────────────┬──────────────┬───────────────────────┤
-│  Views       │  ViewModels    │  Services    │  Models               │
-│  ─────────── │  ──────────    │  ─────────── │  ──────────────────── │
-│  FriendList  │  FriendVM      │  WeatherSvc  │  Friend               │
-│  MapView     │  MapVM         │  ChatSvc     │  Message              │
-│  ChatView    │  ChatVM        │  AuthSvc     │  WeatherData          │
-│  OnboardingV │  OnboardingVM  │  FriendSvc   │  ChatConversation     │
-│  WeatherCard │  WeatherCardVM │  LocationSvc │  UserProfile          │
-└──────────────┴────────────────┴──────────────┴───────────────────────┘
-                         │
-         ┌───────────────┼───────────────┐
-         ▼               ▼               ▼
-┌────────────────┐ ┌──────────────┐ ┌───────────────────────┐
-│   Firebase     │ │  Weather API │ │  AI Location Service  │
-│  ─────────────  │ │  ──────────  │ │  ─────────────────── │
-│  Auth          │ │  OpenWeather │ │  OpenAI API           │
-│  Firestore     │ │  / WeatherAPI│ │  (location inference  │
-│  FCM (push)    │ │              │ │   from profile data)  │
-└────────────────┘ └──────────────┘ └───────────────────────┘
-         │
-┌────────────────────────────────────┐
-│     Social Import Adapters         │
-│  Facebook Graph API  (limited)     │
-│  Instagram Basic Display (limited) │
-│  Manual contact import fallback    │
-└────────────────────────────────────┘
-```
-
-### Component Responsibilities
-
-| Component | Responsibility | Typical Implementation |
-|-----------|----------------|------------------------|
-| Views | Render UI, handle user gestures, pass intents to ViewModel | SwiftUI structs, no business logic |
-| ViewModels | Orchestrate data, hold state, call Services | @Observable class, async/await methods |
-| Services | Communicate with external APIs and Firebase | Protocol-based, injectable, testable |
-| Models | Plain value types representing domain entities | Swift structs conforming to Codable |
-| Firebase Auth | Social login, session management | FirebaseAuth SDK, Firebase UI |
-| Firestore | Friends list, user profiles, chat messages | Collections + subcollections |
-| FCM | Push notifications for chat and weather alerts | APNs-backed, token stored in Firestore |
-| Weather Service | Fetch current weather for friend locations | URLSession + async/await, 30-min cache |
-| AI Location Service | Infer city/country from profile data at import | OpenAI API via secure backend proxy |
-| MapKit | Display friends on a map with weather-annotated pins | Native MapKit, Marker annotations |
-
-## Recommended Project Structure
+The app follows a clean MVVM pattern with `@Observable` services injected via SwiftUI `.environment()`. All services are `@MainActor` and instantiated in `HotAndColdFriendsApp.init()`:
 
 ```
-WeatherFriends/
-├── App/
-│   ├── WeatherFriendsApp.swift   # App entry point, DI container setup
-│   └── AppDelegate.swift         # FCM token handling, APNs registration
-│
-├── Features/                     # Feature modules (one folder per screen flow)
-│   ├── Onboarding/
-│   │   ├── OnboardingView.swift
-│   │   ├── OnboardingViewModel.swift
-│   │   └── FavoritePickerView.swift
-│   ├── FriendList/
-│   │   ├── FriendListView.swift
-│   │   ├── FriendListViewModel.swift
-│   │   └── WeatherCardView.swift
-│   ├── Map/
-│   │   ├── FriendMapView.swift
-│   │   └── FriendMapViewModel.swift
-│   ├── Chat/
-│   │   ├── ConversationListView.swift
-│   │   ├── ChatView.swift
-│   │   └── ChatViewModel.swift
-│   ├── FriendImport/
-│   │   ├── ImportSourceView.swift
-│   │   ├── ImportViewModel.swift
-│   │   └── LocationInferenceService.swift
-│   └── Auth/
-│       ├── LoginView.swift
-│       └── AuthViewModel.swift
-│
-├── Services/                     # Shared services (injected via Environment)
-│   ├── WeatherService.swift      # Wraps weather API, caches responses
-│   ├── FriendService.swift       # Firestore CRUD for friends
-│   ├── ChatService.swift         # Firestore real-time listener for messages
-│   ├── AuthService.swift         # Firebase Auth wrapper
-│   ├── NotificationService.swift # FCM token, notification scheduling
-│   └── AILocationService.swift   # Calls backend proxy → OpenAI
-│
-├── Models/                       # Pure data types, no logic
-│   ├── Friend.swift
-│   ├── WeatherData.swift
-│   ├── Message.swift
-│   ├── Conversation.swift
-│   └── UserProfile.swift
-│
-├── Core/                         # Shared utilities and extensions
-│   ├── NetworkClient.swift       # URLSession wrapper (async/await)
-│   ├── Cache.swift               # Simple TTL cache for weather data
-│   ├── DependencyContainer.swift # Service locator / DI
-│   └── Extensions/
-│
-└── Resources/
-    ├── Assets.xcassets
-    └── Localizable.strings
+HotAndColdFriendsApp
+  |-- AuthManager
+  |-- UserService
+  |-- FriendService
+  |-- ChatService
+  |-- AppWeatherService (WeatherKit, 30-min cache)
+  |-- WeatherAlertService
+  |-- InviteService
 ```
 
-### Structure Rationale
+**Backend:** Firebase Cloud Functions (TypeScript, europe-west1) with 4 functions:
+- `guessContactLocations` -- OpenAI proxy (onCall)
+- `onNewMessage` -- Chat push notifications (onDocumentCreated)
+- `onFriendAlertUpdated` -- Weather alert push (onDocumentUpdated)
+- `checkExtremeWeather` -- Stale alert cleanup (onSchedule, every 60 min)
 
-- **Features/**: Feature-first organization means each screen flow is self-contained. A developer working on Chat never needs to touch FriendList files.
-- **Services/**: Shared services are protocol-based so ViewModels depend on abstractions, enabling unit testing with mock implementations.
-- **Models/**: Plain structs kept outside features so any ViewModel can reference them without circular imports.
-- **Core/**: Cross-cutting infrastructure (networking, caching, DI) lives here, not inside any feature.
+**Design System:** Bubble Pop with 5 temperature zones (`TemperatureZone`), gradients, `AvatarView`, `BubblePopButton`, `BubblePopTypography`/`BubblePopSpacing`/`BubblePopShadows`.
 
-## Architectural Patterns
+**Deep linking:** `hotandcold://invite/<token>` and `hotandcold://friend/<id>` handled in `onOpenURL`.
 
-### Pattern 1: MVVM with @Observable (iOS 17+)
+**Existing invite flow:** Profile -> Generate invite link -> ShareLink. Token is 12-char UUID prefix stored in `invites/{token}`, deleted after redemption. Redeemer pastes token/URL in AddFriendSheet.
 
-**What:** Each SwiftUI View gets a dedicated ViewModel marked `@Observable`. Views observe only the properties they access — no wasted re-renders.
-**When to use:** All screens. This is the standard SwiftUI architecture as of iOS 17.
-**Trade-offs:** Requires iOS 17+ minimum target. Simpler and more performant than the legacy `ObservableObject` / `@Published` approach.
+---
 
-**Example:**
+## Recommended Architecture for v3.0
+
+### Overview: New and Modified Components
+
+| Component | Type | New/Modified | Responsibility |
+|-----------|------|--------------|----------------|
+| `WeatherCardView` | SwiftUI View | **NEW** | Renders the shareable weather card layout (not displayed in app) |
+| `WeatherCardRenderer` | Service | **NEW** | Wraps `ImageRenderer` to produce UIImage from WeatherCardView |
+| `ShareService` | Service | **NEW** | Coordinates sharing flows (weather cards + invite cards) |
+| `InviteCardView` | SwiftUI View | **NEW** | Visual invite card for share sheet preview |
+| `NudgeService` | Service | **NEW** | Client-side nudge state tracking and display logic |
+| `NudgeBannerView` | SwiftUI View | **NEW** | Non-intrusive nudge banner for FriendListView |
+| `engagementNudgeScheduler` | Cloud Function | **NEW** | Server-side scheduled nudge push notifications |
+| `InviteService` | Service | **MODIFIED** | Persistent invite codes, richer invite data |
+| `WeatherDetailSheet` | SwiftUI View | **MODIFIED** | Add share button for weather cards |
+| `ProfileView` | SwiftUI View | **MODIFIED** | Always-visible invite share, streamlined flow |
+| `FriendsTabView` | SwiftUI View | **MODIFIED** | Add invite button in toolbar, nudge banner |
+| `AppUser` | Model | **MODIFIED** | Add `inviteCode` and `lastActiveAt` fields |
+| `HotAndColdFriendsApp` | App Entry | **MODIFIED** | Inject new services, track lastActiveAt |
+| `UserService` | Service | **MODIFIED** | Add `updateLastActive()` method |
+
+### Environment Injection (follows existing pattern)
+
 ```swift
-@Observable
-final class FriendListViewModel {
-    var friends: [Friend] = []
-    var isLoading = false
-    private let friendService: FriendServiceProtocol
-    private let weatherService: WeatherServiceProtocol
+// In HotAndColdFriendsApp:
+@State private var shareService = ShareService()
+@State private var nudgeService = NudgeService()
 
-    init(friendService: FriendServiceProtocol, weatherService: WeatherServiceProtocol) {
-        self.friendService = friendService
-        self.weatherService = weatherService
-    }
-
-    func loadFriends() async {
-        isLoading = true
-        defer { isLoading = false }
-        friends = await friendService.fetchFriends()
-        // Weather is fetched lazily per card to avoid N+1 API calls at startup
+var body: some Scene {
+    WindowGroup {
+        AppRouter()
+            .environment(shareService)
+            .environment(nudgeService)
+            // ... all existing environments unchanged
     }
 }
+```
 
-struct FriendListView: View {
-    @State private var viewModel = FriendListViewModel(
-        friendService: DependencyContainer.shared.friendService,
-        weatherService: DependencyContainer.shared.weatherService
-    )
+---
+
+## Feature 1: Shareable Weather Cards
+
+### Architecture Decision
+
+Use SwiftUI `ImageRenderer` (available since iOS 16, stable API) for client-side image generation. No server-side rendering needed.
+
+**Why client-side:**
+- Zero latency (no network roundtrip)
+- Full access to Bubble Pop design system (colors, typography, icons, gradients)
+- No Cloud Functions cold start or Node.js canvas complexity
+- No additional backend cost
+
+**Confidence:** HIGH -- `ImageRenderer` is a stable, well-documented Apple API verified in official docs.
+
+### Data Flow
+
+```
+User taps "Share" on WeatherDetailSheet
+  --> WeatherCardRenderer receives FriendWeather data
+  --> Creates WeatherCardView (off-screen SwiftUI view)
+  --> ImageRenderer(@MainActor) renders view to UIImage at 3x scale
+  --> ShareService presents ShareLink with rendered image
+  --> User shares to Instagram/iMessage/WhatsApp etc.
+```
+
+### New Components
+
+#### `WeatherCardView` -- Rendered to image, never displayed in app
+
+```swift
+struct WeatherCardView: View {
+    let friendName: String
+    let city: String
+    let temperatureCelsius: Double
+    let conditionSymbol: String
+    let conditionDescription: String
+    let format: CardFormat
+
+    // Reuses existing DesignSystem:
+    // - TemperatureZone(celsius:) for gradient background
+    // - WeatherIconMapper.icon(for:size:) for condition icon
+    // - BubblePopTypography (.bubbleH1, .bubbleH3, etc.)
+    // - App logo watermark for brand awareness
 
     var body: some View {
-        List(viewModel.friends) { friend in
-            WeatherCardView(friend: friend)
+        // Full-bleed temperature zone gradient background
+        // Large temperature display
+        // Weather icon + condition text
+        // Friend name + city
+        // Subtle "FriendsCast" watermark at bottom
+    }
+}
+
+enum CardFormat {
+    case story    // 9:16 aspect ratio (360x640pt, rendered at 3x = 1080x1920px)
+    case square   // 1:1 aspect ratio (360x360pt, rendered at 3x = 1080x1080px)
+}
+```
+
+**Card dimensions rationale:**
+- Story (9:16): Instagram Stories, WhatsApp Status, Snapchat
+- Square (1:1): Instagram feed, iMessage, general sharing
+- Render at 3x scale for retina quality on all devices
+
+#### `WeatherCardRenderer`
+
+```swift
+@MainActor
+class WeatherCardRenderer {
+    func renderCard(for friendWeather: FriendWeather, format: CardFormat) -> UIImage? {
+        let celsius = friendWeather.temperatureCelsius ?? 0
+        let view = WeatherCardView(
+            friendName: friendWeather.friend.displayName,
+            city: friendWeather.friend.city,
+            temperatureCelsius: celsius,
+            conditionSymbol: friendWeather.symbolName,
+            conditionDescription: friendWeather.conditionDescription,
+            format: format
+        )
+        let renderer = ImageRenderer(content: view)
+        renderer.scale = 3.0  // Critical: default is 1.0, which looks fuzzy
+        return renderer.uiImage
+    }
+}
+```
+
+**Critical constraint:** `ImageRenderer.scale` is isolated to `@MainActor`. All rendering must happen on main actor. This aligns perfectly with the existing `@MainActor` service pattern.
+
+#### `ShareService`
+
+```swift
+@Observable
+@MainActor
+class ShareService {
+    private let cardRenderer = WeatherCardRenderer()
+
+    func weatherCardImage(for fw: FriendWeather, format: CardFormat) -> UIImage? {
+        cardRenderer.renderCard(for: fw, format: format)
+    }
+
+    func inviteCardImage(displayName: String, city: String, inviteCode: String) -> UIImage? {
+        let view = InviteCardView(
+            displayName: displayName,
+            city: city,
+            inviteCode: inviteCode
+        )
+        let renderer = ImageRenderer(content: view)
+        renderer.scale = 3.0
+        return renderer.uiImage
+    }
+}
+```
+
+### Integration Points
+
+| Existing Component | Change Required | Details |
+|--------------------|-----------------|---------|
+| `WeatherDetailSheet` | Add share button | Toolbar trailing button or BubblePopButton below header. Renders card on tap, presents `ShareLink`. |
+| `FriendRowView` | Add context menu | `.contextMenu { Button("Share weather") { ... } }` for quick sharing from list. |
+| `DesignSystem/*` | No changes | WeatherCardView reuses all existing design tokens. |
+| `Info.plist` | Add `LSApplicationQueriesSchemes` | Add `instagram-stories` for direct Instagram sharing. |
+
+### Instagram Stories Deep Integration
+
+```swift
+func shareToInstagramStories(image: UIImage) {
+    guard let url = URL(string: "instagram-stories://share"),
+          UIApplication.shared.canOpenURL(url) else { return }
+
+    let pasteboardItems: [[String: Any]] = [[
+        "com.instagram.sharedSticker.backgroundImage": image.pngData()!
+    ]]
+    UIPasteboard.general.setItems(pasteboardItems)
+    UIApplication.shared.open(url)
+}
+```
+
+Requires `instagram-stories` in `LSApplicationQueriesSchemes` in Info.plist.
+
+---
+
+## Feature 2: Enhanced Invite Flow
+
+### Current Problems
+
+1. **Token is ephemeral** -- deleted after one use, user must regenerate each time
+2. **Custom URL scheme only** -- `hotandcold://` requires app to be installed, no web fallback
+3. **No visual preview** -- sharing a plain URL looks unappealing in iMessage/WhatsApp
+4. **Invite buried in Profile** -- low discoverability, requires navigation to Profile tab
+
+### Recommended Changes
+
+#### A. Persistent Invite Code
+
+Each user gets a permanent invite code stored on their `users/{uid}` document.
+
+**Model change (AppUser):**
+```swift
+struct AppUser: Codable, Identifiable {
+    // ... existing fields ...
+    var inviteCode: String?       // NEW: permanent invite code
+    var lastActiveAt: Timestamp?  // NEW: for nudge scheduling
+}
+```
+
+**Modified InviteService:**
+```swift
+func getOrCreateInviteCode(for uid: String) async throws -> String {
+    let user = try await userService.fetchUser(uid: uid)
+    if let existing = user?.inviteCode {
+        return existing
+    }
+    let code = String(UUID().uuidString.prefix(12)).lowercased()
+    try await db.collection("users").document(uid).updateData(["inviteCode": code])
+
+    // Also create/update the invite lookup document
+    let invite = InviteDocument(
+        senderUid: uid,
+        senderDisplayName: user?.displayName ?? "",
+        senderCity: user?.city ?? ""
+    )
+    try db.collection("invites").document(code).setData(from: invite)
+
+    return code
+}
+```
+
+**Invite redemption change:** Do NOT delete the invite doc after use. Add a `redemptionCount` field for analytics instead. The guard against duplicate friendships already exists in `redeemInvite()`.
+
+**Firestore schema:**
+```
+invites/{code}
+  senderUid: String
+  senderDisplayName: String
+  senderCity: String
+  createdAt: Timestamp
+  + redemptionCount: Number     // NEW: track viral spread
+```
+
+#### B. Universal Links (Replaces custom URL scheme for external sharing)
+
+Firebase Dynamic Links was deprecated and sunset August 2025. Use Apple Universal Links directly.
+
+**Setup required:**
+1. Register a domain (e.g., `friendscast.app` or subdomain of `sandenskog.se`)
+2. Host `apple-app-site-association` (AASA) file at `https://domain/.well-known/apple-app-site-association`
+3. Add Associated Domains entitlement: `applinks:friendscast.app`
+
+**AASA file content:**
+```json
+{
+  "applinks": {
+    "apps": [],
+    "details": [{
+      "appID": "A473BQKT8M.se.sandenskog.hotandcoldfriends",
+      "paths": ["/invite/*"]
+    }]
+  }
+}
+```
+
+**Modified URL handling:**
+```swift
+.onOpenURL { url in
+    // Handle both custom scheme (existing) and universal links (new)
+    let token: String?
+    if url.scheme == "hotandcold", url.host == "invite" {
+        token = url.pathComponents.dropFirst().first
+    } else if url.host == "friendscast.app", url.pathComponents.contains("invite") {
+        token = url.pathComponents.last
+    } else {
+        token = nil
+    }
+
+    if let token {
+        Task {
+            guard let uid = authManager.currentUser?.id else { return }
+            try? await inviteService.redeemInvite(
+                token: token, redeemerUid: uid,
+                friendService: friendService, userService: userService
+            )
         }
-        .task { await viewModel.loadFriends() }
     }
+    // ... existing friend deep link handling
 }
 ```
 
-### Pattern 2: Protocol-Based Services with Dependency Injection
+**Web fallback:** The Universal Link domain should serve a simple landing page that redirects to the App Store when the app isn't installed. A static HTML page hosted on the Synology NAS or a simple Cloudflare Pages site works.
 
-**What:** All external dependencies (Firebase, weather API, OpenAI) are hidden behind Swift protocols. ViewModels receive dependencies via init. A `DependencyContainer` singleton wires everything together at startup.
-**When to use:** Every service. This is non-negotiable for testability and for replacing real services with mocks during testing or the first-run demo state.
-**Trade-offs:** Slight boilerplate for defining protocols, but required for writing unit tests and for swapping live/demo data providers.
+**Confidence:** MEDIUM -- Universal Links setup requires domain configuration and AASA hosting, which is well-documented but needs careful testing.
 
-**Example:**
+#### C. Visual Invite Card (InviteCardView)
+
 ```swift
-protocol WeatherServiceProtocol {
-    func weather(for location: String) async throws -> WeatherData
-}
+struct InviteCardView: View {
+    let displayName: String
+    let city: String
+    let inviteCode: String
 
-// Live implementation
-final class WeatherService: WeatherServiceProtocol {
-    private let cache = Cache<String, WeatherData>(ttl: 1800) // 30 min
-    func weather(for location: String) async throws -> WeatherData {
-        if let cached = cache[location] { return cached }
-        let data = try await networkClient.fetch(WeatherEndpoint(location: location))
-        cache[location] = data
-        return data
-    }
-}
-
-// Demo implementation (used at first-run before user has friends)
-final class DemoWeatherService: WeatherServiceProtocol {
-    func weather(for location: String) async throws -> WeatherData {
-        return WeatherData.demoData(for: location)
+    var body: some View {
+        // Gradient background (bubblePrimary -> bubbleSecondary)
+        // "Join me on FriendsCast!"
+        // Sender avatar + name + city
+        // Invite code or QR code
+        // App Store badge
     }
 }
 ```
 
-### Pattern 3: Firestore Real-Time Listeners in ChatService
+Rendered via `ShareService.inviteCardImage()` and shared alongside the Universal Link URL.
 
-**What:** The ChatService attaches a Firestore `addSnapshotListener` to the active conversation's messages subcollection. New messages arrive in real time without polling.
-**When to use:** Chat screen only. Do not use real-time listeners everywhere — each listener costs a Firestore read and keeps a websocket open.
-**Trade-offs:** Must detach listeners when views disappear (onDisappear / task cancellation) to avoid memory leaks and unnecessary billing.
+#### D. Prominent Invite Placement
 
-**Example:**
+| Location | Implementation | When Shown |
+|----------|---------------|------------|
+| `FriendsTabView` toolbar | Toolbar button (person.badge.plus) | Always |
+| `FriendListView` empty state | Replace current empty state with invite-focused CTA | When 0 real friends |
+| Post-add celebration | Alert/sheet after successful invite redemption | After adding friend |
+| `AddFriendSheet` | Add "Share your invite link" section above token input | Always |
+
+---
+
+## Feature 3: Engagement/Nudge System
+
+### Architecture: Hybrid Client + Server
+
+| Concern | Where | Why |
+|---------|-------|-----|
+| Push notification scheduling | Server (Cloud Function) | Runs when app is closed, accesses all users |
+| In-app nudge display | Client (NudgeService) | Contextual, based on current view state |
+| Nudge state tracking | Client (UserDefaults) + Server (Firestore) | Local for UI, server for push timing |
+
+### Server-Side: New Cloud Function
+
+**File:** `functions/src/engagementNudgeScheduler.ts`
+
+```typescript
+import { onSchedule } from "firebase-functions/v2/scheduler";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import { getMessaging } from "firebase-admin/messaging";
+
+export const engagementNudge = onSchedule(
+  {
+    schedule: "every day 09:00",
+    region: "europe-west1",
+    timeZone: "Europe/Stockholm",
+  },
+  async (_event) => {
+    const db = getFirestore();
+    const cutoff = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000); // 3 days ago
+
+    // Query users inactive for 3+ days
+    const usersSnap = await db.collection("users")
+      .where("lastActiveAt", "<", cutoff)
+      .get();
+
+    for (const userDoc of usersSnap.docs) {
+      const userData = userDoc.data();
+      const fcmToken = userData.fcmToken;
+      if (!fcmToken) continue;
+
+      // Rate-limit: max 1 nudge per 3 days
+      const lastNudge = userData.lastNudgeSentAt?.toDate();
+      if (lastNudge && (Date.now() - lastNudge.getTime()) < 3 * 24 * 60 * 60 * 1000) continue;
+
+      // Fetch a friend's weather for personalization
+      const friendsSnap = await userDoc.ref.collection("friends")
+        .where("isDemo", "==", false)
+        .limit(1)
+        .get();
+
+      const friendName = friendsSnap.docs[0]?.data()?.displayName ?? "your friends";
+
+      // Send personalized nudge
+      await getMessaging().send({
+        token: fcmToken,
+        notification: {
+          title: "What's the weather like?",
+          body: `See what it's like at ${friendName}'s place!`,
+        },
+        apns: { payload: { aps: { sound: "default" } } },
+      });
+
+      await userDoc.ref.update({ lastNudgeSentAt: FieldValue.serverTimestamp() });
+    }
+  }
+);
+```
+
+**Export from index.ts:**
+```typescript
+export { engagementNudge } from "./engagementNudgeScheduler";
+```
+
+**Firestore index needed:** Composite index on `users` collection: `lastActiveAt ASC`.
+
+### Client-Side: NudgeService
+
 ```swift
-final class ChatService: ChatServiceProtocol {
-    private var listener: ListenerRegistration?
+@Observable
+@MainActor
+class NudgeService {
+    private let defaults = UserDefaults.standard
 
-    func listenToMessages(
-        conversationId: String,
-        onUpdate: @escaping ([Message]) -> Void
-    ) {
-        listener = Firestore.firestore()
-            .collection("conversations")
-            .document(conversationId)
-            .collection("messages")
-            .order(by: "timestamp")
-            .addSnapshotListener { snapshot, _ in
-                let messages = snapshot?.documents.compactMap {
-                    try? $0.data(as: Message.self)
-                } ?? []
-                onUpdate(messages)
-            }
+    enum NudgeType: String, CaseIterable {
+        case inviteFriends       // < 3 friends
+        case shareWeatherCard    // Viewed weather detail 3+ times without sharing
+        case enableNotifications // Notifications not granted
     }
 
-    func stopListening() {
-        listener?.remove()
-        listener = nil
+    func activeNudge(friendCount: Int, hasNotifications: Bool) -> NudgeType? {
+        if !hasNotifications && !isDismissed(.enableNotifications) {
+            return .enableNotifications
+        }
+        if friendCount < 3 && !isDismissed(.inviteFriends) {
+            return .inviteFriends
+        }
+        if weatherDetailViewCount >= 3 && !isDismissed(.shareWeatherCard) {
+            return .shareWeatherCard
+        }
+        return nil
+    }
+
+    func dismiss(_ nudge: NudgeType) {
+        defaults.set(true, forKey: "nudge_dismissed_\(nudge.rawValue)")
+    }
+
+    private func isDismissed(_ nudge: NudgeType) -> Bool {
+        defaults.bool(forKey: "nudge_dismissed_\(nudge.rawValue)")
+    }
+
+    var weatherDetailViewCount: Int {
+        get { defaults.integer(forKey: "weather_detail_view_count") }
+        set { defaults.set(newValue, forKey: "weather_detail_view_count") }
     }
 }
 ```
 
-## Data Flow
+### NudgeBannerView (displayed in FriendsTabView)
 
-### Request Flow: Loading Friend Weather Data
+```swift
+struct NudgeBannerView: View {
+    let nudge: NudgeService.NudgeType
+    let onAction: () -> Void
+    let onDismiss: () -> Void
 
-```
-User opens FriendListView
-    ↓
-FriendListView.task { await viewModel.loadFriends() }
-    ↓
-FriendListViewModel → FriendService.fetchFriends()
-    ↓
-FriendService → Firestore: users/{uid}/friends collection
-    ↓
-Return [Friend] with city/country fields
-    ↓
-FriendListViewModel.friends = [Friend]  (View re-renders)
-    ↓
-Each WeatherCardView appears → WeatherCardViewModel.loadWeather()
-    ↓
-WeatherService: check TTL cache → hit? return cached : fetch from API
-    ↓
-WeatherData returned → WeatherCardView shows temperature, icon, conditions
+    var body: some View {
+        HStack {
+            // Icon + message based on nudge type
+            // Action button (BubblePopButton style)
+            // Dismiss "X" button
+        }
+        .padding(Spacing.md)
+        .background(Color.bubblePrimary.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: CornerRadius.md))
+    }
+}
 ```
 
-### Request Flow: Sending a Chat Message
+### lastActiveAt Tracking
 
-```
-User types message and taps Send
-    ↓
-ChatView calls viewModel.send(text:)
-    ↓
-ChatViewModel → ChatService.send(message:toConversation:)
-    ↓
-ChatService: write to Firestore conversations/{id}/messages (new document)
-    ↓
-Firestore snapshot listener (already attached) fires
-    ↓
-ChatService calls onUpdate([Message]) callback
-    ↓
-ChatViewModel.messages updated → ChatView re-renders with new message
-    ↓
-FCM triggers push notification to recipient via Cloud Function
+**UserService addition:**
+```swift
+func updateLastActive(uid: String) async throws {
+    try await db.collection("users").document(uid).updateData([
+        "lastActiveAt": FieldValue.serverTimestamp()
+    ])
+}
 ```
 
-### Request Flow: AI Location Inference at Import
+**Integration in HotAndColdFriendsApp:**
+```swift
+.task {
+    delegate.registerForPushNotifications()
+    if let uid = authManager.currentUser?.id {
+        // NEW: Track app open for nudge scheduling
+        try? await userService.updateLastActive(uid: uid)
 
-```
-User initiates import from social platform
-    ↓
-ImportViewModel receives contact list (names, bios, phone prefixes, etc.)
-    ↓
-ImportViewModel → AILocationService.inferLocations(contacts:)
-    ↓
-AILocationService: batch contacts → POST to secure backend proxy
-    ↓
-Backend proxy → OpenAI Chat Completions API
-    ↓
-Response: [{name, inferredCity, inferredCountry, confidence}]
-    ↓
-ImportViewModel presents results for user confirmation
-    ↓
-User confirms/adjusts locations → FriendService.saveFriends(friends:)
-    ↓
-Friends saved to Firestore with city/country set
+        // Existing: check weather alerts
+        let friends = (try? await friendService.fetchFriends(uid: uid)) ?? []
+        await weatherAlertService.checkAlertsForFriends(uid: uid, friends: allFriends)
+    }
+}
 ```
 
-### State Management
+---
 
-```
-DependencyContainer (singleton, created at app launch)
-    │ provides services to...
-    ▼
-ViewModels (@Observable, owned by Views via @State)
-    │ update published properties →
-    ▼
-SwiftUI Views (re-render only accessed properties — iOS 17 precision tracking)
-    │ user actions →
-    ▼
-async methods on ViewModel → Service calls → Firestore / APIs
-```
+## Patterns to Follow
 
-### Key Data Flows Summary
+### Pattern 1: Service Injection via Environment (existing pattern)
 
-1. **Weather data:** Pulled lazily per friend card, cached 30 minutes with in-memory TTL cache. No background refresh on list mount — avoids N+1 API calls.
-2. **Chat messages:** Pushed in real time via Firestore snapshot listener. Listener attached on ChatView appear, detached on disappear.
-3. **Friend list:** Fetched once on app open from Firestore, cached in ViewModel. Refreshed on pull-to-refresh.
-4. **Push notifications:** FCM token stored in users/{uid} document. Cloud Function sends FCM message when new Firestore message is written.
-5. **First-run demo state:** DemoWeatherService + DemoFriendService inject static live-looking data until user completes onboarding. Swapped for live services after onboarding completes.
+All new services (`ShareService`, `NudgeService`) follow the `@Observable @MainActor` pattern and are injected via `.environment()`. This is the established pattern in the codebase -- no new DI mechanism needed.
 
-## Firestore Data Model
+### Pattern 2: ImageRenderer for All Shareable Content
+
+Use a single `ShareService` that owns the rendering logic for both weather cards and invite cards. Centralizes scale/quality settings and prevents scattered ImageRenderer instances.
+
+### Pattern 3: Cloud Function per Concern (existing pattern)
+
+The new `engagementNudgeScheduler.ts` follows the same structure as existing functions: one file, one export, independent scaling. Exported from `index.ts`.
+
+### Pattern 4: Rate-Limiting via Firestore Timestamps (existing pattern)
+
+Both the weather alert system and the new nudge system use Firestore timestamp fields (`lastAlertSentAt`, `lastNudgeSentAt`) for rate-limiting. Consistent, simple, no additional infrastructure.
+
+---
+
+## Anti-Patterns to Avoid
+
+### Anti-Pattern 1: Server-Side Image Rendering
+
+**What:** Rendering weather card images on the server (Cloud Functions).
+**Why bad:** Cold starts add latency, image rendering in Node.js requires canvas/sharp, increases cost and complexity.
+**Instead:** Client-side `ImageRenderer` -- instant, uses full SwiftUI stack, zero server changes.
+
+### Anti-Pattern 2: Firebase Dynamic Links
+
+**What:** Using Firebase Dynamic Links for invite URLs.
+**Why bad:** Deprecated and sunset August 2025. No longer available.
+**Instead:** Apple Universal Links with AASA file on app domain.
+
+### Anti-Pattern 3: Aggressive Push Notifications
+
+**What:** Sending frequent nudge notifications (daily or more).
+**Why bad:** Users disable notifications or uninstall. iOS throttles excessive notifications. Social weather app should feel warm, not spammy.
+**Instead:** Max 1 nudge per 3 days. Only when genuinely relevant. Always respect user preferences.
+
+### Anti-Pattern 4: Ephemeral Invite Tokens
+
+**What:** Deleting invite tokens after single use (current behavior).
+**Why bad:** Forces users to regenerate links each time. Breaks sharing flow -- user shares a link, second friend tries it, it's already used.
+**Instead:** Persistent invite codes per user. Track redemptions for analytics, but never delete the lookup document.
+
+---
+
+## Firestore Schema Changes Summary
 
 ```
 users/{uid}
-  ├── displayName, email, photoURL, fcmToken
-  ├── friends/{friendId}
-  │     ├── name, photoURL
-  │     ├── city, country (set during import or manually)
-  │     └── locationConfidence: "ai" | "manual" | "unknown"
-  └── conversations/{conversationId}    ← reference only, not messages
-        └── (lightweight: lastMessage, unreadCount, partnerId)
+  + inviteCode: String              // Permanent invite code
+  + lastActiveAt: Timestamp         // Updated on each app open
+  + lastNudgeSentAt: Timestamp      // Rate-limiting for push nudges
 
-conversations/{conversationId}
-  ├── participantIds: [uid1, uid2]
-  ├── lastMessage, lastMessageAt
-  └── messages/{messageId}
-        ├── senderId, text, timestamp
-        └── (no read receipts in v1)
+invites/{code}                      // NO LONGER DELETED on redemption
+  senderUid: String
+  senderDisplayName: String
+  senderCity: String
+  createdAt: Timestamp
+  + redemptionCount: Number         // Track viral spread
+
+// New composite index:
+// users: lastActiveAt ASC (for nudge scheduler query)
 ```
 
-**Conversation ID convention:** Concatenate two sorted UIDs: `min(uid1, uid2) + "_" + max(uid1, uid2)`. Deterministic — starting a conversation never creates duplicates.
+---
 
-## Integration Points
+## Build Order (Dependency-Based)
 
-### External Services
+### Phase 1: Shareable Weather Cards (self-contained, no backend changes)
+1. `WeatherCardView` -- SwiftUI view for rendering
+2. `WeatherCardRenderer` -- ImageRenderer wrapper
+3. `ShareService` -- sharing coordination, environment injection
+4. Integration: share button in `WeatherDetailSheet`
+5. Integration: context menu on `FriendRowView`
+6. Instagram Stories support (Info.plist + URL scheme)
 
-| Service | Integration Pattern | Notes |
-|---------|---------------------|-------|
-| Firebase Auth | SDK + FirebaseUI for social login flows | Handles Google, Facebook, Apple Sign In |
-| Firestore | SDK with snapshot listeners for chat; one-time fetch for friends | Enable offline persistence for resilience |
-| Firebase Cloud Messaging | SDK + APNs token upload; Cloud Functions trigger sends | Requires p8 key uploaded to Firebase console |
-| Weather API (OpenWeather or WeatherAPI.com) | URLSession + async/await, TTL cache | Cache 30 min; global coverage required |
-| OpenAI API | Called via secure backend proxy, NOT directly from app | Exposing API key in iOS app violates OpenAI ToS |
-| MapKit | Native SwiftUI Map view with custom Marker annotations | No external dependency needed |
-| Apple Sign In | ASAuthorizationController (required if Facebook/Google offered) | Apple policy: must offer if other social logins exist |
+### Phase 2: Enhanced Invite Flow (Firestore schema change + potential domain setup)
+1. Add `inviteCode` field to `AppUser` model
+2. Modify `InviteService` for persistent codes (stop deleting on redemption)
+3. `InviteCardView` -- visual invite card for sharing
+4. Move invite CTA to toolbar + empty state + post-add celebration
+5. Universal Links setup (AASA file, entitlements, web fallback page)
 
-### Internal Boundaries
+### Phase 3: Engagement/Nudge System (depends on Phase 2 for invite nudges)
+1. Add `lastActiveAt` tracking to `UserService` + app entry point
+2. `NudgeService` -- client-side nudge display logic
+3. `NudgeBannerView` -- in-app nudge banner in FriendsTabView
+4. `engagementNudgeScheduler` Cloud Function
+5. Export from `index.ts`, deploy, create Firestore index
 
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
-| View → ViewModel | Direct method calls + @Observable binding | Views never talk to Services directly |
-| ViewModel → Service | Protocol methods, async/await | Services are injected, not instantiated in VM |
-| Service → Firebase | Firebase SDK | Firestore, Auth, FCM all use official iOS SDK |
-| Service → Weather API | URLSession (no third-party HTTP lib needed) | Keep it native for reduced dependency surface |
-| ChatService → FCM | Via Cloud Function (server-side trigger) | Client never sends FCM messages directly |
+**Phase ordering rationale:**
+- Phase 1 is entirely client-side with no backend changes or schema migrations
+- Phase 2 requires Firestore schema changes that Phase 3 depends on (`lastActiveAt`, `inviteCode`)
+- Phase 3 nudges reference invite functionality (e.g., "Invite more friends" nudge)
 
-## Build Order Implications
-
-Based on component dependencies, build in this order:
-
-1. **Auth + User Profile** — everything else requires a logged-in user. Firebase Auth with Apple Sign In is the foundation.
-2. **Firestore data layer + Friend model** — the friend list with city/country is required before weather can be displayed.
-3. **Weather Service + Friend List View** — first meaningful screen. Validates weather API choice and card design.
-4. **Onboarding + Demo Data** — first-run experience with 6 favorites. DemoWeatherService lets this be built without real friends.
-5. **Map View** — depends on friends-with-locations being in place. MapKit annotations are straightforward once data exists.
-6. **Chat (Firestore listeners + UI)** — real-time architecture is the most complex feature. Build after core list is stable.
-7. **Push Notifications (FCM + Cloud Functions)** — depends on chat being functional. Cloud Functions required server-side.
-8. **AI Location Import** — depends on auth, friend model, and backend proxy. OpenAI integration adds external dependency risk.
-9. **Social Platform Import** — highest API uncertainty (Facebook/Instagram restrictions). Build last when core value is proven.
-
-## Scaling Considerations
-
-| Scale | Architecture Adjustments |
-|-------|--------------------------|
-| 0-1k users | Current architecture is fine. Single Firestore project, no sharding. |
-| 1k-10k users | Add Firestore security rules audit. Weather API costs increase — verify caching is effective. FCM at this scale is still free tier. |
-| 10k-100k users | Weather API costs become significant — consider a thin backend that caches weather responses server-side. Firestore pricing predictable with well-structured data model. |
-| 100k+ users | Backend weather cache becomes mandatory. Consider moving AI location inference to async queue rather than on-demand. Firestore at this scale is proven (used by major apps). |
-
-### Scaling Priorities
-
-1. **First bottleneck:** Weather API rate limits and cost. Each friend card fetches separately. Shared server-side cache (even a simple Cloud Function) eliminates redundant calls for popular cities.
-2. **Second bottleneck:** Firestore reads for friend lists. Denormalizing weather into friend documents (refreshed by a scheduled Cloud Function) would eliminate per-card weather fetches entirely.
-
-## Anti-Patterns
-
-### Anti-Pattern 1: Fetching Weather for All Friends on List Load
-
-**What people do:** On `FriendListView` appear, call weather API for every friend simultaneously.
-**Why it's wrong:** 20 friends = 20 parallel API calls at startup. Hits rate limits, wastes quota, slows perceived load time.
-**Do this instead:** Fetch weather lazily as each `WeatherCardView` appears on screen (`.task` modifier on card). Or prefetch only the 6 favorites first, others on scroll.
-
-### Anti-Pattern 2: Firestore Snapshot Listeners on Every View
-
-**What people do:** Attach real-time listeners to friend lists, weather data, and chat all at once.
-**Why it's wrong:** Each listener keeps a websocket connection open and triggers a read on every write. Costs money and drains battery.
-**Do this instead:** Use real-time listeners only for chat (where instant updates matter). Friends and weather use one-time fetch + manual refresh.
-
-### Anti-Pattern 3: Calling OpenAI Directly from the iOS App
-
-**What people do:** Put the OpenAI API key in the app bundle or Keychain, call the API directly from Swift.
-**Why it's wrong:** API key can be extracted from the IPA. OpenAI explicitly forbids this in their ToS. Exposes billing to abuse.
-**Do this instead:** Route AI calls through a thin backend proxy (Firebase Cloud Function or a Supabase Edge Function). The iOS app sends a Firebase-authenticated request; the backend holds the API key.
-
-### Anti-Pattern 4: Storing Messages as Array Fields in Firestore Documents
-
-**What people do:** Store all messages for a chat as an array field on the conversation document.
-**Why it's wrong:** Firestore document limit is 1MB. A long chat fills this and writes fail silently until the limit is hit.
-**Do this instead:** Use a `messages` subcollection under each conversation document. Each message is its own document.
-
-### Anti-Pattern 5: Skipping Demo Data for First-Run
-
-**What people do:** Build the real data flow first, add demo data "later."
-**Why it's wrong:** First impression of the app is an empty list. Users churn before adding friends. Demo data is a product requirement, not a nice-to-have.
-**Do this instead:** Implement `DemoFriendService` and `DemoWeatherService` before building the real services. They share the same protocol, so swapping is trivial.
+---
 
 ## Sources
 
-- Modern iOS architecture (MVVM + @Observable): [Medium — Modern iOS Architecture 2025](https://medium.com/@csmax/the-ultimate-guide-to-modern-ios-architecture-in-2025-9f0d5fdc892f), [Medium — MVVM + @Observable iOS 17](https://medium.com/@sayefeddineh/understanding-observable-in-ios-17-the-future-of-swiftui-state-management-9085fe9c3ed8) — MEDIUM confidence (multiple sources agree)
-- Firebase social login + architecture: [Firebase Auth iOS Docs](https://firebase.google.com/docs/auth/ios/start), [Firebase Facebook Login](https://firebase.google.com/docs/auth/ios/facebook-login) — HIGH confidence (official docs)
-- Firestore data model: [Firebase Data Model Docs](https://firebase.google.com/docs/firestore/data-model), [Firestore chat structure](https://medium.com/@henryifebunandu/cloud-firestore-db-structure-for-your-chat-application-64ec77a9f9c0) — HIGH confidence (official docs + community)
-- FCM push notifications iOS: [Firebase FCM iOS Get Started](https://firebase.google.com/docs/cloud-messaging/ios/get-started) — HIGH confidence (official docs)
-- MapKit SwiftUI annotations: [Apple MapKit for SwiftUI Docs](https://developer.apple.com/documentation/mapkit/mapkit-for-swiftui) — HIGH confidence (official docs)
-- OpenAI Swift integration + security: [MacPaw/OpenAI package](https://github.com/MacPaw/OpenAI), [Holdapp SwiftUI + OpenAI](https://www.holdapp.com/blog/ai-apps-swiftui-with-openai-api) — MEDIUM confidence (official GitHub + community)
-- URLSession async/await networking: [avanderlee.com URLSession async/await](https://www.avanderlee.com/concurrency/urlsession-async-await-network-requests-in-swift/) — MEDIUM confidence (well-known iOS blog, widely cited)
-- Weather API caching strategy: [Weather Company API architecture](https://www.weathercompany.com/blog/build-a-scalable-api-architecture-with-smart-strategies/) — MEDIUM confidence (vendor docs)
-
----
-*Architecture research for: Hot & Cold Friends — social weather iOS app*
-*Researched: 2026-03-02*
+- [ImageRenderer | Apple Developer Documentation](https://developer.apple.com/documentation/swiftui/imagerenderer) -- HIGH confidence
+- [ImageRenderer.scale | Apple Developer Documentation](https://developer.apple.com/documentation/swiftui/imagerenderer/scale) -- HIGH confidence
+- [Hacking with Swift: SwiftUI ImageRenderer](https://www.hackingwithswift.com/quick-start/swiftui/how-to-convert-a-swiftui-view-to-an-image) -- HIGH confidence
+- [AppCoda: ImageRenderer in SwiftUI](https://www.appcoda.com/imagerenderer-swiftui/) -- MEDIUM confidence
+- [Swift with Majid: ImageRenderer](https://swiftwithmajid.com/2023/04/18/imagerenderer-in-swiftui/) -- MEDIUM confidence
+- [Firebase: Schedule Functions](https://firebase.google.com/docs/functions/schedule-functions) -- HIGH confidence
+- [Firebase: Cloud Messaging iOS](https://firebase.google.com/docs/cloud-messaging/ios/get-started) -- HIGH confidence
+- [Hacking with Swift: ShareLink](https://www.hackingwithswift.com/books/ios-swiftui/how-to-let-the-user-share-content-with-sharelink) -- HIGH confidence
+- [SwiftUI Lab: Renderers and Their Tricks](https://swiftui-lab.com/swiftui-renders/) -- MEDIUM confidence
