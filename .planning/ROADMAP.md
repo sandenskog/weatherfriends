@@ -113,6 +113,17 @@ Plans:
 Plans:
 - [ ] 13-01-PLAN.md — Utoka BubblePopButton med loading/disabled/reduceMotion och adopta i AddFriendSheet + ProfileView
 
+### Phase 14: Phase 10 Verification + ProfileView Avatar Fix
+**Goal**: Alla Phase 10-krav ar oberoende verifierade, ProfileView anvander AvatarView istallet for egen initialsCircle(), och MotionReducer dead code ar borttagen
+**Depends on**: Phase 13
+**Requirements**: COMP-01, COMP-03, COMP-04, COMP-05, COMP-06, COMP-07
+**Gap Closure**: Closes gaps from audit (6 verification gaps, 1 integration issue, 1 tech debt item)
+**Success Criteria** (what must be TRUE):
+  1. ProfileView anvander AvatarView-komponenten med temperaturzon-gradient — inte egen initialsCircle() med Color(.systemGray5)
+  2. Phase 10 har VERIFICATION.md som bekraftar COMP-01, COMP-03, COMP-04, COMP-05, COMP-06, COMP-07
+  3. MotionReducer convenience-metoder (.motionReduced(), .crossfadeIfReduced()) ar borttagna (dead code)
+**Plans**: TBD
+
 ## Progress
 
 **Execution Order:**
@@ -138,3 +149,4 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 11. Animationer | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 12. Tech Debt | 2/2 | Complete    | 2026-03-06 | - |
 | 13. BubblePopButton Adoption | 1/1 | Complete    | 2026-03-06 | - |
+| 14. Phase 10 Verify + Avatar Fix | v2.0 | 0/0 | Pending | - |
