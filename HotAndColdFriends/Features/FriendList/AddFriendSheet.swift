@@ -73,24 +73,13 @@ struct AddFriendSheet: View {
                     }
 
                     // MARK: - Redeem button
-                    Button {
-                        Task { await redeemInvite() }
-                    } label: {
-                        if isRedeeming {
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                        } else {
-                            Text("Redeem invite")
-                                .font(.body.weight(.medium))
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                        }
-                    }
-                    .background(canRedeem ? Color.primary : Color(.systemGray4))
-                    .foregroundStyle(Color(.systemBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .disabled(!canRedeem || isRedeeming)
+                    BubblePopButton(
+                        title: "Redeem invite",
+                        action: { Task { await redeemInvite() } },
+                        isLoading: isRedeeming,
+                        isDisabled: !canRedeem
+                    )
+                    .frame(maxWidth: .infinity)
                 }
                 .padding()
             }

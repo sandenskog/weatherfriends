@@ -72,23 +72,12 @@ struct ProfileView: View {
                                 }
                                 .padding(.horizontal)
                             } else {
-                                Button {
-                                    Task { await generateInvite() }
-                                } label: {
-                                    if isGeneratingInvite {
-                                        ProgressView()
-                                            .frame(maxWidth: .infinity)
-                                            .padding(.vertical, 10)
-                                    } else {
-                                        Label("Generate invite link", systemImage: "link.badge.plus")
-                                            .font(.subheadline.weight(.medium))
-                                            .frame(maxWidth: .infinity)
-                                            .padding(.vertical, 10)
-                                            .background(Color(.systemGray6))
-                                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    }
-                                }
-                                .disabled(isGeneratingInvite)
+                                BubblePopButton(
+                                    title: "Generate invite link",
+                                    action: { Task { await generateInvite() } },
+                                    isLoading: isGeneratingInvite
+                                )
+                                .frame(maxWidth: .infinity)
                                 .padding(.horizontal)
                             }
 
