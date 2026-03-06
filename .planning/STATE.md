@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Bubble Pop Design + Tech Debt
-status: completed
-stopped_at: Phase 12 context gathered
-last_updated: "2026-03-06T08:11:48.131Z"
+status: in-progress
+stopped_at: Completed 12-02-PLAN.md
+last_updated: "2026-03-06T13:23:54.490Z"
 last_activity: 2026-03-06 — 11-02 Confetti overlay, cloud refresh, staggered list, tab-glow — BUILD SUCCEEDED
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 9
+  completed_plans: 8
   percent: 100
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-04)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 11 — Animationer
+**Current focus:** Phase 12 — Tech Debt
 
 ## Current Position
 
-Phase: 11 of 12 (Animationer)
-Plan: 2 of 2 in current phase (COMPLETE)
-Status: Phase 11 complete — all animation requirements done
-Last activity: 2026-03-06 — 11-02 Confetti overlay, cloud refresh, staggered list, tab-glow — BUILD SUCCEEDED
+Phase: 12 of 12 (Tech Debt)
+Plan: 2 of 3 in current phase
+Status: 12-02 complete — alert refresh and robust cleanup
+Last activity: 2026-03-06 — 12-02 WeatherAlertService environment injection, resilient cleanupUserData — BUILD SUCCEEDED
 
-Progress: [██████████] 100% (7/7 plans complete)
+Progress: [█████████░] 89% (8/9 plans complete)
 
 ## Accumulated Context
 
@@ -60,6 +60,8 @@ Recent decisions affecting current work:
 - [Phase 11-02]: ConfettiOverlay uses TimelineView + Canvas for particle rendering (same pattern as WeatherAnimationView)
 - [Phase 11-02]: CloudRefreshModifier wraps .refreshable with overlay (reliable List integration)
 - [Phase 11-02]: Confetti zone derived from latitude (abs value ranges) since temperature unknown at add-time
+- [Phase 12-02]: Added @Observable to WeatherAlertService — required for @Environment(Type.self) injection pattern
+- [Phase 12-02]: cleanupUserData no longer throws on individual step failure — continues cleanup and only logs errors
 
 ### Pending Todos
 
@@ -72,6 +74,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T08:11:48.127Z
-Stopped at: Phase 12 context gathered
-Resume file: .planning/phases/12-tech-debt/12-CONTEXT.md
+Last session: 2026-03-06T13:23:13Z
+Stopped at: Completed 12-02-PLAN.md
+Resume file: .planning/phases/12-tech-debt/12-02-SUMMARY.md
