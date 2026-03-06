@@ -4,13 +4,13 @@ milestone: v2.0
 milestone_name: Bubble Pop Design + Tech Debt
 status: completed
 stopped_at: Completed 13-01-PLAN.md
-last_updated: "2026-03-06T14:23:07.665Z"
+last_updated: "2026-03-06T14:54:55.978Z"
 last_activity: 2026-03-06 — 13-01 BubblePopButton enhanced with loading/disabled/reduceMotion, adopted in 2 views — BUILD SUCCEEDED
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 5
-  total_plans: 10
-  completed_plans: 10
+  total_plans: 12
+  completed_plans: 11
   percent: 100
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-04)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 13 — BubblePopButton Adoption
+**Current focus:** Phase 14 — Gap Closure (Verify Avatar Fix)
 
 ## Current Position
 
-Phase: 13 of 13 (BubblePopButton Adoption)
+Phase: 14 of 14 (Phase 10 Verify Avatar Fix)
 Plan: 1 of 1 in current phase
-Status: 13-01 complete — BubblePopButton adopted in AddFriendSheet and ProfileView
-Last activity: 2026-03-06 — 13-01 BubblePopButton enhanced with loading/disabled/reduceMotion, adopted in 2 views — BUILD SUCCEEDED
+Status: 14-01 complete — ProfileView uses AvatarView gradient, MotionReducer dead code removed
+Last activity: 2026-03-06 — 14-01 AvatarView replaces initialsCircle in ProfileView, MotionReducer cleaned — BUILD SUCCEEDED
 
-Progress: [██████████] 100% (10/10 plans complete)
+Progress: [██████████] 100% (11/11 plans complete)
 
 ## Accumulated Context
 
@@ -54,7 +54,7 @@ Recent decisions affecting current work:
 - [Phase 10-01]: WeatherAnimationView borttagen från FriendRowView — AvatarView gradient ersätter animationslagret
 - [Phase 10-03]: Widget-target saknar tillgång till DesignSystem — gradient-logik dupliceras lokalt via zoneGradient() och Color(widgetHex:) extension
 - [Phase 10-03]: matchedGeometryEffect kräver @Namespace i samma View-struct — placerat korrekt i FriendsTabView
-- [Phase 11-01]: MotionReducer pattern: .motionReduced() och .crossfadeIfReduced() for Reduce Motion fallback
+- [Phase 11-01]: MotionReducer pattern: modifier(MotionReducedModifier(...)) and modifier(CrossfadeIfReducedModifier(...)) for Reduce Motion fallback
 - [Phase 11-01]: Friend.id ar optional (String?) — nil-safe jamforelse i heartPop-integration
 - [Phase 11-01]: WeatherCondition explicit Equatable for crossfadeIfReduced
 - [Phase 11-02]: ConfettiOverlay uses TimelineView + Canvas for particle rendering (same pattern as WeatherAnimationView)
@@ -66,6 +66,7 @@ Recent decisions affecting current work:
 - [Phase 12-01]: lookupAuthUid kept for ContactImportService/OnboardingViewModel but marked deprecated
 - [Phase 12-01]: Contact-imported friends auto-merged on invite redemption (authUid updated)
 - [Phase 13]: allowsHitTesting over .disabled — BubblePopButton controls own opacity for loading/disabled
+- [Phase 14-01]: AvatarView with nil temperature (arctic gradient fallback) for ProfileView — user has no associated temperature
 
 ### Pending Todos
 
@@ -78,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T14:20:31.233Z
-Stopped at: Completed 13-01-PLAN.md
+Last session: 2026-03-06T14:54:14Z
+Stopped at: Completed 14-01-PLAN.md
 Resume file: None

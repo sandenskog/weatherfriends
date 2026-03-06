@@ -22,7 +22,7 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 - [ ] **COMP-03**: Chattbubblor har gradient (egna) respektive vit med border (andras) med asymmetrisk border radius
 - [ ] **COMP-04**: Väder-stickers kan skickas i chatt som interaktiva kort med temperaturzon-gradient
 - [ ] **COMP-05**: Tab-switcher har pill-form med glow-shadow och scale-animation på aktiv tab
-- [ ] **COMP-06**: Avatarer visar initialer med temperaturzon-gradient och 52x52pt storlek
+- [x] **COMP-06**: Avatarer visar initialer med temperaturzon-gradient och 52x52pt storlek
 - [ ] **COMP-07**: Widgets (small/medium/large) har temperaturzon-gradient bakgrund enligt spec
 
 ### Animationer
@@ -84,7 +84,7 @@ Requirements for Bubble Pop Design + Tech Debt milestone.
 | COMP-03 | Phase 14 | Pending |
 | COMP-04 | Phase 14 | Pending |
 | COMP-05 | Phase 14 | Pending |
-| COMP-06 | Phase 14 | Pending |
+| COMP-06 | Phase 14 | Complete |
 | COMP-07 | Phase 14 | Pending |
 | ANIM-01 | Phase 11 | Complete |
 | ANIM-02 | Phase 11 | Complete |
