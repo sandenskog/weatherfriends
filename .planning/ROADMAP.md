@@ -83,8 +83,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — MotionReducer, HeartPopModifier (favorit-animation) och StickerBounceModifier (chatt-sticker bounce-in)
-- [ ] 11-02-PLAN.md — ConfettiOverlay (ny van), tab-glow, staggerad listanimation och CloudRefresh (pull-to-refresh moln)
+- [x] 11-01-PLAN.md — MotionReducer, HeartPopModifier (favorit-animation) och StickerBounceModifier (chatt-sticker bounce-in)
+- [x] 11-02-PLAN.md — ConfettiOverlay (ny van), tab-glow, staggerad listanimation och CloudRefresh (pull-to-refresh moln)
 
 ### Phase 12: Tech Debt
 **Goal**: Tre identifierade v1.0 tech debt-items är åtgärdade — lookupAuthUid är robust, WeatherAlertService är tillgänglig i hela SwiftUI-trädet och orphaned messages rensas när ett konto raderas
@@ -94,11 +94,11 @@ Plans:
   1. Att lägga till eller chatta med en vän som har samma displayName som en annan användare fungerar korrekt — fel konto matchas inte
   2. Pull-to-refresh i vänlistan triggar WeatherAlertService.checkAlertsForFriends() — inte bara vid cold-start
   3. När ett konto raderas finns inga orphaned messages kvar i Firestore för de konversationer där användaren deltog
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 12-01: Invite-länk eller telefonnummer-baserad lookupAuthUid ersätter displayName-match
-- [ ] 12-02: WeatherAlertService.checkAlertsForFriends() exponeras via SwiftUI environment, orphaned messages cleanup vid kontoborttagning
+- [ ] 12-01-PLAN.md — Invite-link-system ersatter displayName-match (InviteService, AddFriendSheet, ProfileView share)
+- [ ] 12-02-PLAN.md — WeatherAlertService i environment + robust cleanupUserData med reverse friend cleanup
 
 ## Progress
 
@@ -122,5 +122,5 @@ Phases execute in numeric order: 9 → 10 → 11 → 12
 | 8. Integration Fixes | v1.0 | 1/1 | Complete | 2026-03-04 |
 | 9. Design Foundation | v2.0 | 2/2 | Complete | 2026-03-04 |
 | 10. Komponenter | v2.0 | 3/3 | Complete | 2026-03-05 |
-| 11. Animationer | 2/2 | Complete    | 2026-03-06 | - |
+| 11. Animationer | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 12. Tech Debt | v2.0 | 0/2 | Not started | - |
