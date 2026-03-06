@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-8 (shipped 2026-03-04) — [archive](milestones/v1.0-ROADMAP.md)
-- 🚧 **v2.0 Bubble Pop Design + Tech Debt** — Phases 9-13 (in progress)
+- 🚧 **v2.0 Bubble Pop Design + Tech Debt** — Phases 9-15 (in progress)
 
 ## Phases
 
@@ -128,6 +128,16 @@ Plans:
 - [ ] 14-01-PLAN.md — ProfileView AvatarView-integration och MotionReducer dead code cleanup
 - [ ] 14-02-PLAN.md — Phase 10 VERIFICATION.md for COMP-01, COMP-03, COMP-04, COMP-05, COMP-06, COMP-07
 
+### Phase 15: Design System Cleanup
+**Goal**: AvatarView adopteras i alla vyer som visar avatarer och MotionReducer dead code tas bort — appen har konsekvent visuell identitet utan orphaned kod
+**Depends on**: Phase 14
+**Requirements**: COMP-06
+**Gap Closure**: Closes tech debt from v2.0 audit (AvatarView extended adoption, MotionReducer dead code)
+**Success Criteria** (what must be TRUE):
+  1. Alla vyer som visar avatarer anvander AvatarView med temperaturzon-gradient — inga graa initialsCircle() kvarstar
+  2. MotionReducer.swift innehaller bara anvanda structs — inga orphaned MotionReducedModifier eller CrossfadeIfReducedModifier
+**Plans**: 0 plans (pending)
+
 ## Progress
 
 **Execution Order:**
@@ -154,3 +164,4 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13 → 14
 | 12. Tech Debt | 2/2 | Complete    | 2026-03-06 | - |
 | 13. BubblePopButton Adoption | 1/1 | Complete    | 2026-03-06 | - |
 | 14. Phase 10 Verify + Avatar Fix | 2/2 | Complete    | 2026-03-06 | - |
+| 15. Design System Cleanup | 0/0 | Pending     | - | - |
