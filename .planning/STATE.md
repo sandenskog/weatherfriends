@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Bubble Pop Design + Tech Debt
 status: completed
-stopped_at: Completed 12-01-PLAN.md
-last_updated: "2026-03-06T13:44:59.623Z"
-last_activity: 2026-03-06 — 12-01 InviteService, invite-link AddFriendSheet, ProfileView share button — BUILD SUCCEEDED
+stopped_at: Completed 13-01-PLAN.md
+last_updated: "2026-03-06T14:20:31.235Z"
+last_activity: 2026-03-06 — 13-01 BubblePopButton enhanced with loading/disabled/reduceMotion, adopted in 2 views — BUILD SUCCEEDED
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 9
-  completed_plans: 9
+  total_phases: 5
+  completed_phases: 5
+  total_plans: 10
+  completed_plans: 10
   percent: 100
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-04)
 
 **Core value:** Öppna appen och omedelbart se hur vädret är hos dina vänner — sorterat, visuellt och levande — så att vädret blir en naturlig anledning att höra av sig.
-**Current focus:** Phase 12 — Tech Debt
+**Current focus:** Phase 13 — BubblePopButton Adoption
 
 ## Current Position
 
-Phase: 12 of 12 (Tech Debt)
-Plan: 3 of 3 in current phase
-Status: 12-01 complete — invite-link system replaces displayName lookups
-Last activity: 2026-03-06 — 12-01 InviteService, invite-link AddFriendSheet, ProfileView share button — BUILD SUCCEEDED
+Phase: 13 of 13 (BubblePopButton Adoption)
+Plan: 1 of 1 in current phase
+Status: 13-01 complete — BubblePopButton adopted in AddFriendSheet and ProfileView
+Last activity: 2026-03-06 — 13-01 BubblePopButton enhanced with loading/disabled/reduceMotion, adopted in 2 views — BUILD SUCCEEDED
 
-Progress: [██████████] 100% (9/9 plans complete)
+Progress: [██████████] 100% (10/10 plans complete)
 
 ## Accumulated Context
 
@@ -65,6 +65,7 @@ Recent decisions affecting current work:
 - [Phase 12-01]: Invite tokens are 12-char lowercase UUID prefixes in Firestore 'invites' collection
 - [Phase 12-01]: lookupAuthUid kept for ContactImportService/OnboardingViewModel but marked deprecated
 - [Phase 12-01]: Contact-imported friends auto-merged on invite redemption (authUid updated)
+- [Phase 13]: allowsHitTesting over .disabled — BubblePopButton controls own opacity for loading/disabled
 
 ### Pending Todos
 
@@ -77,6 +78,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06T13:24:44Z
-Stopped at: Completed 12-01-PLAN.md
-Resume file: .planning/phases/12-tech-debt/12-01-SUMMARY.md
+Last session: 2026-03-06T14:20:31.233Z
+Stopped at: Completed 13-01-PLAN.md
+Resume file: None
