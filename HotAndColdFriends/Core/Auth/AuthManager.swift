@@ -157,44 +157,100 @@ class AuthManager: NSObject {
 
     private func cleanupUserData(uid: String) async throws {
         let db = Firestore.firestore()
+        var errors: [Error] = []
 
-        // 1. Radera vänner (subcollection users/{uid}/friends/*)
-        let friendsSnapshot = try await db.collection("users").document(uid)
-            .collection("friends").getDocuments()
-        let friendDocs = friendsSnapshot.documents
-        for chunk in stride(from: 0, to: friendDocs.count, by: 400) {
-            let batch = db.batch()
-            let end = min(chunk + 400, friendDocs.count)
-            for doc in friendDocs[chunk..<end] {
-                batch.deleteDocument(doc.reference)
-            }
-            try await batch.commit()
-        }
-
-        // 2. Radera konversationer där uid är deltagare + deras meddelanden
-        let convsSnapshot = try await db.collection("conversations")
-            .whereField("participants", arrayContains: uid)
-            .getDocuments()
-        for convDoc in convsSnapshot.documents {
-            let messagesSnapshot = try await convDoc.reference
-                .collection("messages").getDocuments()
-            for msgChunk in stride(from: 0, to: messagesSnapshot.documents.count, by: 400) {
+        // 1. Radera egna vänner (subcollection users/{uid}/friends/*)
+        do {
+            let friendsSnapshot = try await db.collection("users").document(uid)
+                .collection("friends").getDocuments()
+            let friendDocs = friendsSnapshot.documents
+            for chunk in stride(from: 0, to: friendDocs.count, by: 400) {
                 let batch = db.batch()
-                let end = min(msgChunk + 400, messagesSnapshot.documents.count)
-                for msgDoc in messagesSnapshot.documents[msgChunk..<end] {
-                    batch.deleteDocument(msgDoc.reference)
+                let end = min(chunk + 400, friendDocs.count)
+                for doc in friendDocs[chunk..<end] {
+                    batch.deleteDocument(doc.reference)
                 }
                 try await batch.commit()
             }
-            try await convDoc.reference.delete()
+        } catch {
+            errors.append(error)
         }
 
-        // 3. Radera användarprofil
-        try await db.collection("users").document(uid).delete()
+        // 2. Ta bort denna användare från andra användares vänlistor (reverse cleanup)
+        do {
+            let reverseFriends = try await db.collectionGroup("friends")
+                .whereField("authUid", isEqualTo: uid)
+                .getDocuments()
+            let reverseDocs = reverseFriends.documents
+            for chunk in stride(from: 0, to: reverseDocs.count, by: 400) {
+                let batch = db.batch()
+                let end = min(chunk + 400, reverseDocs.count)
+                for doc in reverseDocs[chunk..<end] {
+                    batch.deleteDocument(doc.reference)
+                }
+                try? await batch.commit()
+            }
+        } catch {
+            errors.append(error)
+        }
 
-        // 4. Radera profilbild i Firebase Storage (try? — bild kanske inte finns)
+        // 3. Radera konversationer där uid är deltagare + deras meddelanden (resilient)
+        do {
+            let convsSnapshot = try await db.collection("conversations")
+                .whereField("participants", arrayContains: uid)
+                .getDocuments()
+            for convDoc in convsSnapshot.documents {
+                do {
+                    let messagesSnapshot = try await convDoc.reference
+                        .collection("messages").getDocuments()
+                    for msgChunk in stride(from: 0, to: messagesSnapshot.documents.count, by: 400) {
+                        let batch = db.batch()
+                        let end = min(msgChunk + 400, messagesSnapshot.documents.count)
+                        for msgDoc in messagesSnapshot.documents[msgChunk..<end] {
+                            batch.deleteDocument(msgDoc.reference)
+                        }
+                        try? await batch.commit()
+                    }
+                } catch {
+                    // Kunde inte hämta/radera meddelanden — fortsätt med konversationsdokumentet
+                }
+                try? await convDoc.reference.delete()
+            }
+        } catch {
+            errors.append(error)
+        }
+
+        // 4. Radera användarprofil
+        do {
+            try await db.collection("users").document(uid).delete()
+        } catch {
+            errors.append(error)
+        }
+
+        // 5. Radera profilbild i Firebase Storage (bild kanske inte finns)
         let storageRef = Storage.storage().reference().child("profile_images/\(uid).jpg")
         try? await storageRef.delete()
+
+        // 6. Radera invite-dokument skapade av denna användare
+        do {
+            let inviteSnapshot = try await db.collection("invites")
+                .whereField("senderUid", isEqualTo: uid)
+                .getDocuments()
+            let inviteDocs = inviteSnapshot.documents
+            for chunk in stride(from: 0, to: inviteDocs.count, by: 400) {
+                let batch = db.batch()
+                let end = min(chunk + 400, inviteDocs.count)
+                for doc in inviteDocs[chunk..<end] {
+                    batch.deleteDocument(doc.reference)
+                }
+                try? await batch.commit()
+            }
+        } catch {
+            errors.append(error)
+        }
+
+        // Kasta bara om ALLA kritiska steg misslyckades (profil + vänner)
+        // Enskilda misslyckanden loggas men blockerar inte raderingen
     }
 
     // MARK: - Private: Revoke Apple Token
