@@ -134,8 +134,6 @@ private struct FriendWeatherCard: View {
     var body: some View {
         VStack(spacing: 8) {
             profileImage
-                .frame(width: 44, height: 44)
-                .clipShape(Circle())
 
             Text(
                 friendWeather.friend.displayName
@@ -160,36 +158,12 @@ private struct FriendWeatherCard: View {
         )
     }
 
-    @ViewBuilder
     private var profileImage: some View {
-        if let urlString = friendWeather.friend.photoURL,
-           let url = URL(string: urlString) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                default:
-                    initialsCircle
-                }
-            }
-        } else {
-            initialsCircle
-        }
-    }
-
-    private var initialsCircle: some View {
-        ZStack {
-            Circle()
-                .fill(Color(.systemGray5))
-            Text(initials(from: friendWeather.friend.displayName))
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
-        }
-    }
-
-    private func initials(from name: String) -> String {
-        let parts = name.split(separator: " ")
-        let letters = parts.prefix(2).compactMap { $0.first.map { String($0) } }
-        return letters.joined().uppercased()
+        AvatarView(
+            displayName: friendWeather.friend.displayName,
+            temperatureCelsius: friendWeather.temperatureCelsius,
+            size: 44,
+            photoURL: friendWeather.friend.photoURL
+        )
     }
 }

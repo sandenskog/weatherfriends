@@ -147,43 +147,20 @@ struct EditProfileView: View {
 
     @ViewBuilder
     private var profileImageView: some View {
-        ZStack {
-            if let image = profileImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .clipShape(Circle())
-            } else if let user = viewModel.user, let url = user.profileImageURL {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image.resizable().scaledToFill().clipShape(Circle())
-                    default:
-                        initialsCircle
-                    }
-                }
-            } else {
-                initialsCircle
-            }
+        if let image = profileImage {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 90, height: 90)
+                .clipShape(Circle())
+        } else {
+            AvatarView(
+                displayName: displayName,
+                temperatureCelsius: nil,
+                size: 90,
+                photoURL: viewModel.user?.profileImageURL?.absoluteString
+            )
         }
-    }
-
-    private var initialsCircle: some View {
-        ZStack {
-            Circle().fill(Color(.systemGray5))
-            Text(initials(from: displayName))
-                .font(.system(size: 32, weight: .medium))
-                .foregroundStyle(.secondary)
-        }
-    }
-
-    private func initials(from name: String) -> String {
-        let parts = name.trimmingCharacters(in: .whitespacesAndNewlines)
-            .components(separatedBy: .whitespaces).filter { !$0.isEmpty }
-        let first = parts.first?.first.map(String.init) ?? ""
-        let last = parts.count > 1 ? (parts.last?.first.map(String.init) ?? "") : ""
-        let result = (first + last).uppercased()
-        return result.isEmpty ? "?" : result
     }
 
     // MARK: - Actions

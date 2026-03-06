@@ -73,9 +73,12 @@ struct WeatherDetailSheet: View {
                 showFriendProfile = true
             } label: {
                 VStack(spacing: 8) {
-                    profileImage
-                        .frame(width: 80, height: 80)
-                        .clipShape(Circle())
+                    AvatarView(
+                        displayName: friendWeather.friend.displayName,
+                        temperatureCelsius: friendWeather.temperatureCelsius,
+                        size: 80,
+                        photoURL: friendWeather.friend.photoURL
+                    )
 
                     Text(friendWeather.friend.displayName)
                         .font(.title2.weight(.semibold))
@@ -222,40 +225,6 @@ struct WeatherDetailSheet: View {
             .background(Color(.secondarySystemGroupedBackground))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
-    }
-
-    // MARK: - Profile Image
-
-    @ViewBuilder
-    private var profileImage: some View {
-        if let urlString = friendWeather.friend.photoURL, let url = URL(string: urlString) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                default:
-                    initialsCircle(size: 80)
-                }
-            }
-        } else {
-            initialsCircle(size: 80)
-        }
-    }
-
-    private func initialsCircle(size: CGFloat) -> some View {
-        ZStack {
-            Circle().fill(Color(.systemGray5))
-            Text(initials(from: friendWeather.friend.displayName))
-                .font(.title2.weight(.semibold))
-                .foregroundStyle(.secondary)
-        }
-        .frame(width: size, height: size)
-    }
-
-    private func initials(from name: String) -> String {
-        let parts = name.split(separator: " ")
-        let letters = parts.prefix(2).compactMap { $0.first.map { String($0) } }
-        return letters.joined().uppercased()
     }
 
     // MARK: - Data Loading

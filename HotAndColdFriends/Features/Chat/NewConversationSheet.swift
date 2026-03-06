@@ -118,8 +118,6 @@ struct NewConversationSheet: View {
             } label: {
                 HStack(spacing: 12) {
                     profileImage(for: friend)
-                        .frame(width: 36, height: 36)
-                        .clipShape(Circle())
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(friend.displayName)
@@ -150,8 +148,6 @@ struct NewConversationSheet: View {
             } label: {
                 HStack(spacing: 12) {
                     profileImage(for: friend)
-                        .frame(width: 36, height: 36)
-                        .clipShape(Circle())
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(friend.displayName)
@@ -174,31 +170,13 @@ struct NewConversationSheet: View {
         }
     }
 
-    @ViewBuilder
     private func profileImage(for friend: Friend) -> some View {
-        if let urlString = friend.photoURL, let url = URL(string: urlString) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                default:
-                    initialsCircle(name: friend.displayName)
-                }
-            }
-        } else {
-            initialsCircle(name: friend.displayName)
-        }
-    }
-
-    private func initialsCircle(name: String) -> some View {
-        ZStack {
-            Circle().fill(Color(.systemGray5))
-            let parts = name.split(separator: " ")
-            let letters = parts.prefix(2).compactMap { $0.first.map { String($0) } }
-            Text(letters.joined().uppercased())
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
-        }
+        AvatarView(
+            displayName: friend.displayName,
+            temperatureCelsius: nil,
+            size: 36,
+            photoURL: friend.photoURL
+        )
     }
 
     // MARK: - Actions

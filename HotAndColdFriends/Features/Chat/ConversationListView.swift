@@ -122,8 +122,6 @@ private struct ConversationRowView: View {
     var body: some View {
         HStack(spacing: 12) {
             profileImage
-                .frame(width: 44, height: 44)
-                .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
@@ -157,40 +155,22 @@ private struct ConversationRowView: View {
 
     @ViewBuilder
     private var profileImage: some View {
-        if let urlString = otherUser?.photoURL, let url = URL(string: urlString) {
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .success(let image):
-                    image.resizable().scaledToFill()
-                default:
-                    initialsCircle
-                }
-            }
-        } else if conversation.isGroup {
+        if conversation.isGroup {
             ZStack {
                 Circle().fill(Color(.systemGray5))
                 Image(systemName: "person.3.fill")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            .frame(width: 44, height: 44)
         } else {
-            initialsCircle
+            AvatarView(
+                displayName: displayName,
+                temperatureCelsius: nil,
+                size: 44,
+                photoURL: otherUser?.photoURL
+            )
         }
-    }
-
-    private var initialsCircle: some View {
-        ZStack {
-            Circle().fill(Color(.systemGray5))
-            Text(initials(from: displayName))
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.secondary)
-        }
-    }
-
-    private func initials(from name: String) -> String {
-        let parts = name.split(separator: " ")
-        let letters = parts.prefix(2).compactMap { $0.first.map { String($0) } }
-        return letters.joined().uppercased()
     }
 
     private func loadWeather() async {
