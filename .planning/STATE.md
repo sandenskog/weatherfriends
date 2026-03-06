@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Virality & Polish
-status: defining-requirements
+status: ready-to-plan
 stopped_at: null
 last_updated: "2026-03-06"
-last_activity: 2026-03-06 — Milestone v3.0 started
+last_activity: 2026-03-06 — Roadmap created for v3.0
 progress:
-  total_phases: 0
+  total_phases: 5
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,15 +20,30 @@ progress:
 
 See: .planning/PROJECT.md (updated 2026-03-06)
 
-**Core value:** Oppna appen och omedelbart se hur vadret ar hos dina vanner -- sorterat, visuellt och levande -- sa att vadret blir en naturlig anledning att hora av sig.
-**Current focus:** Defining requirements for v3.0 Virality & Polish
+**Core value:** Oeppna appen och omedelbart se hur vaedret aer hos dina vaenner -- sorterat, visuellt och levande -- saa att vaedret blir en naturlig anledning att hoera av sig.
+**Current focus:** Phase 16 - Invite Foundation
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-03-06 — Milestone v3.0 started
+Phase: 16 of 20 (Invite Foundation)
+Plan: Ready to plan
+Status: Ready to plan
+Last activity: 2026-03-06 — Roadmap created for v3.0
+
+Progress: [░░░░░░░░░░] 0%
+
+## Performance Metrics
+
+**Velocity:**
+- Total plans completed: 0 (v3.0)
+- Average duration: -
+- Total execution time: -
+
+**By Phase:**
+
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| - | - | - | - |
 
 ## Accumulated Context
 
@@ -42,11 +57,12 @@ None.
 
 ### Blockers/Concerns
 
-- Firestore collectionGroup("friends") composite index on authUid must be verified in Firebase console before production
-- BubblePopTypography/Spacing adoption incomplete (3/11 and 2/11 views) — cosmetic, not blocking
+- Domain for Universal Links not yet decided -- apps.sandenskog.se or new friendscast.app domain. Must decide before Phase 16 implementation.
+- Firestore collectionGroup("friends") composite index on authUid must be verified in Firebase console
+- Instagram Stories URL scheme is undocumented -- must guard with canOpenURL and degrade gracefully
 
 ## Session Continuity
 
 Last session: 2026-03-06
-Stopped at: Defining requirements
+Stopped at: Roadmap created, ready to plan Phase 16
 Resume file: None
