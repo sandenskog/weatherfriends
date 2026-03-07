@@ -11,6 +11,7 @@ struct FriendListView: View {
     let authManager: AuthManager
 
     @State private var heartPopFriendId: String?
+    @State private var shareTarget: FriendWeather?
     @Environment(WeatherAlertService.self) private var weatherAlertService
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -41,6 +42,9 @@ struct FriendListView: View {
                     }
                 }
                 .listStyle(.insetGrouped)
+                .sheet(item: $shareTarget) { fw in
+                    WeatherCardPreviewSheet(friendWeather: fw)
+                }
                 .cloudRefreshable {
                     guard let uid else { return }
                     await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService)
@@ -129,6 +133,14 @@ struct FriendListView: View {
                     .onTapGesture {
                         selectedFriendWeather = fw
                     }
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        Button {
+                            shareTarget = fw
+                        } label: {
+                            Label("Share", systemImage: "square.and.arrow.up")
+                        }
+                        .tint(.blue)
+                    }
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button {
                             if let fid = fw.friend.id { triggerHeartPop(friendId: fid) }
@@ -168,6 +180,14 @@ struct FriendListView: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedFriendWeather = fw
+                    }
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        Button {
+                            shareTarget = fw
+                        } label: {
+                            Label("Share", systemImage: "square.and.arrow.up")
+                        }
+                        .tint(.blue)
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button {
