@@ -84,6 +84,7 @@
 		D3AB8C23696CE09363855001 /* NewConversationSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986FCC0691322A4C8D26A54C /* NewConversationSheet.swift */; };
 		D3F12FC7FC22B4A683338628 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 0E207B2F3C8877482BDA8A6D /* FacebookLogin */; };
 		DB96D71A82A7DB0129E10913 /* Baloo2-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9FEBE43327806CD4E3FAFF63 /* Baloo2-ExtraBold.ttf */; };
+		DC3D382142AC654055F9305B /* ClipboardInviteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF46E7CA8E81D63A0C3F1AD7 /* ClipboardInviteService.swift */; };
 		DD39A0BACDC411EC18D61E72 /* ImportReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */; };
 		E291650E579207ED6B7CE35C /* Baloo2-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F7AB47D6D726781EE5B56E3 /* Baloo2-Regular.ttf */; };
 		E367E5B04B89BFFD0875E007 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AADA557D58C83067C0A07B /* AppDelegate.swift */; };
@@ -97,6 +98,9 @@
 		F6B45EA42E056C7427F067E8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B639990872A0AD5664410044 /* LoginView.swift */; };
 		FD49AECC6F0DBCCFD7332371 /* FriendProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B4A9387ECDC78DA98932C0 /* FriendProfileView.swift */; };
 		FE434D8804CA0C7AEAE41340 /* OnboardingPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340E3F3E57693FB11E4F7A83 /* OnboardingPhotoView.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* WeatherCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7A8B9C0D1E2F /* WeatherCardBackground.swift */; };
+		B2C3D4E5F6A7B8C9D0E1F2A3 /* WeatherCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C4D5E6F7A8B9C0D1E2F3A /* WeatherCardView.swift */; };
+		C3D4E5F6A7B8C9D0E1F2A3B4 /* WeatherCardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D5E6F7A8B9C0D1E2F3A4B /* WeatherCardRenderer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +196,7 @@
 		C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWeatherService.swift; sourceTree = "<group>"; };
 		C823460B236F30515A2B6BA4 /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		C9FBAFC9CE5CD8CA5A655350 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		CF46E7CA8E81D63A0C3F1AD7 /* ClipboardInviteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardInviteService.swift; sourceTree = "<group>"; };
 		D318457A3208319B531E0026 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		D61A57D22D42675824C7C3A1 /* HeartPopModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartPopModifier.swift; sourceTree = "<group>"; };
 		DB73DE87C26C659D7FA9B19C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -209,6 +214,9 @@
 		F9C117DE07274F16E9DFE153 /* ImportReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportReviewView.swift; sourceTree = "<group>"; };
 		FA1EFF0A6534ACFB54468414 /* BubblePopButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubblePopButton.swift; sourceTree = "<group>"; };
 		FD9B9FB773AAD71C1FFBC0A9 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F7A8B9C0D1E2F /* WeatherCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardBackground.swift; sourceTree = "<group>"; };
+		2B3C4D5E6F7A8B9C0D1E2F3A /* WeatherCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardView.swift; sourceTree = "<group>"; };
+		3C4D5E6F7A8B9C0D1E2F3A4B /* WeatherCardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +354,7 @@
 			children = (
 				C7AEAB277B4D4E5B28E34FEC /* AppWeatherService.swift */,
 				C823460B236F30515A2B6BA4 /* ChatService.swift */,
+				CF46E7CA8E81D63A0C3F1AD7 /* ClipboardInviteService.swift */,
 				94BD41B30E138D13CBFB02F6 /* ContactImportService.swift */,
 				57A43CF1210845D602D8EA8A /* DailyWeatherNotificationService.swift */,
 				4808F3AA5DCC2DF144C3D737 /* DemoFriendService.swift */,
@@ -487,8 +496,19 @@
 				252155F44BE65BC89B423DE6 /* Login */,
 				A04772A4227A1B1808693CCA /* Onboarding */,
 				E901A952B0803E6034180815 /* Profile */,
+				4D5E6F7A8B9C0D1E2F3A4B5C /* WeatherCard */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		4D5E6F7A8B9C0D1E2F3A4B5C /* WeatherCard */ = {
+			isa = PBXGroup;
+			children = (
+				1A2B3C4D5E6F7A8B9C0D1E2F /* WeatherCardBackground.swift */,
+				3C4D5E6F7A8B9C0D1E2F3A4B /* WeatherCardRenderer.swift */,
+				2B3C4D5E6F7A8B9C0D1E2F3A /* WeatherCardView.swift */,
+			);
+			path = WeatherCard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -626,6 +646,7 @@
 				43B3A4CD67349EE853E277F1 /* ChatService.swift in Sources */,
 				1076B577218F0D9FB02F95A6 /* ChatView.swift in Sources */,
 				CCFC4ED925834CEC5A5EA8EE /* ChatViewModel.swift in Sources */,
+				DC3D382142AC654055F9305B /* ClipboardInviteService.swift in Sources */,
 				3433F80A0AF0751699B9A708 /* CloudRefreshModifier.swift in Sources */,
 				17E26C84BD53AE831F06DE99 /* ConfettiOverlay.swift in Sources */,
 				76D58889D5DD6FEBC491DCC0 /* ContactImportRow.swift in Sources */,
@@ -675,6 +696,9 @@
 				8C5DDD1B3D5EF71814EA8F19 /* WeatherHeaderView.swift in Sources */,
 				7EFC29424D21BCCDE654E849 /* WeatherIconMapper.swift in Sources */,
 				104A6991155EBF8F20498249 /* WeatherStickerView.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* WeatherCardBackground.swift in Sources */,
+				B2C3D4E5F6A7B8C9D0E1F2A3 /* WeatherCardView.swift in Sources */,
+				C3D4E5F6A7B8C9D0E1F2A3B4 /* WeatherCardRenderer.swift in Sources */,
 				91B378E9C6224101CEFA458F /* WidgetFriendEntry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
