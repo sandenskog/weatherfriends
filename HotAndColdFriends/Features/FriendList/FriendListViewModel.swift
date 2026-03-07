@@ -7,6 +7,7 @@ import WidgetKit
 class FriendListViewModel {
     var favorites: [FriendWeather] = []
     var others: [FriendWeather] = []
+    var myWeather: FriendWeather?
     var isLoading = false
     var errorMessage: String?
     var showDemoBanner = false
@@ -14,7 +15,7 @@ class FriendListViewModel {
 
     // MARK: - Load
 
-    func load(uid: String, friendService: FriendService, weatherService: AppWeatherService) async {
+    func load(uid: String, friendService: FriendService, weatherService: AppWeatherService, currentUser: AppUser? = nil) async {
         isLoading = true
         defer { isLoading = false }
         errorMessage = nil
@@ -38,6 +39,27 @@ class FriendListViewModel {
             }
             favorites = sorted.filter { $0.friend.isFavorite }
             others = sorted.filter { !$0.friend.isFavorite }
+
+            // Hämta användarens eget väder
+            if let user = currentUser,
+               let lat = user.cityLatitude,
+               let lon = user.cityLongitude {
+                let meFriend = Friend(
+                    id: user.id,
+                    authUid: user.id,
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                    city: user.city,
+                    cityLatitude: lat,
+                    cityLongitude: lon
+                )
+                do {
+                    let weather = try await weatherService.currentWeather(latitude: lat, longitude: lon)
+                    myWeather = FriendWeather(friend: meFriend, weather: weather)
+                } catch {
+                    myWeather = FriendWeather(friend: meFriend, weather: nil)
+                }
+            }
 
             // Skriv favoriter till delad UserDefaults för widget
             updateWidgetData(favorites: self.favorites)
@@ -107,9 +129,9 @@ class FriendListViewModel {
 
     // MARK: - Refresh
 
-    func refresh(uid: String, friendService: FriendService, weatherService: AppWeatherService) async {
+    func refresh(uid: String, friendService: FriendService, weatherService: AppWeatherService, currentUser: AppUser? = nil) async {
         await weatherService.clearCache()
-        await load(uid: uid, friendService: friendService, weatherService: weatherService)
+        await load(uid: uid, friendService: friendService, weatherService: weatherService, currentUser: currentUser)
     }
 
     // MARK: - Widget Data

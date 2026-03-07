@@ -27,6 +27,14 @@ struct FriendListView: View {
                 emptyStateFriends
             } else {
                 List {
+                    if let myWeather = viewModel.myWeather {
+                        Section {
+                            MyWeatherCard(myWeather: myWeather, onShare: { shareTarget = myWeather })
+                        }
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                    }
+
                     if viewModel.showDemoBanner {
                         demoBanner
                     }
@@ -47,7 +55,7 @@ struct FriendListView: View {
                 }
                 .cloudRefreshable {
                     guard let uid else { return }
-                    await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService)
+                    await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService, currentUser: authManager.currentUser)
                     // Trigger alert check with refreshed friend data
                     let allFriends = viewModel.favorites.map(\.friend) + viewModel.others.map(\.friend)
                     await weatherAlertService.checkAlertsForFriends(uid: uid, friends: allFriends)

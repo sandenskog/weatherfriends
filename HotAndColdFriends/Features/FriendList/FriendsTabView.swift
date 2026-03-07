@@ -165,7 +165,7 @@ struct FriendsTabView: View {
             if let uid = authManager.currentUser?.id {
                 AddFriendSheet(uid: uid, friendService: friendService) {
                     Task {
-                        await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
+                        await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService, currentUser: authManager.currentUser)
                     }
                 }
             }
@@ -174,7 +174,7 @@ struct FriendsTabView: View {
             if let uid = authManager.currentUser?.id {
                 ContactImportView(uid: uid, friendService: friendService) {
                     Task {
-                        await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
+                        await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService, currentUser: authManager.currentUser)
                     }
                 }
             }
@@ -194,7 +194,7 @@ struct FriendsTabView: View {
         }
         .task {
             guard let uid = authManager.currentUser?.id else { return }
-            await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService)
+            await viewModel.load(uid: uid, friendService: friendService, weatherService: weatherService, currentUser: authManager.currentUser)
             // Schemalägg daglig notis med aktuell favoritdata
             await dailyNotificationService.schedule(favorites: viewModel.favorites)
         }
