@@ -32,6 +32,7 @@ struct HotAndColdFriendsApp: App {
     var body: some Scene {
         WindowGroup {
             AppRouter()
+                .preferredColorScheme(.light)
                 .environment(authManager)
                 .environment(userService)
                 .environment(appWeatherService)
