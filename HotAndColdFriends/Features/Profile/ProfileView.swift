@@ -169,7 +169,7 @@ struct ProfileView: View {
         isGeneratingInvite = true
         defer { isGeneratingInvite = false }
         do {
-            let token = try await inviteService.createInviteToken(for: uid, userService: userService)
+            let token = try await inviteService.getOrCreateInviteToken(for: uid, userService: userService)
             inviteURL = inviteService.inviteURL(token: token)
         } catch {
             deleteError = error.localizedDescription

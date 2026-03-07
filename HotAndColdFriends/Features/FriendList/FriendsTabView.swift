@@ -17,6 +17,8 @@ struct FriendsTabView: View {
     @Environment(AppWeatherService.self) private var weatherService
     @Environment(FriendService.self) private var friendService
     @Environment(WeatherAlertService.self) private var weatherAlertService
+    @Environment(InviteService.self) private var inviteService
+    @Environment(UserService.self) private var userService
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var selectedTab: FriendsTab = .list
@@ -27,6 +29,7 @@ struct FriendsTabView: View {
     @State private var showAddFriend = false
     @State private var showContactImport = false
     @State private var attribution: WeatherAttribution?
+    @State private var inviteURL: URL?
     @Namespace private var tabNamespace
 
     private var tabSwitcher: some View {
@@ -110,6 +113,12 @@ struct FriendsTabView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(spacing: 12) {
+                        if let inviteURL {
+                            ShareLink(item: inviteURL) {
+                                Image(systemName: "square.and.arrow.up")
+                                    .font(.body.weight(.medium))
+                            }
+                        }
                         Menu {
                             Button {
                                 showAddFriend = true
@@ -187,6 +196,12 @@ struct FriendsTabView: View {
         }
         .task {
             attribution = try? await weatherService.attribution
+        }
+        .task {
+            guard let uid = authManager.currentUser?.id else { return }
+            if let token = try? await inviteService.getOrCreateInviteToken(for: uid, userService: userService) {
+                inviteURL = inviteService.inviteURL(token: token)
+            }
         }
         .onChange(of: openWeatherAlertFriendId) { _, friendId in
             guard let friendId, !viewModel.isLoading else { return }

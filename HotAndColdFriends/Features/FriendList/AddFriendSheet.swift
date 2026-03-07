@@ -14,11 +14,37 @@ struct AddFriendSheet: View {
     @State private var successName: String?
     @State private var showConfetti = false
     @State private var confettiZone: TemperatureZone = .warm
+    @State private var inviteToken: String?
+    @State private var inviteURL: URL?
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
+                    // MARK: - Share your invite link
+                    VStack(spacing: 12) {
+                        if let inviteURL {
+                            ShareLink(item: inviteURL) {
+                                Label("Invite via Link", systemImage: "square.and.arrow.up")
+                                    .font(.subheadline.weight(.medium))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 10)
+                                    .background(Color(.systemGray6))
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                        }
+                    }
+                    .padding(.top, 8)
+
+                    // MARK: - Divider
+                    HStack {
+                        Rectangle().frame(height: 1).foregroundStyle(.quaternary)
+                        Text("or redeem a friend's link")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Rectangle().frame(height: 1).foregroundStyle(.quaternary)
+                    }
+
                     // MARK: - Explanation
                     VStack(spacing: 12) {
                         Image(systemName: "link.badge.plus")
@@ -33,7 +59,6 @@ struct AddFriendSheet: View {
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                     }
-                    .padding(.top, 8)
 
                     // MARK: - Token input
                     VStack(alignment: .leading, spacing: 8) {
@@ -99,6 +124,15 @@ struct AddFriendSheet: View {
                 Text(errorMessage ?? "")
             }
             .confettiOverlay(isActive: $showConfetti, zone: confettiZone)
+            .task {
+                do {
+                    let token = try await inviteService.getOrCreateInviteToken(for: uid, userService: userService)
+                    inviteURL = inviteService.inviteURL(token: token)
+                    inviteToken = token
+                } catch {
+                    // Non-critical — user can still redeem links manually
+                }
+            }
         }
     }
 
@@ -111,7 +145,14 @@ struct AddFriendSheet: View {
     /// Extracts the token from either a full URL or raw token input
     private var extractedToken: String {
         let trimmed = tokenInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        // Handle full URL: hotandcold://invite/<token>
+        // Handle HTTPS Universal Link: https://apps.sandenskog.se/invite/<token>
+        if let url = URL(string: trimmed),
+           url.host == "apps.sandenskog.se",
+           url.pathComponents.count >= 3,
+           url.pathComponents[1] == "invite" {
+            return url.pathComponents[2]
+        }
+        // Handle legacy custom scheme: hotandcold://invite/<token>
         if let url = URL(string: trimmed),
            url.scheme == "hotandcold",
            url.host == "invite",
