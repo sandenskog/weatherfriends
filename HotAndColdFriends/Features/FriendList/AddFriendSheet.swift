@@ -149,9 +149,9 @@ struct AddFriendSheet: View {
     /// Extracts the token from either a full URL or raw token input
     private var extractedToken: String {
         let trimmed = tokenInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        // Handle HTTPS Universal Link: https://apps.sandenskog.se/invite/<token>
+        // Handle HTTPS Universal Link: https://friendscast.sandenskog.se/invite/<token>
         if let url = URL(string: trimmed),
-           url.host == "apps.sandenskog.se",
+           url.host == "friendscast.sandenskog.se",
            url.pathComponents.count >= 3,
            url.pathComponents[1] == "invite" {
             return url.pathComponents[2]

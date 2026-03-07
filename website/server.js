@@ -1,13 +1,18 @@
 const express = require('express');
 const path = require('path');
-const admin = require('firebase-admin');
 
-// Initialize Firebase Admin with application default credentials
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-});
+let db = null;
+try {
+  const admin = require('firebase-admin');
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+  });
+  db = admin.firestore();
+  console.log('Firebase initialized');
+} catch (err) {
+  console.warn('Firebase not available — invite lookups will use fallback:', err.message);
+}
 
-const db = admin.firestore();
 const app = express();
 const PORT = process.env.PORT || 80;
 
@@ -26,6 +31,20 @@ app.get('/invite/:token', async (req, res) => {
   const { token } = req.params;
 
   try {
+    if (!db) {
+      // No Firebase — render with generic info
+      const userAgent = req.headers['user-agent'] || '';
+      return res.render('invite', {
+        valid: true,
+        senderName: 'A friend',
+        senderCity: '',
+        token,
+        isIOS: /iPhone|iPad|iPod/i.test(userAgent),
+        isAndroid: /Android/i.test(userAgent),
+        appStoreUrl: 'https://apps.apple.com/app/id6760045281',
+      });
+    }
+
     const doc = await db.collection('invites').doc(token).get();
 
     if (!doc.exists) {

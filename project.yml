@@ -70,7 +70,7 @@ targets:
         com.apple.security.application-groups:
           - group.se.sandenskog.hotandcoldfriends
         com.apple.developer.associated-domains:
-          - applinks:apps.sandenskog.se
+          - applinks:friendscast.sandenskog.se
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: se.sandenskog.hotandcoldfriends

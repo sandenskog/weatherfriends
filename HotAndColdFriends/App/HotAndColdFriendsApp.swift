@@ -42,8 +42,8 @@ struct HotAndColdFriendsApp: App {
                 .environment(inviteService)
                 .environment(clipboardInviteService)
                 .onOpenURL { url in
-                    // Handle Universal Links: https://apps.sandenskog.se/invite/<token>
-                    if url.host == "apps.sandenskog.se",
+                    // Handle Universal Links: https://friendscast.sandenskog.se/invite/<token>
+                    if url.host == "friendscast.sandenskog.se",
                        url.pathComponents.count >= 3,
                        url.pathComponents[1] == "invite" {
                         let token = url.pathComponents[2]

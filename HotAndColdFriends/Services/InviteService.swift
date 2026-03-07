@@ -86,7 +86,7 @@ class InviteService {
 
     /// Builds the invite deep link URL for the given token.
     func inviteURL(token: String) -> URL {
-        URL(string: "https://apps.sandenskog.se/invite/\(token)")!
+        URL(string: "https://friendscast.sandenskog.se/invite/\(token)")!
     }
 
     /// Looks up an invite document by token.
