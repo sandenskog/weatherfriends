@@ -11,8 +11,8 @@ Requirements for v3.0 Virality & Polish. Each maps to roadmap phases.
 
 - [x] **INVT-01**: Invite-laenkar anvaender Universal Links (HTTPS) istaellet foer custom URL scheme
 - [x] **INVT-02**: Web fallback-sida visas foer anvaendare utan appen installerad, med App Store-redirect
-- [ ] **INVT-03**: Invite-koder aer persistenta och kan anvaendas flera gaanger
-- [ ] **INVT-04**: Deferred deep link — invite-token sparas och loeses in efter signup foer ej inloggade anvaendare
+- [x] **INVT-03**: Invite-koder aer persistenta och kan anvaendas flera gaanger
+- [x] **INVT-04**: Deferred deep link — invite-token sparas och loeses in efter signup foer ej inloggade anvaendare
 - [ ] **INVT-05**: Invite-celebration med Bubble Pop-animation naer en vaen accepterar invite
 
 ### Shareable Weather Cards
@@ -71,8 +71,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | INVT-01 | Phase 16 | Complete |
 | INVT-02 | Phase 16 | Complete |
-| INVT-03 | Phase 16 | Pending |
-| INVT-04 | Phase 16 | Pending |
+| INVT-03 | Phase 16 | Complete |
+| INVT-04 | Phase 16 | Complete |
 | INVT-05 | Phase 18 | Pending |
 | CARD-01 | Phase 17 | Pending |
 | CARD-02 | Phase 17 | Pending |

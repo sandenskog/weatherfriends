@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Virality & Polish
 status: executing
-stopped_at: Completed 16-01-PLAN.md
-last_updated: "2026-03-07T08:28:23.785Z"
-last_activity: 2026-03-06 — Roadmap created for v3.0
+stopped_at: Completed 16-02-PLAN.md
+last_updated: "2026-03-07T09:43:22.400Z"
+last_activity: 2026-03-07 — Completed 16-01 invite web infrastructure
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
-  percent: 0
+  completed_plans: 2
+  percent: 50
 ---
 
 # Project State
@@ -44,6 +44,7 @@ Progress: [█████░░░░░] 50%
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 16-invite-foundation | 1/2 | 2min | 2min |
+| Phase 16 P02 | 15min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -54,6 +55,8 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [16-01] Inline CSS in invite.ejs — single-page simplicity
 - [16-01] Clipboard format friendscast-invite:token:timestamp for iOS deferred deep link
 - [16-01] Firebase Admin with applicationDefault() — GOOGLE_APPLICATION_CREDENTIALS required at runtime
+- [Phase 16-02]: Invite codes permanent multi-use via redeemedBy array
+- [Phase 16-02]: ShareLink subject/message params for rich iMessage previews
 
 ### Pending Todos
 
@@ -67,6 +70,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-07T08:28:00Z
-Stopped at: Completed 16-01-PLAN.md
-Resume file: .planning/phases/16-invite-foundation/16-01-SUMMARY.md
+Last session: 2026-03-07T09:43:22.398Z
+Stopped at: Completed 16-02-PLAN.md
+Resume file: None
