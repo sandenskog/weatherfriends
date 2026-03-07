@@ -1,0 +1,17 @@
+{
+  "name": "friendscast-website",
+  "version": "1.0.0",
+  "description": "FriendsCast website with invite landing pages and Universal Links",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "firebase-admin": "^12.7.0",
+    "ejs": "^3.1.10"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

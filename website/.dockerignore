@@ -1,0 +1,5 @@
+node_modules/
+.git
+@eaDir
+**/@eaDir
+firebase-service-account.json

@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["A473BQKT8M.se.sandenskog.hotandcoldfriends"],
+        "components": [
+          { "/": "/invite/*", "comment": "Invite deep links" }
+        ]
+      }
+    ]
+  }
+}
