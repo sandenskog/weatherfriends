@@ -61,11 +61,11 @@
   2. User utan appen installerad ser en webbsida med App Store-laenk och app-branding naer de klickar invite-laenken
   3. User som installerar appen via invite-laenk blir automatiskt vaen med inbjudaren efter signup (deferred deep link)
   4. Invite-kod kan anvaendas av flera personer utan att bli ogiltig
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 16-01: TBD
-- [ ] 16-02: TBD
+- [ ] 16-01-PLAN.md — Web: AASA-fil, Express-server och dynamisk invite-fallback-sida
+- [ ] 16-02-PLAN.md — iOS: Persistent invite-koder, Universal Links, clipboard deferred deep link
 
 ### Phase 17: Shareable Weather Cards
 **Goal**: Anvaendare kan skapa snygga vaederbilder och dela dem utanfoer appen foer att driva organisk synlighet
@@ -150,7 +150,7 @@ Phases execute in numeric order: 16 -> 17 -> 18 -> 19 -> 20
 | 13. BubblePopButton Adoption | v2.0 | 1/1 | Complete | 2026-03-06 |
 | 14. Phase 10 Verify + Avatar Fix | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 15. Design System Cleanup | v2.0 | 1/1 | Complete | 2026-03-06 |
-| 16. Invite Foundation | v3.0 | 0/? | Not started | - |
+| 16. Invite Foundation | v3.0 | 0/2 | In progress | - |
 | 17. Shareable Weather Cards | v3.0 | 0/? | Not started | - |
 | 18. Comparison Cards & Invite Polish | v3.0 | 0/? | Not started | - |
 | 19. Engagement Loops | v3.0 | 0/? | Not started | - |
