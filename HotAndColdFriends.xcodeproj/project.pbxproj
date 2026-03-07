@@ -101,6 +101,7 @@
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* WeatherCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7A8B9C0D1E2F /* WeatherCardBackground.swift */; };
 		B2C3D4E5F6A7B8C9D0E1F2A3 /* WeatherCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C4D5E6F7A8B9C0D1E2F3A /* WeatherCardView.swift */; };
 		C3D4E5F6A7B8C9D0E1F2A3B4 /* WeatherCardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D5E6F7A8B9C0D1E2F3A4B /* WeatherCardRenderer.swift */; };
+		D4E5F6A7B8C9D0E1F2A3B4C5 /* InstagramStoriesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5F6A7B8C9D0E1F2A3B4C5D /* InstagramStoriesService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,6 +218,7 @@
 		1A2B3C4D5E6F7A8B9C0D1E2F /* WeatherCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardBackground.swift; sourceTree = "<group>"; };
 		2B3C4D5E6F7A8B9C0D1E2F3A /* WeatherCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardView.swift; sourceTree = "<group>"; };
 		3C4D5E6F7A8B9C0D1E2F3A4B /* WeatherCardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCardRenderer.swift; sourceTree = "<group>"; };
+		4E5F6A7B8C9D0E1F2A3B4C5D /* InstagramStoriesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoriesService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,6 +506,7 @@
 		4D5E6F7A8B9C0D1E2F3A4B5C /* WeatherCard */ = {
 			isa = PBXGroup;
 			children = (
+				4E5F6A7B8C9D0E1F2A3B4C5D /* InstagramStoriesService.swift */,
 				1A2B3C4D5E6F7A8B9C0D1E2F /* WeatherCardBackground.swift */,
 				3C4D5E6F7A8B9C0D1E2F3A4B /* WeatherCardRenderer.swift */,
 				2B3C4D5E6F7A8B9C0D1E2F3A /* WeatherCardView.swift */,
@@ -699,6 +702,7 @@
 				A1B2C3D4E5F6A7B8C9D0E1F2 /* WeatherCardBackground.swift in Sources */,
 				B2C3D4E5F6A7B8C9D0E1F2A3 /* WeatherCardView.swift in Sources */,
 				C3D4E5F6A7B8C9D0E1F2A3B4 /* WeatherCardRenderer.swift in Sources */,
+				D4E5F6A7B8C9D0E1F2A3B4C5 /* InstagramStoriesService.swift in Sources */,
 				91B378E9C6224101CEFA458F /* WidgetFriendEntry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
