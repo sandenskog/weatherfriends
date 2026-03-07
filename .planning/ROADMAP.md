@@ -45,7 +45,7 @@
 **Milestone Goal:** Goer appen visuellt komplett, bygg invite-upplevelse som driver viralitet, och skapa delnings- och engagemangs-loopar.
 
 - [x] **Phase 16: Invite Foundation** - Universal Links, web fallback, persistent codes och deferred deep link (completed 2026-03-07)
-- [ ] **Phase 17: Shareable Weather Cards** - Generera och dela vaederkort via share sheet och Instagram Stories
+- [x] **Phase 17: Shareable Weather Cards** - Generera och dela vaederkort via share sheet och Instagram Stories (completed 2026-03-07)
 - [ ] **Phase 18: Comparison Cards & Invite Polish** - Me vs You-kort, daglig digest och invite-celebration
 - [ ] **Phase 19: Engagement Loops** - Vaeder-nudges, re-engagement push och notification budget
 - [ ] **Phase 20: Visual Polish** - Full BubblePop-adoption i alla vyer och haptics
@@ -151,7 +151,7 @@ Phases execute in numeric order: 16 -> 17 -> 18 -> 19 -> 20
 | 14. Phase 10 Verify + Avatar Fix | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 15. Design System Cleanup | v2.0 | 1/1 | Complete | 2026-03-06 |
 | 16. Invite Foundation | 2/2 | Complete    | 2026-03-07 | - |
-| 17. Shareable Weather Cards | 1/2 | In Progress|  | - |
+| 17. Shareable Weather Cards | 2/2 | Complete   | 2026-03-07 | - |
 | 18. Comparison Cards & Invite Polish | v3.0 | 0/? | Not started | - |
 | 19. Engagement Loops | v3.0 | 0/? | Not started | - |
 | 20. Visual Polish | v3.0 | 0/? | Not started | - |

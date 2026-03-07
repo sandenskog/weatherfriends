@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Virality & Polish
 status: executing
-stopped_at: Completed 17-01-PLAN.md
-last_updated: "2026-03-07T14:33:38Z"
-last_activity: 2026-03-07 — Completed 17-01 weather card view and renderer
+stopped_at: Completed 17-02-PLAN.md
+last_updated: "2026-03-07T15:10:33Z"
+last_activity: 2026-03-07 — Completed 17-02 sharing flow with preview sheet and Instagram Stories
 progress:
   total_phases: 5
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  completed_phases: 2
+  total_plans: 4
+  completed_plans: 4
   percent: 60
 ---
 
@@ -26,18 +26,18 @@ See: .planning/PROJECT.md (updated 2026-03-06)
 ## Current Position
 
 Phase: 17 of 20 (Shareable Weather Cards)
-Plan: 1 of 2 complete
-Status: Executing
-Last activity: 2026-03-07 — Completed 17-01 weather card view and renderer
+Plan: 2 of 2 complete
+Status: Phase Complete
+Last activity: 2026-03-07 — Completed 17-02 sharing flow with preview sheet and Instagram Stories
 
-Progress: [██████░░░░] 60%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1 (v3.0)
-- Average duration: 2min
-- Total execution time: 2min
+- Total plans completed: 4 (v3.0)
+- Average duration: 6min
+- Total execution time: 24min
 
 **By Phase:**
 
@@ -45,7 +45,7 @@ Progress: [██████░░░░] 60%
 |-------|-------|-------|----------|
 | 16-invite-foundation | 1/2 | 2min | 2min |
 | Phase 16 P02 | 15min | 3 tasks | 8 files |
-| 17-shareable-weather-cards | 1/2 | 5min | 5min |
+| 17-shareable-weather-cards | 2/2 | 7min | 3.5min |
 
 ## Accumulated Context
 
@@ -60,6 +60,8 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 16-02]: ShareLink subject/message params for rich iMessage previews
 - [17-01] Avatar uses gradient+initials only (no photoURL) for ImageRenderer compatibility
 - [17-01] Asset fallback pattern: try UIImage(named:) first, fall to gradient
+- [17-02] AuthManager property is currentUser?.id (not user?.uid as plan assumed)
+- [17-02] Instagram Stories sharing via UIPasteboard with 5-minute expiration
 
 ### Pending Todos
 
@@ -73,6 +75,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-07T14:33:38Z
-Stopped at: Completed 17-01-PLAN.md
-Resume file: .planning/phases/17-shareable-weather-cards/17-01-SUMMARY.md
+Last session: 2026-03-07T15:10:33Z
+Stopped at: Completed 17-02-PLAN.md
+Resume file: .planning/phases/17-shareable-weather-cards/17-02-SUMMARY.md
