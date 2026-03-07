@@ -17,7 +17,7 @@ Requirements for v3.0 Virality & Polish. Each maps to roadmap phases.
 
 ### Shareable Weather Cards
 
-- [ ] **CARD-01**: User kan generera ett statiskt vaederkort (bild) foer en vaen med vaeder, stad och avatar
+- [x] **CARD-01**: User kan generera ett statiskt vaederkort (bild) foer en vaen med vaeder, stad och avatar
 - [ ] **CARD-02**: User kan dela vaederkort via systemets share sheet
 - [ ] **CARD-03**: User kan generera "Me vs You" jaemfoerelsekort med tvaa vaenner sida vid sida
 - [ ] **CARD-04**: User kan dela vaederkort direkt till Instagram Stories
@@ -74,7 +74,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INVT-03 | Phase 16 | Complete |
 | INVT-04 | Phase 16 | Complete |
 | INVT-05 | Phase 18 | Pending |
-| CARD-01 | Phase 17 | Pending |
+| CARD-01 | Phase 17 | Complete |
 | CARD-02 | Phase 17 | Pending |
 | CARD-03 | Phase 18 | Pending |
 | CARD-04 | Phase 17 | Pending |

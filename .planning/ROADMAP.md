@@ -151,7 +151,7 @@ Phases execute in numeric order: 16 -> 17 -> 18 -> 19 -> 20
 | 14. Phase 10 Verify + Avatar Fix | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 15. Design System Cleanup | v2.0 | 1/1 | Complete | 2026-03-06 |
 | 16. Invite Foundation | 2/2 | Complete    | 2026-03-07 | - |
-| 17. Shareable Weather Cards | v3.0 | 0/2 | Not started | - |
+| 17. Shareable Weather Cards | 1/2 | In Progress|  | - |
 | 18. Comparison Cards & Invite Polish | v3.0 | 0/? | Not started | - |
 | 19. Engagement Loops | v3.0 | 0/? | Not started | - |
 | 20. Visual Polish | v3.0 | 0/? | Not started | - |
