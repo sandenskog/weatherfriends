@@ -114,7 +114,11 @@ struct FriendsTabView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(spacing: 12) {
                         if let inviteURL {
-                            ShareLink(item: inviteURL) {
+                            ShareLink(
+                                item: inviteURL,
+                                subject: Text("FriendsCast"),
+                                message: Text("\(authManager.currentUser?.displayName ?? "I") invited you to FriendsCast — see the weather where your friends are!")
+                            ) {
                                 Image(systemName: "square.and.arrow.up")
                                     .font(.body.weight(.medium))
                             }

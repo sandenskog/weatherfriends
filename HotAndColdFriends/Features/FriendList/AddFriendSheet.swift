@@ -24,7 +24,11 @@ struct AddFriendSheet: View {
                     // MARK: - Share your invite link
                     VStack(spacing: 12) {
                         if let inviteURL {
-                            ShareLink(item: inviteURL) {
+                            ShareLink(
+                                item: inviteURL,
+                                subject: Text("FriendsCast"),
+                                message: Text("Join me on FriendsCast — see the weather where your friends are!")
+                            ) {
                                 Label("Invite via Link", systemImage: "square.and.arrow.up")
                                     .font(.subheadline.weight(.medium))
                                     .frame(maxWidth: .infinity)

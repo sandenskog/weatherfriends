@@ -62,7 +62,11 @@ struct ProfileView: View {
 
                             // Share invite link
                             if let inviteURL {
-                                ShareLink(item: inviteURL) {
+                                ShareLink(
+                                    item: inviteURL,
+                                    subject: Text("FriendsCast"),
+                                    message: Text("\(viewModel.user?.displayName ?? "I") invited you to FriendsCast — see the weather where your friends are!")
+                                ) {
                                     Label("Share my invite link", systemImage: "square.and.arrow.up")
                                         .font(.subheadline.weight(.medium))
                                         .frame(maxWidth: .infinity)
