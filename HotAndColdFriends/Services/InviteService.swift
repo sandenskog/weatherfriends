@@ -7,14 +7,22 @@ struct InviteDocument: Codable {
     var senderUid: String
     var senderDisplayName: String
     var senderCity: String
+    var redeemedBy: [String]
     @ServerTimestamp var createdAt: Timestamp?
+
+    init(senderUid: String, senderDisplayName: String, senderCity: String, redeemedBy: [String] = []) {
+        self.senderUid = senderUid
+        self.senderDisplayName = senderDisplayName
+        self.senderCity = senderCity
+        self.redeemedBy = redeemedBy
+    }
 }
 
 // MARK: - InviteError
 
 enum InviteError: LocalizedError {
     case invalidToken
-    case alreadyRedeemed
+    case alreadyFriends
     case selfInvite
     case tokenCreationFailed
 
@@ -22,8 +30,8 @@ enum InviteError: LocalizedError {
         switch self {
         case .invalidToken:
             return "This invite link is invalid or has expired."
-        case .alreadyRedeemed:
-            return "This invite link has already been used."
+        case .alreadyFriends:
+            return "You are already friends with this person."
         case .selfInvite:
             return "You can't use your own invite link."
         case .tokenCreationFailed:
@@ -39,9 +47,26 @@ enum InviteError: LocalizedError {
 class InviteService {
     private let db = Firestore.firestore()
 
-    /// Creates an invite token for the given user and stores it in Firestore.
+    /// Gets the existing invite token for the user, or creates a new one if none exists.
+    /// Invite tokens are permanent and multi-use (not deleted after redemption).
+    func getOrCreateInviteToken(for uid: String, userService: UserService) async throws -> String {
+        // Check for existing invite token
+        let snapshot = try await db.collection("invites")
+            .whereField("senderUid", isEqualTo: uid)
+            .limit(to: 1)
+            .getDocuments()
+
+        if let existingDoc = snapshot.documents.first {
+            return existingDoc.documentID
+        }
+
+        // No existing token — create a new one
+        return try await createInviteToken(for: uid, userService: userService)
+    }
+
+    /// Creates a new invite token for the given user and stores it in Firestore.
     /// Returns the token string (12-char lowercase UUID prefix).
-    func createInviteToken(for uid: String, userService: UserService) async throws -> String {
+    private func createInviteToken(for uid: String, userService: UserService) async throws -> String {
         guard let user = try await userService.fetchUser(uid: uid) else {
             throw InviteError.tokenCreationFailed
         }
@@ -51,7 +76,8 @@ class InviteService {
         let invite = InviteDocument(
             senderUid: uid,
             senderDisplayName: user.displayName,
-            senderCity: user.city
+            senderCity: user.city,
+            redeemedBy: []
         )
 
         try db.collection("invites").document(token).setData(from: invite)
@@ -60,7 +86,7 @@ class InviteService {
 
     /// Builds the invite deep link URL for the given token.
     func inviteURL(token: String) -> URL {
-        URL(string: "hotandcold://invite/\(token)")!
+        URL(string: "https://apps.sandenskog.se/invite/\(token)")!
     }
 
     /// Looks up an invite document by token.
@@ -73,7 +99,7 @@ class InviteService {
     /// Redeems an invite: creates mutual friendship between sender and redeemer.
     /// If the redeemer already has a contact-imported friend matching the sender's displayName,
     /// that friend's authUid is updated instead of creating a duplicate.
-    /// The invite document is deleted after successful redemption.
+    /// The invite document is kept (permanent, multi-use) and the redeemer is added to redeemedBy.
     func redeemInvite(
         token: String,
         redeemerUid: String,
@@ -90,13 +116,18 @@ class InviteService {
             throw InviteError.selfInvite
         }
 
-        // 3. Get redeemer profile
+        // 3. Check if already redeemed by this user or already friends
+        let redeemerFriends = try await friendService.fetchFriends(uid: redeemerUid)
+        if invite.redeemedBy.contains(redeemerUid) || redeemerFriends.contains(where: { $0.authUid == invite.senderUid }) {
+            throw InviteError.alreadyFriends
+        }
+
+        // 4. Get redeemer profile
         guard let redeemer = try await userService.fetchUser(uid: redeemerUid) else {
             throw InviteError.tokenCreationFailed
         }
 
-        // 4. Check if redeemer already has sender as friend (merge contact-imported friend)
-        let redeemerFriends = try await friendService.fetchFriends(uid: redeemerUid)
+        // 5. Check if redeemer already has sender as contact-imported friend (merge)
         let existingFriend = redeemerFriends.first { friend in
             friend.displayName == invite.senderDisplayName && friend.authUid == nil
         }
@@ -109,8 +140,8 @@ class InviteService {
                 .collection("friends")
                 .document(friendId)
                 .updateData(["authUid": invite.senderUid])
-        } else if !redeemerFriends.contains(where: { $0.authUid == invite.senderUid }) {
-            // Add sender as friend of redeemer (only if not already friends)
+        } else {
+            // Add sender as friend of redeemer
             let senderAsFriend = Friend(
                 authUid: invite.senderUid,
                 displayName: invite.senderDisplayName,
@@ -121,7 +152,7 @@ class InviteService {
             try await friendService.addFriend(uid: redeemerUid, friend: senderAsFriend)
         }
 
-        // 5. Add redeemer as friend of sender (check for existing contact-imported friend too)
+        // 6. Add redeemer as friend of sender (check for existing contact-imported friend too)
         let senderFriends = try await friendService.fetchFriends(uid: invite.senderUid)
         let existingSenderFriend = senderFriends.first { friend in
             friend.displayName == redeemer.displayName && friend.authUid == nil
@@ -147,7 +178,9 @@ class InviteService {
             try await friendService.addFriend(uid: invite.senderUid, friend: redeemerAsFriend)
         }
 
-        // 6. Delete invite doc after successful redemption
-        try await db.collection("invites").document(token).delete()
+        // 7. Record redemption (keep invite doc — permanent, multi-use)
+        try await db.collection("invites").document(token).updateData([
+            "redeemedBy": FieldValue.arrayUnion([redeemerUid])
+        ])
     }
 }

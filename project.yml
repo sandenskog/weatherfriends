@@ -16,6 +16,8 @@ settings:
     DEVELOPMENT_TEAM: "A473BQKT8M"
 
 packages:
+  AnimationKit:
+    path: AnimationKit
   Firebase:
     url: https://github.com/firebase/firebase-ios-sdk.git
     from: "11.0.0"
@@ -56,6 +58,7 @@ targets:
         product: FacebookLogin
       - package: Firebase
         product: FirebaseMessaging
+      - package: AnimationKit
       - target: HotAndColdFriendsWidgetExtension
         embed: true
     entitlements:
@@ -66,6 +69,8 @@ targets:
           - Default
         com.apple.security.application-groups:
           - group.se.sandenskog.hotandcoldfriends
+        com.apple.developer.associated-domains:
+          - applinks:apps.sandenskog.se
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: se.sandenskog.hotandcoldfriends
