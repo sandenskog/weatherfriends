@@ -75,11 +75,11 @@ Plans:
   1. User kan generera ett vaederkort med vaeder, stad och avatar foer en vaen
   2. User kan dela vaederkortet via systemets share sheet till valfri app
   3. User kan dela ett vaederkort direkt till Instagram Stories med ett tap
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 17-01: TBD
-- [ ] 17-02: TBD
+- [ ] 17-01-PLAN.md — WeatherCardView, WeatherCardRenderer och vaederbakgrunder (kortgenerering)
+- [ ] 17-02-PLAN.md — Preview-sheet, swipe-action, share sheet och Instagram Stories-delning
 
 ### Phase 18: Comparison Cards & Invite Polish
 **Goal**: Unika delbara kort som differentierar appen, plus en invite-upplevelse som belonar inbjudan
@@ -151,7 +151,7 @@ Phases execute in numeric order: 16 -> 17 -> 18 -> 19 -> 20
 | 14. Phase 10 Verify + Avatar Fix | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 15. Design System Cleanup | v2.0 | 1/1 | Complete | 2026-03-06 |
 | 16. Invite Foundation | 2/2 | Complete    | 2026-03-07 | - |
-| 17. Shareable Weather Cards | v3.0 | 0/? | Not started | - |
+| 17. Shareable Weather Cards | v3.0 | 0/2 | Not started | - |
 | 18. Comparison Cards & Invite Polish | v3.0 | 0/? | Not started | - |
 | 19. Engagement Loops | v3.0 | 0/? | Not started | - |
 | 20. Visual Polish | v3.0 | 0/? | Not started | - |
