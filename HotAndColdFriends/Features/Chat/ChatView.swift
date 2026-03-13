@@ -12,6 +12,7 @@ struct ChatView: View {
     @State private var showWeatherStickerPicker = false
     @State private var showBlockConfirmation = false
     @State private var userToBlock: String?
+    @State private var sendHapticTrigger = false
 
     private var currentUid: String {
         authManager.currentUser?.id ?? ""
@@ -40,6 +41,7 @@ struct ChatView: View {
         .task {
             await viewModel.load(conversationId: conversationId, chatService: chatService)
         }
+        .sensoryFeedback(.impact(weight: .light), trigger: sendHapticTrigger)
         .onDisappear {
             chatService.stopListeningToMessages()
         }
@@ -101,7 +103,7 @@ struct ChatView: View {
                 showWeatherStickerPicker = true
             } label: {
                 Image(systemName: "cloud.sun")
-                    .font(.title3)
+                    .font(.bubbleH3)
                     .foregroundStyle(.secondary)
             }
 
@@ -118,7 +120,7 @@ struct ChatView: View {
                 sendMessage()
             } label: {
                 Image(systemName: "arrow.up.circle.fill")
-                    .font(.title2)
+                    .font(.bubbleH2)
                     .foregroundStyle(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .gray : .blue)
             }
             .disabled(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -131,6 +133,7 @@ struct ChatView: View {
     // MARK: - Actions
 
     private func sendMessage() {
+        sendHapticTrigger.toggle()
         Task {
             await viewModel.send(chatService: chatService, senderId: currentUid)
         }

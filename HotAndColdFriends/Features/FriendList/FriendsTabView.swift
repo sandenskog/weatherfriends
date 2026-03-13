@@ -30,6 +30,7 @@ struct FriendsTabView: View {
     @State private var showContactImport = false
     @State private var attribution: WeatherAttribution?
     @State private var inviteURL: URL?
+    @State private var showDigestPreview = false
     @Namespace private var tabNamespace
 
     private var tabSwitcher: some View {
@@ -134,6 +135,15 @@ struct FriendsTabView: View {
                             } label: {
                                 Label("Importera kontakter", systemImage: "person.crop.circle.badge.plus")
                             }
+
+                            if !viewModel.favorites.isEmpty || !viewModel.others.isEmpty {
+                                Divider()
+                                Button {
+                                    showDigestPreview = true
+                                } label: {
+                                    Label("Daily Digest", systemImage: "newspaper")
+                                }
+                            }
                         } label: {
                             Image(systemName: "plus")
                                 .font(.body.weight(.medium))
@@ -183,6 +193,9 @@ struct FriendsTabView: View {
             if let uid = authManager.currentUser?.id {
                 ProfileView(uid: uid)
             }
+        }
+        .sheet(isPresented: $showDigestPreview) {
+            DigestPreviewSheet(friends: viewModel.favorites + viewModel.others)
         }
         .alert("Fel", isPresented: Binding(
             get: { viewModel.errorMessage != nil },

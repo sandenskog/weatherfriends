@@ -33,7 +33,7 @@ struct EditProfileView: View {
 
                             PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
                                 Text("Byt bild")
-                                    .font(.subheadline.weight(.medium))
+                                    .font(.bubbleButton)
                                     .foregroundStyle(.blue)
                             }
                         }
@@ -73,7 +73,7 @@ struct EditProfileView: View {
                         Task { await fetchCurrentLocation() }
                     } label: {
                         Label("Uppdatera plats", systemImage: "location.fill")
-                            .font(.subheadline)
+                            .font(.bubbleBody)
                     }
 
                     // Vald stad
@@ -82,7 +82,7 @@ struct EditProfileView: View {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundStyle(.green)
                             Text(selectedCity)
-                                .font(.subheadline)
+                                .font(.bubbleBody)
                         }
                     }
                 }

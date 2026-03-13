@@ -14,12 +14,12 @@ struct FriendProfileView: View {
 
                     VStack(spacing: 6) {
                         Text(friend.displayName)
-                            .font(.title2)
+                            .font(.bubbleH2)
                             .fontWeight(.semibold)
 
                         if !friend.city.isEmpty {
                             Label(friend.city, systemImage: "location.fill")
-                                .font(.subheadline)
+                                .font(.bubbleBody)
                                 .foregroundStyle(.secondary)
                         }
                     }

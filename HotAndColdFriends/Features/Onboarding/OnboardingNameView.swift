@@ -18,14 +18,14 @@ struct OnboardingNameView: View {
                     .fontWeight(.bold)
 
                 Text("Ditt namn visas för dina vänner i appen.")
-                    .font(.subheadline)
+                    .font(.bubbleBody)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
             }
 
             TextField("Ditt namn", text: $displayName)
-                .font(.title3)
+                .font(.bubbleH3)
                 .padding()
                 .background(Color(.systemGray6))
                 .clipShape(RoundedRectangle(cornerRadius: 12))

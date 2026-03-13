@@ -76,11 +76,11 @@ struct ConversationListView: View {
                     .frame(maxWidth: 200)
 
                 Text("No conversations yet")
-                    .font(.title3.weight(.semibold))
+                    .font(.bubbleH3)
                     .foregroundStyle(.primary)
 
                 Text("Start chatting with a friend about the weather")
-                    .font(.subheadline)
+                    .font(.bubbleBody)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                 Spacer()
@@ -135,7 +135,7 @@ private struct ConversationRowView: View {
                 }
                 HStack {
                     Text(conversation.lastMessage ?? "Starta en konversation")
-                        .font(.subheadline)
+                        .font(.bubbleBody)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                     Spacer()

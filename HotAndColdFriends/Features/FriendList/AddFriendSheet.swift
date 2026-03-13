@@ -30,7 +30,7 @@ struct AddFriendSheet: View {
                                 message: Text("Join me on FriendsCast — see the weather where your friends are!")
                             ) {
                                 Label("Invite via Link", systemImage: "square.and.arrow.up")
-                                    .font(.subheadline.weight(.medium))
+                                    .font(.bubbleButton)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 10)
                                     .background(Color(.systemGray6))
@@ -56,10 +56,10 @@ struct AddFriendSheet: View {
                             .foregroundStyle(.secondary)
 
                         Text("Add a friend")
-                            .font(.title3.weight(.semibold))
+                            .font(.bubbleH3)
 
                         Text("Ask your friend to share their invite link from their profile, then paste it here.")
-                            .font(.subheadline)
+                            .font(.bubbleBody)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                     }
@@ -93,7 +93,7 @@ struct AddFriendSheet: View {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundStyle(.green)
                             Text("You and \(name) are now friends!")
-                                .font(.subheadline.weight(.medium))
+                                .font(.bubbleButton)
                             Spacer()
                         }
                         .padding()

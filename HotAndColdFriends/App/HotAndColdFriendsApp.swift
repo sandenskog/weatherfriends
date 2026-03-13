@@ -12,6 +12,9 @@ struct HotAndColdFriendsApp: App {
     @State private var weatherAlertService: WeatherAlertService
     @State private var inviteService: InviteService
     @State private var clipboardInviteService: ClipboardInviteService
+    @State private var showInviteCelebration = false
+    @State private var celebrationZone: TemperatureZone = .warm
+    @State private var inviteRedeemName = ""
 
     init() {
         // Firebase MÅSTE konfigureras innan AuthManager/UserService skapas,
@@ -49,12 +52,7 @@ struct HotAndColdFriendsApp: App {
                         let token = url.pathComponents[2]
                         Task {
                             guard let uid = authManager.currentUser?.id else { return }
-                            try? await inviteService.redeemInvite(
-                                token: token,
-                                redeemerUid: uid,
-                                friendService: friendService,
-                                userService: userService
-                            )
+                            await redeemInviteWithCelebration(token: token, uid: uid)
                         }
                     }
                     // Handle legacy custom scheme: hotandcold://invite/<token>
@@ -62,12 +60,7 @@ struct HotAndColdFriendsApp: App {
                        let token = url.pathComponents.dropFirst().first {
                         Task {
                             guard let uid = authManager.currentUser?.id else { return }
-                            try? await inviteService.redeemInvite(
-                                token: token,
-                                redeemerUid: uid,
-                                friendService: friendService,
-                                userService: userService
-                            )
+                            await redeemInviteWithCelebration(token: String(token), uid: uid)
                         }
                     }
                     // Handle widget deep links: hotandcold://friend/<id>
@@ -81,8 +74,9 @@ struct HotAndColdFriendsApp: App {
                 }
                 .task {
                     delegate.registerForPushNotifications()
-                    // Kontrollera extremvader for vanners platser
                     if let uid = authManager.currentUser?.id {
+                        // Track last active for re-engagement push
+                        userService.updateLastActive(uid: uid)
                         let friends = (try? await friendService.fetchFriends(uid: uid)) ?? []
                         await weatherAlertService.checkAlertsForFriends(uid: uid, friends: friends)
                         // Check clipboard for deferred deep link invite
@@ -92,29 +86,83 @@ struct HotAndColdFriendsApp: App {
                             friendService: friendService,
                             userService: userService
                         )
+                        // Trigger celebration if clipboard invite was redeemed
+                        if clipboardInviteService.showFriendAddedToast {
+                            triggerCelebration(friendName: clipboardInviteService.friendAddedName)
+                        }
                     }
                 }
+                .confettiOverlay(isActive: $showInviteCelebration, zone: celebrationZone)
                 .overlay(alignment: .top) {
-                    if clipboardInviteService.showFriendAddedToast {
-                        Text("You are now friends with \(clipboardInviteService.friendAddedName)!")
-                            .font(.subheadline.weight(.medium))
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            .background(.ultraThinMaterial)
-                            .clipShape(Capsule())
-                            .shadow(radius: 4)
-                            .padding(.top, 60)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                    withAnimation {
-                                        clipboardInviteService.showFriendAddedToast = false
-                                    }
+                    if clipboardInviteService.showFriendAddedToast || !inviteRedeemName.isEmpty {
+                        let name = inviteRedeemName.isEmpty
+                            ? clipboardInviteService.friendAddedName
+                            : inviteRedeemName
+
+                        VStack(spacing: 4) {
+                            Text("🎉 New Friend!")
+                                .font(.bubbleButton)
+                                .foregroundStyle(.white)
+                            Text("You are now friends with \(name)")
+                                .font(.bubbleCaption)
+                                .foregroundStyle(.white.opacity(0.9))
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .background(
+                            LinearGradient(
+                                colors: [.bubblePrimary, .bubbleSecondary],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .clipShape(Capsule())
+                        .shadow(color: .bubblePrimary.opacity(0.3), radius: 8, y: 4)
+                        .padding(.top, 60)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                                withAnimation {
+                                    clipboardInviteService.showFriendAddedToast = false
+                                    inviteRedeemName = ""
                                 }
                             }
+                        }
                     }
                 }
-                .animation(.easeInOut, value: clipboardInviteService.showFriendAddedToast)
+                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: clipboardInviteService.showFriendAddedToast)
+                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: inviteRedeemName)
+        }
+    }
+
+    // MARK: - Invite Redemption with Celebration
+
+    /// Redeems an invite token and triggers confetti + enhanced toast on success.
+    @MainActor
+    private func redeemInviteWithCelebration(token: String, uid: String) async {
+        do {
+            guard let invite = try await inviteService.lookupInviteToken(token) else { return }
+
+            try await inviteService.redeemInvite(
+                token: token,
+                redeemerUid: uid,
+                friendService: friendService,
+                userService: userService
+            )
+
+            triggerCelebration(friendName: invite.senderDisplayName)
+        } catch {
+            // Silently fail — error handling in InviteService throws descriptive errors
+        }
+    }
+
+    /// Triggers confetti animation and shows enhanced friend-added toast.
+    @MainActor
+    private func triggerCelebration(friendName: String) {
+        inviteRedeemName = friendName
+        celebrationZone = .warm
+        withAnimation {
+            showInviteCelebration = true
         }
     }
 }

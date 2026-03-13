@@ -12,6 +12,7 @@ struct FriendListView: View {
 
     @State private var heartPopFriendId: String?
     @State private var shareTarget: FriendWeather?
+    @State private var favoriteTrigger = false
     @Environment(WeatherAlertService.self) private var weatherAlertService
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -50,8 +51,9 @@ struct FriendListView: View {
                     }
                 }
                 .listStyle(.insetGrouped)
+                .sensoryFeedback(.impact(weight: .medium), trigger: favoriteTrigger)
                 .sheet(item: $shareTarget) { fw in
-                    WeatherCardPreviewSheet(friendWeather: fw)
+                    WeatherCardPreviewSheet(friendWeather: fw, myWeather: viewModel.myWeather)
                 }
                 .cloudRefreshable {
                     guard let uid else { return }
@@ -217,6 +219,7 @@ struct FriendListView: View {
 
     private func triggerHeartPop(friendId: String) {
         heartPopFriendId = friendId
+        favoriteTrigger.toggle()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             heartPopFriendId = nil
         }

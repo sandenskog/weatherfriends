@@ -11,6 +11,10 @@ struct FriendRowView: View {
         TemperatureZone(celsius: friendWeather.temperatureCelsius ?? -99)
     }
 
+    private var nudgeText: String? {
+        WeatherNudgeService.nudge(for: friendWeather)
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -32,6 +36,16 @@ struct FriendRowView: View {
                     .font(.bubbleCaption)
                     .foregroundStyle(Color.bubbleTextSecondary)
                     .lineLimit(1)
+
+                if let nudge = nudgeText {
+                    Text(nudge)
+                        .font(.bubbleFootnote)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, Spacing.sm)
+                        .padding(.vertical, Spacing.xs)
+                        .background(zone.color.opacity(0.85))
+                        .clipShape(Capsule())
+                }
             }
 
             Spacer()

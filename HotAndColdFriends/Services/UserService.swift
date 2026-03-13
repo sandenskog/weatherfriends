@@ -32,6 +32,19 @@ class UserService {
         try await db.collection("users").document(uid).updateData(data)
     }
 
+    // MARK: - Activity Tracking
+
+    /// Updates lastActiveAt timestamp on the user document.
+    /// Called on each app launch to track engagement for re-engagement push.
+    /// Fire-and-forget — errors are silently ignored.
+    func updateLastActive(uid: String) {
+        Task {
+            try? await db.collection("users").document(uid).updateData([
+                "lastActiveAt": FieldValue.serverTimestamp()
+            ])
+        }
+    }
+
     // MARK: - Auth UID Lookup
 
     // DEPRECATED — used only by ContactImportService and OnboardingViewModel for bulk import.

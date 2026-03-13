@@ -36,12 +36,12 @@ struct ProfileView: View {
                         // Namn och stad
                         VStack(spacing: 6) {
                             Text(user.displayName)
-                                .font(.title2)
+                                .font(.bubbleH2)
                                 .fontWeight(.semibold)
 
                             if !user.city.isEmpty {
                                 Label(user.city, systemImage: "location.fill")
-                                    .font(.subheadline)
+                                    .font(.bubbleBody)
                                     .foregroundStyle(.secondary)
                             }
                         }
@@ -52,7 +52,7 @@ struct ProfileView: View {
                                 showEditProfile = true
                             } label: {
                                 Label("Edit profile", systemImage: "pencil")
-                                    .font(.subheadline.weight(.medium))
+                                    .font(.bubbleButton)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 10)
                                     .background(Color(.systemGray6))
@@ -68,7 +68,7 @@ struct ProfileView: View {
                                     message: Text("\(viewModel.user?.displayName ?? "I") invited you to FriendsCast — see the weather where your friends are!")
                                 ) {
                                     Label("Share my invite link", systemImage: "square.and.arrow.up")
-                                        .font(.subheadline.weight(.medium))
+                                        .font(.bubbleButton)
                                         .frame(maxWidth: .infinity)
                                         .padding(.vertical, 10)
                                         .background(Color(.systemGray6))
@@ -95,7 +95,7 @@ struct ProfileView: View {
                                         .padding(.vertical, 10)
                                 } else {
                                     Label("Radera konto", systemImage: "trash")
-                                        .font(.subheadline.weight(.medium))
+                                        .font(.bubbleButton)
                                         .frame(maxWidth: .infinity)
                                         .padding(.vertical, 10)
                                 }

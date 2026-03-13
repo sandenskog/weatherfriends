@@ -22,7 +22,7 @@ struct OnboardingLocationView: View {
                     .fontWeight(.bold)
 
                 Text("Vi använder din stad för att hämta väder hos dina vänner.")
-                    .font(.subheadline)
+                    .font(.bubbleBody)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
@@ -66,7 +66,7 @@ struct OnboardingLocationView: View {
                             Image(systemName: "location.fill")
                         }
                         Text(isLoadingGPS ? "Hämtar plats..." : "Använd min plats")
-                            .font(.subheadline.weight(.medium))
+                            .font(.bubbleButton)
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
@@ -118,7 +118,7 @@ struct OnboardingLocationView: View {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundStyle(.green)
                     Text(selectedCity)
-                        .font(.subheadline.weight(.medium))
+                        .font(.bubbleButton)
                     Spacer()
                 }
                 .padding()

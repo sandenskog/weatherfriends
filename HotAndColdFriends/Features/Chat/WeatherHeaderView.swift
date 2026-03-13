@@ -26,15 +26,15 @@ struct WeatherHeaderView: View {
             Spacer()
             if let symbol = data?.symbolName {
                 Image(systemName: symbol)
-                    .font(.title2)
+                    .font(.bubbleH2)
                     .foregroundStyle(tempColor(celsius: data?.celsius))
             }
             VStack(alignment: .leading, spacing: 2) {
                 Text(user.city)
-                    .font(.subheadline.weight(.medium))
+                    .font(.bubbleButton)
                 if let celsius = data?.celsius {
                     Text("\(Int(celsius.rounded()))°")
-                        .font(.title3.weight(.semibold))
+                        .font(.bubbleH3)
                         .foregroundStyle(TemperatureZone(celsius: celsius).color)
                 } else {
                     Text("Laddar...")

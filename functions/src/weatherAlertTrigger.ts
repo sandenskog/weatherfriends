@@ -2,6 +2,7 @@ import { onDocumentUpdated } from "firebase-functions/v2/firestore";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { getMessaging } from "firebase-admin/messaging";
 import { initializeApp, getApps } from "firebase-admin/app";
+import { canSendNotification, recordNotification } from "./notificationBudget";
 
 if (getApps().length === 0) initializeApp();
 
@@ -44,10 +45,18 @@ export const onFriendAlertUpdated = onDocumentUpdated(
 
     // Hamta agarens FCM-token
     const db = getFirestore();
-    const userDoc = await db.collection("users").doc(event.params.uid).get();
+    const uid = event.params.uid;
+    const userDoc = await db.collection("users").doc(uid).get();
     const fcmToken = userDoc.data()?.fcmToken;
     if (!fcmToken) {
-      console.log(`No FCM token for user ${event.params.uid} — skipping push`);
+      console.log(`No FCM token for user ${uid} — skipping push`);
+      return;
+    }
+
+    // Check notification budget — skip if weekly limit reached
+    const budgetOk = await canSendNotification(uid);
+    if (!budgetOk) {
+      console.log(`Notification budget exhausted for user ${uid} — skipping weather alert push`);
       return;
     }
 
@@ -83,8 +92,10 @@ export const onFriendAlertUpdated = onDocumentUpdated(
         },
       });
       console.log(
-        `Weather alert push sent to ${event.params.uid} for friend ${friendName}`
+        `Weather alert push sent to ${uid} for friend ${friendName}`
       );
+      // Record against notification budget
+      await recordNotification(uid);
     } catch (error: unknown) {
       const errMsg = error instanceof Error ? error.message : String(error);
       console.error(`Failed to send weather alert push: ${errMsg}`);
@@ -92,7 +103,7 @@ export const onFriendAlertUpdated = onDocumentUpdated(
       if (errMsg.includes("registration-token-not-registered")) {
         await db
           .collection("users")
-          .doc(event.params.uid)
+          .doc(uid)
           .set({ fcmToken: FieldValue.delete() }, { merge: true });
       }
     }
@@ -100,7 +111,7 @@ export const onFriendAlertUpdated = onDocumentUpdated(
     // Uppdatera lastAlertSentAt for rate-limiting
     await db
       .collection("users")
-      .doc(event.params.uid)
+      .doc(uid)
       .collection("friends")
       .doc(event.params.friendId)
       .update({ lastAlertSentAt: FieldValue.serverTimestamp() });

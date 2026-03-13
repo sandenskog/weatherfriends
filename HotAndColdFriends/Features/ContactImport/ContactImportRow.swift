@@ -9,7 +9,7 @@ struct ContactImportRow: View {
         HStack(spacing: 12) {
             // Checkbox
             Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                .font(.title3)
+                .font(.bubbleH3)
                 .foregroundStyle(isAlreadyAdded ? Color(.systemGray4) : (isSelected ? .blue : Color(.systemGray3)))
 
             // Profilbild eller initialer
@@ -26,7 +26,7 @@ struct ContactImportRow: View {
                         .fill(Color(.systemGray5))
                         .frame(width: 40, height: 40)
                     Text(initials(for: contact.fullName))
-                        .font(.subheadline.weight(.semibold))
+                        .font(.bubbleButton)
                         .foregroundStyle(.primary)
                 }
             }

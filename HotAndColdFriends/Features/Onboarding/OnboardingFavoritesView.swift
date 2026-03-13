@@ -40,7 +40,7 @@ struct OnboardingFavoritesView: View {
                         .fontWeight(.bold)
 
                     Text("Lägg till vänner och se deras väder direkt. De 6 första blir dina favoriter.")
-                        .font(.subheadline)
+                        .font(.bubbleBody)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
@@ -50,7 +50,7 @@ struct OnboardingFavoritesView: View {
                 VStack(spacing: 0) {
                     if pendingFriends.isEmpty {
                         Text("Inga vänner tillagda ännu")
-                            .font(.subheadline)
+                            .font(.bubbleBody)
                             .foregroundStyle(.secondary)
                             .padding(.vertical, 24)
                     } else {
@@ -191,7 +191,7 @@ struct OnboardingFavoritesView: View {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundStyle(.green)
                                     Text(newFriendCity)
-                                        .font(.subheadline.weight(.medium))
+                                        .font(.bubbleButton)
                                     Spacer()
                                 }
                                 .padding()

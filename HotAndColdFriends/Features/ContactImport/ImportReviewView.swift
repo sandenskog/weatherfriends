@@ -58,7 +58,7 @@ struct ImportReviewView: View {
                         Section {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("\(reviewItems.filter { $0.isIncluded }.count) av \(reviewItems.count) kontakter valda")
-                                    .font(.subheadline.weight(.medium))
+                                    .font(.bubbleButton)
                                 Text("Granska platsförslagen nedan. Grönt = säkert, gult = troligt, rött = osäkert.")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
@@ -120,7 +120,7 @@ struct ImportReviewView: View {
                     item.wrappedValue.isIncluded.toggle()
                 } label: {
                     Image(systemName: item.wrappedValue.isIncluded ? "checkmark.circle.fill" : "circle")
-                        .font(.title3)
+                        .font(.bubbleH3)
                         .foregroundStyle(item.wrappedValue.isIncluded ? .blue : Color(.systemGray3))
                 }
 
@@ -185,7 +185,7 @@ struct ImportReviewView: View {
                     }
                 } label: {
                     Image(systemName: "pencil.circle")
-                        .font(.title3)
+                        .font(.bubbleH3)
                         .foregroundStyle(.secondary)
                 }
             }
@@ -223,7 +223,7 @@ struct ImportReviewView: View {
                             } label: {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(suggestion.title)
-                                        .font(.subheadline)
+                                        .font(.bubbleBody)
                                         .foregroundStyle(.primary)
                                     if !suggestion.subtitle.isEmpty {
                                         Text(suggestion.subtitle)

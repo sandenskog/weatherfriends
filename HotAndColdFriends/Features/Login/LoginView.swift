@@ -27,7 +27,7 @@ struct LoginView: View {
                         .padding(.bottom, 4)
 
                     Text("Se vädret hos dina vänner")
-                        .font(.title3)
+                        .font(.bubbleH3)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                 }

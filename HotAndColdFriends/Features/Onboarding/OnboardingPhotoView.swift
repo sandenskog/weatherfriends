@@ -16,7 +16,7 @@ struct OnboardingPhotoView: View {
                     .fontWeight(.bold)
 
                 Text("Profilbilder hjälper dina vänner att känna igen dig. Du kan hoppa över detta steg.")
-                    .font(.subheadline)
+                    .font(.bubbleBody)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)

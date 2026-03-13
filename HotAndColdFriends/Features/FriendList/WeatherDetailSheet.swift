@@ -31,7 +31,7 @@ struct WeatherDetailSheet: View {
 
                 if friendWeather.weather == nil {
                     Text("Väderdata kunde inte hämtas just nu.")
-                        .font(.subheadline)
+                        .font(.bubbleBody)
                         .foregroundStyle(.secondary)
                         .padding(.top, 20)
                 } else if isLoading {
@@ -81,11 +81,11 @@ struct WeatherDetailSheet: View {
                     )
 
                     Text(friendWeather.friend.displayName)
-                        .font(.title2.weight(.semibold))
+                        .font(.bubbleH2)
                         .foregroundStyle(.primary)
 
                     Text(friendWeather.friend.city)
-                        .font(.subheadline)
+                        .font(.bubbleBody)
                         .foregroundStyle(.secondary)
                 }
             }
@@ -164,7 +164,7 @@ struct WeatherDetailSheet: View {
     private var hourlySection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Timprognos")
-                .font(.headline)
+                .font(.bubbleH3)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
@@ -195,7 +195,7 @@ struct WeatherDetailSheet: View {
     private var dailySection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("5-dagarsprognos")
-                .font(.headline)
+                .font(.bubbleH3)
 
             VStack(spacing: 0) {
                 ForEach(Array(dailyForecast.prefix(5).enumerated()), id: \.offset) { idx, day in

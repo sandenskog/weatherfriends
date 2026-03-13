@@ -76,7 +76,7 @@ struct FriendCategoryView: View {
     private func categoryRow(category: WeatherCategory, friends: [FriendWeather]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("\(category.emoji) \(category.label)")
-                .font(.headline)
+                .font(.bubbleH3)
                 .padding(.horizontal)
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
@@ -144,7 +144,7 @@ private struct FriendWeatherCard: View {
             .lineLimit(1)
 
             Text(valueText)
-                .font(.title3.weight(.bold))
+                .font(.bubbleH3)
                 .foregroundStyle(accentColor)
 
             Image(systemName: valueIcon)
