@@ -4,7 +4,7 @@
 
 En iOS-app (FriendsCast / Hot & Cold Friends) som visar din vänlista organiserad utifrån vädret där dina vänner befinner sig. Importera vänner från iOS-kontakter (med AI-driven platsgissning) eller via invite-länk, se deras väder i realtid, och chatta med dem — med vädret som naturlig samtalsöppnare. Appen har tre vyer (sorterad lista, karta, kategorier), push-notiser, hemskärmswidget och ett komplett Bubble Pop design system med temperaturzon-gradienter, spring-animationer och custom väderikoner.
 
-Shipped v2.0 med 8 846 rader Swift + Firebase Cloud Functions (TypeScript). v3.0 in progress — invite foundation and shareable weather cards complete, comparison cards/engagement loops/visual polish remaining.
+Shipped v3.0 med Swift + Firebase Cloud Functions (TypeScript). All three milestones complete — MVP, design system, virality & polish.
 
 ## Core Value
 
@@ -14,7 +14,7 @@ Shipped v2.0 med 8 846 rader Swift + Firebase Cloud Functions (TypeScript). v3.0
 
 - **v1.0 shipped** (2026-03-04): Social login, vädersorterad vänlista, kontaktimport med AI, realtidschatt, push, widget
 - **v2.0 shipped** (2026-03-06): Bubble Pop Design System, custom väderikoner, spring-animationer, invite-länk-system
-- **v3.0 in progress** (started 2026-03-07): Phases 16-17 complete (invite foundation, shareable weather cards). Phases 18-20 remaining (comparison cards, engagement loops, visual polish).
+- **v3.0 shipped** (2026-03-13): Invite system with Universal Links, shareable weather cards (single/comparison/digest), contextual engagement loops, design system polish
 
 ## Architecture / Key Patterns
 
@@ -36,3 +36,4 @@ See `.gsd/REQUIREMENTS.md` for the explicit capability contract, requirement sta
 - [x] M001: v1.0 MVP — Social login, weather-sorted friend list, contact import, chat, push, widget
 - [x] M002: v2.0 Bubble Pop Design + Tech Debt — Design system, custom icons, animations, invite links, cleanup
 - [x] M003: v3.0 Virality & Polish — Visual polish, invite experience, shareable cards, engagement loops
+- [ ] M004: (not yet planned)
