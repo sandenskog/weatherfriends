@@ -11,7 +11,7 @@ settings:
     PRODUCT_BUNDLE_IDENTIFIER: se.sandenskog.hotandcoldfriends
     SWIFT_VERSION: "5.9"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
-    MARKETING_VERSION: "1.0.0"
+    MARKETING_VERSION: "3.0.0"
     CURRENT_PROJECT_VERSION: "1"
     DEVELOPMENT_TEAM: "A473BQKT8M"
 
@@ -93,7 +93,7 @@ targets:
         SWIFT_VERSION: "5.9"
         IPHONEOS_DEPLOYMENT_TARGET: "17.0"
         DEVELOPMENT_TEAM: "A473BQKT8M"
-        MARKETING_VERSION: "1.0.0"
+        MARKETING_VERSION: "3.0.0"
         CURRENT_PROJECT_VERSION: "1"
     entitlements:
       path: HotAndColdFriendsWidget/HotAndColdFriendsWidget.entitlements
