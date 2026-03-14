@@ -18,4 +18,4 @@
 
 ## Blockers
 
-- Cloud Functions must be deployed for re-engagement and budget to work in production
+(none)
