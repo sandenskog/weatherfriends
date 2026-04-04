@@ -15,8 +15,8 @@ class WeatherAlertService {
     /// Kontrollera weatherAlerts for alla vanner med koordinater och uppdatera Firestore.
     func checkAlertsForFriends(uid: String, friends: [Friend]) async {
         for friend in friends {
-            guard let friendId = friend.id,
-                  let lat = friend.cityLatitude,
+            let friendId = friend.id
+            guard let lat = friend.cityLatitude,
                   let lon = friend.cityLongitude else { continue }
 
             // Skip demo-vanner

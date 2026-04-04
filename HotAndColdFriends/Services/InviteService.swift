@@ -132,14 +132,9 @@ class InviteService {
             friend.displayName == invite.senderDisplayName && friend.authUid == nil
         }
 
-        if let existing = existingFriend, let friendId = existing.id {
+        if let existing = existingFriend {
             // Update contact-imported friend with real authUid
-            try await db
-                .collection("users")
-                .document(redeemerUid)
-                .collection("friends")
-                .document(friendId)
-                .updateData(["authUid": invite.senderUid])
+            try await friendService.updateFriend(friendId: existing.id, data: ["authUid": invite.senderUid])
         } else {
             // Add sender as friend of redeemer
             let senderAsFriend = Friend(
@@ -158,14 +153,9 @@ class InviteService {
             friend.displayName == redeemer.displayName && friend.authUid == nil
         }
 
-        if let existing = existingSenderFriend, let friendId = existing.id {
+        if let existing = existingSenderFriend {
             // Update contact-imported friend with real authUid
-            try await db
-                .collection("users")
-                .document(invite.senderUid)
-                .collection("friends")
-                .document(friendId)
-                .updateData(["authUid": redeemerUid])
+            try await friendService.updateFriend(friendId: existing.id, data: ["authUid": redeemerUid])
         } else if !senderFriends.contains(where: { $0.authUid == redeemerUid }) {
             // Add redeemer as friend of sender
             let redeemerAsFriend = Friend(

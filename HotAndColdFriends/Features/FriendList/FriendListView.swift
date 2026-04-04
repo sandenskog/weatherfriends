@@ -136,7 +136,7 @@ struct FriendListView: View {
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button {
-                            if let fid = fw.friend.id { triggerHeartPop(friendId: fid) }
+                            triggerHeartPop(friendId: fw.friend.id)
                             Task {
                                 guard let uid else { return }
                                 await viewModel.toggleFavorite(uid: uid, friend: fw.friend, friendService: friendService)
@@ -179,7 +179,7 @@ struct FriendListView: View {
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button {
-                            if let fid = fw.friend.id { triggerHeartPop(friendId: fid) }
+                            triggerHeartPop(friendId: fw.friend.id)
                             Task {
                                 guard let uid else { return }
                                 await viewModel.toggleFavorite(uid: uid, friend: fw.friend, friendService: friendService)

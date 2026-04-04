@@ -5,7 +5,7 @@ struct FriendWeather: Identifiable {
     let friend: Friend
     let weather: CurrentWeather?
 
-    var id: String { friend.id ?? UUID().uuidString }
+    var id: String { friend.id }
 
     var temperatureCelsius: Double? {
         weather?.temperature.converted(to: .celsius).value

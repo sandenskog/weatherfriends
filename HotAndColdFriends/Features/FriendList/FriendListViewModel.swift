@@ -45,7 +45,7 @@ class FriendListViewModel {
                let lat = user.cityLatitude,
                let lon = user.cityLongitude {
                 let meFriend = Friend(
-                    id: user.id,
+                    id: user.id ?? UUID().uuidString,
                     authUid: user.id,
                     displayName: user.displayName,
                     photoURL: user.photoURL,
@@ -152,7 +152,7 @@ class FriendListViewModel {
 
     private func updateWidgetData(favorites: [FriendWeather]) {
         let entries: [WidgetFriendEntry] = favorites.compactMap { fw in
-            guard let id = fw.friend.id else { return nil }
+            let id = fw.friend.id
             let temp = fw.temperatureCelsius
             let rgb: [Double]
             if let celsius = temp {

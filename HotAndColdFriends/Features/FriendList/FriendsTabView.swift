@@ -28,6 +28,7 @@ struct FriendsTabView: View {
     @State private var attribution: WeatherAttribution?
     @State private var inviteURL: URL?
     @State private var showProfile = false
+    @State private var showManualAdd = false
     @State private var showAddFriend = false
     @State private var showContactImport = false
     @State private var showDigestPreview = false
@@ -56,11 +57,21 @@ struct FriendsTabView: View {
         .sheet(item: $shareTarget) { fw in
             WeatherCardPreviewSheet(friendWeather: fw, myWeather: viewModel.myWeather)
         }
+        .sheet(isPresented: $showManualAdd) {
+            ManualAddFriendSheet(uid: "", friendService: friendService) {
+                Task { await reloadFriends() }
+            }
+        }
         .sheet(isPresented: $showAddFriend) {
             if let uid = authManager.currentUser?.id {
                 AddFriendSheet(uid: uid, friendService: friendService) {
                     Task { await reloadFriends() }
                 }
+            } else {
+                Text("Logga in för att lägga till vänner")
+                    .font(.bubbleBody)
+                    .foregroundStyle(.secondary)
+                    .padding()
             }
         }
         .sheet(isPresented: $showContactImport) {
@@ -68,6 +79,11 @@ struct FriendsTabView: View {
                 ContactImportView(uid: uid, friendService: friendService) {
                     Task { await reloadFriends() }
                 }
+            } else {
+                Text("Logga in för att importera kontakter")
+                    .font(.bubbleBody)
+                    .foregroundStyle(.secondary)
+                    .padding()
             }
         }
         .sheet(isPresented: $showProfile) {
@@ -194,18 +210,16 @@ struct FriendsTabView: View {
 
             // Right: action buttons
             VStack(spacing: 8) {
-                // Profile / login button
-                Button { showProfile = true } label: {
-                    profileButtonContent
-                }
-
                 // Add friend
                 Menu {
-                    Button { showAddFriend = true } label: {
+                    Button { showManualAdd = true } label: {
                         Label("Lägg till manuellt", systemImage: "pencil")
                     }
                     Button { showContactImport = true } label: {
                         Label("Importera kontakter", systemImage: "person.crop.circle.badge.plus")
+                    }
+                    Button { showAddFriend = true } label: {
+                        Label("Lös in inbjudningslänk", systemImage: "link.badge.plus")
                     }
                     if !viewModel.favorites.isEmpty || !viewModel.others.isEmpty {
                         Divider()

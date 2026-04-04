@@ -1,9 +1,8 @@
 import Foundation
-import FirebaseFirestore
 
 struct Friend: Codable, Identifiable {
-    @DocumentID var id: String?
-    var authUid: String?           // Firebase Auth UID — nil för vänner utan appkonto
+    var id: String = UUID().uuidString
+    var authUid: String?
     var displayName: String
     var photoURL: String?
     var city: String
@@ -13,6 +12,5 @@ struct Friend: Codable, Identifiable {
     var isDemo: Bool = false
     var hasActiveAlert: Bool?
     var alertSummary: String?
-    @ServerTimestamp var lastAlertSentAt: Timestamp?
-    @ServerTimestamp var createdAt: Timestamp?
+    var createdAt: Date?
 }
