@@ -6,6 +6,23 @@ struct AppRouter: View {
     @State private var openWeatherAlertFriendId: String? = nil
 
     var body: some View {
+        // TODO: Auth temporarily bypassed — restore switch below when auth is fixed
+        MainTabView(
+            openConversationId: $openConversationId,
+            openWeatherAlertFriendId: $openWeatherAlertFriendId
+        )
+        .onReceive(NotificationCenter.default.publisher(for: .openChat)) { notification in
+            if let conversationId = notification.object as? String {
+                openConversationId = conversationId
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .openWeatherAlert)) { notification in
+            if let friendId = notification.object as? String {
+                openWeatherAlertFriendId = friendId
+            }
+        }
+
+        /*
         switch authManager.authState {
         case .unauthenticated:
             LoginView()
@@ -29,6 +46,7 @@ struct AppRouter: View {
                 }
             }
         }
+        */
     }
 }
 
