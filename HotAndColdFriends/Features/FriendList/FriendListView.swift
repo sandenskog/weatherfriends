@@ -27,30 +27,27 @@ struct FriendListView: View {
             if viewModel.others.isEmpty && viewModel.favorites.isEmpty && !viewModel.showDemoBanner {
                 emptyStateFriends
             } else {
-                List {
-                    if let myWeather = viewModel.myWeather {
-                        Section {
-                            MyWeatherCard(myWeather: myWeather, onShare: { shareTarget = myWeather })
+                ScrollView {
+                    LazyVStack(spacing: 0, pinnedViews: []) {
+                        if viewModel.showDemoBanner {
+                            demoBanner
+                                .padding(.horizontal, 16)
+                                .padding(.top, 8)
                         }
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                    }
 
-                    if viewModel.showDemoBanner {
-                        demoBanner
-                    }
+                        if !viewModel.favorites.isEmpty {
+                            favoritesSection
+                        }
 
-                    if !viewModel.favorites.isEmpty {
-                        favoritesSection
-                    }
+                        othersSection
 
-                    othersSection
-
-                    if let attribution {
-                        attributionFooter(attribution)
+                        if let attribution {
+                            attributionFooter(attribution)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                        }
                     }
                 }
-                .listStyle(.insetGrouped)
                 .sensoryFeedback(.impact(weight: .medium), trigger: favoriteTrigger)
                 .sheet(item: $shareTarget) { fw in
                     WeatherCardPreviewSheet(friendWeather: fw, myWeather: viewModel.myWeather)
@@ -58,7 +55,6 @@ struct FriendListView: View {
                 .cloudRefreshable {
                     guard let uid else { return }
                     await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService, currentUser: authManager.currentUser)
-                    // Trigger alert check with refreshed friend data
                     let allFriends = viewModel.favorites.map(\.friend) + viewModel.others.map(\.friend)
                     await weatherAlertService.checkAlertsForFriends(uid: uid, friends: allFriends)
                 }
@@ -71,17 +67,16 @@ struct FriendListView: View {
     private var emptyStateFriends: some View {
         VStack(spacing: 16) {
             Spacer()
-            Image("EmptyStateFriends")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: 200)
+            Image(systemName: "person.2")
+                .font(.system(size: 48))
+                .foregroundStyle(.secondary)
 
             Text("No friends yet")
-                .font(.title3.weight(.semibold))
+                .font(.atmosphereFriendName)
                 .foregroundStyle(.primary)
 
             Text("Add friends to see their weather")
-                .font(.subheadline)
+                .font(.atmosphereFriendCity)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
             Spacer()
@@ -92,46 +87,42 @@ struct FriendListView: View {
     // MARK: - Demo Banner
 
     private var demoBanner: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Image(systemName: "info.circle.fill")
-                        .foregroundStyle(.orange)
-                    Text("Exempeldata")
-                        .font(.subheadline.weight(.semibold))
-                }
-                Text("Lägg till dina egna vänner för att se deras väder")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Button {
-                    Task {
-                        guard let uid else { return }
-                        await viewModel.removeDemoData(uid: uid, friendService: friendService)
-                    }
-                } label: {
-                    Text("Ta bort exempeldata")
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(.orange)
-                }
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image(systemName: "info.circle.fill")
+                    .foregroundStyle(.orange)
+                Text("Exempeldata")
+                    .font(.subheadline.weight(.semibold))
             }
-            .padding(.vertical, 4)
-            .listRowBackground(Color.orange.opacity(0.08))
+            Text("Lägg till dina egna vänner för att se deras väder")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Button {
+                Task {
+                    guard let uid else { return }
+                    await viewModel.removeDemoData(uid: uid, friendService: friendService)
+                }
+            } label: {
+                Text("Ta bort exempeldata")
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(.orange)
+            }
         }
+        .padding(12)
+        .background(Color.orange.opacity(0.08))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
     // MARK: - Favorites Section
 
     private var favoritesSection: some View {
-        Section("Favoriter") {
+        VStack(spacing: 0) {
+            ZoneDivider(zone: .tropical, friendCount: viewModel.favorites.count)
+
             ForEach(Array(viewModel.favorites.enumerated()), id: \.element.id) { index, fw in
                 FriendRowView(friendWeather: fw)
                     .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
-                    .transition(.asymmetric(
-                        insertion: reduceMotion
-                            ? .opacity
-                            : .move(edge: .trailing).combined(with: .opacity),
-                        removal: .opacity
-                    ))
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                     .animation(
                         reduceMotion
                             ? .easeInOut(duration: 0.25)
@@ -140,13 +131,9 @@ struct FriendListView: View {
                         value: viewModel.refreshToken
                     )
                     .contentShape(Rectangle())
-                    .onTapGesture {
-                        selectedFriendWeather = fw
-                    }
+                    .onTapGesture { selectedFriendWeather = fw }
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        Button {
-                            shareTarget = fw
-                        } label: {
+                        Button { shareTarget = fw } label: {
                             Label("Share", systemImage: "square.and.arrow.up")
                         }
                         .tint(.blue)
@@ -163,6 +150,12 @@ struct FriendListView: View {
                         }
                         .tint(.orange)
                     }
+
+                if index < viewModel.favorites.count - 1 {
+                    Divider()
+                        .opacity(0.12)
+                        .padding(.leading, 72)
+                }
             }
         }
     }
@@ -170,16 +163,17 @@ struct FriendListView: View {
     // MARK: - Others Section
 
     private var othersSection: some View {
-        Section(viewModel.favorites.isEmpty ? "Vänner" : "Övriga") {
+        let zone: TemperatureZone = viewModel.others.first.flatMap {
+            $0.temperatureCelsius.map { TemperatureZone(celsius: $0) }
+        } ?? .cool
+
+        return VStack(spacing: 0) {
+            ZoneDivider(zone: zone, friendCount: viewModel.others.count)
+
             ForEach(Array(viewModel.others.enumerated()), id: \.element.id) { index, fw in
                 FriendRowView(friendWeather: fw)
                     .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
-                    .transition(.asymmetric(
-                        insertion: reduceMotion
-                            ? .opacity
-                            : .move(edge: .trailing).combined(with: .opacity),
-                        removal: .opacity
-                    ))
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                     .animation(
                         reduceMotion
                             ? .easeInOut(duration: 0.25)
@@ -188,13 +182,9 @@ struct FriendListView: View {
                         value: viewModel.refreshToken
                     )
                     .contentShape(Rectangle())
-                    .onTapGesture {
-                        selectedFriendWeather = fw
-                    }
+                    .onTapGesture { selectedFriendWeather = fw }
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        Button {
-                            shareTarget = fw
-                        } label: {
+                        Button { shareTarget = fw } label: {
                             Label("Share", systemImage: "square.and.arrow.up")
                         }
                         .tint(.blue)
@@ -211,6 +201,12 @@ struct FriendListView: View {
                         }
                         .tint(.yellow)
                     }
+
+                if index < viewModel.others.count - 1 {
+                    Divider()
+                        .opacity(0.12)
+                        .padding(.leading, 72)
+                }
             }
         }
     }
@@ -228,21 +224,15 @@ struct FriendListView: View {
     // MARK: - Attribution Footer
 
     private func attributionFooter(_ attribution: WeatherAttribution) -> some View {
-        Section {
-            HStack(spacing: 8) {
-                AsyncImage(url: attribution.combinedMarkLightURL) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 20)
-                    }
+        HStack(spacing: 8) {
+            AsyncImage(url: attribution.combinedMarkLightURL) { phase in
+                if let image = phase.image {
+                    image.resizable().scaledToFit().frame(height: 20)
                 }
-                Link("Väderdata från Apple", destination: attribution.legalPageURL)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
-            .listRowBackground(Color.clear)
+            Link("Väderdata från Apple", destination: attribution.legalPageURL)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }

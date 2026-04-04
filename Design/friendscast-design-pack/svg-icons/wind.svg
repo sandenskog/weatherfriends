@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="windLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6B9FE8" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#6B9FE8"/>
+      <stop offset="100%" stop-color="#4A6CF7" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+  <!-- Wind face circle -->
+  <circle cx="30" cy="50" r="22" fill="#E8ECF4"/>
+  <!-- Blowing face -->
+  <circle cx="24" cy="44" r="2.5" fill="#8892A8"/>
+  <circle cx="36" cy="44" r="2.5" fill="#8892A8"/>
+  <circle cx="38" cy="55" r="5" fill="#C0C8D8" opacity="0.6"/>
+  <!-- Blush -->
+  <circle cx="20" cy="52" r="4" fill="#FF6B8A" opacity="0.2"/>
+  <!-- Wind lines -->
+  <path d="M48 38 Q70 34 85 38 Q95 42 88 48" fill="none" stroke="url(#windLine)" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M46 52 Q72 48 95 52 Q108 56 100 62" fill="none" stroke="url(#windLine)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M48 66 Q68 62 82 66 Q90 70 84 74" fill="none" stroke="url(#windLine)" stroke-width="3" stroke-linecap="round"/>
+  <!-- Small leaves/particles -->
+  <circle cx="72" cy="42" r="2" fill="#6BCB77" opacity="0.6"/>
+  <circle cx="90" cy="56" r="2.5" fill="#6BCB77" opacity="0.5"/>
+  <circle cx="78" cy="70" r="1.5" fill="#6BCB77" opacity="0.4"/>
+</svg>

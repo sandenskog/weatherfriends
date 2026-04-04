@@ -1,20 +1,33 @@
 import SwiftUI
 import WeatherKit
 
+// MARK: - WeatherDetailSheet
+
+/// Full-screen sheet showing a friend's detailed weather.
+/// The friend's weather sky fills the background; details float on a glass panel.
 struct WeatherDetailSheet: View {
     let friendWeather: FriendWeather
     @Environment(AppWeatherService.self) private var weatherService
+    @Environment(\.dismiss) private var dismiss
 
     @State private var hourlyForecast: [HourWeather] = []
     @State private var dailyForecast: [DayWeather] = []
     @State private var isLoading = true
     @State private var errorMessage: String?
     @State private var showFriendProfile = false
+    @State private var shareTarget: FriendWeather?
+
+    private var skyMood: SkyMood {
+        let isDaytime = friendWeather.weather?.isDaylight ?? true
+        return SkyMood.from(symbolName: friendWeather.symbolName, isDaytime: isDaytime)
+    }
+
+    private var zone: TemperatureZone {
+        TemperatureZone(celsius: friendWeather.temperatureCelsius ?? 15)
+    }
 
     private static let hourFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.dateFormat = "HH"
-        return f
+        let f = DateFormatter(); f.dateFormat = "HH"; return f
     }()
 
     private static let dayFormatter: DateFormatter = {
@@ -24,206 +37,293 @@ struct WeatherDetailSheet: View {
         return f
     }()
 
-    var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                headerSection
+    // MARK: - Body
 
-                if friendWeather.weather == nil {
-                    Text("Väderdata kunde inte hämtas just nu.")
-                        .font(.bubbleBody)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 20)
-                } else if isLoading {
-                    ProgressView("Hämtar väderdata...")
-                        .padding(.top, 20)
-                } else if let error = errorMessage {
-                    Text(error)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .padding()
-                } else {
-                    detailsSection
-                    if !hourlyForecast.isEmpty {
-                        hourlySection
-                    }
-                    if !dailyForecast.isEmpty {
-                        dailySection
-                    }
-                }
+    var body: some View {
+        ZStack(alignment: .top) {
+            // Friend's sky fills entire sheet
+            AtmosphereSkyBackground(mood: skyMood)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                // Floating hero on sky
+                heroSection
+                    .padding(.top, 56)
+                    .padding(.horizontal, 20)
+
+                Spacer()
+
+                // Glass panel with forecast
+                glassPanel
+                    .ignoresSafeArea(edges: .bottom)
             }
-            .padding()
+
+            // Nav buttons on sky
+            navButtons
+                .padding(.top, 12)
+                .padding(.horizontal, 20)
         }
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
+        .ignoresSafeArea()
         .sheet(isPresented: $showFriendProfile) {
             FriendProfileView(friend: friendWeather.friend)
         }
-        .task {
-            await loadDetailedWeather()
+        .sheet(item: $shareTarget) { fw in
+            WeatherCardPreviewSheet(friendWeather: fw)
+        }
+        .task { await loadDetailedWeather() }
+    }
+
+    // MARK: - Nav Buttons
+
+    private var navButtons: some View {
+        HStack {
+            Button { dismiss() } label: {
+                Image(systemName: "chevron.down")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(Color.atmosphereTextOnSky)
+                    .frame(width: 36, height: 36)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+            }
+            Spacer()
+            Button { shareTarget = friendWeather } label: {
+                Image(systemName: "square.and.arrow.up")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(Color.atmosphereTextOnSky)
+                    .frame(width: 36, height: 36)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+            }
         }
     }
 
-    // MARK: - Header
+    // MARK: - Hero Section
 
-    private var headerSection: some View {
+    private var heroSection: some View {
         VStack(spacing: 8) {
-            // Tappbar del — öppnar vänprofil
-            Button {
-                showFriendProfile = true
-            } label: {
+            // Tappable profile
+            Button { showFriendProfile = true } label: {
                 VStack(spacing: 8) {
-                    AvatarView(
+                    TemperatureRingAvatar(
+                        photoURL: friendWeather.friend.photoURL,
                         displayName: friendWeather.friend.displayName,
                         temperatureCelsius: friendWeather.temperatureCelsius,
-                        size: 80,
-                        photoURL: friendWeather.friend.photoURL
+                        size: 64
                     )
 
                     Text(friendWeather.friend.displayName)
-                        .font(.bubbleH2)
-                        .foregroundStyle(.primary)
+                        .font(.atmosphereCity)
+                        .foregroundStyle(Color.atmosphereTextOnSky)
+                        .shadow(radius: 3)
 
                     Text(friendWeather.friend.city)
-                        .font(.bubbleBody)
-                        .foregroundStyle(.secondary)
+                        .font(.atmosphereCondition)
+                        .foregroundStyle(Color.atmosphereTextOnSkySecondary)
+                        .shadow(radius: 2)
                 }
             }
             .buttonStyle(.plain)
 
-            // Ej tappbar — väderdata
-            HStack(alignment: .center, spacing: 12) {
+            // Big temperature
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
                 Text(friendWeather.temperatureFormatted)
-                    .font(.system(size: 52, weight: .thin))
-                    .foregroundStyle(
-                        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .secondary
-                    )
+                    .font(.atmosphereDisplayTemp)
+                    .foregroundStyle(Color.atmosphereTextOnSky)
+                    .shadow(radius: 6)
 
                 Image(systemName: friendWeather.symbolName)
-                    .font(.system(size: 48))
-                    .foregroundStyle(
-                        friendWeather.temperatureCelsius.map { TemperatureZone(celsius: $0).color } ?? .secondary
-                    )
+                    .symbolRenderingMode(.multicolor)
+                    .font(.system(size: 36))
+                    .shadow(radius: 4)
             }
 
             Text(friendWeather.conditionDescription)
-                .font(.body)
-                .foregroundStyle(.secondary)
+                .font(.atmosphereCondition)
+                .foregroundStyle(Color.atmosphereTextOnSkySecondary)
+                .shadow(radius: 2)
+
+            // Hi/Lo pills
+            if let weather = friendWeather.weather {
+                HStack(spacing: 12) {
+                    weatherPill(
+                        icon: "arrow.up",
+                        value: weather.apparentTemperature.converted(to: .celsius).formatted(.measurement(width: .narrow))
+                    )
+                    weatherPill(
+                        icon: "wind",
+                        value: String(format: "%.0f m/s", weather.wind.speed.converted(to: .metersPerSecond).value)
+                    )
+                    weatherPill(
+                        icon: "humidity",
+                        value: String(format: "%.0f%%", weather.humidity * 100)
+                    )
+                }
+            }
         }
     }
 
-    // MARK: - Details
-
-    private var detailsSection: some View {
-        VStack(spacing: 0) {
-            detailRow(
-                icon: "thermometer.medium",
-                label: "Känns som",
-                value: feelsLikeFormatted
-            )
-            Divider()
-            detailRow(
-                icon: "wind",
-                label: "Vind",
-                value: windFormatted
-            )
-            Divider()
-            detailRow(
-                icon: "humidity",
-                label: "Luftfuktighet",
-                value: friendWeather.humidity.map { String(format: "%.0f%%", $0) } ?? "—"
-            )
-            Divider()
-            detailRow(
-                icon: "sun.max",
-                label: "UV-index",
-                value: uvIndexValue
-            )
-        }
-        .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-
-    private func detailRow(icon: String, label: String, value: String) -> some View {
-        HStack {
+    private func weatherPill(icon: String, value: String) -> some View {
+        HStack(spacing: 4) {
             Image(systemName: icon)
-                .frame(width: 24)
-                .foregroundStyle(.secondary)
-            Text(label)
-                .foregroundStyle(.secondary)
-            Spacer()
+                .font(.system(size: 11, weight: .medium))
             Text(value)
-                .fontWeight(.medium)
+                .font(.system(size: 12, weight: .medium, design: .rounded))
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
+        .foregroundStyle(Color.atmosphereTextOnSky)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(.ultraThinMaterial)
+        .clipShape(Capsule())
+    }
+
+    // MARK: - Glass Panel
+
+    private var glassPanel: some View {
+        VStack(spacing: 0) {
+            // Drag indicator
+            Capsule()
+                .fill(Color.white.opacity(0.35))
+                .frame(width: 36, height: 4)
+                .padding(.top, 12)
+                .padding(.bottom, 16)
+
+            if isLoading {
+                ProgressView("Hämtar prognos...")
+                    .padding()
+                Spacer()
+            } else if let error = errorMessage {
+                Text(error)
+                    .font(.atmosphereFriendCity)
+                    .foregroundStyle(.secondary)
+                    .padding()
+                Spacer()
+            } else {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 20) {
+                        if !hourlyForecast.isEmpty { hourlySection }
+                        if !dailyForecast.isEmpty { dailySection }
+                        actionButtons
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 40)
+                }
+            }
+        }
+        .frame(height: UIScreen.main.bounds.height * 0.50)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
     }
 
     // MARK: - Hourly Forecast
 
     private var hourlySection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Timprognos")
-                .font(.bubbleH3)
+        VStack(alignment: .leading, spacing: 10) {
+            Text("IDAG")
+                .font(.atmosphereSectionHeader)
+                .foregroundStyle(.secondary)
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 16) {
+                HStack(spacing: 12) {
                     ForEach(hourlyForecast.prefix(12), id: \.date) { hour in
                         VStack(spacing: 6) {
                             Text(Self.hourFormatter.string(from: hour.date))
-                                .font(.caption)
+                                .font(.system(size: 12, weight: .medium, design: .rounded))
                                 .foregroundStyle(.secondary)
+
                             Image(systemName: hour.symbolName)
-                                .font(.body)
+                                .symbolRenderingMode(.multicolor)
+                                .font(.system(size: 18))
+
                             Text(hour.temperature.converted(to: .celsius)
                                 .formatted(.measurement(width: .narrow)))
-                                .font(.caption.weight(.medium))
+                                .font(.system(size: 13, weight: .semibold, design: .rounded))
+                                .foregroundStyle(.primary)
                         }
-                        .frame(minWidth: 44)
+                        .frame(minWidth: 48)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 6)
+                        .background(.ultraThinMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
                 }
-                .padding(.horizontal, 4)
+                .padding(.horizontal, 2)
             }
-            .padding(.vertical, 8)
-            .background(Color(.secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
     // MARK: - Daily Forecast
 
     private var dailySection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("5-dagarsprognos")
-                .font(.bubbleH3)
+        VStack(alignment: .leading, spacing: 10) {
+            Text("5 DAGAR")
+                .font(.atmosphereSectionHeader)
+                .foregroundStyle(.secondary)
 
-            VStack(spacing: 0) {
+            VStack(spacing: 1) {
                 ForEach(Array(dailyForecast.prefix(5).enumerated()), id: \.offset) { idx, day in
-                    HStack {
+                    HStack(spacing: 12) {
                         Text(idx == 0 ? "Idag" : Self.dayFormatter.string(from: day.date).capitalized)
-                            .frame(width: 60, alignment: .leading)
+                            .font(.atmosphereFriendCity)
+                            .frame(width: 52, alignment: .leading)
+
                         Image(systemName: day.symbolName)
-                            .frame(width: 24)
+                            .symbolRenderingMode(.multicolor)
+                            .font(.system(size: 16))
+                            .frame(width: 22)
+
                         Spacer()
+
                         Text(day.lowTemperature.converted(to: .celsius)
                             .formatted(.measurement(width: .narrow)))
+                            .font(.atmosphereFriendCity)
                             .foregroundStyle(.secondary)
-                            .frame(width: 40, alignment: .trailing)
-                        Text("–")
-                            .foregroundStyle(.secondary)
+                            .frame(width: 36, alignment: .trailing)
+
+                        // Temp range bar
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                Capsule()
+                                    .fill(Color.white.opacity(0.15))
+                                Capsule()
+                                    .fill(zone.color.opacity(0.7))
+                                    .frame(width: geo.size.width * 0.6)
+                            }
+                        }
+                        .frame(width: 60, height: 4)
+
                         Text(day.highTemperature.converted(to: .celsius)
                             .formatted(.measurement(width: .narrow)))
-                            .frame(width: 40, alignment: .leading)
+                            .font(.system(size: 13, weight: .semibold, design: .rounded))
+                            .frame(width: 36, alignment: .leading)
                     }
-                    .padding(.horizontal, 16)
                     .padding(.vertical, 10)
-                    if idx < min(4, dailyForecast.count - 1) {
-                        Divider()
-                    }
+                    .padding(.horizontal, 12)
+                    .background(idx % 2 == 0 ? Color.white.opacity(0.05) : Color.clear)
                 }
             }
-            .background(Color(.secondarySystemGroupedBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+        }
+    }
+
+    // MARK: - Action Buttons
+
+    private var actionButtons: some View {
+        VStack(spacing: 10) {
+            Button {
+                shareTarget = friendWeather
+            } label: {
+                HStack {
+                    Image(systemName: "paperplane.fill")
+                    Text("Skicka vädervy till \(friendWeather.friend.displayName.components(separatedBy: " ").first ?? "vännen")")
+                        .font(.atmosphereFriendName)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(zone.color)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+            }
         }
     }
 
@@ -233,10 +333,9 @@ struct WeatherDetailSheet: View {
         guard let lat = friendWeather.friend.cityLatitude,
               let lon = friendWeather.friend.cityLongitude else {
             isLoading = false
-            errorMessage = "Koordinater saknas för denna vän."
+            errorMessage = "Koordinater saknas."
             return
         }
-
         do {
             let (_, hourly, daily) = try await weatherService.detailedWeather(latitude: lat, longitude: lon)
             hourlyForecast = Array(hourly)
@@ -244,28 +343,7 @@ struct WeatherDetailSheet: View {
             isLoading = false
         } catch {
             isLoading = false
-            errorMessage = "Kunde inte hämta detaljerad väderdata."
+            errorMessage = "Kunde inte hämta prognos."
         }
-    }
-
-    // MARK: - Computed values from current weather
-
-    private var feelsLikeFormatted: String {
-        guard let weather = friendWeather.weather else { return "—" }
-        let celsius = weather.apparentTemperature.converted(to: .celsius)
-        return celsius.formatted(.measurement(width: .narrow))
-    }
-
-    private var windFormatted: String {
-        guard let weather = friendWeather.weather,
-              let speed = friendWeather.windSpeed else { return "—" }
-        let direction = weather.wind.compassDirection.abbreviation
-        return String(format: "%.1f m/s %@", speed, direction)
-    }
-
-    private var uvIndexValue: String {
-        guard let weather = friendWeather.weather else { return "—" }
-        let uv = weather.uvIndex
-        return "\(uv.value) \(uv.category.description)"
     }
 }

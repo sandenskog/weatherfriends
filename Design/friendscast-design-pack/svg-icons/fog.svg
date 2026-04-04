@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="fogCloud" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D0D8E8"/>
+      <stop offset="100%" stop-color="#B0BFD6"/>
+    </linearGradient>
+  </defs>
+  <!-- Small cloud on top -->
+  <ellipse cx="55" cy="34" rx="30" ry="16" fill="url(#fogCloud)"/>
+  <circle cx="38" cy="24" r="14" fill="url(#fogCloud)"/>
+  <circle cx="60" cy="22" r="16" fill="url(#fogCloud)"/>
+  <circle cx="72" cy="28" r="12" fill="url(#fogCloud)"/>
+  <!-- Squinting face -->
+  <line x1="42" y1="32" x2="50" y2="32" stroke="#8892A8" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="58" y1="32" x2="66" y2="32" stroke="#8892A8" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Fog lines -->
+  <line x1="18" y1="58" x2="100" y2="58" stroke="#C0C8D8" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+  <line x1="24" y1="72" x2="96" y2="72" stroke="#C0C8D8" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="30" y1="86" x2="90" y2="86" stroke="#C0C8D8" stroke-width="5" stroke-linecap="round" opacity="0.35"/>
+  <line x1="36" y1="100" x2="84" y2="100" stroke="#C0C8D8" stroke-width="4" stroke-linecap="round" opacity="0.2"/>
+</svg>

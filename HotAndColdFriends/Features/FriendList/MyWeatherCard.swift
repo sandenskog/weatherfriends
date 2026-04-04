@@ -2,9 +2,8 @@ import SwiftUI
 
 // MARK: - MyWeatherCard
 
-/// A prominent card showing the current user's own weather,
-/// displayed at the top of the friend list. Roughly double the
-/// height of a regular FriendRowView (~120pt).
+/// Minimal weather display for use inside non-sky contexts (e.g. widgets, cards).
+/// In the main app the hero weather is rendered directly in FriendsTabView on sky.
 struct MyWeatherCard: View {
     let myWeather: FriendWeather
     let onShare: () -> Void
@@ -14,51 +13,42 @@ struct MyWeatherCard: View {
     }
 
     var body: some View {
-        HStack(spacing: Spacing.md) {
-            // Left side: weather info
-            VStack(alignment: .leading, spacing: Spacing.xs) {
-                Text("My Weather")
-                    .font(.bubbleCaption)
-                    .foregroundStyle(Color.bubbleTextSecondary)
-
+        HStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(myWeather.friend.city)
-                    .font(.bubbleBody)
-                    .foregroundStyle(Color.bubbleTextPrimary)
+                    .font(.atmosphereCity)
+                    .foregroundStyle(.primary)
                     .lineLimit(1)
 
                 Text(myWeather.temperatureFormatted)
-                    .font(.system(size: 44, weight: .bold, design: .rounded))
+                    .font(.system(size: 40, weight: .heavy, design: .rounded))
                     .foregroundStyle(zone.color)
 
                 Text(myWeather.conditionDescription)
-                    .font(.bubbleCaption)
-                    .foregroundStyle(Color.bubbleTextSecondary)
+                    .font(.atmosphereFriendCity)
+                    .foregroundStyle(.secondary)
                     .lineLimit(1)
             }
 
             Spacer()
 
-            // Right side: icon + share button
-            VStack(spacing: Spacing.sm) {
-                WeatherIconMapper.icon(for: myWeather.symbolName, size: 44)
-                    .foregroundStyle(zone.color)
+            VStack(spacing: 12) {
+                Image(systemName: myWeather.symbolName)
+                    .symbolRenderingMode(.multicolor)
+                    .font(.system(size: 36))
 
-                BubblePopButton(title: "Share My Weather") {
-                    onShare()
+                Button(action: onShare) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                        .frame(width: 32, height: 32)
+                        .background(.ultraThinMaterial)
+                        .clipShape(Circle())
                 }
             }
         }
-        .padding(.horizontal, Spacing.md)
-        .padding(.vertical, Spacing.md)
-        .background(
-            ZStack {
-                RoundedRectangle(cornerRadius: CornerRadius.md)
-                    .fill(Color.bubbleSurface)
-                RoundedRectangle(cornerRadius: CornerRadius.md)
-                    .fill(zone.gradient)
-                    .opacity(0.12)
-            }
-        )
-        .shadowMd()
+        .padding(16)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
     }
 }

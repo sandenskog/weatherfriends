@@ -12,56 +12,85 @@ struct ConversationListView: View {
     @State private var showNewConversation = false
     @State private var navigationPath = NavigationPath()
 
-    private var currentUid: String {
-        authManager.currentUser?.id ?? ""
-    }
+    private var currentUid: String { authManager.currentUser?.id ?? "" }
+
+    // Sky from current user's location — default sunny
+    private var skyMood: SkyMood { .sunny }
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            conversationList
-                .navigationTitle("Chattar")
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
+            ZStack(alignment: .bottom) {
+                // Sky background
+                AtmosphereSkyBackground(mood: skyMood)
+                    .ignoresSafeArea()
+
+                VStack(spacing: 0) {
+                    // Floating header
+                    HStack {
+                        Text("Chattar")
+                            .font(.bubbleH1)
+                            .foregroundStyle(Color.atmosphereTextOnSky)
+                            .shadow(radius: 4)
+
+                        Spacer()
+
                         Button {
                             showNewConversation = true
                         } label: {
                             Image(systemName: "square.and.pencil")
+                                .font(.system(size: 17, weight: .medium))
+                                .foregroundStyle(Color.atmosphereTextOnSky)
+                                .frame(width: 36, height: 36)
+                                .background(.ultraThinMaterial)
+                                .clipShape(Circle())
                         }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 60)
+                    .padding(.bottom, 16)
+
+                    // Glass sheet with conversation list
+                    conversationListContent
+                        .background(.ultraThinMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                        .ignoresSafeArea(edges: .bottom)
                 }
-                .navigationDestination(for: String.self) { conversationId in
-                    ChatView(conversationId: conversationId)
+            }
+            .ignoresSafeArea()
+            .toolbar(.hidden, for: .navigationBar)
+            .navigationDestination(for: String.self) { conversationId in
+                ChatView(conversationId: conversationId)
+            }
+            .sheet(isPresented: $showNewConversation) {
+                NewConversationSheet { conversationId in
+                    showNewConversation = false
+                    navigationPath.append(conversationId)
                 }
-                .sheet(isPresented: $showNewConversation) {
-                    NewConversationSheet { conversationId in
-                        showNewConversation = false
-                        navigationPath.append(conversationId)
-                    }
+            }
+            .task {
+                guard !currentUid.isEmpty else { return }
+                await viewModel.load(uid: currentUid, chatService: chatService, friendService: friendService, userService: userService)
+            }
+            .onChange(of: chatService.conversations) { _, newConversations in
+                Task {
+                    await viewModel.refreshUsersMapIfNeeded(
+                        conversations: newConversations,
+                        currentUid: currentUid,
+                        userService: userService
+                    )
                 }
-                .task {
-                    guard !currentUid.isEmpty else { return }
-                    await viewModel.load(uid: currentUid, chatService: chatService, friendService: friendService, userService: userService)
+            }
+            .onChange(of: openConversationId) { _, newId in
+                if let id = newId {
+                    navigationPath.append(id)
+                    openConversationId = nil
                 }
-                .onChange(of: chatService.conversations) { _, newConversations in
-                    Task {
-                        await viewModel.refreshUsersMapIfNeeded(
-                            conversations: newConversations,
-                            currentUid: currentUid,
-                            userService: userService
-                        )
-                    }
-                }
-                .onChange(of: openConversationId) { _, newId in
-                    if let id = newId {
-                        navigationPath.append(id)
-                        openConversationId = nil
-                    }
-                }
+            }
         }
     }
 
     @ViewBuilder
-    private var conversationList: some View {
+    private var conversationListContent: some View {
         let filtered = viewModel.filteredConversations(
             from: chatService.conversations,
             currentUid: currentUid
@@ -70,47 +99,55 @@ struct ConversationListView: View {
         if filtered.isEmpty && !viewModel.isLoading {
             VStack(spacing: 16) {
                 Spacer()
-                Image("EmptyStateChat")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: 200)
+                Image(systemName: "bubble.left.and.bubble.right")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.secondary)
 
-                Text("No conversations yet")
-                    .font(.bubbleH3)
+                Text("Inga chattar ännu")
+                    .font(.atmosphereFriendName)
                     .foregroundStyle(.primary)
 
-                Text("Start chatting with a friend about the weather")
-                    .font(.bubbleBody)
+                Text("Starta en konversation med en vän om vädret")
+                    .font(.atmosphereFriendCity)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                 Spacer()
             }
             .padding(32)
         } else {
-            List(filtered) { conversation in
-                Button {
-                    if let id = conversation.id {
-                        navigationPath.append(id)
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(filtered) { conversation in
+                        Button {
+                            if let id = conversation.id {
+                                navigationPath.append(id)
+                            }
+                        } label: {
+                            AtmosphereConversationRow(
+                                conversation: conversation,
+                                displayName: viewModel.displayName(for: conversation, currentUid: currentUid),
+                                otherUser: viewModel.otherUser(for: conversation, currentUid: currentUid),
+                                timeString: viewModel.formattedTime(conversation.lastMessageAt),
+                                weatherService: weatherService
+                            )
+                        }
+                        .buttonStyle(.plain)
+
+                        Divider()
+                            .opacity(0.12)
+                            .padding(.leading, 72)
                     }
-                } label: {
-                    ConversationRowView(
-                        conversation: conversation,
-                        displayName: viewModel.displayName(for: conversation, currentUid: currentUid),
-                        otherUser: viewModel.otherUser(for: conversation, currentUid: currentUid),
-                        timeString: viewModel.formattedTime(conversation.lastMessageAt),
-                        weatherService: weatherService
-                    )
                 }
-                .buttonStyle(.plain)
+                .padding(.top, 4)
+                .padding(.bottom, 32)
             }
-            .listStyle(.plain)
         }
     }
 }
 
-// MARK: - ConversationRowView
+// MARK: - AtmosphereConversationRow
 
-private struct ConversationRowView: View {
+private struct AtmosphereConversationRow: View {
     let conversation: Conversation
     let displayName: String
     let otherUser: AppUser?
@@ -118,43 +155,47 @@ private struct ConversationRowView: View {
     let weatherService: AppWeatherService
 
     @State private var weatherSymbol: String?
+    @State private var weatherCelsius: Double?
 
     var body: some View {
         HStack(spacing: 12) {
-            profileImage
+            profileAvatar
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 3) {
                 HStack {
                     Text(displayName)
-                        .font(.body.weight(.semibold))
+                        .font(.atmosphereFriendName)
                         .lineLimit(1)
                     Spacer()
                     Text(timeString)
-                        .font(.caption)
+                        .font(.atmosphereFriendCity)
                         .foregroundStyle(.secondary)
                 }
                 HStack {
                     Text(conversation.lastMessage ?? "Starta en konversation")
-                        .font(.bubbleBody)
+                        .font(.atmosphereFriendCity)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                     Spacer()
                     if let symbol = weatherSymbol {
                         Image(systemName: symbol)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .font(.system(size: 13))
+                            .foregroundStyle(
+                                weatherCelsius.map { TemperatureZone(celsius: $0).color } ?? Color.secondary
+                            )
                     }
                 }
             }
         }
-        .padding(.vertical, 4)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
         .task {
             await loadWeather()
         }
     }
 
     @ViewBuilder
-    private var profileImage: some View {
+    private var profileAvatar: some View {
         if conversation.isGroup {
             ZStack {
                 Circle().fill(Color(.systemGray5))
@@ -164,19 +205,20 @@ private struct ConversationRowView: View {
             }
             .frame(width: 44, height: 44)
         } else {
-            AvatarView(
+            TemperatureRingAvatar(
+                photoURL: otherUser?.photoURL,
                 displayName: displayName,
-                temperatureCelsius: nil,
-                size: 44,
-                photoURL: otherUser?.photoURL
+                temperatureCelsius: weatherCelsius,
+                size: 44
             )
         }
     }
 
     private func loadWeather() async {
-        guard let lat = otherUser?.cityLatitude,
-              let lon = otherUser?.cityLongitude else { return }
-        let weather = try? await weatherService.currentWeather(latitude: lat, longitude: lon)
-        weatherSymbol = weather?.symbolName
+        guard let lat = otherUser?.cityLatitude, let lon = otherUser?.cityLongitude else { return }
+        if let weather = try? await weatherService.currentWeather(latitude: lat, longitude: lon) {
+            weatherSymbol = weather.symbolName
+            weatherCelsius = weather.temperature.converted(to: .celsius).value
+        }
     }
 }

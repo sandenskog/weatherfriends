@@ -2,8 +2,8 @@ import SwiftUI
 
 // MARK: - BubblePopButton
 
-/// A pill-shaped button with brand gradient and a subtle bounce animation on press.
-/// Use this as the primary action button throughout the app.
+/// A pill-shaped button using glass material with a subtle bounce animation on press.
+/// Updated to Atmosphere design — no solid color backgrounds.
 struct BubblePopButton: View {
     let title: String
     let action: () -> Void
@@ -24,14 +24,20 @@ struct BubblePopButton: View {
             }
         }
         .font(.bubbleButton)
-        .foregroundStyle(.white)
+        .foregroundStyle(isDestructive ? Color.bubbleError : Color.atmosphereTextOnSky)
         .padding(.horizontal, Spacing.lg)
         .padding(.vertical, Spacing.sm + Spacing.xs)
-        .background(background)
+        .background(.ultraThinMaterial)
         .clipShape(Capsule())
+        .overlay(
+            Capsule()
+                .strokeBorder(
+                    isDestructive ? Color.bubbleError.opacity(0.5) : Color.white.opacity(0.25),
+                    lineWidth: 1
+                )
+        )
         .scaleEffect(isPressed && !reduceMotion ? 0.96 : 1.0)
         .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.6), value: isPressed)
-        .shadowGlowPrimary()
         .opacity(isDisabled ? 0.5 : 1.0)
         .allowsHitTesting(!isDisabled && !isLoading)
         .simultaneousGesture(
@@ -43,36 +49,16 @@ struct BubblePopButton: View {
                 }
         )
     }
-
-    @ViewBuilder
-    private var background: some View {
-        if isDestructive {
-            Color.bubbleError
-        } else {
-            LinearGradient(
-                colors: [.bubblePrimary, .bubbleSecondary],
-                startPoint: .leading,
-                endPoint: .trailing
-            )
-        }
-    }
 }
 
 // MARK: - Preview
 
 #Preview {
     VStack(spacing: 24) {
-        BubblePopButton(title: "Get Started") {
-            print("primary tapped")
-        }
-
-        BubblePopButton(title: "Continue") {
-            print("secondary tapped")
-        }
-
-        BubblePopButton(title: "Delete Account", action: {
-            print("destructive tapped")
-        }, isDestructive: true)
+        BubblePopButton(title: "Share My Weather") { }
+        BubblePopButton(title: "Delete Account", action: { }, isDestructive: true)
     }
     .padding()
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(Color(hex: 0x1A85E0))
 }

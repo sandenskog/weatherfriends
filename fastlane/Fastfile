@@ -1,0 +1,58 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new build to TestFlight"
+  lane :beta do
+    api_key = app_store_connect_api_key(
+      key_id: "URRVZVCWAM",
+      issuer_id: "69a6de74-0aef-47e3-e053-5b8c7c11a4d1",
+      key_filepath: File.expand_path("~/Downloads/AuthKey_URRVZVCWAM.p8"),
+    )
+
+    # Generate Xcode project from project.yml
+    sh("cd .. && xcodegen generate")
+
+    # Increment build number (timestamp-based to avoid conflicts)
+    increment_build_number(
+      build_number: Time.now.strftime("%Y%m%d%H%M"),
+      xcodeproj: "HotAndColdFriends.xcodeproj"
+    )
+
+    # Build with automatic code signing
+    build_app(
+      project: "HotAndColdFriends.xcodeproj",
+      scheme: "HotAndColdFriends",
+      export_method: "app-store",
+      xcargs: "-allowProvisioningUpdates",
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true,
+    )
+  end
+
+  desc "Push metadata to App Store Connect"
+  lane :metadata do
+    api_key = app_store_connect_api_key(
+      key_id: "URRVZVCWAM",
+      issuer_id: "69a6de74-0aef-47e3-e053-5b8c7c11a4d1",
+      key_filepath: File.expand_path("~/Downloads/AuthKey_URRVZVCWAM.p8"),
+    )
+
+    deliver(
+      api_key: api_key,
+      skip_screenshots: true,
+      skip_binary_upload: true,
+      force: true,
+      metadata_path: "fastlane/metadata",
+      app_review_information: {
+        first_name: "Richard",
+        last_name: "Sandenskog",
+        phone_number: "+46700000000",
+        email_address: "richard@sandenskog.se",
+      },
+      precheck_include_in_app_purchases: false,
+    )
+  end
+end

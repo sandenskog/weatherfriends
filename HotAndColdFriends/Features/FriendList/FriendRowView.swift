@@ -2,6 +2,8 @@ import SwiftUI
 
 // MARK: - FriendRowView
 
+/// Clean borderless row for the friends glass sheet.
+/// Temperature and weather icon use zone color; no card border.
 struct FriendRowView: View {
     let friendWeather: FriendWeather
 
@@ -11,58 +13,41 @@ struct FriendRowView: View {
         TemperatureZone(celsius: friendWeather.temperatureCelsius ?? -99)
     }
 
-    private var nudgeText: String? {
-        WeatherNudgeService.nudge(for: friendWeather)
-    }
-
     // MARK: - Body
 
     var body: some View {
-        HStack(spacing: Spacing.md) {
-            AvatarView(
+        HStack(spacing: 12) {
+            TemperatureRingAvatar(
+                photoURL: friendWeather.friend.photoURL,
                 displayName: friendWeather.friend.displayName,
                 temperatureCelsius: friendWeather.temperatureCelsius,
-                size: 52,
-                photoURL: friendWeather.friend.photoURL
+                size: 44
             )
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(friendWeather.friend.displayName)
-                    .font(.bubbleH3)
-                    .foregroundStyle(Color.bubbleTextPrimary)
+                    .font(.atmosphereFriendName)
+                    .foregroundStyle(Color.primary)
                     .lineLimit(1)
 
                 Text(friendWeather.friend.city)
-                    .font(.bubbleCaption)
-                    .foregroundStyle(Color.bubbleTextSecondary)
+                    .font(.atmosphereFriendCity)
+                    .foregroundStyle(Color.secondary)
                     .lineLimit(1)
-
-                if let nudge = nudgeText {
-                    Text(nudge)
-                        .font(.bubbleFootnote)
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, Spacing.sm)
-                        .padding(.vertical, Spacing.xs)
-                        .background(zone.color.opacity(0.85))
-                        .clipShape(Capsule())
-                }
             }
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: 4) {
+            VStack(alignment: .trailing, spacing: 2) {
                 Text(friendWeather.temperatureFormatted)
-                    .font(.bubbleTemperature)
+                    .font(.atmosphereFriendTemp)
                     .foregroundStyle(zone.color)
 
-                WeatherIconMapper.icon(for: friendWeather.symbolName, size: 28)
+                WeatherIconMapper.icon(for: friendWeather.symbolName, size: 16)
                     .foregroundStyle(zone.color)
             }
         }
-        .padding(.horizontal, Spacing.md)
-        .padding(.vertical, Spacing.sm + Spacing.xs)
-        .background(Color.bubbleSurface)
-        .clipShape(RoundedRectangle(cornerRadius: CornerRadius.md))
-        .shadowMd()
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
     }
 }

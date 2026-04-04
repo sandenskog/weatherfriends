@@ -10,36 +10,45 @@ struct ChatView: View {
 
     @State private var viewModel = ChatViewModel()
     @State private var showWeatherStickerPicker = false
-    @State private var showBlockConfirmation = false
-    @State private var userToBlock: String?
     @State private var sendHapticTrigger = false
+    @State private var friendSkyMood: SkyMood = .sunny
 
     private var currentUid: String {
         authManager.currentUser?.id ?? ""
     }
 
+    private var chatTitle: String {
+        viewModel.conversationTitle(currentUid: currentUid)
+    }
+
     var body: some View {
-        VStack(spacing: 0) {
-            // Väder-header
-            let others = viewModel.otherParticipants(currentUid: currentUid)
-            if !others.isEmpty {
-                WeatherHeaderView(participants: others)
-                    .environment(weatherService)
-                Divider()
+        ZStack(alignment: .bottom) {
+            // Sky background from friend's weather
+            AtmosphereSkyBackground(mood: friendSkyMood)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                // Floating nav header on sky
+                navHeader
+                    .padding(.top, 60)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 12)
+
+                // Glass message sheet covering most of screen
+                VStack(spacing: 0) {
+                    messageList
+                    messageInputBar
+                }
+                .background(.ultraThinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                .ignoresSafeArea(edges: .bottom)
             }
-
-            // Meddelandelista
-            messageList
-
-            Divider()
-
-            // Inmatningsfält
-            messageInputBar
         }
-        .navigationTitle(viewModel.conversationTitle(currentUid: currentUid))
-        .navigationBarTitleDisplayMode(.inline)
+        .ignoresSafeArea()
+        .toolbar(.hidden, for: .navigationBar)
         .task {
             await viewModel.load(conversationId: conversationId, chatService: chatService)
+            await loadFriendWeather()
         }
         .sensoryFeedback(.impact(weight: .light), trigger: sendHapticTrigger)
         .onDisappear {
@@ -59,7 +68,42 @@ struct ChatView: View {
         }
     }
 
-    // MARK: - Meddelandelista
+    // MARK: - Nav Header (floating on sky)
+
+    private var navHeader: some View {
+        HStack(spacing: 12) {
+            // Back button
+            Button {
+                // navigation is handled by NavigationStack in parent
+            } label: {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(Color.atmosphereTextOnSky)
+                    .frame(width: 36, height: 36)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+            }
+
+            VStack(alignment: .leading, spacing: 1) {
+                Text(chatTitle)
+                    .font(.atmosphereCity)
+                    .foregroundStyle(Color.atmosphereTextOnSky)
+                    .shadow(radius: 3)
+
+                // Show weather for the other participant
+                if let other = viewModel.otherParticipants(currentUid: currentUid).first {
+                    Text(other.city)
+                        .font(.atmosphereFriendCity)
+                        .foregroundStyle(Color.atmosphereTextOnSkySecondary)
+                        .shadow(radius: 2)
+                }
+            }
+
+            Spacer()
+        }
+    }
+
+    // MARK: - Message List
 
     private var messageList: some View {
         ScrollViewReader { proxy in
@@ -70,9 +114,7 @@ struct ChatView: View {
                             message: message,
                             isCurrentUser: message.senderId == currentUid,
                             senderName: senderName(for: message),
-                            onReport: {
-                                reportMessage(message)
-                            },
+                            onReport: { reportMessage(message) },
                             onBlock: message.senderId != currentUid ? {
                                 blockUser(uid: message.senderId)
                             } : nil
@@ -85,25 +127,22 @@ struct ChatView: View {
             }
             .onChange(of: chatService.messages.count) { _, _ in
                 if let lastId = chatService.messages.last?.id {
-                    withAnimation {
-                        proxy.scrollTo(lastId, anchor: .bottom)
-                    }
+                    withAnimation { proxy.scrollTo(lastId, anchor: .bottom) }
                 }
             }
         }
     }
 
-    // MARK: - Inmatningsfält
+    // MARK: - Input Bar
 
     private var messageInputBar: some View {
         @Bindable var vm = viewModel
-        return HStack(spacing: 8) {
-            // Väder-sticker-knapp
+        return HStack(spacing: 10) {
             Button {
                 showWeatherStickerPicker = true
             } label: {
                 Image(systemName: "cloud.sun")
-                    .font(.bubbleH3)
+                    .font(.system(size: 20))
                     .foregroundStyle(.secondary)
             }
 
@@ -111,23 +150,19 @@ struct ChatView: View {
                 .textFieldStyle(.plain)
                 .lineLimit(1...4)
                 .submitLabel(.send)
-                .onSubmit {
-                    sendMessage()
-                }
+                .onSubmit { sendMessage() }
 
-            // Skicka-knapp
-            Button {
-                sendMessage()
-            } label: {
+            Button { sendMessage() } label: {
+                let hasText = !viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 Image(systemName: "arrow.up.circle.fill")
-                    .font(.bubbleH2)
-                    .foregroundStyle(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .gray : .blue)
+                    .font(.system(size: 28))
+                    .foregroundStyle(hasText ? Color.bubblePrimary : Color.secondary)
             }
             .disabled(viewModel.messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .background(Color(.systemBackground))
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .padding(.bottom, 20) // safe area compensation
     }
 
     // MARK: - Actions
@@ -140,8 +175,7 @@ struct ChatView: View {
     }
 
     private func reportMessage(_ message: ChatMessage) {
-        guard let msgId = message.id,
-              let convId = viewModel.conversation?.id else { return }
+        guard let msgId = message.id, let convId = viewModel.conversation?.id else { return }
         let report = Report(
             id: nil,
             reporterUid: currentUid,
@@ -151,19 +185,24 @@ struct ChatView: View {
             reason: "reported_by_user",
             createdAt: nil
         )
-        Task {
-            try? await chatService.reportMessage(report: report)
-        }
+        Task { try? await chatService.reportMessage(report: report) }
     }
 
     private func blockUser(uid: String) {
-        Task {
-            try? await chatService.blockUser(uid: currentUid, blockedUid: uid)
-        }
+        Task { try? await chatService.blockUser(uid: currentUid, blockedUid: uid) }
     }
 
     private func senderName(for message: ChatMessage) -> String? {
         guard let conversation = viewModel.conversation, conversation.isGroup else { return nil }
         return viewModel.participantUsers[message.senderId]?.displayName
+    }
+
+    private func loadFriendWeather() async {
+        guard let other = viewModel.otherParticipants(currentUid: currentUid).first,
+              let lat = other.cityLatitude,
+              let lon = other.cityLongitude else { return }
+        if let weather = try? await weatherService.currentWeather(latitude: lat, longitude: lon) {
+            friendSkyMood = SkyMood.from(symbolName: weather.symbolName, isDaytime: true)
+        }
     }
 }

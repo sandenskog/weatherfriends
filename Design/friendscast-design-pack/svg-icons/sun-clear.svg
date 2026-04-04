@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD93D"/>
+      <stop offset="70%" stop-color="#FFB347"/>
+      <stop offset="100%" stop-color="#FF8E6B" stop-opacity="0.6"/>
+    </radialGradient>
+    <filter id="sunSoftGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Rays -->
+  <g filter="url(#sunSoftGlow)" opacity="0.7">
+    <line x1="60" y1="8" x2="60" y2="22" stroke="#FFD93D" stroke-width="4" stroke-linecap="round"/>
+    <line x1="60" y1="98" x2="60" y2="112" stroke="#FFD93D" stroke-width="4" stroke-linecap="round"/>
+    <line x1="8" y1="60" x2="22" y2="60" stroke="#FFD93D" stroke-width="4" stroke-linecap="round"/>
+    <line x1="98" y1="60" x2="112" y2="60" stroke="#FFD93D" stroke-width="4" stroke-linecap="round"/>
+    <line x1="23" y1="23" x2="33" y2="33" stroke="#FFD93D" stroke-width="4" stroke-linecap="round"/>
+    <line x1="87" y1="87" x2="97" y2="97" stroke="#FFD93D" stroke-width="4" stroke-linecap="round"/>
+    <line x1="97" y1="23" x2="87" y2="33" stroke="#FFD93D" stroke-width="4" stroke-linecap="round"/>
+    <line x1="23" y1="97" x2="33" y2="87" stroke="#FFD93D" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- Sun body -->
+  <circle cx="60" cy="60" r="28" fill="url(#sunGlow)" filter="url(#sunSoftGlow)"/>
+  <!-- Face -->
+  <circle cx="50" cy="55" r="3" fill="#E8941E" opacity="0.8"/>
+  <circle cx="70" cy="55" r="3" fill="#E8941E" opacity="0.8"/>
+  <path d="M48 66 Q60 76 72 66" fill="none" stroke="#E8941E" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+</svg>

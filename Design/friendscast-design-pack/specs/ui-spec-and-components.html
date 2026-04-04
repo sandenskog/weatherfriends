@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FriendsCast — Bubble Pop Design System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    /* Temperature Scale */
+    --tropical: #FF6B6B;
+    --warm: #FFB347;
+    --cool: #6BCB77;
+    --cold: #6B9FE8;
+    --arctic: #4A6CF7;
+
+    /* Brand */
+    --primary: #FF6B8A;
+    --primary-dark: #E85577;
+    --secondary: #FF8E6B;
+    --accent: #FFD93D;
+
+    /* UI */
+    --bg: #F0F4FF;
+    --surface: #FFFFFF;
+    --surface-hover: #F7F9FF;
+    --border: #E8ECF4;
+    --border-strong: #C0C8D8;
+    --text-primary: #2D3142;
+    --text-secondary: #8892A8;
+    --text-muted: #B0BFD6;
+
+    /* Chat */
+    --chat-mine: linear-gradient(135deg, #FF6B8A, #FF8E6B);
+    --chat-other-bg: #FFFFFF;
+    --chat-other-border: #E8ECF4;
+
+    /* Semantic */
+    --success: #6BCB77;
+    --warning: #FFB347;
+    --error: #FF6B6B;
+    --favorite: #FF6B8A;
+
+    /* Radius */
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --radius-xl: 50px;
+    --radius-round: 50%;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(45,49,66,0.06);
+    --shadow-md: 0 8px 24px rgba(45,49,66,0.08);
+    --shadow-lg: 0 16px 48px rgba(45,49,66,0.1);
+    --shadow-glow-primary: 0 8px 24px rgba(255,107,138,0.25);
+    --shadow-glow-accent: 0 8px 24px rgba(255,217,61,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  /* ===== LAYOUT ===== */
+  .page-header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 32px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .page-header h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+  }
+
+  .page-header p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .nav-tab {
+    padding: 8px 20px;
+    border-radius: var(--radius-xl);
+    font-size: 13px;
+    font-weight: 700;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-tab:hover { border-color: var(--primary); color: var(--primary); }
+  .nav-tab.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+
+  .section { margin-bottom: 64px; }
+  .section-title {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 28px;
+    max-width: 600px;
+  }
+
+  .subsection { margin-bottom: 40px; }
+  .subsection-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+  .subsection-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .spec-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--bg);
+    font-weight: 700;
+    color: var(--text-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .spec-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .code-tag {
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    color: var(--primary);
+    border: 1px solid var(--border);
+  }
+
+  .label { font-size: 11px; color: var(--text-secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+
+  /* ===== COLORS ===== */
+  .color-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .color-swatch {
+    width: 100px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  .color-swatch:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+  .swatch-color { height: 70px; }
+  .swatch-info { padding: 8px 10px; }
+  .swatch-name { font-size: 11px; font-weight: 700; color: var(--text-primary); }
+  .swatch-hex { font-size: 10px; color: var(--text-secondary); font-family: monospace; }
+
+  /* ===== TYPOGRAPHY ===== */
+  .type-sample {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .type-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .type-name { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+  .type-spec { font-size: 11px; color: var(--text-muted); font-family: monospace; }
+
+  /* ===== BUTTONS ===== */
+  .button-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+  .btn {
+    padding: 14px 28px;
+    border-radius: var(--radius-xl);
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn:hover { transform: translateY(-3px) scale(1.02); }
+  .btn:active { transform: translateY(0) scale(0.97); transition-duration: 0.1s; }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    box-shadow: var(--shadow-glow-primary);
+  }
+  .btn-primary:hover { box-shadow: 0 12px 32px rgba(255,107,138,0.35); }
+
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--primary);
+    border: 2.5px solid var(--primary);
+  }
+  .btn-secondary:hover { background: #FFF0F3; }
+
+  .btn-accent {
+    background: linear-gradient(135deg, var(--accent), var(--warm));
+    color: var(--text-primary);
+    box-shadow: var(--shadow-glow-accent);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 14px 20px;
+  }
+  .btn-ghost:hover { color: var(--primary); background: rgba(255,107,138,0.06); }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #FF6B6B, #E85555);
+    color: white;
+    box-shadow: 0 8px 24px rgba(255,107,107,0.25);
+  }
+
+  .btn-sm { padding: 8px 18px; font-size: 13px; }
+  .btn-lg { padding: 18px 36px; font-size: 17px; }
+  .btn-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-round);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  /* ===== FRIEND CARDS ===== */
+  .friend-card-demo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .friend-card-demo:hover {
+    transform: translateX(6px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+  }
+
+  .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-round);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .avatar.tropical { background: linear-gradient(135deg, #FF6B6B, #FF8E6B); }
+  .avatar.warm { background: linear-gradient(135deg, #FFB347, #FFD93D); }
+  .avatar.cool { background: linear-gradient(135deg, #6BCB77, #8ED99C); }
+  .avatar.cold { background: linear-gradient(135deg, #6B9FE8, #93B5F0); }
+  .avatar.arctic { background: linear-gradient(135deg, #4A6CF7, #7B8FFF); }
+
+  .avatar-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -4px;
+    background: white;
+    border-radius: var(--radius-round);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .friend-info { flex: 1; }
+  .friend-name-text { font-weight: 700; font-size: 15px; }
+  .friend-location { font-size: 12px; color: var(--text-secondary); }
+  .friend-temp-text { font-size: 24px; font-weight: 800; }
+
+  /* ===== CHAT ===== */
+  .chat-container {
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    background: var(--bg);
+    border-radius: var(--radius-lg);
+  }
+
+  .bubble {
+    max-width: 240px;
+    padding: 12px 18px;
+    font-size: 14px;
+    line-height: 1.4;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .bubble-mine {
+    background: var(--chat-mine);
+    color: white;
+    border-radius: 22px 22px 6px 22px;
+    align-self: flex-end;
+  }
+
+  .bubble-other {
+    background: var(--chat-other-bg);
+    color: var(--text-primary);
+    border-radius: 22px 22px 22px 6px;
+    align-self: flex-start;
+    border: 2px solid var(--chat-other-border);
+  }
+
+  .sticker-card {
+    width: 160px;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-end;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 3px solid rgba(255,255,255,0.5);
+  }
+
+  .sticker-card:hover { transform: scale(1.06) rotate(2deg); }
+
+  .sticker-card.tropical { background: linear-gradient(135deg, #FF6B6B, #FF8E6B); color: white; }
+  .sticker-card.warm { background: linear-gradient(135deg, #FFB347, #FFD93D); color: var(--text-primary); }
+  .sticker-card.cool { background: linear-gradient(135deg, #6BCB77, #8ED99C); color: white; }
+  .sticker-card.cold { background: linear-gradient(135deg, #6B9FE8, #93B5F0); color: white; }
+
+  .sticker-icon { font-size: 28px; }
+  .sticker-temp { font-family: 'Baloo 2'; font-size: 24px; font-weight: 800; }
+
+  /* ===== WIDGETS ===== */
+  .widget-demos { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+
+  .widget {
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    box-shadow: var(--shadow-lg);
+    border: 3px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .widget:hover { transform: scale(1.04) rotate(-1deg); }
+
+  .widget-small { width: 170px; height: 170px; justify-content: space-between; }
+  .widget-medium { width: 360px; height: 170px; }
+  .widget-large { width: 360px; height: 360px; }
+
+  .widget.tropical { background: linear-gradient(145deg, #FF6B6B, #FF8E6B); }
+  .widget.warm { background: linear-gradient(145deg, #FFB347, #FFD93D); }
+  .widget.cool { background: linear-gradient(145deg, #6BCB77, #8ED99C); }
+
+  .widget-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-round);
+    background: rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    border: 2px solid rgba(255,255,255,0.4);
+  }
+
+  .widget-name { font-size: 13px; font-weight: 600; opacity: 0.9; }
+  .widget-temp { font-family: 'Baloo 2'; font-size: 42px; font-weight: 800; line-height: 1; }
+  .widget-weather-text { font-size: 12px; opacity: 0.8; }
+
+  /* ===== ANIMATIONS ===== */
+  .anim-box {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    border: 2px solid var(--border);
+    text-align: center;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .anim-trigger {
+    padding: 10px 24px;
+    border-radius: var(--radius-xl);
+    background: var(--bg);
+    border: 2px solid var(--border);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .anim-trigger:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* Favorite animation */
+  .fav-heart {
+    font-size: 48px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    user-select: none;
+  }
+
+  .fav-heart.pop {
+    animation: heartPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes heartPop {
+    0% { transform: scale(1); }
+    15% { transform: scale(0.85); }
+    40% { transform: scale(1.35); }
+    60% { transform: scale(0.95); }
+    80% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  /* Confetti */
+  .confetti-zone { position: relative; width: 200px; height: 120px; overflow: hidden; }
+
+  .confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    opacity: 0;
+  }
+
+  .confetti-piece.go {
+    animation: confettiFall 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg) scale(0); opacity: 1; }
+    20% { opacity: 1; transform: translateY(-40px) rotate(180deg) scale(1.2); }
+    100% { transform: translateY(120px) rotate(720deg) scale(0.3); opacity: 0; }
+  }
+
+  /* Bounce in */
+  .bounce-target {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+
+  .bounce-target.go {
+    animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  @keyframes bounceIn {
+    0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+    60% { opacity: 1; transform: translateY(-6px) scale(1.05); }
+    80% { transform: translateY(2px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Slide reorder */
+  .reorder-list { display: flex; flex-direction: column; gap: 8px; width: 250px; }
+
+  .reorder-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border);
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .reorder-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-round);
+  }
+
+  /* Tab switch */
+  .tab-switch-demo {
+    display: flex;
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    gap: 4px;
+    border: 2px solid var(--border);
+  }
+
+  .tab-demo-item {
+    padding: 10px 24px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+  }
+
+  .tab-demo-item.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-glow-primary);
+    transform: scale(1.05);
+  }
+
+  /* Pull to refresh */
+  .ptr-demo {
+    width: 200px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .ptr-cloud {
+    font-size: 32px;
+    transition: transform 0.3s;
+  }
+
+  .ptr-cloud.pulling { animation: cloudBounce 0.8s ease-in-out infinite; }
+
+  @keyframes cloudBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.1); }
+  }
+
+  .ptr-text { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+
+  /* Spacing & sizing reference */
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .spacing-box {
+    background: rgba(255,107,138,0.15);
+    border: 1px dashed var(--primary);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .spacing-label { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+
+  .hidden { display: none; }
+
+  /* Swift code blocks */
+  .swift-code {
+    background: #1E1E2E;
+    color: #CDD6F4;
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+    margin-top: 12px;
+  }
+
+  .swift-keyword { color: #CBA6F7; }
+  .swift-string { color: #A6E3A1; }
+  .swift-number { color: #FAB387; }
+  .swift-comment { color: #6C7086; font-style: italic; }
+  .swift-type { color: #89DCEB; }
+  .swift-func { color: #89B4FA; }
+
+  .ios-note {
+    background: #FFF8E1;
+    border: 2px solid #FFD93D;
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #8B6914;
+    margin: 12px 0;
+  }
+
+  .ios-note strong { color: #6B4F0E; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <h1>FriendsCast Design System</h1>
+  <p>Bubble Pop — Komplett UI-specifikation, komponenter och animationsriktlinjer</p>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('colors')">Färger</button>
+    <button class="nav-tab" onclick="showSection('typography')">Typografi</button>
+    <button class="nav-tab" onclick="showSection('buttons')">Knappar</button>
+    <button class="nav-tab" onclick="showSection('cards')">Kort &amp; Avatarer</button>
+    <button class="nav-tab" onclick="showSection('chat')">Chatt &amp; Stickers</button>
+    <button class="nav-tab" onclick="showSection('widgets')">Widgets</button>
+    <button class="nav-tab" onclick="showSection('animations')">Animationer</button>
+    <button class="nav-tab" onclick="showSection('spacing')">Spacing &amp; Layout</button>
+    <button class="nav-tab" onclick="showSection('swift')">Swift-kod</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- =============== COLORS =============== -->
+<div class="section" id="sec-colors">
+  <div class="section-title">Färgpalett</div>
+  <div class="section-desc">Alla färger i Bubble Pop-temat. Temperaturskalan är appens visuella signum — varje vän färgkodas efter var de befinner sig.</div>
+
+  <div class="subsection">
+    <div class="subsection-title">Temperaturskala</div>
+    <div class="subsection-desc">Fem zoner, mjuka gradienter. Varje zon har en primär och en sekundär ton för gradienter.</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch-color" style="background:linear-gradient(135deg,#FF6B6B,#FF8E6B)"></div><div class="swatch-info"><div class="swatch-name">Tropical</div><div class="swatch-hex">#FF6B6B → #FF8E6B</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:linear-gradient(135deg,#FFB347,#FFD93D)"></div><div class="swatch-info"><div class="swatch-name">Warm</div><div class="swatch-hex">#FFB347 → #FFD93D</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:linear-gradient(135deg,#6BCB77,#8ED99C)"></div><div class="swatch-info"><div class="swatch-name">Cool</div><div class="swatch-hex">#6BCB77 → #8ED99C</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:linear-gradient(135deg,#6B9FE8,#93B5F0)"></div><div class="swatch-info"><div class="swatch-name">Cold</div><div class="swatch-hex">#6B9FE8 → #93B5F0</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:linear-gradient(135deg,#4A6CF7,#7B8FFF)"></div><div class="swatch-info"><div class="swatch-name">Arctic</div><div class="swatch-hex">#4A6CF7 → #7B8FFF</div></div></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Brand &amp; UI</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch-color" style="background:#FF6B8A"></div><div class="swatch-info"><div class="swatch-name">Primary</div><div class="swatch-hex">#FF6B8A</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#FF8E6B"></div><div class="swatch-info"><div class="swatch-name">Secondary</div><div class="swatch-hex">#FF8E6B</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#FFD93D"></div><div class="swatch-info"><div class="swatch-name">Accent</div><div class="swatch-hex">#FFD93D</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#F0F4FF"></div><div class="swatch-info"><div class="swatch-name">Background</div><div class="swatch-hex">#F0F4FF</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#FFFFFF;border:1px solid #E8ECF4"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#FFFFFF</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#2D3142"></div><div class="swatch-info"><div class="swatch-name">Text Primary</div><div class="swatch-hex">#2D3142</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#8892A8"></div><div class="swatch-info"><div class="swatch-name">Text Secondary</div><div class="swatch-hex">#8892A8</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#E8ECF4"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#E8ECF4</div></div></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Semantiska färger</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch-color" style="background:#6BCB77"></div><div class="swatch-info"><div class="swatch-name">Success</div><div class="swatch-hex">#6BCB77</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#FFB347"></div><div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-hex">#FFB347</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#FF6B6B"></div><div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-hex">#FF6B6B</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#FF6B8A"></div><div class="swatch-info"><div class="swatch-name">Favorite</div><div class="swatch-hex">#FF6B8A</div></div></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Chatt-färger</div>
+    <div class="color-grid">
+      <div class="color-swatch"><div class="swatch-color" style="background:linear-gradient(135deg,#FF6B8A,#FF8E6B)"></div><div class="swatch-info"><div class="swatch-name">Min bubbla</div><div class="swatch-hex">gradient: primary→secondary</div></div></div>
+      <div class="color-swatch"><div class="swatch-color" style="background:#FFFFFF;border:1px solid #E8ECF4"></div><div class="swatch-info"><div class="swatch-name">Andras bubbla</div><div class="swatch-hex">#FFF, border #E8ECF4</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- =============== TYPOGRAPHY =============== -->
+<div class="section hidden" id="sec-typography">
+  <div class="section-title">Typografi</div>
+  <div class="section-desc">Baloo 2 för rubriker och knappar (personlighet). Inter/SF Pro för brödtext (läsbarhet). Temperaturvärden visas alltid i Baloo 2 ExtraBold.</div>
+
+  <div class="card">
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">Display / App-namn</span><span class="type-spec">Baloo 2 ExtraBold, 28pt</span></div>
+      <div style="font-family:'Baloo 2';font-weight:800;font-size:28px;color:var(--primary)">FriendsCast</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">H1 / Sektion</span><span class="type-spec">Baloo 2 Bold, 24pt</span></div>
+      <div style="font-family:'Baloo 2';font-weight:700;font-size:24px">Dina vänner</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">H2 / Kategori</span><span class="type-spec">Baloo 2 Bold, 18pt</span></div>
+      <div style="font-family:'Baloo 2';font-weight:700;font-size:18px">🔥 Tropical</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">H3 / Kort-rubrik</span><span class="type-spec">Inter SemiBold, 16pt</span></div>
+      <div style="font-weight:600;font-size:16px">Kedar · Mumbai</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">Body</span><span class="type-spec">Inter Regular, 15pt</span></div>
+      <div style="font-weight:400;font-size:15px;color:var(--text-primary)">Vädret hos dina vänner, sorterat efter temperatur.</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">Caption</span><span class="type-spec">Inter Medium, 12pt</span></div>
+      <div style="font-weight:500;font-size:12px;color:var(--text-secondary)">Senast uppdaterad 14:32</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">Temperatur (stor)</span><span class="type-spec">Baloo 2 ExtraBold, 42pt</span></div>
+      <div style="font-family:'Baloo 2';font-weight:800;font-size:42px;color:var(--tropical)">32°</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">Temperatur (list)</span><span class="type-spec">Baloo 2 ExtraBold, 22pt</span></div>
+      <div style="font-family:'Baloo 2';font-weight:800;font-size:22px;color:var(--warm)">27°</div>
+    </div>
+    <div class="type-sample">
+      <div class="type-label"><span class="type-name">Knapptext</span><span class="type-spec">Baloo 2 Bold, 15pt</span></div>
+      <div style="font-family:'Baloo 2';font-weight:700;font-size:15px;color:var(--primary)">Lägg till vän</div>
+    </div>
+  </div>
+
+  <div class="ios-note" style="margin-top:20px">
+    <strong>iOS-implementation:</strong> Använd <code>Baloo2-ExtraBold</code> som custom font via Info.plist. Falla tillbaka på SF Pro Rounded Bold om Baloo inte finns. Temperaturer sätts med <code>.monospacedDigit()</code> modifier.
+  </div>
+</div>
+
+<!-- =============== BUTTONS =============== -->
+<div class="section hidden" id="sec-buttons">
+  <div class="section-title">Knappar</div>
+  <div class="section-desc">Alla knappar har pill-form (border-radius: 50px) och en bounce-effekt vid tryck. Hovra och klicka nedan för att testa!</div>
+
+  <div class="subsection">
+    <div class="subsection-title">Storlekar</div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-sm">Liten</button>
+      <button class="btn btn-primary">Standard</button>
+      <button class="btn btn-primary btn-lg">Stor</button>
+      <button class="btn btn-primary btn-icon">+</button>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Varianter</div>
+    <div class="button-row">
+      <button class="btn btn-primary">Primary: Lägg till vän</button>
+      <button class="btn btn-secondary">Secondary: Avbryt</button>
+      <button class="btn btn-accent">Accent: Skicka sticker</button>
+      <button class="btn btn-ghost">Ghost: Visa mer</button>
+      <button class="btn btn-danger">Danger: Ta bort</button>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Spec</div>
+    <table class="spec-table">
+      <thead><tr><th>Egenskap</th><th>Värde</th><th>CSS</th></tr></thead>
+      <tbody>
+        <tr><td>Border radius</td><td>Pill (full round)</td><td><span class="code-tag">border-radius: 50px</span></td></tr>
+        <tr><td>Padding (standard)</td><td>14px 28px</td><td><span class="code-tag">padding: 14px 28px</span></td></tr>
+        <tr><td>Font</td><td>Baloo 2 Bold 15pt</td><td><span class="code-tag">font-weight: 700</span></td></tr>
+        <tr><td>Hover</td><td>Lyft + skala</td><td><span class="code-tag">translateY(-3px) scale(1.02)</span></td></tr>
+        <tr><td>Active (tap)</td><td>Squish</td><td><span class="code-tag">scale(0.97)</span></td></tr>
+        <tr><td>Easing</td><td>Spring-like</td><td><span class="code-tag">cubic-bezier(0.175, 0.885, 0.32, 1.275)</span></td></tr>
+        <tr><td>Primary shadow</td><td>Rosa glow</td><td><span class="code-tag">0 8px 24px rgba(255,107,138,0.25)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- =============== CARDS =============== -->
+<div class="section hidden" id="sec-cards">
+  <div class="section-title">Vänkort &amp; Avatarer</div>
+  <div class="section-desc">Varje vän visas som ett kort med gradient-avatar. Hovra för att se interaktionseffekten.</div>
+
+  <div class="subsection">
+    <div class="subsection-title">Listvy (hovra för slide-effekt!)</div>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:400px">
+      <div class="friend-card-demo">
+        <div class="avatar tropical">KA<div class="avatar-badge">☀️</div></div>
+        <div class="friend-info"><div class="friend-name-text">Kedar</div><div class="friend-location">Mumbai, Indien</div></div>
+        <div class="friend-temp-text" style="color:var(--tropical)">32°</div>
+      </div>
+      <div class="friend-card-demo">
+        <div class="avatar warm">E<div class="avatar-badge">☁️</div></div>
+        <div class="friend-info"><div class="friend-name-text">Edith</div><div class="friend-location">Miami, USA</div></div>
+        <div class="friend-temp-text" style="color:var(--warm)">27°</div>
+      </div>
+      <div class="friend-card-demo">
+        <div class="avatar cool">ML<div class="avatar-badge">🌦</div></div>
+        <div class="friend-info"><div class="friend-name-text">Martin</div><div class="friend-location">Los Angeles, USA</div></div>
+        <div class="friend-temp-text" style="color:var(--cool)">18°</div>
+      </div>
+      <div class="friend-card-demo">
+        <div class="avatar cold">LK<div class="avatar-badge">🌨</div></div>
+        <div class="friend-info"><div class="friend-name-text">Lina</div><div class="friend-location">Kiruna, Sverige</div></div>
+        <div class="friend-temp-text" style="color:var(--cold)">4°</div>
+      </div>
+      <div class="friend-card-demo">
+        <div class="avatar arctic">AK<div class="avatar-badge">❄️</div></div>
+        <div class="friend-info"><div class="friend-name-text">Akiko</div><div class="friend-location">Sapporo, Japan</div></div>
+        <div class="friend-temp-text" style="color:var(--arctic)">-8°</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Kort-specifikation</div>
+    <table class="spec-table">
+      <thead><tr><th>Egenskap</th><th>Värde</th></tr></thead>
+      <tbody>
+        <tr><td>Border radius</td><td><span class="code-tag">20px</span></td></tr>
+        <tr><td>Padding</td><td><span class="code-tag">14px 18px</span></td></tr>
+        <tr><td>Background</td><td><span class="code-tag">#FFFFFF</span></td></tr>
+        <tr><td>Border (default)</td><td><span class="code-tag">2px solid transparent</span></td></tr>
+        <tr><td>Border (hover)</td><td><span class="code-tag">2px solid #FFD93D</span></td></tr>
+        <tr><td>Hover-effekt</td><td><span class="code-tag">translateX(6px)</span> + shadow</td></tr>
+        <tr><td>Avatar storlek</td><td><span class="code-tag">52x52px</span>, rounded</td></tr>
+        <tr><td>Weather badge</td><td><span class="code-tag">24x24px</span>, bottom-right, white bg</td></tr>
+        <tr><td>Temperatur-font</td><td>Baloo 2 ExtraBold 22pt, temperaturzon-färg</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Avatar gradient-mappning</div>
+    <table class="spec-table">
+      <thead><tr><th>Zon</th><th>Temp</th><th>Gradient</th></tr></thead>
+      <tbody>
+        <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar tropical" style="width:32px;height:32px;font-size:10px">KA</div>Tropical</div></td><td>&gt;28°C</td><td><span class="code-tag">#FF6B6B → #FF8E6B</span></td></tr>
+        <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar warm" style="width:32px;height:32px;font-size:10px">E</div>Warm</div></td><td>20–28°C</td><td><span class="code-tag">#FFB347 → #FFD93D</span></td></tr>
+        <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar cool" style="width:32px;height:32px;font-size:10px">ML</div>Cool</div></td><td>10–20°C</td><td><span class="code-tag">#6BCB77 → #8ED99C</span></td></tr>
+        <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar cold" style="width:32px;height:32px;font-size:10px">LK</div>Cold</div></td><td>0–10°C</td><td><span class="code-tag">#6B9FE8 → #93B5F0</span></td></tr>
+        <tr><td><div style="display:flex;align-items:center;gap:8px"><div class="avatar arctic" style="width:32px;height:32px;font-size:10px">AK</div>Arctic</div></td><td>&lt;0°C</td><td><span class="code-tag">#4A6CF7 → #7B8FFF</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- =============== CHAT =============== -->
+<div class="section hidden" id="sec-chat">
+  <div class="section-title">Chatt &amp; Stickers</div>
+  <div class="section-desc">Chattbubblor med gradient och väder-stickers som interaktiva kort.</div>
+
+  <div class="grid grid-2">
+    <div>
+      <div class="subsection-title">Chattbubblor</div>
+      <div class="chat-container">
+        <div class="bubble bubble-other">Hej! Hur är vädret där? 🌤</div>
+        <div class="bubble bubble-mine">Fantastiskt! Sol och 32° 🌞</div>
+        <div class="bubble bubble-other">Åh va avundsjuk, 4° och snö här 🥶</div>
+        <div class="sticker-card tropical">
+          <span class="sticker-icon">☀️</span>
+          <span class="sticker-temp">32°</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="subsection-title">Sticker-varianter</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="sticker-card tropical"><span class="sticker-icon">☀️</span><span class="sticker-temp">32°</span></div>
+        <div class="sticker-card warm"><span class="sticker-icon">⛅</span><span class="sticker-temp">23°</span></div>
+        <div class="sticker-card cool"><span class="sticker-icon">🌧</span><span class="sticker-temp">15°</span></div>
+        <div class="sticker-card cold"><span class="sticker-icon">🌨</span><span class="sticker-temp">-2°</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" style="margin-top:28px">
+    <div class="subsection-title">Chatt-spec</div>
+    <table class="spec-table">
+      <thead><tr><th>Element</th><th>Spec</th></tr></thead>
+      <tbody>
+        <tr><td>Min bubbla</td><td>Gradient <span class="code-tag">#FF6B8A → #FF8E6B</span>, vit text, radius <span class="code-tag">22px 22px 6px 22px</span></td></tr>
+        <tr><td>Andras bubbla</td><td>Vit bg, <span class="code-tag">#2D3142</span> text, 2px border <span class="code-tag">#E8ECF4</span>, radius <span class="code-tag">22px 22px 22px 6px</span></td></tr>
+        <tr><td>Sticker-kort</td><td>Temperaturzon-gradient, radius <span class="code-tag">20px</span>, 3px vit border, bounce-hover</td></tr>
+        <tr><td>Padding bubbla</td><td><span class="code-tag">12px 18px</span></td></tr>
+        <tr><td>Font</td><td>Inter Regular 14pt</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- =============== WIDGETS =============== -->
+<div class="section hidden" id="sec-widgets">
+  <div class="section-title">Widgets</div>
+  <div class="section-desc">Tre storlekar. Bakgrunden matchar vännens temperaturzon. Hovra för att testa interaktion.</div>
+
+  <div class="widget-demos">
+    <div>
+      <div class="label">Small (170x170)</div>
+      <div class="widget widget-small tropical">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="widget-avatar">KA</div>
+          <div class="widget-name">Kedar</div>
+        </div>
+        <div>
+          <div class="widget-temp">32°</div>
+          <div class="widget-weather-text">☀️ Klart</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="label">Medium (360x170)</div>
+      <div class="widget widget-medium warm" style="flex-direction:row;align-items:center;justify-content:space-around">
+        <div style="text-align:center">
+          <div class="widget-avatar" style="margin:0 auto 4px">E</div>
+          <div class="widget-name">Edith</div>
+          <div style="font-family:'Baloo 2';font-size:28px;font-weight:800">27°</div>
+          <div class="widget-weather-text">☁️</div>
+        </div>
+        <div style="text-align:center">
+          <div class="widget-avatar" style="margin:0 auto 4px">V</div>
+          <div class="widget-name">Vivi</div>
+          <div style="font-family:'Baloo 2';font-size:28px;font-weight:800">23°</div>
+          <div class="widget-weather-text">⛅</div>
+        </div>
+        <div style="text-align:center">
+          <div class="widget-avatar" style="margin:0 auto 4px">ML</div>
+          <div class="widget-name">Martin</div>
+          <div style="font-family:'Baloo 2';font-size:28px;font-weight:800">18°</div>
+          <div class="widget-weather-text">🌦</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" style="margin-top:28px">
+    <div class="subsection-title">Widget-spec</div>
+    <table class="spec-table">
+      <thead><tr><th>Storlek</th><th>Mått (pt)</th><th>Innehåll</th><th>Radius</th></tr></thead>
+      <tbody>
+        <tr><td>Small</td><td>170 x 170</td><td>1 vän, avatar, namn, temp, väderikon</td><td>28px</td></tr>
+        <tr><td>Medium</td><td>360 x 170</td><td>3 vänner i rad</td><td>28px</td></tr>
+        <tr><td>Large</td><td>360 x 360</td><td>2x3 grid, 6 vänner</td><td>28px</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- =============== ANIMATIONS =============== -->
+<div class="section hidden" id="sec-animations">
+  <div class="section-title">Animationer</div>
+  <div class="section-desc">Alla interaktionsanimationer i Bubble Pop. Klicka på knapparna för att triggra dem live!</div>
+
+  <div class="grid grid-2">
+    <!-- Favorite -->
+    <div class="anim-box">
+      <div class="label">Favorit-markering</div>
+      <div class="fav-heart" id="favHeart" onclick="toggleFav()">🤍</div>
+      <div style="font-size:12px;color:var(--text-secondary)">Klicka hjärtat!</div>
+      <div style="font-size:11px;color:var(--text-muted);max-width:200px">
+        <strong>Timing:</strong> 0.6s spring<br>
+        <strong>Easing:</strong> cubic-bezier(0.175, 0.885, 0.32, 1.275)<br>
+        <strong>Sequence:</strong> shrink → overshoot → settle
+      </div>
+    </div>
+
+    <!-- Confetti -->
+    <div class="anim-box">
+      <div class="label">Ny vän tillagd — konfetti</div>
+      <div class="confetti-zone" id="confettiZone"></div>
+      <button class="anim-trigger" onclick="fireConfetti()">Lägg till vän!</button>
+      <div style="font-size:11px;color:var(--text-muted);max-width:200px">
+        <strong>Timing:</strong> 1.5s staggered<br>
+        <strong>Partiklar:</strong> 20st, blandade färger från temperaturskalan<br>
+        <strong>Kurva:</strong> ease-out med rotation
+      </div>
+    </div>
+
+    <!-- Bounce in -->
+    <div class="anim-box">
+      <div class="label">Sticker skickad — bounce in</div>
+      <div class="sticker-card warm bounce-target" id="bounceSticker" style="margin:0 auto">
+        <span class="sticker-icon">⛅</span>
+        <span class="sticker-temp">23°</span>
+      </div>
+      <button class="anim-trigger" onclick="triggerBounce()">Skicka sticker</button>
+      <div style="font-size:11px;color:var(--text-muted);max-width:200px">
+        <strong>Timing:</strong> 0.6s<br>
+        <strong>Easing:</strong> spring (overshoot)<br>
+        <strong>Sequence:</strong> fade + slide up → overshoot → settle
+      </div>
+    </div>
+
+    <!-- Tab switch -->
+    <div class="anim-box">
+      <div class="label">Tab-byte</div>
+      <div class="tab-switch-demo">
+        <div class="tab-demo-item active" onclick="switchTab(this)">Lista</div>
+        <div class="tab-demo-item" onclick="switchTab(this)">Karta</div>
+        <div class="tab-demo-item" onclick="switchTab(this)">Kategorier</div>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);max-width:220px">
+        <strong>Timing:</strong> 0.35s spring<br>
+        <strong>Aktiv tab:</strong> scale(1.05) + glow shadow<br>
+        <strong>Inaktiv:</strong> fade till sekundär textfärg
+      </div>
+    </div>
+
+    <!-- Reorder -->
+    <div class="anim-box">
+      <div class="label">Temperatursortering</div>
+      <div class="reorder-list" id="reorderList">
+        <div class="reorder-item" data-temp="32"><div class="reorder-dot" style="background:var(--tropical)"></div>Kedar 32°</div>
+        <div class="reorder-item" data-temp="18"><div class="reorder-dot" style="background:var(--cool)"></div>Martin 18°</div>
+        <div class="reorder-item" data-temp="27"><div class="reorder-dot" style="background:var(--warm)"></div>Edith 27°</div>
+        <div class="reorder-item" data-temp="4"><div class="reorder-dot" style="background:var(--cold)"></div>Lina 4°</div>
+      </div>
+      <button class="anim-trigger" onclick="reorderFriends()">Sortera efter temp</button>
+      <div style="font-size:11px;color:var(--text-muted);max-width:200px">
+        <strong>Timing:</strong> 0.5s staggered (50ms delay per item)<br>
+        <strong>Easing:</strong> spring<br>
+        <strong>Effekt:</strong> smooth slide med färgövergång
+      </div>
+    </div>
+
+    <!-- Pull to refresh -->
+    <div class="anim-box">
+      <div class="label">Pull-to-refresh</div>
+      <div class="ptr-demo">
+        <div class="ptr-cloud" id="ptrCloud">☁️</div>
+        <div class="ptr-text" id="ptrText">Dra ner för att uppdatera</div>
+      </div>
+      <button class="anim-trigger" onclick="triggerPTR()">Simulera pull</button>
+      <div style="font-size:11px;color:var(--text-muted);max-width:200px">
+        <strong>Fas 1:</strong> Moln studsar ner<br>
+        <strong>Fas 2:</strong> Moln snurrar + pulserar<br>
+        <strong>Fas 3:</strong> ☀️ pop + "Uppdaterat!"
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection" style="margin-top:32px">
+    <div class="subsection-title">Animeringsriktlinjer (generellt)</div>
+    <table class="spec-table">
+      <thead><tr><th>Princip</th><th>Värde</th><th>Notering</th></tr></thead>
+      <tbody>
+        <tr><td>Standard duration</td><td>0.25–0.35s</td><td>Snabba, responsiva</td></tr>
+        <tr><td>Emphasis duration</td><td>0.5–0.7s</td><td>Favorit, konfetti, sticker</td></tr>
+        <tr><td>Standard easing</td><td><span class="code-tag">ease-out</span></td><td>Övergångar, fade</td></tr>
+        <tr><td>Bounce/spring easing</td><td><span class="code-tag">cubic-bezier(0.175, 0.885, 0.32, 1.275)</span></td><td>Knappar, kort, tabs</td></tr>
+        <tr><td>iOS motsvarighet</td><td><span class="code-tag">.spring(response: 0.5, dampingFraction: 0.7)</span></td><td>SwiftUI spring animation</td></tr>
+        <tr><td>Stagger delay</td><td>50ms per item</td><td>Listor, sortering</td></tr>
+        <tr><td>Reduktion vid "Reduce Motion"</td><td>Crossfade istället för slide/bounce</td><td>Tillgänglighetskrav</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- =============== SPACING =============== -->
+<div class="section hidden" id="sec-spacing">
+  <div class="section-title">Spacing &amp; Layout</div>
+  <div class="section-desc">8pt grid-system. Alla mått är multiplar av 4 eller 8.</div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="label">Spacing Scale</div>
+      <div class="spacing-row"><div class="spacing-box" style="width:4px;height:20px"></div><span class="spacing-label">4px — xxs (hairline gaps)</span></div>
+      <div class="spacing-row"><div class="spacing-box" style="width:8px;height:20px"></div><span class="spacing-label">8px — xs (tight padding)</span></div>
+      <div class="spacing-row"><div class="spacing-box" style="width:12px;height:20px"></div><span class="spacing-label">12px — sm (card internal)</span></div>
+      <div class="spacing-row"><div class="spacing-box" style="width:16px;height:20px"></div><span class="spacing-label">16px — md (section padding)</span></div>
+      <div class="spacing-row"><div class="spacing-box" style="width:20px;height:20px"></div><span class="spacing-label">20px — lg (card padding)</span></div>
+      <div class="spacing-row"><div class="spacing-box" style="width:24px;height:20px"></div><span class="spacing-label">24px — xl (group gaps)</span></div>
+      <div class="spacing-row"><div class="spacing-box" style="width:32px;height:20px"></div><span class="spacing-label">32px — 2xl (section gaps)</span></div>
+      <div class="spacing-row"><div class="spacing-box" style="width:40px;height:20px"></div><span class="spacing-label">40px — 3xl (page padding)</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label">Border Radius Scale</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Värde</th><th>Användning</th></tr></thead>
+        <tbody>
+          <tr><td><span class="code-tag">radius-sm</span></td><td>12px</td><td>Inputs, badges, tags</td></tr>
+          <tr><td><span class="code-tag">radius-md</span></td><td>20px</td><td>Kort, chattbubblor</td></tr>
+          <tr><td><span class="code-tag">radius-lg</span></td><td>28px</td><td>Widgets, modaler</td></tr>
+          <tr><td><span class="code-tag">radius-xl</span></td><td>50px</td><td>Knappar (pill), tabs</td></tr>
+          <tr><td><span class="code-tag">radius-round</span></td><td>50%</td><td>Avatarer, ikoner</td></tr>
+        </tbody>
+      </table>
+
+      <div class="label" style="margin-top:20px">Shadow Scale</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Värde</th></tr></thead>
+        <tbody>
+          <tr><td><span class="code-tag">shadow-sm</span></td><td>0 2px 8px rgba(45,49,66,0.06)</td></tr>
+          <tr><td><span class="code-tag">shadow-md</span></td><td>0 8px 24px rgba(45,49,66,0.08)</td></tr>
+          <tr><td><span class="code-tag">shadow-lg</span></td><td>0 16px 48px rgba(45,49,66,0.1)</td></tr>
+          <tr><td><span class="code-tag">shadow-glow</span></td><td>0 8px 24px {color @ 25%}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- =============== SWIFT =============== -->
+<div class="section hidden" id="sec-swift">
+  <div class="section-title">Swift-implementation</div>
+  <div class="section-desc">Referenskod för att implementera Bubble Pop i SwiftUI. Kopiera och anpassa!</div>
+
+  <div class="subsection">
+    <div class="subsection-title">Färg-extension</div>
+    <div class="swift-code"><span class="swift-keyword">extension</span> <span class="swift-type">Color</span> {
+    <span class="swift-comment">// Temperature zones</span>
+    <span class="swift-keyword">static let</span> tropical = <span class="swift-type">Color</span>(red: <span class="swift-number">1.0</span>, green: <span class="swift-number">0.42</span>, blue: <span class="swift-number">0.42</span>)
+    <span class="swift-keyword">static let</span> tropicalEnd = <span class="swift-type">Color</span>(red: <span class="swift-number">1.0</span>, green: <span class="swift-number">0.56</span>, blue: <span class="swift-number">0.42</span>)
+    <span class="swift-keyword">static let</span> warm = <span class="swift-type">Color</span>(red: <span class="swift-number">1.0</span>, green: <span class="swift-number">0.70</span>, blue: <span class="swift-number">0.28</span>)
+    <span class="swift-keyword">static let</span> warmEnd = <span class="swift-type">Color</span>(red: <span class="swift-number">1.0</span>, green: <span class="swift-number">0.85</span>, blue: <span class="swift-number">0.24</span>)
+    <span class="swift-keyword">static let</span> cool = <span class="swift-type">Color</span>(red: <span class="swift-number">0.42</span>, green: <span class="swift-number">0.80</span>, blue: <span class="swift-number">0.47</span>)
+    <span class="swift-keyword">static let</span> coolEnd = <span class="swift-type">Color</span>(red: <span class="swift-number">0.56</span>, green: <span class="swift-number">0.85</span>, blue: <span class="swift-number">0.61</span>)
+    <span class="swift-keyword">static let</span> cold = <span class="swift-type">Color</span>(red: <span class="swift-number">0.42</span>, green: <span class="swift-number">0.62</span>, blue: <span class="swift-number">0.91</span>)
+    <span class="swift-keyword">static let</span> coldEnd = <span class="swift-type">Color</span>(red: <span class="swift-number">0.58</span>, green: <span class="swift-number">0.71</span>, blue: <span class="swift-number">0.94</span>)
+    <span class="swift-keyword">static let</span> arctic = <span class="swift-type">Color</span>(red: <span class="swift-number">0.29</span>, green: <span class="swift-number">0.42</span>, blue: <span class="swift-number">0.97</span>)
+    <span class="swift-keyword">static let</span> arcticEnd = <span class="swift-type">Color</span>(red: <span class="swift-number">0.48</span>, green: <span class="swift-number">0.56</span>, blue: <span class="swift-number">1.0</span>)
+
+    <span class="swift-comment">// Brand</span>
+    <span class="swift-keyword">static let</span> fcPrimary = <span class="swift-type">Color</span>(red: <span class="swift-number">1.0</span>, green: <span class="swift-number">0.42</span>, blue: <span class="swift-number">0.54</span>) <span class="swift-comment">// #FF6B8A</span>
+    <span class="swift-keyword">static let</span> fcSecondary = <span class="swift-type">Color</span>(red: <span class="swift-number">1.0</span>, green: <span class="swift-number">0.56</span>, blue: <span class="swift-number">0.42</span>) <span class="swift-comment">// #FF8E6B</span>
+    <span class="swift-keyword">static let</span> fcAccent = <span class="swift-type">Color</span>(red: <span class="swift-number">1.0</span>, green: <span class="swift-number">0.85</span>, blue: <span class="swift-number">0.24</span>) <span class="swift-comment">// #FFD93D</span>
+    <span class="swift-keyword">static let</span> fcBg = <span class="swift-type">Color</span>(red: <span class="swift-number">0.94</span>, green: <span class="swift-number">0.96</span>, blue: <span class="swift-number">1.0</span>) <span class="swift-comment">// #F0F4FF</span>
+    <span class="swift-keyword">static let</span> fcTextPrimary = <span class="swift-type">Color</span>(red: <span class="swift-number">0.18</span>, green: <span class="swift-number">0.19</span>, blue: <span class="swift-number">0.26</span>) <span class="swift-comment">// #2D3142</span>
+    <span class="swift-keyword">static let</span> fcTextSecondary = <span class="swift-type">Color</span>(red: <span class="swift-number">0.53</span>, green: <span class="swift-number">0.57</span>, blue: <span class="swift-number">0.66</span>) <span class="swift-comment">// #8892A8</span>
+}</div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Bubble Pop Button</div>
+    <div class="swift-code"><span class="swift-keyword">struct</span> <span class="swift-type">BubbleButton</span>: <span class="swift-type">View</span> {
+    <span class="swift-keyword">let</span> title: <span class="swift-type">String</span>
+    <span class="swift-keyword">let</span> action: () -> <span class="swift-type">Void</span>
+    @<span class="swift-type">State</span> <span class="swift-keyword">private var</span> isPressed = <span class="swift-keyword">false</span>
+
+    <span class="swift-keyword">var</span> body: <span class="swift-keyword">some</span> <span class="swift-type">View</span> {
+        <span class="swift-type">Button</span>(action: action) {
+            <span class="swift-type">Text</span>(title)
+                .font(.custom(<span class="swift-string">"Baloo2-Bold"</span>, size: <span class="swift-number">15</span>))
+                .foregroundColor(.white)
+                .padding(.horizontal, <span class="swift-number">28</span>)
+                .padding(.vertical, <span class="swift-number">14</span>)
+                .background(
+                    <span class="swift-type">LinearGradient</span>(
+                        colors: [.fcPrimary, .fcSecondary],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .clipShape(<span class="swift-type">Capsule</span>())
+                .shadow(color: .fcPrimary.opacity(<span class="swift-number">0.25</span>), radius: <span class="swift-number">12</span>, y: <span class="swift-number">8</span>)
+        }
+        .scaleEffect(isPressed ? <span class="swift-number">0.97</span> : <span class="swift-number">1.0</span>)
+        .animation(.spring(response: <span class="swift-number">0.3</span>, dampingFraction: <span class="swift-number">0.6</span>), value: isPressed)
+        .onLongPressGesture(minimumDuration: .infinity, pressing: { pressing <span class="swift-keyword">in</span>
+            isPressed = pressing
+        }, perform: {})
+    }
+}</div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Favorit-animation</div>
+    <div class="swift-code"><span class="swift-keyword">struct</span> <span class="swift-type">FavoriteHeart</span>: <span class="swift-type">View</span> {
+    @<span class="swift-type">Binding</span> <span class="swift-keyword">var</span> isFavorite: <span class="swift-type">Bool</span>
+    @<span class="swift-type">State</span> <span class="swift-keyword">private var</span> heartScale: <span class="swift-type">CGFloat</span> = <span class="swift-number">1.0</span>
+
+    <span class="swift-keyword">var</span> body: <span class="swift-keyword">some</span> <span class="swift-type">View</span> {
+        <span class="swift-type">Button</span> {
+            isFavorite.toggle()
+            <span class="swift-keyword">if</span> isFavorite {
+                <span class="swift-func">withAnimation</span>(.spring(response: <span class="swift-number">0.3</span>, dampingFraction: <span class="swift-number">0.4</span>)) {
+                    heartScale = <span class="swift-number">1.35</span>
+                }
+                <span class="swift-type">DispatchQueue</span>.main.asyncAfter(deadline: .now() + <span class="swift-number">0.2</span>) {
+                    <span class="swift-func">withAnimation</span>(.spring(response: <span class="swift-number">0.25</span>, dampingFraction: <span class="swift-number">0.6</span>)) {
+                        heartScale = <span class="swift-number">1.0</span>
+                    }
+                }
+            }
+        } label: {
+            <span class="swift-type">Image</span>(systemName: isFavorite ? <span class="swift-string">"heart.fill"</span> : <span class="swift-string">"heart"</span>)
+                .font(.title2)
+                .foregroundStyle(isFavorite ? .fcPrimary : .fcTextSecondary)
+                .scaleEffect(heartScale)
+        }
+    }
+}</div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Vänkort med bounce</div>
+    <div class="swift-code"><span class="swift-keyword">struct</span> <span class="swift-type">FriendRow</span>: <span class="swift-type">View</span> {
+    <span class="swift-keyword">let</span> friend: <span class="swift-type">Friend</span>
+    @<span class="swift-type">State</span> <span class="swift-keyword">private var</span> isHovered = <span class="swift-keyword">false</span>
+
+    <span class="swift-keyword">var</span> body: <span class="swift-keyword">some</span> <span class="swift-type">View</span> {
+        <span class="swift-type">HStack</span>(spacing: <span class="swift-number">14</span>) {
+            <span class="swift-comment">// Avatar with gradient</span>
+            <span class="swift-type">ZStack</span>(alignment: .bottomTrailing) {
+                <span class="swift-type">Circle</span>()
+                    .fill(<span class="swift-type">LinearGradient</span>(
+                        colors: friend.temperatureZone.gradientColors,
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ))
+                    .frame(width: <span class="swift-number">52</span>, height: <span class="swift-number">52</span>)
+                    .overlay(
+                        <span class="swift-type">Text</span>(friend.initials)
+                            .font(.system(size: <span class="swift-number">16</span>, weight: .heavy))
+                            .foregroundColor(.white)
+                    )
+
+                <span class="swift-comment">// Weather badge</span>
+                <span class="swift-type">Text</span>(friend.weatherEmoji)
+                    .font(.system(size: <span class="swift-number">14</span>))
+                    .padding(<span class="swift-number">3</span>)
+                    .background(<span class="swift-type">Circle</span>().fill(.white).shadow(radius: <span class="swift-number">3</span>))
+                    .offset(x: <span class="swift-number">4</span>, y: <span class="swift-number">2</span>)
+            }
+
+            <span class="swift-type">VStack</span>(alignment: .leading, spacing: <span class="swift-number">2</span>) {
+                <span class="swift-type">Text</span>(friend.name).font(.system(size: <span class="swift-number">15</span>, weight: .bold))
+                <span class="swift-type">Text</span>(friend.location)
+                    .font(.system(size: <span class="swift-number">12</span>, weight: .medium))
+                    .foregroundStyle(.fcTextSecondary)
+            }
+
+            <span class="swift-type">Spacer</span>()
+
+            <span class="swift-type">Text</span>(<span class="swift-string">"</span>\(friend.temperature)<span class="swift-string">°"</span>)
+                .font(.custom(<span class="swift-string">"Baloo2-ExtraBold"</span>, size: <span class="swift-number">22</span>))
+                .monospacedDigit()
+                .foregroundStyle(friend.temperatureZone.primaryColor)
+        }
+        .padding(.horizontal, <span class="swift-number">18</span>)
+        .padding(.vertical, <span class="swift-number">14</span>)
+        .background(.white)
+        .clipShape(<span class="swift-type">RoundedRectangle</span>(cornerRadius: <span class="swift-number">20</span>))
+        .overlay(
+            <span class="swift-type">RoundedRectangle</span>(cornerRadius: <span class="swift-number">20</span>)
+                .stroke(.fcAccent.opacity(isHovered ? <span class="swift-number">1</span> : <span class="swift-number">0</span>), lineWidth: <span class="swift-number">2</span>)
+        )
+        .offset(x: isHovered ? <span class="swift-number">6</span> : <span class="swift-number">0</span>)
+        .shadow(color: .black.opacity(isHovered ? <span class="swift-number">0.08</span> : <span class="swift-number">0</span>), radius: <span class="swift-number">12</span>)
+        .animation(.spring(response: <span class="swift-number">0.35</span>, dampingFraction: <span class="swift-number">0.7</span>), value: isHovered)
+    }
+}</div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// Navigation
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+  document.getElementById('sec-' + id).classList.remove('hidden');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Favorite toggle
+let favLiked = false;
+function toggleFav() {
+  const h = document.getElementById('favHeart');
+  favLiked = !favLiked;
+  h.textContent = favLiked ? '❤️' : '🤍';
+  h.classList.remove('pop');
+  void h.offsetWidth;
+  h.classList.add('pop');
+}
+
+// Confetti
+function fireConfetti() {
+  const zone = document.getElementById('confettiZone');
+  zone.innerHTML = '';
+  const colors = ['#FF6B6B','#FFB347','#6BCB77','#6B9FE8','#FF6B8A','#FFD93D','#4A6CF7'];
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = (80 + Math.random() * 40) + 'px';
+    p.style.top = '60px';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.animationDelay = (Math.random() * 0.3) + 's';
+    p.style.transform = `rotate(${Math.random()*360}deg)`;
+    p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    p.style.width = (6 + Math.random()*6) + 'px';
+    p.style.height = (6 + Math.random()*6) + 'px';
+    zone.appendChild(p);
+    requestAnimationFrame(() => p.classList.add('go'));
+  }
+}
+
+// Bounce
+function triggerBounce() {
+  const s = document.getElementById('bounceSticker');
+  s.classList.remove('go');
+  s.style.opacity = '0';
+  s.style.transform = 'translateY(20px) scale(0.8)';
+  void s.offsetWidth;
+  s.classList.add('go');
+}
+
+// Tab switch
+function switchTab(el) {
+  el.parentElement.querySelectorAll('.tab-demo-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Reorder
+let sorted = false;
+function reorderFriends() {
+  const list = document.getElementById('reorderList');
+  const items = [...list.children];
+  sorted = !sorted;
+  if (sorted) {
+    items.sort((a, b) => parseInt(b.dataset.temp) - parseInt(a.dataset.temp));
+  } else {
+    items.sort(() => Math.random() - 0.5);
+  }
+  items.forEach((item, i) => {
+    item.style.transitionDelay = (i * 50) + 'ms';
+    list.appendChild(item);
+  });
+}
+
+// Pull to refresh
+function triggerPTR() {
+  const cloud = document.getElementById('ptrCloud');
+  const text = document.getElementById('ptrText');
+  cloud.classList.add('pulling');
+  text.textContent = 'Uppdaterar...';
+  setTimeout(() => {
+    cloud.classList.remove('pulling');
+    cloud.textContent = '☀️';
+    cloud.style.transform = 'scale(1.3)';
+    text.textContent = 'Uppdaterat!';
+    setTimeout(() => {
+      cloud.textContent = '☁️';
+      cloud.style.transform = '';
+      text.textContent = 'Dra ner för att uppdatera';
+    }, 1500);
+  }, 2000);
+}
+</script>
+
+</body>
+</html>

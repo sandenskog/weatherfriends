@@ -16,7 +16,7 @@ struct ChatBubbleView: View {
             if isCurrentUser { Spacer(minLength: 60) }
 
             VStack(alignment: isCurrentUser ? .trailing : .leading, spacing: 2) {
-                // Avsändarnamn i gruppchatt (ej för current user)
+                // Sender name in group chat (not for current user)
                 if !isCurrentUser, let name = senderName {
                     Text(name)
                         .font(.caption2.weight(.semibold))
@@ -29,7 +29,6 @@ struct ChatBubbleView: View {
                         contextMenuItems
                     }
 
-                // Tidsstämpel
                 Text(formattedTime(message.sentAt))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
@@ -39,17 +38,13 @@ struct ChatBubbleView: View {
             if !isCurrentUser { Spacer(minLength: 60) }
         }
         .alert("Rapportera meddelande", isPresented: $showReportAlert) {
-            Button("Rapportera", role: .destructive) {
-                onReport()
-            }
+            Button("Rapportera", role: .destructive) { onReport() }
             Button("Avbryt", role: .cancel) {}
         } message: {
             Text("Det här meddelandet kommer rapporteras till vårt team för granskning.")
         }
         .alert("Blockera användare", isPresented: $showBlockAlert) {
-            Button("Blockera", role: .destructive) {
-                onBlock?()
-            }
+            Button("Blockera", role: .destructive) { onBlock?() }
             Button("Avbryt", role: .cancel) {}
         } message: {
             if let name = senderName {
@@ -60,7 +55,7 @@ struct ChatBubbleView: View {
         }
     }
 
-    // MARK: - Bubbla
+    // MARK: - Bubble
 
     @ViewBuilder
     private var bubbleContent: some View {
@@ -68,12 +63,13 @@ struct ChatBubbleView: View {
             WeatherStickerView(weatherData: weatherData)
                 .stickerBounce()
         } else if isCurrentUser {
+            // Sent: white at 90% opacity, dark text
             Text(message.text ?? "")
                 .font(.bubbleBody)
-                .foregroundStyle(.white)
+                .foregroundStyle(Color.primary)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(LinearGradient.chatMine)
+                .background(Color.white.opacity(0.90))
                 .clipShape(UnevenRoundedRectangle(
                     cornerRadii: .init(
                         topLeading: 20,
@@ -83,23 +79,13 @@ struct ChatBubbleView: View {
                     )
                 ))
         } else {
+            // Received: ultraThinMaterial, white text
             Text(message.text ?? "")
                 .font(.bubbleBody)
-                .foregroundStyle(Color.bubbleTextPrimary)
+                .foregroundStyle(Color.white)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
-                .background(Color.bubbleSurface)
-                .overlay(
-                    UnevenRoundedRectangle(
-                        cornerRadii: .init(
-                            topLeading: 6,
-                            bottomLeading: 20,
-                            bottomTrailing: 20,
-                            topTrailing: 20
-                        )
-                    )
-                    .strokeBorder(Color.bubbleBorder, lineWidth: 1)
-                )
+                .background(.ultraThinMaterial)
                 .clipShape(UnevenRoundedRectangle(
                     cornerRadii: .init(
                         topLeading: 6,

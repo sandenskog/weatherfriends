@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FriendsCast — Weather + Friends</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF6B8A 0%, #FF8E6B 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+        }
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        .tagline {
+            font-size: 1.25rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.9;
+            margin-bottom: 2.5rem;
+        }
+        .app-store-badge {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+        .app-store-badge:hover {
+            transform: scale(1.05);
+        }
+        .app-store-badge img {
+            height: 54px;
+        }
+        nav {
+            margin-top: 3rem;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-icon">FC</div>
+        <h1>FriendsCast</h1>
+        <p class="tagline">Weather + Friends</p>
+        <p class="description">
+            See the weather where your friends are. Add friends, share your city,
+            and stay connected through sun, rain, and everything in between.
+        </p>
+        <a class="app-store-badge" href="https://apps.apple.com/app/id6760045281">
+            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store">
+        </a>
+        <nav>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="support.html">Support</a>
+        </nav>
+    </div>
+</body>
+</html>

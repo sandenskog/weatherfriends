@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="nightCloud" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D0D8E8"/>
+      <stop offset="100%" stop-color="#B0BFD6"/>
+    </linearGradient>
+    <filter id="nightShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#6B7B9E" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Moon peeking -->
+  <circle cx="85" cy="32" r="16" fill="#E8ECF4"/>
+  <circle cx="76" cy="24" r="13" fill="#1a1a3e" opacity="0.15"/>
+  <!-- Stars -->
+  <circle cx="70" cy="18" r="1.5" fill="#FFD93D" opacity="0.7"/>
+  <circle cx="105" cy="22" r="2" fill="#FFD93D" opacity="0.6"/>
+  <circle cx="98" cy="50" r="1.5" fill="#FFD93D" opacity="0.5"/>
+  <!-- Cloud -->
+  <g filter="url(#nightShadow)">
+    <ellipse cx="50" cy="72" rx="38" ry="22" fill="url(#nightCloud)"/>
+    <circle cx="32" cy="58" r="20" fill="url(#nightCloud)"/>
+    <circle cx="58" cy="52" r="24" fill="url(#nightCloud)"/>
+    <circle cx="75" cy="62" r="16" fill="url(#nightCloud)"/>
+  </g>
+  <!-- Sleepy face -->
+  <path d="M40 66 Q44 64 48 66" fill="none" stroke="#8892A8" stroke-width="2" stroke-linecap="round"/>
+  <path d="M54 66 Q58 64 62 66" fill="none" stroke="#8892A8" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="50" cy="77" r="3" fill="#A0AAC0" opacity="0.5"/>
+</svg>

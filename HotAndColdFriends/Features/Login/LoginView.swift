@@ -7,36 +7,34 @@ struct LoginView: View {
 
     var body: some View {
         ZStack {
-            // Mjuk gradient bakgrund: vitt till ljusblått
-            LinearGradient(
-                colors: [Color.white, Color.blue.opacity(0.15)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            // Living sky background — sunny morning feel for login
+            AtmosphereSkyBackground(mood: .sunny)
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 Spacer()
 
-                // Header: logotyp och tagline
-                VStack(spacing: 12) {
+                // Header: logo and tagline on sky
+                VStack(spacing: 16) {
                     Image("LogoHorizontal")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: 220)
-                        .padding(.bottom, 4)
+                        .shadow(radius: 8)
 
                     Text("Se vädret hos dina vänner")
-                        .font(.bubbleH3)
-                        .foregroundStyle(.secondary)
+                        .font(.atmosphereCondition)
+                        .foregroundStyle(Color.atmosphereTextOnSkySecondary)
                         .multilineTextAlignment(.center)
+                        .shadow(radius: 3)
                 }
                 .padding(.horizontal, 24)
 
                 Spacer()
 
-                // Login-knappar staplade vertikalt
-                VStack(spacing: 12) {
+                // Login buttons in glass panel
+                GlassPanel(padding: EdgeInsets(top: 20, leading: 20, bottom: 32, trailing: 20)) {
+                    VStack(spacing: 12) {
                     // Sign in with Apple
                     AppleLoginButton(
                         isLoading: viewModel.loadingProvider == "apple",
@@ -80,10 +78,12 @@ struct LoginView: View {
                             await viewModel.signInWithFacebook(authManager: authManager)
                         }
                     }
+                    }
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 48)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 0)
             }
+            .ignoresSafeArea()
         }
         .alert(
             "Inloggningen misslyckades",

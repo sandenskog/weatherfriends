@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="hailCloud" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A8B4C8"/>
+      <stop offset="100%" stop-color="#8892A8"/>
+    </linearGradient>
+    <radialGradient id="hailStone" cx="35%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#E8ECF4"/>
+      <stop offset="100%" stop-color="#B0BFD6"/>
+    </radialGradient>
+    <filter id="hlShadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#6B7B9E" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Cloud -->
+  <g filter="url(#hlShadow)">
+    <ellipse cx="55" cy="40" rx="36" ry="20" fill="url(#hailCloud)"/>
+    <circle cx="35" cy="28" r="18" fill="url(#hailCloud)"/>
+    <circle cx="60" cy="24" r="22" fill="url(#hailCloud)"/>
+    <circle cx="78" cy="32" r="14" fill="url(#hailCloud)"/>
+  </g>
+  <!-- Worried face -->
+  <circle cx="45" cy="36" r="2.5" fill="#4A5580"/>
+  <circle cx="61" cy="36" r="2.5" fill="#4A5580"/>
+  <path d="M48 47 Q53 44 58 47" fill="none" stroke="#4A5580" stroke-width="2" stroke-linecap="round"/>
+  <!-- Hailstones -->
+  <circle cx="32" cy="68" r="5" fill="url(#hailStone)" stroke="#C0C8D8" stroke-width="1"/>
+  <circle cx="52" cy="75" r="6" fill="url(#hailStone)" stroke="#C0C8D8" stroke-width="1"/>
+  <circle cx="72" cy="66" r="5" fill="url(#hailStone)" stroke="#C0C8D8" stroke-width="1"/>
+  <circle cx="42" cy="90" r="4" fill="url(#hailStone)" stroke="#C0C8D8" stroke-width="1" opacity="0.7"/>
+  <circle cx="62" cy="92" r="5" fill="url(#hailStone)" stroke="#C0C8D8" stroke-width="1" opacity="0.6"/>
+  <circle cx="80" cy="82" r="4" fill="url(#hailStone)" stroke="#C0C8D8" stroke-width="1" opacity="0.5"/>
+</svg>

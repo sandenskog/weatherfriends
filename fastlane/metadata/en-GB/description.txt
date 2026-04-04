@@ -1,0 +1,12 @@
+FriendsCast lets you see the weather where your friends are — in real time. Add friends, check their local conditions, and never wonder again if they're freezing or sweating.
+
+Features:
+• See temperature, wind, humidity and weather conditions for all your friends
+• Ranked categories: Hottest, Coldest, Windiest, Wettest
+• Mark up to 6 favorites for quick access and home screen widgets
+• Map view showing friends around the world
+• Chat with friends about the weather
+• Daily weather notifications for your favorites
+• Weather alerts for extreme conditions
+
+Built with Apple WeatherKit for accurate, up-to-date forecasts worldwide.

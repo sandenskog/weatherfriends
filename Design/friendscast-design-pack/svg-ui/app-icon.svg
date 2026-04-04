@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B8A"/>
+      <stop offset="40%" stop-color="#FF8E6B"/>
+      <stop offset="100%" stop-color="#FFD93D"/>
+    </linearGradient>
+    <radialGradient id="glowCenter" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+    <linearGradient id="cloudIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.5)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.25)"/>
+    </linearGradient>
+    <filter id="personShadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#CC3366" flood-opacity="0.3"/>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="url(#bgGrad)"/>
+  <rect width="1024" height="1024" fill="url(#glowCenter)"/>
+
+  <!-- Decorative cloud top-left -->
+  <g opacity="0.3">
+    <circle cx="180" cy="220" r="80" fill="white"/>
+    <circle cx="260" cy="240" r="60" fill="white"/>
+    <circle cx="130" cy="250" r="50" fill="white"/>
+    <ellipse cx="200" cy="270" rx="110" ry="50" fill="white"/>
+  </g>
+
+  <!-- Small sun top-right -->
+  <g filter="url(#softGlow)" opacity="0.6">
+    <circle cx="800" cy="200" r="60" fill="#FFD93D"/>
+    <g stroke="#FFD93D" stroke-width="8" stroke-linecap="round" opacity="0.7">
+      <line x1="800" y1="110" x2="800" y2="135"/>
+      <line x1="800" y1="265" x2="800" y2="290"/>
+      <line x1="710" y1="200" x2="735" y2="200"/>
+      <line x1="865" y1="200" x2="890" y2="200"/>
+      <line x1="737" y1="137" x2="755" y2="155"/>
+      <line x1="845" y1="245" x2="863" y2="263"/>
+      <line x1="863" y1="137" x2="845" y2="155"/>
+      <line x1="755" y1="245" x2="737" y2="263"/>
+    </g>
+  </g>
+
+  <!-- Person 1 (warm) -->
+  <g filter="url(#personShadow)">
+    <!-- Body -->
+    <circle cx="420" cy="480" r="120" fill="rgba(255,255,255,0.4)" stroke="rgba(255,255,255,0.7)" stroke-width="6"/>
+    <!-- Face -->
+    <circle cx="390" cy="460" r="14" fill="rgba(255,255,255,0.8)"/>
+    <circle cx="450" cy="460" r="14" fill="rgba(255,255,255,0.8)"/>
+    <path d="M385 500 Q420 530 455 500" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="8" stroke-linecap="round"/>
+    <!-- Blush -->
+    <circle cx="375" cy="485" r="16" fill="#FF6B8A" opacity="0.3"/>
+    <circle cx="465" cy="485" r="16" fill="#FF6B8A" opacity="0.3"/>
+  </g>
+
+  <!-- Person 2 (cool) -->
+  <g filter="url(#personShadow)">
+    <!-- Body -->
+    <circle cx="620" cy="480" r="120" fill="rgba(255,255,255,0.28)" stroke="rgba(255,255,255,0.55)" stroke-width="6"/>
+    <!-- Face -->
+    <circle cx="590" cy="460" r="14" fill="rgba(255,255,255,0.7)"/>
+    <circle cx="650" cy="460" r="14" fill="rgba(255,255,255,0.7)"/>
+    <path d="M585 500 Q620 530 655 500" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="8" stroke-linecap="round"/>
+    <!-- Sunglasses -->
+    <rect x="580" y="450" width="30" height="20" rx="8" fill="rgba(255,255,255,0.5)" opacity="0.5"/>
+    <rect x="640" y="450" width="30" height="20" rx="8" fill="rgba(255,255,255,0.5)" opacity="0.5"/>
+    <line x1="610" y1="460" x2="640" y2="460" stroke="rgba(255,255,255,0.5)" stroke-width="3"/>
+  </g>
+
+  <!-- Sparkles -->
+  <g fill="#FFD93D" opacity="0.8">
+    <polygon points="520,350 524,362 536,362 526,370 530,382 520,374 510,382 514,370 504,362 516,362" transform="scale(1.2) translate(-100,-70)"/>
+  </g>
+  <g fill="white" opacity="0.6">
+    <polygon points="700,380 703,388 711,388 705,393 707,401 700,396 693,401 695,393 689,388 697,388" transform="scale(1.0)"/>
+  </g>
+  <g fill="white" opacity="0.5">
+    <polygon points="340,360 342,366 348,366 343,370 345,376 340,372 335,376 337,370 332,366 338,366"/>
+  </g>
+
+  <!-- Text: FriendsCast -->
+  <text x="512" y="700" text-anchor="middle" font-family="'SF Pro Rounded', 'Nunito', system-ui, sans-serif" font-weight="800" font-size="90" fill="white" opacity="0.95" letter-spacing="2">FriendsCast</text>
+  <text x="512" y="760" text-anchor="middle" font-family="'SF Pro Rounded', 'Nunito', system-ui, sans-serif" font-weight="600" font-size="40" fill="white" opacity="0.6" letter-spacing="6">WEATHER + FRIENDS</text>
+
+  <!-- Bottom decorative dots -->
+  <circle cx="380" cy="850" r="8" fill="white" opacity="0.2"/>
+  <circle cx="512" cy="860" r="10" fill="white" opacity="0.25"/>
+  <circle cx="644" cy="850" r="8" fill="white" opacity="0.2"/>
+</svg>
