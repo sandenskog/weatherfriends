@@ -68,6 +68,20 @@ class FriendListViewModel {
         }
     }
 
+    // MARK: - Load Demo (no auth)
+
+    /// Loads demo friends without a uid — used when auth is bypassed.
+    func loadDemo() async {
+        isLoading = true
+        defer { isLoading = false }
+        let friends = DemoFriendService.demoFriends
+        showDemoBanner = true
+        let weatherItems = await fetchWeatherParallel(for: friends, weatherService: AppWeatherService())
+        let sorted = weatherItems.sorted { ($0.temperatureCelsius ?? -999) > ($1.temperatureCelsius ?? -999) }
+        favorites = sorted.filter { $0.friend.isFavorite }
+        others = sorted.filter { !$0.friend.isFavorite }
+    }
+
     // MARK: - Toggle Favorite
 
     func toggleFavorite(uid: String, friend: Friend, friendService: FriendService) async {

@@ -198,14 +198,14 @@ struct ZoneDivider: View {
 
             Text(zone.label.uppercased())
                 .font(.atmosphereSectionHeader)
-                .foregroundStyle(Color.white.opacity(0.65))
+                .foregroundStyle(Color.secondary)
 
             Text("· \(friendCount)")
                 .font(.atmosphereSectionHeader)
-                .foregroundStyle(Color.white.opacity(0.40))
+                .foregroundStyle(Color.secondary.opacity(0.7))
 
             Rectangle()
-                .fill(Color.white.opacity(0.12))
+                .fill(Color.secondary.opacity(0.2))
                 .frame(height: 1)
         }
         .padding(.horizontal, 16)

@@ -147,7 +147,9 @@ struct WeatherDetailSheet: View {
                 HStack(spacing: 12) {
                     weatherPill(
                         icon: "arrow.up",
-                        value: weather.apparentTemperature.converted(to: .celsius).formatted(.measurement(width: .narrow))
+                        value: weather.apparentTemperature.converted(to: .celsius).formatted(
+                            .measurement(width: .narrow, usage: .asProvided, numberFormatStyle: .number.precision(.fractionLength(0)))
+                        )
                     )
                     weatherPill(
                         icon: "wind",
@@ -202,11 +204,14 @@ struct WeatherDetailSheet: View {
                     VStack(spacing: 20) {
                         if !hourlyForecast.isEmpty { hourlySection }
                         if !dailyForecast.isEmpty { dailySection }
-                        actionButtons
                     }
                     .padding(.horizontal, 16)
-                    .padding(.bottom, 40)
+                    .padding(.bottom, 12)
                 }
+
+                actionButtons
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 20)
             }
         }
         .frame(height: UIScreen.main.bounds.height * 0.50)
@@ -235,7 +240,7 @@ struct WeatherDetailSheet: View {
                                 .font(.system(size: 18))
 
                             Text(hour.temperature.converted(to: .celsius)
-                                .formatted(.measurement(width: .narrow)))
+                                .formatted(.measurement(width: .narrow, usage: .asProvided, numberFormatStyle: .number.precision(.fractionLength(0)))))
                                 .font(.system(size: 13, weight: .semibold, design: .rounded))
                                 .foregroundStyle(.primary)
                         }
@@ -274,7 +279,7 @@ struct WeatherDetailSheet: View {
                         Spacer()
 
                         Text(day.lowTemperature.converted(to: .celsius)
-                            .formatted(.measurement(width: .narrow)))
+                            .formatted(.measurement(width: .narrow, usage: .asProvided, numberFormatStyle: .number.precision(.fractionLength(0)))))
                             .font(.atmosphereFriendCity)
                             .foregroundStyle(.secondary)
                             .frame(width: 36, alignment: .trailing)
@@ -292,7 +297,7 @@ struct WeatherDetailSheet: View {
                         .frame(width: 60, height: 4)
 
                         Text(day.highTemperature.converted(to: .celsius)
-                            .formatted(.measurement(width: .narrow)))
+                            .formatted(.measurement(width: .narrow, usage: .asProvided, numberFormatStyle: .number.precision(.fractionLength(0)))))
                             .font(.system(size: 13, weight: .semibold, design: .rounded))
                             .frame(width: 36, alignment: .leading)
                     }

@@ -4,6 +4,7 @@ import WeatherKit
 struct FriendListView: View {
     let viewModel: FriendListViewModel
     @Binding var selectedFriendWeather: FriendWeather?
+    @Binding var shareTarget: FriendWeather?
     let attribution: WeatherAttribution?
     let uid: String?
     let friendService: FriendService
@@ -11,7 +12,6 @@ struct FriendListView: View {
     let authManager: AuthManager
 
     @State private var heartPopFriendId: String?
-    @State private var shareTarget: FriendWeather?
     @State private var favoriteTrigger = false
     @Environment(WeatherAlertService.self) private var weatherAlertService
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -27,32 +27,29 @@ struct FriendListView: View {
             if viewModel.others.isEmpty && viewModel.favorites.isEmpty && !viewModel.showDemoBanner {
                 emptyStateFriends
             } else {
-                ScrollView {
-                    LazyVStack(spacing: 0, pinnedViews: []) {
-                        if viewModel.showDemoBanner {
-                            demoBanner
-                                .padding(.horizontal, 16)
-                                .padding(.top, 8)
-                        }
+                List {
+                    if viewModel.showDemoBanner {
+                        demoBanner
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    }
 
-                        if !viewModel.favorites.isEmpty {
-                            favoritesSection
-                        }
+                    if !viewModel.favorites.isEmpty {
+                        favoritesSection
+                    }
 
-                        othersSection
+                    othersSection
 
-                        if let attribution {
-                            attributionFooter(attribution)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                        }
+                    if let attribution {
+                        attributionFooter(attribution)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
                     }
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
                 .sensoryFeedback(.impact(weight: .medium), trigger: favoriteTrigger)
-                .sheet(item: $shareTarget) { fw in
-                    WeatherCardPreviewSheet(friendWeather: fw, myWeather: viewModel.myWeather)
-                }
-                .cloudRefreshable {
+                .refreshable {
                     guard let uid else { return }
                     await viewModel.refresh(uid: uid, friendService: friendService, weatherService: weatherService, currentUser: authManager.currentUser)
                     let allFriends = viewModel.favorites.map(\.friend) + viewModel.others.map(\.friend)
@@ -115,23 +112,22 @@ struct FriendListView: View {
 
     // MARK: - Favorites Section
 
+    @ViewBuilder
     private var favoritesSection: some View {
-        VStack(spacing: 0) {
-            ZoneDivider(zone: .tropical, friendCount: viewModel.favorites.count)
+        let zone: TemperatureZone = viewModel.favorites.first.flatMap {
+            $0.temperatureCelsius.map { TemperatureZone(celsius: $0) }
+        } ?? .warm
 
+        Section {
             ForEach(Array(viewModel.favorites.enumerated()), id: \.element.id) { index, fw in
-                FriendRowView(friendWeather: fw)
-                    .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(
-                        reduceMotion
-                            ? .easeInOut(duration: 0.25)
-                            : .spring(response: 0.35, dampingFraction: 0.7)
-                                .delay(Double(index) * 0.05),
-                        value: viewModel.refreshToken
-                    )
-                    .contentShape(Rectangle())
-                    .onTapGesture { selectedFriendWeather = fw }
+                Button { selectedFriendWeather = fw } label: {
+                    FriendRowView(friendWeather: fw)
+                        .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
+                }
+                .buttonStyle(.plain)
+                .listRowBackground(Color.clear)
+                .listRowSeparator(index < viewModel.favorites.count - 1 ? .visible : .hidden)
+                .listRowSeparatorTint(Color.secondary.opacity(0.2))
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         Button { shareTarget = fw } label: {
                             Label("Share", systemImage: "square.and.arrow.up")
@@ -150,14 +146,12 @@ struct FriendListView: View {
                         }
                         .tint(.orange)
                     }
-
-                if index < viewModel.favorites.count - 1 {
-                    Divider()
-                        .opacity(0.12)
-                        .padding(.leading, 72)
-                }
             }
+        } header: {
+            ZoneDivider(zone: zone, friendCount: viewModel.favorites.count)
+                .listRowInsets(EdgeInsets())
         }
+        .listSectionSeparator(.hidden)
     }
 
     // MARK: - Others Section
@@ -167,22 +161,16 @@ struct FriendListView: View {
             $0.temperatureCelsius.map { TemperatureZone(celsius: $0) }
         } ?? .cool
 
-        return VStack(spacing: 0) {
-            ZoneDivider(zone: zone, friendCount: viewModel.others.count)
-
+        return Section {
             ForEach(Array(viewModel.others.enumerated()), id: \.element.id) { index, fw in
-                FriendRowView(friendWeather: fw)
-                    .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(
-                        reduceMotion
-                            ? .easeInOut(duration: 0.25)
-                            : .spring(response: 0.35, dampingFraction: 0.7)
-                                .delay(Double(index) * 0.05),
-                        value: viewModel.refreshToken
-                    )
-                    .contentShape(Rectangle())
-                    .onTapGesture { selectedFriendWeather = fw }
+                Button { selectedFriendWeather = fw } label: {
+                    FriendRowView(friendWeather: fw)
+                        .heartPop(isActive: heartPopFriendId != nil && heartPopFriendId == fw.friend.id)
+                }
+                .buttonStyle(.plain)
+                .listRowBackground(Color.clear)
+                .listRowSeparator(index < viewModel.others.count - 1 ? .visible : .hidden)
+                .listRowSeparatorTint(Color.secondary.opacity(0.2))
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         Button { shareTarget = fw } label: {
                             Label("Share", systemImage: "square.and.arrow.up")
@@ -201,14 +189,12 @@ struct FriendListView: View {
                         }
                         .tint(.yellow)
                     }
-
-                if index < viewModel.others.count - 1 {
-                    Divider()
-                        .opacity(0.12)
-                        .padding(.leading, 72)
-                }
             }
+        } header: {
+            ZoneDivider(zone: zone, friendCount: viewModel.others.count)
+                .listRowInsets(EdgeInsets())
         }
+        .listSectionSeparator(.hidden)
     }
 
     // MARK: - Heart Pop Helper

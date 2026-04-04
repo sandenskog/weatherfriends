@@ -38,12 +38,12 @@ struct FriendRowView: View {
 
             Spacer()
 
-            VStack(alignment: .trailing, spacing: 2) {
-                Text(friendWeather.temperatureFormatted)
-                    .font(.atmosphereFriendTemp)
+            HStack(alignment: .center, spacing: 6) {
+                WeatherIconMapper.icon(for: friendWeather.symbolName, size: 28)
                     .foregroundStyle(zone.color)
 
-                WeatherIconMapper.icon(for: friendWeather.symbolName, size: 16)
+                Text(friendWeather.temperatureFormatted)
+                    .font(.atmosphereFriendTemp)
                     .foregroundStyle(zone.color)
             }
         }

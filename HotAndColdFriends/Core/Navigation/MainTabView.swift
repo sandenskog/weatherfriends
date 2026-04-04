@@ -9,21 +9,17 @@ struct MainTabView: View {
         TabView(selection: $selectedTab) {
             FriendsTabView(openWeatherAlertFriendId: $openWeatherAlertFriendId)
                 .tabItem {
-                    Label("Vänner", systemImage: selectedTab == 0 ? "person.2.fill" : "person.2")
+                    Label("Vänner", systemImage: "person.2.fill")
                 }
                 .tag(0)
 
-            NavigationStack {
-                ConversationListView(openConversationId: $openConversationId)
-            }
-            .tabItem {
-                Label("Chattar", systemImage: selectedTab == 1
-                    ? "bubble.left.and.bubble.right.fill"
-                    : "bubble.left.and.bubble.right")
-            }
-            .tag(1)
+            // ConversationListView already has its own NavigationStack — don't double-wrap
+            ConversationListView(openConversationId: $openConversationId)
+                .tabItem {
+                    Label("Chattar", systemImage: "bubble.left.and.bubble.right.fill")
+                }
+                .tag(1)
         }
-        // Let the sky bleed through the tab bar
         .toolbarBackground(.ultraThinMaterial, for: .tabBar)
         .toolbarBackground(.visible, for: .tabBar)
         .tint(.white)

@@ -31,11 +31,11 @@ struct FriendsTabView: View {
     @State private var showAddFriend = false
     @State private var showContactImport = false
     @State private var showDigestPreview = false
+    @State private var shareTarget: FriendWeather?
     @State private var dailyNotificationService = DailyWeatherNotificationService()
 
-    // Sky mood derived from user's own weather
     private var skyMood: SkyMood {
-        guard let weather = viewModel.myWeather else { return .sunny }
+        guard let weather = viewModel.myWeather else { return .partlyCloudy }
         let isDaytime = weather.weather.map { $0.isDaylight } ?? true
         return SkyMood.from(symbolName: weather.symbolName, isDaytime: isDaytime)
     }
@@ -47,32 +47,14 @@ struct FriendsTabView: View {
     // MARK: - Body
 
     var body: some View {
-        ZStack(alignment: .top) {
-            // 1. Living sky background
-            AtmosphereSkyBackground(mood: skyMood)
-                .ignoresSafeArea()
-
-            // 2. My weather hero — floating on sky
-            VStack(spacing: 0) {
-                myWeatherHero
-                    .padding(.top, 60)
-                    .padding(.horizontal, 20)
-
-                Spacer()
-            }
-
-            // 3. Glass sheet rising from bottom
-            VStack(spacing: 0) {
-                Spacer()
-                glassSheet
-            }
-            .ignoresSafeArea(edges: .bottom)
-        }
-        .ignoresSafeArea()
-        // Sheets
+        mainContent
+        // All sheets attached to outer container, NOT inside GeometryReader
         .sheet(item: $selectedFriendWeather) { fw in
             WeatherDetailSheet(friendWeather: fw)
                 .environment(weatherService)
+        }
+        .sheet(item: $shareTarget) { fw in
+            WeatherCardPreviewSheet(friendWeather: fw, myWeather: viewModel.myWeather)
         }
         .sheet(isPresented: $showAddFriend) {
             if let uid = authManager.currentUser?.id {
@@ -91,6 +73,10 @@ struct FriendsTabView: View {
         .sheet(isPresented: $showProfile) {
             if let uid = authManager.currentUser?.id {
                 ProfileView(uid: uid)
+            } else {
+                // No user — show placeholder
+                Text("Inte inloggad")
+                    .padding()
             }
         }
         .sheet(isPresented: $showDigestPreview) {
@@ -104,9 +90,12 @@ struct FriendsTabView: View {
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
-        // Data tasks
         .task {
-            guard let uid = authManager.currentUser?.id else { return }
+            guard let uid = authManager.currentUser?.id else {
+                // No auth — load demo data anyway so UI isn't empty
+                await viewModel.loadDemo()
+                return
+            }
             await viewModel.load(
                 uid: uid,
                 friendService: friendService,
@@ -138,80 +127,89 @@ struct FriendsTabView: View {
         }
     }
 
-    // MARK: - My Weather Hero (on sky)
+    // MARK: - Main Content (extracted from body to avoid GeometryReader sheet issues)
+
+    private var mainContent: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .bottom) {
+                // Sky — full bleed, never intercepts taps
+                AtmosphereSkyBackground(mood: skyMood)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+
+                // Hero weather on sky (top area)
+                VStack(spacing: 0) {
+                    myWeatherHero
+                        .padding(.top, geo.safeAreaInsets.top + 12)
+                        .padding(.horizontal, 20)
+                    Spacer()
+                }
+
+                // Glass sheet pinned to bottom
+                glassSheet(geo: geo)
+                    .ignoresSafeArea(edges: .bottom)
+            }
+            .ignoresSafeArea()
+        }
+    }
+
+    // MARK: - My Weather Hero
 
     private var myWeatherHero: some View {
-        HStack(alignment: .top) {
-            // Weather info
+        HStack(alignment: .top, spacing: 12) {
+            // Left: weather data
             VStack(alignment: .leading, spacing: 4) {
                 if let my = viewModel.myWeather {
                     Text(my.friend.city)
                         .font(.atmosphereCity)
                         .foregroundStyle(Color.atmosphereTextOnSky)
-                        .shadow(radius: 4)
+                        .shadow(color: .black.opacity(0.3), radius: 4)
 
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
                         Text(my.temperatureFormatted)
                             .font(.atmosphereDisplayTemp)
                             .foregroundStyle(Color.atmosphereTextOnSky)
-                            .shadow(radius: 6)
+                            .shadow(color: .black.opacity(0.3), radius: 8)
 
                         Image(systemName: my.symbolName)
                             .symbolRenderingMode(.multicolor)
-                            .font(.system(size: 32))
-                            .shadow(radius: 4)
+                            .font(.system(size: 28))
+                            .shadow(color: .black.opacity(0.25), radius: 4)
                     }
 
                     Text(my.conditionDescription)
                         .font(.atmosphereCondition)
                         .foregroundStyle(Color.atmosphereTextOnSkySecondary)
-                        .shadow(radius: 3)
+                        .shadow(color: .black.opacity(0.2), radius: 3)
                 } else {
-                    Text("Ditt väder")
+                    // No user / loading state — minimal placeholder
+                    Text("FriendsCast")
                         .font(.atmosphereCity)
-                        .foregroundStyle(Color.atmosphereTextOnSkyMuted)
+                        .foregroundStyle(Color.atmosphereTextOnSkySecondary)
+                        .shadow(color: .black.opacity(0.2), radius: 3)
                 }
             }
 
             Spacer()
 
-            // Top-right actions
-            VStack(spacing: 10) {
-                // Profile button
+            // Right: action buttons
+            VStack(spacing: 8) {
+                // Profile / login button
                 Button { showProfile = true } label: {
-                    if let urlString = authManager.currentUser?.photoURL,
-                       let url = URL(string: urlString) {
-                        AsyncImage(url: url) { phase in
-                            if let image = phase.image {
-                                image.resizable().scaledToFill()
-                                    .frame(width: 36, height: 36)
-                                    .clipShape(Circle())
-                            } else {
-                                profilePlaceholder
-                            }
-                        }
-                    } else {
-                        profilePlaceholder
-                    }
+                    profileButtonContent
                 }
 
-                // Add friend menu
+                // Add friend
                 Menu {
-                    Button {
-                        showAddFriend = true
-                    } label: {
+                    Button { showAddFriend = true } label: {
                         Label("Lägg till manuellt", systemImage: "pencil")
                     }
-                    Button {
-                        showContactImport = true
-                    } label: {
+                    Button { showContactImport = true } label: {
                         Label("Importera kontakter", systemImage: "person.crop.circle.badge.plus")
                     }
                     if !viewModel.favorites.isEmpty || !viewModel.others.isEmpty {
                         Divider()
-                        Button {
-                            showDigestPreview = true
-                        } label: {
+                        Button { showDigestPreview = true } label: {
                             Label("Daily Digest", systemImage: "newspaper")
                         }
                     }
@@ -220,7 +218,7 @@ struct FriendsTabView: View {
                         ShareLink(
                             item: inviteURL,
                             subject: Text("FriendsCast"),
-                            message: Text("\(authManager.currentUser?.displayName ?? "Jag") bjuder in dig till FriendsCast!")
+                            message: Text("Kom och se vädret hos dina vänner i FriendsCast!")
                         ) {
                             Label("Bjud in vänner", systemImage: "square.and.arrow.up")
                         }
@@ -229,50 +227,80 @@ struct FriendsTabView: View {
                     Image(systemName: "plus")
                         .font(.system(size: 15, weight: .semibold))
                         .foregroundStyle(.white)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 36, height: 36)
                         .background(.ultraThinMaterial)
                         .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.2), radius: 4)
                 }
             }
         }
     }
 
-    private var profilePlaceholder: some View {
+    @ViewBuilder
+    private var profileButtonContent: some View {
+        if let urlString = authManager.currentUser?.photoURL,
+           let url = URL(string: urlString) {
+            AsyncImage(url: url) { phase in
+                if let image = phase.image {
+                    image.resizable().scaledToFill()
+                        .frame(width: 36, height: 36)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.3), radius: 4)
+                } else {
+                    initialsCircle
+                }
+            }
+        } else {
+            initialsCircle
+        }
+    }
+
+    private var initialsCircle: some View {
         ZStack {
             Circle().fill(.ultraThinMaterial)
-            Text(authManager.currentUser?.displayName.prefix(1).uppercased() ?? "?")
-                .font(.system(size: 15, weight: .bold, design: .rounded))
-                .foregroundStyle(.white)
+            if let name = authManager.currentUser?.displayName, !name.isEmpty {
+                Text(String(name.prefix(1)).uppercased())
+                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white)
+            } else {
+                Image(systemName: "person.fill")
+                    .font(.system(size: 16))
+                    .foregroundStyle(.white.opacity(0.8))
+            }
         }
         .frame(width: 36, height: 36)
+        .shadow(color: .black.opacity(0.2), radius: 4)
     }
 
     // MARK: - Glass Sheet
 
-    private var glassSheet: some View {
-        VStack(spacing: 0) {
-            // Drag indicator
+    private func glassSheet(geo: GeometryProxy) -> some View {
+        let sheetHeight = geo.size.height * 0.57 + geo.safeAreaInsets.bottom
+
+        return VStack(spacing: 0) {
+            // Drag pill
             Capsule()
-                .fill(Color.white.opacity(0.35))
+                .fill(Color.white.opacity(0.4))
                 .frame(width: 36, height: 4)
-                .padding(.top, 12)
-                .padding(.bottom, 8)
+                .padding(.top, 10)
+                .padding(.bottom, 10)
 
             // Segment picker
             AtmosphereSegmentedPicker(options: tabOptions, selection: $selectedTab)
                 .padding(.horizontal, 16)
-                .padding(.bottom, 12)
+                .padding(.bottom, 10)
 
             // Content
             Group {
                 switch selectedTab {
                 case .list:
                     if viewModel.isLoading && viewModel.favorites.isEmpty && viewModel.others.isEmpty {
-                        loadingState
+                        loadingView
                     } else {
                         FriendListView(
                             viewModel: viewModel,
                             selectedFriendWeather: $selectedFriendWeather,
+                            shareTarget: $shareTarget,
                             attribution: attribution,
                             uid: authManager.currentUser?.id,
                             friendService: friendService,
@@ -291,17 +319,17 @@ struct FriendsTabView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(height: UIScreen.main.bounds.height * 0.62)
+        .frame(height: sheetHeight)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .shadow(color: .black.opacity(0.12), radius: 20, y: -4)
     }
 
-    private var loadingState: some View {
+    private var loadingView: some View {
         VStack(spacing: 12) {
             Spacer()
             ProgressView()
-                .scaleEffect(1.2)
-            Text("Hämtar väderdata...")
+            Text("Hämtar väder...")
                 .font(.atmosphereFriendCity)
                 .foregroundStyle(.secondary)
             Spacer()
