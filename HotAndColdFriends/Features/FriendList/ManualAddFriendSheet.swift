@@ -72,17 +72,18 @@ struct ManualAddFriendSheet: View {
                                         VStack(alignment: .leading, spacing: 2) {
                                             Text(suggestion.title)
                                                 .font(.body)
-                                                .foregroundStyle(.primary)
+                                                .foregroundStyle(Color(.label))
                                             if !suggestion.subtitle.isEmpty {
                                                 Text(suggestion.subtitle)
                                                     .font(.caption)
-                                                    .foregroundStyle(.secondary)
+                                                    .foregroundStyle(Color(.secondaryLabel))
                                             }
                                         }
                                         .padding(.horizontal)
                                         .padding(.vertical, 10)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                     }
+                                    .buttonStyle(.plain)
                                     Divider()
                                 }
                             }
@@ -133,8 +134,10 @@ struct ManualAddFriendSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Avbryt") { dismiss() }
+                        .foregroundStyle(.blue)
                 }
             }
+            .tint(.blue)
             .alert("Fel", isPresented: Binding(
                 get: { errorMessage != nil },
                 set: { if !$0 { errorMessage = nil } }
